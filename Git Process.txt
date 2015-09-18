@@ -1,0 +1,21 @@
+~~~ Setting up a new git repo ~~~
+
+// setup 
+git init
+
+// register repository with remote
+git remote add origin https://github.com/[username]/[reponame].git
+
+// add all files
+git add .
+
+~~~ Using an existing repo ~~~
+
+// create local commit
+git commit -a -m "Commit Message"
+
+// push changes to repository
+git push -u origin master
+
+// pull changes from repository
+git pull origin master
