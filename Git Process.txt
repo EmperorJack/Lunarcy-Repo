@@ -6,7 +6,7 @@ git init
 // register repository with remote
 git remote add origin https://github.com/[username]/[reponame].git
 
-// add all files
+// add all new files
 git add .
 
 ~~~ Using an existing repo ~~~
@@ -19,3 +19,15 @@ git push -u origin master
 
 // pull changes from repository
 git pull origin master
+
+~~~ Merging conflicts ~~~
+
+// fix merge automatically
+// given message input request from terminal
+:wq
+
+// fix merge manually
+// first fix the conflicted file
+// add the files again
+git add .
+// commit and push
