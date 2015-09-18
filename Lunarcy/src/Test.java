@@ -5,5 +5,5 @@
  *
  */
 public class Test {
-
+	int n = 42;
 }
