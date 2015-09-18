@@ -2,6 +2,7 @@ package user_interface;
 
 import processing.core.*;
 
+@SuppressWarnings("serial")
 public class Canvas extends PApplet {
 
 	// canvas size matrix fields

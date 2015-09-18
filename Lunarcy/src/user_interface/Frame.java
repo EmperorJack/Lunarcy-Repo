@@ -6,6 +6,7 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class Frame extends JFrame {
 
 	public static final int INIT_WIDTH = 1280;
