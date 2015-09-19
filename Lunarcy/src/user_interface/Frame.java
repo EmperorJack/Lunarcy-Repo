@@ -38,7 +38,7 @@ public class Frame extends JFrame {
 
 		// setup processing canvas panel
 		JPanel panel = new JPanel(new BorderLayout());
-		Canvas canvas = new Canvas(INIT_WIDTH, INIT_HEIGHT);
+		final Canvas canvas = new Canvas(INIT_WIDTH, INIT_HEIGHT);
 		panel.add(canvas, BorderLayout.CENTER);
 		add(panel);
 

@@ -1,7 +1,8 @@
 package user_interface;
 
-import processing.core.*;
 
+import processing.core.*;
+import ddf.minim.*;
 @SuppressWarnings("serial")
 public class Canvas extends PApplet {
 
@@ -13,6 +14,9 @@ public class Canvas extends PApplet {
 
 	// temporary background image
 	public PImage backdrop;
+	public Minim minim;
+	public AudioPlayer track;
+	
 
 	/**
 	 * Setup a new Processing Canvas.
@@ -25,7 +29,6 @@ public class Canvas extends PApplet {
 	public Canvas(int w, int h) {
 		this.initialWidth = w;
 		this.initialHeight = h;
-		this.backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
 	}
 
 	/**
@@ -33,6 +36,11 @@ public class Canvas extends PApplet {
 	 */
 	public void setup() {
 		size(initialWidth, initialHeight, P3D);
+		this.backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
+		this.minim = new Minim(this);
+		//VERY IMPORTANT PUSH
+		this.track = minim.loadFile("assets/audio/important.mp3");
+		this.track.play();
 	}
 
 	/**
@@ -72,4 +80,5 @@ public class Canvas extends PApplet {
 			yOffset = 0;
 		}
 	}
+	
 }
