@@ -1,12 +1,12 @@
 package user_interface;
 
-
 import processing.core.*;
 import ddf.minim.*;
+
 @SuppressWarnings("serial")
 public class Canvas extends PApplet {
 
-	// canvas size matrix fields
+	// canvas dimensional fields
 	public final int initialWidth;
 	public final int initialHeight;
 	public float scalingAmount = 1;
@@ -14,9 +14,10 @@ public class Canvas extends PApplet {
 
 	// temporary background image
 	public PImage backdrop;
+
+	// audio fields
 	public Minim minim;
 	public AudioPlayer track;
-	
 
 	/**
 	 * Setup a new Processing Canvas.
@@ -35,11 +36,18 @@ public class Canvas extends PApplet {
 	 * When the canvas has been init().
 	 */
 	public void setup() {
+		// setup the size and use 3D renderer
 		size(initialWidth, initialHeight, P3D);
 		this.backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
+
+		// audio setup
 		this.minim = new Minim(this);
-		//VERY IMPORTANT PUSH
-		this.track = minim.loadFile("assets/audio/important.mp3");
+		// VERY IMPORTANT PUSH
+		if (random(10) < 5) {
+			this.track = minim.loadFile("assets/audio/important.mp3");
+		} else {
+			this.track = minim.loadFile("assets/audio/important2.mp3");
+		}
 		this.track.play();
 	}
 
@@ -73,12 +81,16 @@ public class Canvas extends PApplet {
 		if (xScale < yScale) {
 			scalingAmount = xScale;
 			xOffset = 0;
+
+			// offset the canvas halfway down the y axis
 			yOffset = (int) (height - initialHeight * scalingAmount) / 2;
 		} else {
 			scalingAmount = yScale;
+
+			// offset the canvas halfway along the x axis
 			xOffset = (int) (width - initialWidth * scalingAmount) / 2;
 			yOffset = 0;
 		}
 	}
-	
+
 }
