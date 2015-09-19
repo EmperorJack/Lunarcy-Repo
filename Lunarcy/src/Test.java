@@ -7,4 +7,5 @@
 public class Test {
 	int n = 42;
 	int i = 69;
+	int bongs = 420;
 }
