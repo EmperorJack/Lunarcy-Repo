@@ -45,12 +45,11 @@ public class Frame extends JFrame {
 		// run the processing canvas
 		canvas.init();
 
-		// setup resize listener
-		this.addComponentListener(new ComponentAdapter() {
+		// setup panel resize listener
+		panel.addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
 				// send the new window size to the canvas
-				canvas.adjustScaling(e.getComponent().getWidth(), e
-						.getComponent().getHeight());
+				canvas.adjustScaling(panel.getWidth(), panel.getHeight());
 			}
 		});
 

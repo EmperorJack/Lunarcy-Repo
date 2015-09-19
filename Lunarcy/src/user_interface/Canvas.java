@@ -12,8 +12,9 @@ public class Canvas extends PApplet {
 	public float scalingAmount = 1;
 	public int xOffset, yOffset = 0;
 
-	// temporary background image
+	// temporary background images
 	public PImage backdrop;
+	public Animation shrek;
 
 	// audio fields
 	public Minim minim;
@@ -38,12 +39,17 @@ public class Canvas extends PApplet {
 	public void setup() {
 		// setup the size and use 3D renderer
 		size(initialWidth, initialHeight, P3D);
-		this.backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
+		frameRate(30);
+		
+		// load temp images
+		backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
+		shrek = new Animation("assets/animations/shrek/shrek_", 20);
 
 		// audio setup
 		this.minim = new Minim(this);
 		// VERY IMPORTANT PUSH
-		if (random(10) < 5) {
+		double random = Math.random();
+		if (random < 0.5) {
 			this.track = minim.loadFile("assets/audio/important.mp3");
 		} else {
 			this.track = minim.loadFile("assets/audio/important2.mp3");
@@ -61,6 +67,8 @@ public class Canvas extends PApplet {
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
 		image(backdrop, 0, 0);
+		scale(4);
+		shrek.display(0, 0);
 	}
 
 	/**
@@ -72,7 +80,6 @@ public class Canvas extends PApplet {
 	 *            The new parent frame height.
 	 */
 	public void adjustScaling(int width, int height) {
-		// TODO scaling not quite perfect yet
 		// compute the scaling per axis
 		float xScale = (float) width / initialWidth;
 		float yScale = (float) height / initialHeight;
@@ -93,4 +100,24 @@ public class Canvas extends PApplet {
 		}
 	}
 
+	private class Animation {
+		private PImage[] images;
+		private int imageCount;
+		private int frame;
+
+		public Animation(String imagePrefix, int count) {
+			imageCount = count;
+			images = new PImage[imageCount];
+
+			for (int i = 0; i < imageCount; i++) {
+				String filename = imagePrefix + nf(i, 4) + ".jpg";
+				images[i] = loadImage(filename);
+			}
+		}
+
+		public void display(float x, float y) {
+			frame = (frame + 1) % imageCount;
+			image(images[frame], x, y);
+		}
+	}
 }
