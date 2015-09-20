@@ -19,6 +19,12 @@ public class Canvas extends PApplet {
 	// audio fields
 	public Minim minim;
 	public AudioPlayer track;
+	
+	//3D
+	public FPSEngine engine;
+	public PGraphics canvas3D;
+	
+
 
 	/**
 	 * Setup a new Processing Canvas.
@@ -38,7 +44,8 @@ public class Canvas extends PApplet {
 	 */
 	public void setup() {
 		// setup the size and use 3D renderer
-		size(initialWidth, initialHeight, P3D);
+		size(initialWidth, initialHeight, OPENGL);
+		smooth(4);
 		frameRate(30);
 		
 		// load temp images
@@ -55,6 +62,11 @@ public class Canvas extends PApplet {
 			this.track = minim.loadFile("assets/audio/important2.mp3");
 		}
 		this.track.play();
+		
+		//SETUP 3D ENVIRONMENT
+		canvas3D = createGraphics(initialWidth, initialHeight, OPENGL);
+		engine = new FPSEngine(canvas3D, this);
+	
 	}
 
 	/**
@@ -62,14 +74,45 @@ public class Canvas extends PApplet {
 	 */
 	public void draw() {
 		background(255);
-
+		handleInput();
 		// adjust matrix scaling and offset
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
 		image(backdrop, 0, 0);
+		pushMatrix();
 		scale(4);
 		shrek.display(0, 0);
+		popMatrix();
+		engine.draw();
+		image(engine.canvas3D, 0, 0);
 	}
+	
+	void handleInput(){
+		  float rotationAngle = map(mouseX, 0, width, 0, TWO_PI);
+		  float elevationAngle = map(mouseY, 0, height, 0, PI);
+			PVector move = new PVector(0,0);
+			if (keyPressed){
+				if (key == 'w' || key == 'W'){
+					move = new PVector(3,0);
+					move.rotate(rotationAngle);
+					
+				}
+				if (key == 'a' || key == 'A'){
+					move = new PVector(0,-3);
+					move.rotate(rotationAngle);
+				}
+				if (key == 's' || key == 'S'){
+					move = new PVector(-3,0);
+					move.rotate(rotationAngle);
+				}
+				if (key == 'd' || key == 'D'){
+					move = new PVector(0,3);
+					move.rotate(rotationAngle);
+				}
+			}
+		  engine.updateCamera(rotationAngle, elevationAngle , move);
+	}
+	
 
 	/**
 	 * Update the scaling amount when the parent frame is resized.
@@ -104,6 +147,7 @@ public class Canvas extends PApplet {
 		private PImage[] images;
 		private int imageCount;
 		private int frame;
+		private boolean halfRate = false;
 
 		public Animation(String imagePrefix, int count) {
 			imageCount = count;
@@ -116,7 +160,8 @@ public class Canvas extends PApplet {
 		}
 
 		public void display(float x, float y) {
-			frame = (frame + 1) % imageCount;
+			halfRate = !halfRate;
+			if (halfRate) frame = (frame + 1) % imageCount;
 			image(images[frame], x, y);
 		}
 	}
