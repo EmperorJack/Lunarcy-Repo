@@ -27,6 +27,7 @@ class ClientSelectDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final String EXAMPLESERVER = "eg 127.0.0.1"; //Used in the server text box
 	private final int MAXCOLORS = 5; //Will be used to make a palette of size MAXCOLORS x MAXCOLORS
+	private final int WIDTH = 200; //Width of the textboxes
 	private JPanel spacesuitPanel; //To update from colorChooser
 	private Color chosenColor;
 	private BufferedImage spacesuitImage;
@@ -59,13 +60,13 @@ class ClientSelectDialog extends JDialog {
 		pack();
 		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setPreferredSize(new Dimension(300, 500));
-		
+		setPreferredSize(new Dimension(WIDTH, 500));
+
 		//Center the window on the screen
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((size.width - getWidth()) / 2,
-				(size.height - getHeight()) / 2, getWidth(), getHeight());
-
+		setBounds((size.width - getWidth()) / 2, (size.height - getHeight()) / 2, getWidth(), getHeight());
+		
+		
 		setVisible(true);
 	}
 	
@@ -87,7 +88,7 @@ class ClientSelectDialog extends JDialog {
 		JLabel nameLabel = new JLabel("Enter your name");	
 		JTextField name = new JTextField("");
 		//Width of 200, Height of the font size
-		name.setPreferredSize(new Dimension(200, name.getFont().getSize()+5));
+		name.setPreferredSize(new Dimension(WIDTH, name.getFont().getSize()+5));
 		
 		add(nameLabel,c);
 		add(name,c);
@@ -99,7 +100,7 @@ class ClientSelectDialog extends JDialog {
 		final JTextField address = new JTextField(EXAMPLESERVER);
 		
 		//Width of 200, height of the font height
-		address.setPreferredSize(new Dimension(200, address.getFont().getSize()+5));
+		address.setPreferredSize(new Dimension(WIDTH, address.getFont().getSize()+5));
 		
 		//When the textbox is clicked, clear the default text.
 		address.addMouseListener(new MouseAdapter() {

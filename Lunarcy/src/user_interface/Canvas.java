@@ -78,6 +78,7 @@ public class Canvas extends PApplet {
 		// adjust matrix scaling and offset
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
+		rotateY(radians(frameCount));
 		image(backdrop, 0, 0);
 		pushMatrix();
 		scale(4);
