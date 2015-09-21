@@ -183,7 +183,7 @@ class ClientSelectDialog extends JDialog {
 	
 
 
-	private JLabel makeLabel(Color col){
+	private JLabel makeLabel(final Color col){
 		//final so we can access it from the MouseAdaptor below
 		final JLabel label = new JLabel();
 		
