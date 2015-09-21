@@ -29,6 +29,22 @@ public class Player {
 	public Location getLocation() {
 		return location;
 	}
+	
+	public Set<Item> getInventory(){
+		return inventory;
+	}
+	
+	public Direction getOrientation(){
+		return orientation;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
 }
 
 
