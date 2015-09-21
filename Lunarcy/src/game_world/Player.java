@@ -19,4 +19,10 @@ public class Player {
 		this.name = name;
 		this.oxygen = 200;
 	}
+	
+	public Location getLocation() {
+		return location;
+	}
 }
+
+
