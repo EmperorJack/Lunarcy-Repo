@@ -56,11 +56,7 @@ public class Canvas extends PApplet {
 		this.minim = new Minim(this);
 		// VERY IMPORTANT PUSH
 		double random = Math.random();
-		if (random < 0.5) {
-			this.track = minim.loadFile("assets/audio/important.mp3");
-		} else {
-			this.track = minim.loadFile("assets/audio/important2.mp3");
-		}
+			this.track = minim.loadFile("assets/audio/important3.mp3");
 		this.track.play();
 		
 		//SETUP 3D ENVIRONMENT
@@ -78,10 +74,10 @@ public class Canvas extends PApplet {
 		// adjust matrix scaling and offset
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
-		image(backdrop, 0, 0);
+		//image(backdrop, 0, 0);
 		pushMatrix();
 		scale(4);
-		shrek.display(0, 0);
+		//shrek.display(0, 0);
 		popMatrix();
 		engine.draw();
 		image(engine.canvas3D, 0, 0);

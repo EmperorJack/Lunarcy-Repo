@@ -22,7 +22,7 @@ public class FPSEngine extends PApplet{
 		this.canvas3D = canvas3D;
 		this.canvas = canvas;
 		//Camera setup
-		camEye = new PVector(0,0,0);
+		camEye = new PVector(0,-30,0);
 		camCenter = new PVector(0,0, 0.0f);
 	}
 	
@@ -30,11 +30,21 @@ public class FPSEngine extends PApplet{
 		canvas3D.beginDraw();
 		canvas3D.clear();
 		canvas3D.stroke(0);
-		canvas3D.fill(0,0,255);
 		canvas3D.camera(camEye.x, camEye.y, camEye.z, camCenter.x, camCenter.y, camCenter.z, 
 			       0.0f, 1,0);
-		canvas3D.translate(0, 0, -80);
-		canvas3D.sphere(10);
+		float fov = PI/3.0f;
+		float cameraZ = (canvas3D.height/2.0f) / tan(fov/2.0f);
+		float aspect = PApplet.parseFloat(canvas3D.width)/PApplet.parseFloat(canvas3D.height);
+		canvas3D.perspective(fov, aspect, cameraZ/100.0f, cameraZ*100.0f);
+		canvas3D.pushMatrix();
+		canvas3D.fill(127);
+		canvas3D.rotateX(PI/2);
+		canvas3D.rectMode(CENTER);
+		canvas3D.rect(0,0,1000,1000);
+		canvas3D.popMatrix();
+		canvas3D.translate(0, -20, -80);
+		canvas3D.fill(0,0,255);
+		canvas3D.sphere(20);
 		canvas3D.endDraw();
 	}
 	
