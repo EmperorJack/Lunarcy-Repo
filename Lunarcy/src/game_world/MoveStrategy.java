@@ -9,7 +9,7 @@ import java.util.Set;
 
 /**
  * Base class for movement. Various implementations of Movement should implement
- * this interface, or alternatively if they rely on a shortest poath algorithm
+ * this interface, or alternatively if they rely on a shortest path algorithm
  * when moving hey should extend ShortestPathMover.
  *
  */
