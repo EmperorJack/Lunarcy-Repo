@@ -1,4 +1,8 @@
-package game_world;
+package game_world.map;
+
+import game_world.Direction;
+import game_world.Item;
+import game_world.Player;
 
 import java.util.HashMap;
 import java.util.HashSet;

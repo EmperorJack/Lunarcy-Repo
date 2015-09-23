@@ -1,4 +1,4 @@
-package game_world;
+package game_world.map;
 
 /**
  * Represents a square on the board, the base class has very little
