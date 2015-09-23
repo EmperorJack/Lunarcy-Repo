@@ -19,16 +19,16 @@ public class Canvas extends PApplet {
 	// audio fields
 	public Minim minim;
 	public AudioPlayer track;
-	
+
 	//3D
 	public FPSEngine engine;
 	public PGraphics canvas3D;
-	
+
 
 
 	/**
 	 * Setup a new Processing Canvas.
-	 * 
+	 *
 	 * @param w
 	 *            The initial parent frame width.
 	 * @param h
@@ -47,7 +47,7 @@ public class Canvas extends PApplet {
 		size(initialWidth, initialHeight, OPENGL);
 		smooth(4);
 		frameRate(30);
-		
+
 		// load temp images
 		backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
 		shrek = new Animation("assets/animations/shrek/shrek_", 20);
@@ -58,11 +58,11 @@ public class Canvas extends PApplet {
 		double random = Math.random();
 			this.track = minim.loadFile("assets/audio/important3.mp3");
 		this.track.play();
-		
+
 		//SETUP 3D ENVIRONMENT
 		canvas3D = createGraphics(initialWidth, initialHeight, OPENGL);
 		engine = new FPSEngine(canvas3D, this);
-	
+
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class Canvas extends PApplet {
 		engine.draw();
 		image(engine.canvas3D, 0, 0);
 	}
-	
+
 	void handleInput(){
 		  float rotationAngle = map(mouseX, 0, width, 0, TWO_PI);
 		  float elevationAngle = map(mouseY, 0, height, 0, PI);
@@ -91,7 +91,7 @@ public class Canvas extends PApplet {
 				if (key == 'w' || key == 'W'){
 					move = new PVector(3,0);
 					move.rotate(rotationAngle);
-					
+
 				}
 				if (key == 'a' || key == 'A'){
 					move = new PVector(0,-3);
@@ -108,11 +108,11 @@ public class Canvas extends PApplet {
 			}
 		  engine.updateCamera(rotationAngle, elevationAngle , move);
 	}
-	
+
 
 	/**
 	 * Update the scaling amount when the parent frame is resized.
-	 * 
+	 *
 	 * @param width
 	 *            The new parent frame width.
 	 * @param height
