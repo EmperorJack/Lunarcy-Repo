@@ -56,8 +56,8 @@ public class Canvas extends PApplet {
 		this.minim = new Minim(this);
 		// VERY IMPORTANT PUSH
 		double random = Math.random();
-			this.track = minim.loadFile("assets/audio/important3.mp3");
-		this.track.play();
+			//this.track = minim.loadFile("assets/audio/important3.mp3");
+		//this.track.play();
 		
 		//SETUP 3D ENVIRONMENT
 		canvas3D = createGraphics(initialWidth, initialHeight, OPENGL);

@@ -2,9 +2,9 @@ package user_interface;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -16,51 +16,58 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import net.miginfocom.swing.MigLayout;
 
-class ClientSelectDialog extends JDialog {
+
+class ClientSelectDialog extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private final String EXAMPLESERVER = "eg 127.0.0.1"; //Used in the server text box
 	private final int MAXCOLORS = 5; //Will be used to make a palette of size MAXCOLORS x MAXCOLORS
 	private final int WIDTH = 200; //Width of the textboxes
-	private JPanel spacesuitPanel; //To update from colorChooser
+	private JPanel spacesuitPanel; //To dynamically update from colorChooser
 	private Color chosenColor;
 	private BufferedImage spacesuitImage;
 	
 	public ClientSelectDialog()
 	{		
-		//Setup layouts
-		GridBagConstraints c = new GridBagConstraints();
-		setLayout(new GridBagLayout());
-		c.gridwidth = getWidth();
+		super("Player info");
 		
+		//Setup layouts
+		setLayout(new MigLayout("wrap"));
+		
+		setPreferredSize(new Dimension(350, 350));
+
+        
 		//Pre load our spacesuit image
 		loadImage();
-		
+	
 		//Setup the title
-		addWelcomeText(c);
+		addWelcomeText();
 		
 		//Setup name textbox
-		addName(c);
+		addName();
 		
 		//Setup IP address entry
-		addConnectionBox(c);
-		
+		addConnectionBox();
+
 		//Setup color chooser
-		addColorChooser(c);
+		addColorPallete();
 		
+		//Setup preview panel
+		addColorPreview();
+
 		//Setup start game button
-		addStart(c);
+		addStart();
 		
 		pack();
 		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setPreferredSize(new Dimension(WIDTH, 500));
 
 		//Center the window on the screen
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
@@ -69,32 +76,25 @@ class ClientSelectDialog extends JDialog {
 		
 		setVisible(true);
 	}
-	
-	private void loadImage(){
-		try {
-			spacesuitImage = ImageIO.read(new File("assets/items/space_suit.png")); //NEED A CREATIVE COMMONS IMAGE
-		} catch (IOException e) {
-			//Error loading image
-			return;
-		}
-	}
 
-	private void addWelcomeText(GridBagConstraints c) {
-		JLabel title = new JLabel("Welcome to Lunarcy");		
-		add(title,c);
+
+	private void addWelcomeText() {
+		JLabel title = new JLabel("Welcome to Lunarcy");	
+		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 25));
+		add(title, "cell 0 0 2 1, align center");
 	}
 	
-	private void addName(GridBagConstraints c) {
-		JLabel nameLabel = new JLabel("Enter your name");	
+	private void addName() {
+		JLabel nameLabel = new JLabel("Enter your name:");	
 		JTextField name = new JTextField("");
 		//Width of 200, Height of the font size
 		name.setPreferredSize(new Dimension(WIDTH, name.getFont().getSize()+5));
 		
-		add(nameLabel,c);
-		add(name,c);
+		add(nameLabel, "cell 0 1");
+		add(name, "cell 1 1");
 	}
 
-	private void addConnectionBox(GridBagConstraints c){
+	private void addConnectionBox(){
 		JLabel addressLabel = new JLabel("Enter the server IP:");		
 		
 		final JTextField address = new JTextField(EXAMPLESERVER);
@@ -115,16 +115,14 @@ class ClientSelectDialog extends JDialog {
 		});
 		
 		//Add the title and text box into our main dialog
-		add(addressLabel, c);
-		add(address, c);
+		add(addressLabel, "cell 0 2");
+		add(address, "cell 1 2");
 	}
 	
 
-	private void addColorChooser(GridBagConstraints c) {
+	private void addColorPallete() {
 		JLabel colorLabel = new JLabel("Choose your colour:");	 
-		
-		JPanel colorPanel = new JPanel(new GridLayout(1, 2));
-		
+				
 		JPanel colorPalette = new JPanel(new GridLayout(MAXCOLORS, MAXCOLORS));		
 		
 		//Create labels for N colors,
@@ -135,18 +133,13 @@ class ClientSelectDialog extends JDialog {
 				colorPalette.add(label);
 			}
 		}
-		//Add in our color pallete
-		colorPanel.add(colorPalette);
-		
-		//Now add in our preview image
-		addColorPreview(c, colorPanel);
-		
-		add(colorLabel,c);
-		add(colorPanel,c);
+		colorPalette.setPreferredSize(new Dimension(spacesuitImage.getWidth(), spacesuitImage.getHeight()));		
+		add(colorLabel, "cell 0 3 2 1, align center");
+		add(colorPalette, "cell 0 4, span 2, align center");
 		
 	}
 	
-	private void addColorPreview(GridBagConstraints c, JPanel colorPanel){
+	private void addColorPreview(){
 		//Make a new JPanel, which will display our preview image
 		spacesuitPanel = new JPanel() {
             @Override
@@ -177,11 +170,17 @@ class ClientSelectDialog extends JDialog {
         	}
 
         };
-        spacesuitPanel.setPreferredSize(new Dimension(100,100));
-        colorPanel.add(spacesuitPanel, c);
+        spacesuitPanel.setPreferredSize(new Dimension(spacesuitImage.getWidth(), spacesuitImage.getHeight()));
+        
+        add(spacesuitPanel, "cell 0 4");
+	}
+
+	private void addStart() {
+		JButton start = new JButton();
+		start.setText("Join game");
+		add(start, "cell 0 5 2 1, align center");		
 	}
 	
-
 
 	private JLabel makeLabel(final Color col){
 		//final so we can access it from the MouseAdaptor below
@@ -218,12 +217,16 @@ class ClientSelectDialog extends JDialog {
 		return label;
 	}
 	
-	private void addStart(GridBagConstraints c) {
-		JButton start = new JButton();
-		start.setText("Join game");
-		add(start,c);		
-	}
 	
+	private void loadImage(){
+		try {
+			spacesuitImage = ImageIO.read(new File("assets/items/space_suit.png")); //NEED A CREATIVE COMMONS IMAGE
+		} catch (IOException e) {
+			//Error loading image
+			return;
+		}
+	}
+
 
 	public static void main(String[] args) {
 		new ClientSelectDialog();
