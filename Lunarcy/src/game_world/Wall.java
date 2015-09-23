@@ -6,6 +6,6 @@ package game_world;
  * @author Robbie
  *
  */
-public abstract class Wall {
-
+public interface Wall {
+	public boolean enter(Player player);
 }

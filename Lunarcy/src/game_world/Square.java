@@ -8,6 +8,4 @@ package game_world;
  *
  */
 public interface Square {
-	public String getName();
-	public String getDescription();
 }

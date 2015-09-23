@@ -1,6 +1,7 @@
 package game_world;
 
-import java.util.Set;
+import java.awt.Color;
+import java.util.List;
 
 /**
  * Represents a Player character and contains all the information about the Player
@@ -12,13 +13,12 @@ import java.util.Set;
 public class Player {
 	private final int id;
 	private final String name;
-	// Unsure about type
-	//private Color color;
+	private Color color;
 	
 	private Location location;
 	private Direction orientation;
 	private int oxygen;
-	private Set<Item> inventory;
+	private List<Item> inventory;
 	
 	public Player(int uniqueID, String name){
 		this.id = uniqueID;
@@ -26,11 +26,23 @@ public class Player {
 		this.oxygen = 200;
 	}
 	
+	public void modifyOxygen(int amount){
+		oxygen += amount;
+		if(oxygen>200){
+			oxygen = 200;
+		}else if(oxygen < 0){
+			oxygen = 0;
+		}
+	}
+	
+	public int getOxygen(){
+		return oxygen;
+	}
 	public Location getLocation() {
 		return location;
 	}
 	
-	public Set<Item> getInventory(){
+	public List<Item> getInventory(){
 		return inventory;
 	}
 	

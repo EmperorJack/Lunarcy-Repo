@@ -13,6 +13,7 @@ import java.util.Set;
  *
  */
 public abstract class WalkableSquare implements Square {
+	
 	private final String name;
 	private final String description;
 	
@@ -29,17 +30,51 @@ public abstract class WalkableSquare implements Square {
 	}
 	
 	/**
+	 * Checks whether the specified player can enter the room *FROM* the direction parameter
+	 * @param player - The player that is attempting to enter
+	 * @param direction - The direction the player is entering the room *FROM*
+	 * @return True if the player may enter or false otherwise
+	 */
+	protected abstract boolean canEnter(Player player, Direction direction);
+	
+	/**
+	 * Checks whether the specified player can enter the room *FROM* the direction parameter
+	 * and if they can then it adds the Player to the set of Players in the room.
+	 * @param player - The player that is attempting to enter
+	 * @param direction - The direction the player is entering the room *FROM*
+	 * @return True if player can enter the room, False otherwise
+	 * @throws IllegalArgumentException if either argument is null
+	 */
+	public boolean enter(Player player, Direction direction){
+		if(player==null) throw new IllegalArgumentException("Parameter 'player' may not be null");
+		if(direction==null) throw new IllegalArgumentException("Parameter 'direction' may not be null");
+		if(canEnter(player, direction)){
+			players.add(player);
+			return true;
+		}
+		return false;
+	}
+	
+	public void removePlayer(Player player){
+		if(player!=null){
+			if(players.contains(player)){
+				players.remove(player);
+			}
+		}
+	}
+	
+	/**
 	 * Get the set of items on a certain side of the room.
 	 * Note: Modifying the returned set will not change the items in the room
 	 * @param side - the side of the Square the items are on 
 	 * @return Set<Item> of all the items on that side of the room
+	 * @throws IllegalArgumentException if argument is null
 	 */
 	public Set<Item> getItems(Direction side){
 		if(side!=null){
 			return new HashSet<Item>(items.get(side));
-		}else{
-			return new HashSet<Item>();
 		}
+		throw new IllegalArgumentException("Driection cannot be null");
 	}
 
 	/**
