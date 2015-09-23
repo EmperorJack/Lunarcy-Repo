@@ -1,4 +1,4 @@
-package game_world;
+package game;
 
 import java.awt.Color;
 import java.util.List;

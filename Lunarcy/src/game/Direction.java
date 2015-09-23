@@ -1,4 +1,4 @@
-package game_world;
+package game;
 
 /**
  * Represents one of the four directions on a compass, used to denote orientation in the game world.

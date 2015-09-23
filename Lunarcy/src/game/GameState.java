@@ -1,6 +1,4 @@
-package game_world;
-
-import game_world.map.Square;
+package game;
 
 import java.util.List;
 

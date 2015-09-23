@@ -1,4 +1,4 @@
-package user_interface;
+package ui;
 /**
  * So bored, enjoy xoxox
  * @author Kelly

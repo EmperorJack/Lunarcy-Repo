@@ -1,6 +1,8 @@
-package game_world;
+package bots;
 
 import java.util.List;
+
+import game.Location;
 
 /**
  * RoamMovement: Choose N random squares, from these squares choose the square

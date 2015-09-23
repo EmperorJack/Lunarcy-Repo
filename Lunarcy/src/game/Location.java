@@ -1,4 +1,4 @@
-package game_world;
+package game;
 
 /**
  * This class will store an x,y coordinate corresponding to a location on the

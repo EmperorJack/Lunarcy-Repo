@@ -1,4 +1,4 @@
-package user_interface;
+package ui;
 
 import processing.core.*;
 import ddf.minim.*;

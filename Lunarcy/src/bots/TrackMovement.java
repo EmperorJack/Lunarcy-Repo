@@ -1,6 +1,9 @@
-package game_world;
+package bots;
 
 import java.util.List;
+
+import game.Location;
+import game.Player;
 
 /**
  * Track Movement: Follow a Player around the map, computing the shortest path

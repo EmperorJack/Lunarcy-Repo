@@ -1,4 +1,4 @@
-package user_interface;
+package ui;
 
 import java.awt.Color;
 import java.awt.Dimension;

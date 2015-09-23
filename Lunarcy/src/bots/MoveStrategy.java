@@ -1,4 +1,4 @@
-package game_world;
+package bots;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
+
+import game.Location;
 
 /**
  * Base class for movement. Various implementations of Movement should implement

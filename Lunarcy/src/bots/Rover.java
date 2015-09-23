@@ -1,6 +1,9 @@
-package game_world;
+package bots;
 
 import java.util.List;
+
+import game.Location;
+
 import java.util.ArrayList;
 
 /**
