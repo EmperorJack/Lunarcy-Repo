@@ -17,14 +17,12 @@ public class Canvas extends PApplet {
 	public Animation shrek;
 
 	// audio fields
-	public Minim minim;
-	public AudioPlayer track;
+	//public Minim minim;
+	//public AudioPlayer track;
 
-	//3D
-	public FPSEngine engine;
-	public PGraphics canvas3D;
-
-
+	// 3D
+	//public FPSEngine engine;
+	//public PGraphics canvas3D;
 
 	/**
 	 * Setup a new Processing Canvas.
@@ -44,24 +42,23 @@ public class Canvas extends PApplet {
 	 */
 	public void setup() {
 		// setup the size and use 3D renderer
-		size(initialWidth, initialHeight, OPENGL);
-		smooth(4);
-		frameRate(30);
+		size(initialWidth, initialHeight, P3D);
+		//smooth(4);
 
 		// load temp images
 		backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
 		shrek = new Animation("assets/animations/shrek/shrek_", 20);
 
 		// audio setup
-		this.minim = new Minim(this);
+		//this.minim = new Minim(this);
 		// VERY IMPORTANT PUSH
-		double random = Math.random();
-		this.track = minim.loadFile("assets/audio/important3.mp3");
-		this.track.play();
+		//double random = Math.random();
+		//this.track = minim.loadFile("assets/audio/important3.mp3");
+		//this.track.play();
 
-		//SETUP 3D ENVIRONMENT
-		canvas3D = createGraphics(initialWidth, initialHeight, OPENGL);
-		engine = new FPSEngine(canvas3D, this);
+		// SETUP 3D ENVIRONMENT
+		//canvas3D = createGraphics(initialWidth, initialHeight, P3D);
+		//engine = new FPSEngine(canvas3D, this);
 
 	}
 
@@ -74,42 +71,42 @@ public class Canvas extends PApplet {
 		// adjust matrix scaling and offset
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
+		translate(0, 0, -500);
 		rotateY(radians(frameCount));
 		image(backdrop, 0, 0);
 		pushMatrix();
 		scale(4);
-		//shrek.display(0, 0);
+		shrek.display(0, 0);
 		popMatrix();
-		engine.draw();
-		image(engine.canvas3D, 0, 0);
+		//engine.draw();
+		//image(engine.canvas3D, 0, 0);
 	}
 
-	void handleInput(){
-		  float rotationAngle = map(mouseX, 0, width, 0, TWO_PI);
-		  float elevationAngle = map(mouseY, 0, height, 0, PI);
-			PVector move = new PVector(0,0);
-			if (keyPressed){
-				if (key == 'w' || key == 'W'){
-					move = new PVector(3,0);
-					move.rotate(rotationAngle);
+	void handleInput() {
+		float rotationAngle = map(mouseX, 0, width, 0, TWO_PI);
+		float elevationAngle = map(mouseY, 0, height, 0, PI);
+		PVector move = new PVector(0, 0);
+		if (keyPressed) {
+			if (key == 'w' || key == 'W') {
+				move = new PVector(3, 0);
+				move.rotate(rotationAngle);
 
-				}
-				if (key == 'a' || key == 'A'){
-					move = new PVector(0,-3);
-					move.rotate(rotationAngle);
-				}
-				if (key == 's' || key == 'S'){
-					move = new PVector(-3,0);
-					move.rotate(rotationAngle);
-				}
-				if (key == 'd' || key == 'D'){
-					move = new PVector(0,3);
-					move.rotate(rotationAngle);
-				}
 			}
-		  engine.updateCamera(rotationAngle, elevationAngle , move);
+			if (key == 'a' || key == 'A') {
+				move = new PVector(0, -3);
+				move.rotate(rotationAngle);
+			}
+			if (key == 's' || key == 'S') {
+				move = new PVector(-3, 0);
+				move.rotate(rotationAngle);
+			}
+			if (key == 'd' || key == 'D') {
+				move = new PVector(0, 3);
+				move.rotate(rotationAngle);
+			}
+		}
+		//engine.updateCamera(rotationAngle, elevationAngle, move);
 	}
-
 
 	/**
 	 * Update the scaling amount when the parent frame is resized.
@@ -158,7 +155,8 @@ public class Canvas extends PApplet {
 
 		public void display(float x, float y) {
 			halfRate = !halfRate;
-			if (halfRate) frame = (frame + 1) % imageCount;
+			if (halfRate)
+				frame = (frame + 1) % imageCount;
 			image(images[frame], x, y);
 		}
 	}

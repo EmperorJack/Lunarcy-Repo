@@ -28,7 +28,7 @@ public class FPSEngine extends PApplet{
 	
 	public void draw(){
 		canvas3D.beginDraw();
-		canvas3D.clear();
+		//canvas3D.clear();
 		canvas3D.stroke(0);
 		canvas3D.camera(camEye.x, camEye.y, camEye.z, camCenter.x, camCenter.y, camCenter.z, 
 			       0.0f, 1,0);
