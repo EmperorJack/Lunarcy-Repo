@@ -1,5 +1,7 @@
 package ui;
 
+import game.GameState;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -13,13 +15,29 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * Maintains the Swing window for the Lunarcy game. Handles the confirmation
+ * dialog that appears when a user attempts to close their client. Contains the
+ * Processing canvas component that handles all rendering of the game state.
+ * 
+ * @author Jack & Ben
+ *
+ */
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
 
+	// the initial size the frame should be drawn at
 	public static final int INIT_WIDTH = 1280;
 	public static final int INIT_HEIGHT = 720;
+	
+	// the maximum size the frame should be drawn at
+	public static final int MAX_WIDTH = 1920;
+	public static final int MAX_HEIGHT = 1080;
 
-	public Frame() {
+	// the processing canvas
+	private final Canvas canvas;
+
+	public Frame(GameState gameState) {
 		setTitle("Lunarcy");
 		setSize(INIT_WIDTH, INIT_HEIGHT);
 
@@ -41,12 +59,9 @@ public class Frame extends JFrame {
 
 		// setup processing canvas panel
 		final JPanel panel = new JPanel(new BorderLayout());
-		final Canvas canvas = new Canvas(INIT_WIDTH, INIT_HEIGHT);
+		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, gameState);
 		panel.add(canvas, BorderLayout.CENTER);
 		add(panel);
-
-		// run the processing canvas
-		canvas.init();
 
 		// setup panel resize listener
 		panel.addComponentListener(new ComponentAdapter() {
@@ -56,6 +71,9 @@ public class Frame extends JFrame {
 			}
 		});
 
+		// run the processing canvas
+		canvas.init();
+
 		// Center align the frame on screen
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds((size.width - getWidth()) / 2,
@@ -64,7 +82,11 @@ public class Frame extends JFrame {
 		setVisible(true);
 	}
 
+	public Canvas getCanvas() {
+		return canvas;
+	}
+
 	public static void main(String args[]) {
-		new Frame();
+		new Frame(null);
 	}
 }

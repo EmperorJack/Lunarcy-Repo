@@ -1,40 +1,57 @@
 package ui;
 
-import processing.core.*;
 import ddf.minim.*;
+import game.GameState;
+import processing.core.*;
 
+/**
+ * The primary Processing PApplet, our drawing canvas. This canvas maintains the
+ * dimensions of the entire drawing area. It calls upon separate drawing
+ * components to render each frame, these include the 3D perspective and heads
+ * up display components.
+ * 
+ * @author Jack
+ *
+ */
 @SuppressWarnings("serial")
 public class Canvas extends PApplet {
 
 	// canvas dimensional fields
-	public final int initialWidth;
-	public final int initialHeight;
-	public float scalingAmount = 1;
-	public int xOffset, yOffset = 0;
+	private final int maxWidth;
+	private final int maxHeight;
+	private float scalingAmount = 1;
+	private int xOffset, yOffset = 0;
 
-	// temporary background images
-	public PImage backdrop;
-	public Animation shrek;
+	// draw tick fields
+	private static int TARGET_FPS = 60;
+
+	// game state fields
+	private GameState gameState;
+	private boolean stateUpdated;
+
+	// drawing components
+	private Perspective3D perspective;
+	private Minimap minimap;
+	private PImage backdrop;
 
 	// audio fields
-	//public Minim minim;
-	//public AudioPlayer track;
-
-	// 3D
-	//public FPSEngine engine;
-	//public PGraphics canvas3D;
+	private Minim minim;
+	private AudioPlayer track;
 
 	/**
 	 * Setup a new Processing Canvas.
 	 *
 	 * @param w
-	 *            The initial parent frame width.
+	 *            The maximum parent frame width.
 	 * @param h
-	 *            The initial parent frame height.
+	 *            The maximum parent frame height.
+	 * @param gameState
+	 *            The initial state of the game to be drawn.
 	 */
-	public Canvas(int w, int h) {
-		this.initialWidth = w;
-		this.initialHeight = h;
+	public Canvas(int w, int h, GameState gameState) {
+		this.maxWidth = w;
+		this.maxHeight = h;
+		this.gameState = gameState;
 	}
 
 	/**
@@ -42,84 +59,95 @@ public class Canvas extends PApplet {
 	 */
 	public void setup() {
 		// setup the size and use 3D renderer
-		size(initialWidth, initialHeight, P3D);
-		//smooth(4);
+		size(maxWidth, maxHeight);
 
-		// load temp images
+		// initialize the 3D perspective component
+		PGraphics layer3D = createGraphics(maxWidth, maxHeight, P3D);
+		perspective = new Perspective3D(this, gameState, layer3D);
+
+		// initialize the HUD components
+		minimap = new Minimap(this, gameState);
+
+		// temporary backdrop
 		backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
-		shrek = new Animation("assets/animations/shrek/shrek_", 20);
 
 		// audio setup
-		//this.minim = new Minim(this);
-		// VERY IMPORTANT PUSH
-		//double random = Math.random();
-		//this.track = minim.loadFile("assets/audio/important3.mp3");
-		//this.track.play();
-
-		// SETUP 3D ENVIRONMENT
-		//canvas3D = createGraphics(initialWidth, initialHeight, P3D);
-		//engine = new FPSEngine(canvas3D, this);
-
+		minim = new Minim(this);
+		track = minim.loadFile("assets/audio/important2.mp3");
+		// track.play(); // IT'S ALWAYS A GOOD TIME
 	}
 
 	/**
-	 * Renders the game state per frame.
+	 * Updates the game state by replacing the local copy with a new one.
+	 * 
+	 * @param gameState
+	 *            The new state of the game to be drawn.
+	 */
+	public synchronized void setGameState(GameState gameState) {
+		this.gameState = gameState;
+		stateUpdated = true;
+	}
+
+	/**
+	 * Update the separate drawing components if the game state has been
+	 * updated.
+	 */
+	public synchronized void update() {
+		if (stateUpdated) {
+			// update each component
+			perspective.update(gameState);
+			minimap.update(gameState);
+
+			// the state has now been updated
+			stateUpdated = false;
+		}
+	}
+
+	/**
+	 * Renders the game state each frame.
 	 */
 	public void draw() {
-		background(255);
-		handleInput();
+		// compute the delta time this frame tick
+		// TODO use delta to keep animation time relative at any frame rate
+		float delta = TARGET_FPS / frameRate;
+
+		// first update all the components
+		update();
+
+		// clear the screen
+		background(0);
+
 		// adjust matrix scaling and offset
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
-		translate(0, 0, -500);
-		rotateY(radians(frameCount));
+
 		image(backdrop, 0, 0);
-		pushMatrix();
-		scale(4);
-		shrek.display(0, 0);
-		popMatrix();
-		//engine.draw();
-		//image(engine.canvas3D, 0, 0);
-	}
 
-	void handleInput() {
-		float rotationAngle = map(mouseX, 0, width, 0, TWO_PI);
-		float elevationAngle = map(mouseY, 0, height, 0, PI);
-		PVector move = new PVector(0, 0);
-		if (keyPressed) {
-			if (key == 'w' || key == 'W') {
-				move = new PVector(3, 0);
-				move.rotate(rotationAngle);
+		// draw the 3D perspective
+		perspective.draw(delta);
 
-			}
-			if (key == 'a' || key == 'A') {
-				move = new PVector(0, -3);
-				move.rotate(rotationAngle);
-			}
-			if (key == 's' || key == 'S') {
-				move = new PVector(-3, 0);
-				move.rotate(rotationAngle);
-			}
-			if (key == 'd' || key == 'D') {
-				move = new PVector(0, 3);
-				move.rotate(rotationAngle);
-			}
-		}
-		//engine.updateCamera(rotationAngle, elevationAngle, move);
+		// draw the heads up display components
+		minimap.draw(delta);
+
+		// draw the frame rate string
+		fill(0);
+		textSize(40);
+		text(frameRate, maxWidth - 200, 50);
+		text(delta, maxWidth - 200, 100);
 	}
 
 	/**
 	 * Update the scaling amount when the parent frame is resized.
 	 *
-	 * @param width
+	 * @param newWidth
 	 *            The new parent frame width.
-	 * @param height
+	 * @param newHeight
 	 *            The new parent frame height.
 	 */
-	public void adjustScaling(int width, int height) {
+	public void adjustScaling(int newWidth, int newHeight) {
 		// compute the scaling per axis
-		float xScale = (float) width / initialWidth;
-		float yScale = (float) height / initialHeight;
+		float xScale = (float) newWidth / maxWidth;
+		float yScale = (float) newHeight / maxHeight;
 
 		// use the smallest scaling value so content fits on screen
 		if (xScale < yScale) {
@@ -127,37 +155,13 @@ public class Canvas extends PApplet {
 			xOffset = 0;
 
 			// offset the canvas halfway down the y axis
-			yOffset = (int) (height - initialHeight * scalingAmount) / 2;
+			yOffset = (int) (newHeight - maxHeight * scalingAmount) / 2;
 		} else {
 			scalingAmount = yScale;
 
 			// offset the canvas halfway along the x axis
-			xOffset = (int) (width - initialWidth * scalingAmount) / 2;
+			xOffset = (int) (newWidth - maxWidth * scalingAmount) / 2;
 			yOffset = 0;
-		}
-	}
-
-	private class Animation {
-		private PImage[] images;
-		private int imageCount;
-		private int frame;
-		private boolean halfRate = false;
-
-		public Animation(String imagePrefix, int count) {
-			imageCount = count;
-			images = new PImage[imageCount];
-
-			for (int i = 0; i < imageCount; i++) {
-				String filename = imagePrefix + nf(i, 4) + ".jpg";
-				images[i] = loadImage(filename);
-			}
-		}
-
-		public void display(float x, float y) {
-			halfRate = !halfRate;
-			if (halfRate)
-				frame = (frame + 1) % imageCount;
-			image(images[frame], x, y);
 		}
 	}
 }
