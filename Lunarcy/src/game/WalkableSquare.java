@@ -12,7 +12,7 @@ import java.util.Set;
  * @author Robbie
  *
  */
-public abstract class WalkableSquare implements Square {
+public class WalkableSquare implements Square {
 	
 	private final String name;
 	private final String description;
@@ -20,29 +20,50 @@ public abstract class WalkableSquare implements Square {
 	private Map<Direction, Set<Item>> items;
 	private Map<Direction, Wall> walls;
 	private Set<Player> players;
+	private boolean inside;
 	
-	public WalkableSquare(String name, String description){
+	public WalkableSquare(String name, String description, boolean inside, Wall north, Wall east, Wall south, Wall west){
 		this.name = name;
 		this.description = description;
+		this.inside = inside;
+		
 		items = new HashMap<Direction, Set<Item>>();
-		walls = new HashMap<Direction, Wall>();
 		players = new HashSet<Player>();
+		
+		walls = new HashMap<Direction, Wall>();
+		
+		if(north==null){north = new EmptyWall();}
+		walls.put(Direction.North, north);
+		
+		if(east==null){east = new EmptyWall();}
+		walls.put(Direction.East, east);
+		
+		if(south==null){south = new EmptyWall();}
+		walls.put(Direction.South, south);
+		
+		if(west==null){west = new EmptyWall();}
+		walls.put(Direction.West, west);
 	}
 	
 	/**
 	 * Checks whether the specified player can enter the room *FROM* the direction parameter
 	 * @param player - The player that is attempting to enter
 	 * @param direction - The direction the player is entering the room *FROM*
-	 * @return True if the player may enter or false otherwise
+	 * @return True if the player may enter, False otherwise
+	 * @throws IllegalArgumentException if either argument is null
 	 */
-	protected abstract boolean canEnter(Player player, Direction direction);
+	private boolean canEnter(Player player, Direction direction){
+		if(player==null) throw new IllegalArgumentException("Parameter 'player' may not be null");
+		if(direction==null) throw new IllegalArgumentException("Parameter 'direction' may not be null");
+		return walls.get(direction).enter(player);
+	}
 	
 	/**
 	 * Checks whether the specified player can enter the room *FROM* the direction parameter
 	 * and if they can then it adds the Player to the set of Players in the room.
 	 * @param player - The player that is attempting to enter
 	 * @param direction - The direction the player is entering the room *FROM*
-	 * @return True if player can enter the room, False otherwise
+	 * @return True if player entered the room, False otherwise
 	 * @throws IllegalArgumentException if either argument is null
 	 */
 	public boolean enter(Player player, Direction direction){
@@ -71,10 +92,21 @@ public abstract class WalkableSquare implements Square {
 	 * @throws IllegalArgumentException if argument is null
 	 */
 	public Set<Item> getItems(Direction side){
-		if(side!=null){
-			return new HashSet<Item>(items.get(side));
-		}
-		throw new IllegalArgumentException("Driection cannot be null");
+		if(side==null)throw new IllegalArgumentException("Parameter 'side' may not be null");
+		return new HashSet<Item>(items.get(side));
+	}
+	
+	/**
+	 * Adds the item to the set of items on the specified side of the room.
+	 * 
+	 * @param side - the side of the Square to add the item to
+	 * @param item - the item to add
+	 * @return True if item could be added, False otherwise
+	 */
+	public boolean addItem(Direction side, Item item){
+		if(side==null)throw new IllegalArgumentException("Parameter 'side' may not be null");
+		if(item==null)throw new IllegalArgumentException("Parameter 'item' may not be null");
+		return items.get(side).add(item);
 	}
 
 	/**
