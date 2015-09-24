@@ -54,9 +54,13 @@ public class Canvas extends PApplet {
 		this.initialHeight = h;
 		this.gameState = gameState;
 
-		// initialize the drawing components
-		perspective = new Perspective3D(this, gameState);
+		// initialize the 3D perspective component
+		PGraphics layer3D = createGraphics(w, h, P3D);
+		perspective = new Perspective3D(this, gameState, layer3D);
+
+		// initialize the HUD components
 		minimap = new Minimap(this, gameState);
+
 		backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
 	}
 
@@ -65,7 +69,7 @@ public class Canvas extends PApplet {
 	 */
 	public void setup() {
 		// setup the size and use 3D renderer
-		size(initialWidth, initialHeight, P3D);
+		size(initialWidth, initialHeight);
 
 		// audio setup
 		// this.minim = new Minim(this);
@@ -73,11 +77,6 @@ public class Canvas extends PApplet {
 		// double random = Math.random();
 		// this.track = minim.loadFile("assets/audio/important3.mp3");
 		// this.track.play();
-
-		// SETUP 3D ENVIRONMENT
-		// canvas3D = createGraphics(initialWidth, initialHeight, P3D);
-		// engine = new FPSEngine(canvas3D, this);
-
 	}
 
 	/**
@@ -113,14 +112,13 @@ public class Canvas extends PApplet {
 		// first update all the components
 		update();
 
-		// now begin rendering the game state
-		background(255);
-		// handleInput();
+		// clear the screen
+		background(0);
 
 		// adjust matrix scaling and offset
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
-		
+
 		image(backdrop, 0, 0);
 
 		// draw the 3D perspective
@@ -128,9 +126,6 @@ public class Canvas extends PApplet {
 
 		// draw the heads up display components
 		minimap.draw();
-
-		// engine.draw();
-		// image(engine.canvas3D, 0, 0);
 	}
 
 	/**
@@ -161,29 +156,4 @@ public class Canvas extends PApplet {
 			yOffset = 0;
 		}
 	}
-
-	// public void handleInput() {
-	// float rotationAngle = map(mouseX, 0, width, 0, TWO_PI);
-	// float elevationAngle = map(mouseY, 0, height, 0, PI);
-	// PVector move = new PVector(0, 0);
-	// if (keyPressed) {
-	// if (key == 'w' || key == 'W') {
-	// move = new PVector(3, 0);
-	// move.rotate(rotationAngle);
-	// }
-	// if (key == 'a' || key == 'A') {
-	// move = new PVector(0, -3);
-	// move.rotate(rotationAngle);
-	// }
-	// if (key == 's' || key == 'S') {
-	// move = new PVector(-3, 0);
-	// move.rotate(rotationAngle);
-	// }
-	// if (key == 'd' || key == 'D') {
-	// move = new PVector(0, 3);
-	// move.rotate(rotationAngle);
-	// }
-	// }
-	// engine.updateCamera(rotationAngle, elevationAngle, move);
-	// }
 }

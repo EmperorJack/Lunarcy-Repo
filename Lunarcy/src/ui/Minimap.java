@@ -23,6 +23,7 @@ public class Minimap extends DrawingComponent {
 
 	@Override
 	public void draw() {
+		// push matrix and style information onto the stack
 		p.pushMatrix();
 		p.pushStyle();
 		
@@ -30,6 +31,7 @@ public class Minimap extends DrawingComponent {
 		p.fill(150);
 		p.rect(50, 50, 100, 100);
 		
+		// pop matrix and style information from the stack
 		p.popStyle();
 		p.popMatrix();
 	}
