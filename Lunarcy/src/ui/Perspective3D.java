@@ -16,7 +16,7 @@ public class Perspective3D extends DrawingComponent {
 	private PGraphics g;
 
 	// temporary background images
-	private Animation shrek;
+	private Animation tempGifAnimation;
 
 	// camera
 	public PVector camEye;
@@ -29,9 +29,9 @@ public class Perspective3D extends DrawingComponent {
 
 		// use the given graphics layer as the 3D renderer
 		this.g = g;
-		shrek = new Animation("assets/animations/shrek/shrek_", 20);
+		tempGifAnimation = new Animation("assets/animations/shrek/shrek_", 20);
 
-		// Camera setup
+		// camera setup
 		camEye = new PVector(0, -30, 0);
 		camCenter = new PVector(0, 0, 0);
 	}
@@ -43,7 +43,7 @@ public class Perspective3D extends DrawingComponent {
 	}
 
 	@Override
-	public void draw() {
+	public void draw(float delta) {
 		handleInput();
 
 		// allow drawing onto the graphics layer
@@ -78,7 +78,7 @@ public class Perspective3D extends DrawingComponent {
 		g.translate(0, 0, -500);
 		// g.rotateY(PApplet.radians(p.frameCount));
 		g.scale(4);
-		shrek.display(0, 0);
+		tempGifAnimation.display(0, 0, delta);
 
 		// pop matrix and style information from the stack
 		g.popStyle();
@@ -95,6 +95,7 @@ public class Perspective3D extends DrawingComponent {
 		private PImage[] images;
 		private int imageCount;
 		private int frame;
+		private float percent;
 		private boolean halfRate = false;
 
 		public Animation(String imagePrefix, int count) {
@@ -107,15 +108,16 @@ public class Perspective3D extends DrawingComponent {
 			}
 		}
 
-		public void display(float x, float y) {
+		public void display(float x, float y, float delta) {
 			halfRate = !halfRate;
-			if (halfRate)
-				frame = (frame + 1) % imageCount;
+			if (halfRate) {
+				frame = ((int) (percent += delta)) % imageCount;
+			}
 			g.image(images[frame], x, y);
 		}
 	}
 
-	public void handleInput() {
+	private void handleInput() {
 		float rotationAngle = PApplet.map(p.mouseX, 0, p.width, 0,
 				PApplet.TWO_PI);
 		float elevationAngle = PApplet
@@ -142,7 +144,7 @@ public class Perspective3D extends DrawingComponent {
 		updateCamera(rotationAngle, elevationAngle, move);
 	}
 
-	public void updateCamera(float rotationAngle, float elevationAngle,
+	private void updateCamera(float rotationAngle, float elevationAngle,
 			PVector move) {
 		camEye.x += move.x;
 		camEye.z += move.y;

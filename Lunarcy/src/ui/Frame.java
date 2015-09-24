@@ -26,9 +26,13 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
 
-	// the inital size the frame should be drawn at
+	// the initial size the frame should be drawn at
 	public static final int INIT_WIDTH = 1280;
 	public static final int INIT_HEIGHT = 720;
+	
+	// the maximum size the frame should be drawn at
+	public static final int MAX_WIDTH = 1920;
+	public static final int MAX_HEIGHT = 1080;
 
 	// the processing canvas
 	private final Canvas canvas;
@@ -55,7 +59,7 @@ public class Frame extends JFrame {
 
 		// setup processing canvas panel
 		final JPanel panel = new JPanel(new BorderLayout());
-		canvas = new Canvas(INIT_WIDTH, INIT_HEIGHT, gameState);
+		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, gameState);
 		panel.add(canvas, BorderLayout.CENTER);
 		add(panel);
 

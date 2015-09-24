@@ -1,5 +1,6 @@
 package ui;
 
+import ddf.minim.*;
 import game.GameState;
 import processing.core.*;
 
@@ -16,12 +17,15 @@ import processing.core.*;
 public class Canvas extends PApplet {
 
 	// canvas dimensional fields
-	private final int initialWidth;
-	private final int initialHeight;
+	private final int maxWidth;
+	private final int maxHeight;
 	private float scalingAmount = 1;
 	private int xOffset, yOffset = 0;
 
-	// game state field
+	// draw tick fields
+	private static int TARGET_FPS = 60;
+
+	// game state fields
 	private GameState gameState;
 	private boolean stateUpdated;
 
@@ -31,37 +35,23 @@ public class Canvas extends PApplet {
 	private PImage backdrop;
 
 	// audio fields
-	// private Minim minim;
-
-	// public AudioPlayer track;
-
-	// 3D
-	// public FPSEngine engine;
-	// public PGraphics canvas3D;
+	private Minim minim;
+	private AudioPlayer track;
 
 	/**
 	 * Setup a new Processing Canvas.
 	 *
 	 * @param w
-	 *            The initial parent frame width.
+	 *            The maximum parent frame width.
 	 * @param h
-	 *            The initial parent frame height.
+	 *            The maximum parent frame height.
 	 * @param gameState
 	 *            The initial state of the game to be drawn.
 	 */
 	public Canvas(int w, int h, GameState gameState) {
-		this.initialWidth = w;
-		this.initialHeight = h;
+		this.maxWidth = w;
+		this.maxHeight = h;
 		this.gameState = gameState;
-
-		// initialize the 3D perspective component
-		PGraphics layer3D = createGraphics(w, h, P3D);
-		perspective = new Perspective3D(this, gameState, layer3D);
-
-		// initialize the HUD components
-		minimap = new Minimap(this, gameState);
-
-		backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
 	}
 
 	/**
@@ -69,14 +59,22 @@ public class Canvas extends PApplet {
 	 */
 	public void setup() {
 		// setup the size and use 3D renderer
-		size(initialWidth, initialHeight);
+		size(maxWidth, maxHeight);
+
+		// initialize the 3D perspective component
+		PGraphics layer3D = createGraphics(maxWidth, maxHeight, P3D);
+		perspective = new Perspective3D(this, gameState, layer3D);
+
+		// initialize the HUD components
+		minimap = new Minimap(this, gameState);
+
+		// temporary backdrop
+		backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
 
 		// audio setup
-		// this.minim = new Minim(this);
-		// VERY IMPORTANT PUSH
-		// double random = Math.random();
-		// this.track = minim.loadFile("assets/audio/important3.mp3");
-		// this.track.play();
+		minim = new Minim(this);
+		track = minim.loadFile("assets/audio/important2.mp3");
+		// track.play(); // IT'S ALWAYS A GOOD TIME
 	}
 
 	/**
@@ -97,7 +95,7 @@ public class Canvas extends PApplet {
 	public synchronized void update() {
 		if (stateUpdated) {
 			// update each component
-			perspective.draw();
+			perspective.update(gameState);
 			minimap.update(gameState);
 
 			// the state has now been updated
@@ -109,6 +107,10 @@ public class Canvas extends PApplet {
 	 * Renders the game state each frame.
 	 */
 	public void draw() {
+		// compute the delta time this frame tick
+		// TODO use delta to keep animation time relative at any frame rate
+		float delta = TARGET_FPS / frameRate;
+
 		// first update all the components
 		update();
 
@@ -122,24 +124,30 @@ public class Canvas extends PApplet {
 		image(backdrop, 0, 0);
 
 		// draw the 3D perspective
-		perspective.draw();
+		perspective.draw(delta);
 
 		// draw the heads up display components
-		minimap.draw();
+		minimap.draw(delta);
+
+		// draw the frame rate string
+		fill(0);
+		textSize(40);
+		text(frameRate, maxWidth - 200, 50);
+		text(delta, maxWidth - 200, 100);
 	}
 
 	/**
 	 * Update the scaling amount when the parent frame is resized.
 	 *
-	 * @param width
+	 * @param newWidth
 	 *            The new parent frame width.
-	 * @param height
+	 * @param newHeight
 	 *            The new parent frame height.
 	 */
-	public void adjustScaling(int width, int height) {
+	public void adjustScaling(int newWidth, int newHeight) {
 		// compute the scaling per axis
-		float xScale = (float) width / initialWidth;
-		float yScale = (float) height / initialHeight;
+		float xScale = (float) newWidth / maxWidth;
+		float yScale = (float) newHeight / maxHeight;
 
 		// use the smallest scaling value so content fits on screen
 		if (xScale < yScale) {
@@ -147,12 +155,12 @@ public class Canvas extends PApplet {
 			xOffset = 0;
 
 			// offset the canvas halfway down the y axis
-			yOffset = (int) (height - initialHeight * scalingAmount) / 2;
+			yOffset = (int) (newHeight - maxHeight * scalingAmount) / 2;
 		} else {
 			scalingAmount = yScale;
 
 			// offset the canvas halfway along the x axis
-			xOffset = (int) (width - initialWidth * scalingAmount) / 2;
+			xOffset = (int) (newWidth - maxWidth * scalingAmount) / 2;
 			yOffset = 0;
 		}
 	}

@@ -17,7 +17,7 @@ public abstract class DrawingComponent {
 	public DrawingComponent(PApplet p, GameState gameState) {
 		// set the parent canvas
 		this.p = p;
-		
+
 		// set the initial game state
 		update(gameState);
 	}
@@ -29,6 +29,9 @@ public abstract class DrawingComponent {
 
 	/**
 	 * Draws the component.
+	 * 
+	 * @param delta
+	 *            The delta time for the current draw tick.
 	 */
-	public abstract void draw();
+	public abstract void draw(float delta);
 }

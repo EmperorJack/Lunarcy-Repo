@@ -22,14 +22,14 @@ public class Minimap extends DrawingComponent {
 	}
 
 	@Override
-	public void draw() {
+	public void draw(float delta) {
 		// push matrix and style information onto the stack
 		p.pushMatrix();
 		p.pushStyle();
 		
 		// TODO draw the minimap
 		p.fill(150);
-		p.rect(50, 50, 100, 100);
+		p.rect(25, 25, 250, 250);
 		
 		// pop matrix and style information from the stack
 		p.popStyle();
