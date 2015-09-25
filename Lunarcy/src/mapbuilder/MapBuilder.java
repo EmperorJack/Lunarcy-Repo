@@ -42,6 +42,22 @@ public class MapBuilder {
 		if (selected != null){
 			WalkableSquare currentSquare = (WalkableSquare) map[selected.getY()][selected.getX()];
 			currentSquare.toggleWall(dir);
+			if (dir == Direction.North && selected.getY() > 0){
+				WalkableSquare adjacentSquare = (WalkableSquare) map[selected.getY() - 1][selected.getX()];
+				adjacentSquare.toggleWall(Direction.South);
+			}
+			if (dir == Direction.South && selected.getY() < map.length -1){
+				WalkableSquare adjacentSquare = (WalkableSquare) map[selected.getY()+1][selected.getX()];
+				adjacentSquare.toggleWall(Direction.North);
+			}
+			if (dir == Direction.East && selected.getX() < map[0].length - 1){
+				WalkableSquare adjacentSquare = (WalkableSquare) map[selected.getY()][selected.getX() + 1];
+				adjacentSquare.toggleWall(Direction.West);
+			}
+			if (dir == Direction.West && selected.getX() > 0){
+				WalkableSquare adjacentSquare = (WalkableSquare) map[selected.getY()][selected.getX()-1];
+				adjacentSquare.toggleWall(Direction.East);
+			}
 		}
 	}
 
