@@ -46,6 +46,7 @@ public class Frame extends JFrame {
 
 		final JPanel panel = new JPanel(new BorderLayout());
 		canvas = new Canvas(mapBuilder);
+		canvas.setFocusable(true);
 		panel.add(canvas, BorderLayout.CENTER);
 		add(panel);
 		setResizable(false);

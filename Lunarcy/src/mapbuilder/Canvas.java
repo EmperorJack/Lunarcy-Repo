@@ -22,6 +22,7 @@ public class Canvas extends JPanel{
 		MapBuilderController controller = new MapBuilderController(mapBuilder, this);
 		this.addMouseListener(controller);
 		this.addMouseMotionListener(controller);
+		this.addKeyListener(controller);
 	}
 
 	public void paintComponent(Graphics g) {

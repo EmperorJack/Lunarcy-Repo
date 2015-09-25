@@ -1,5 +1,7 @@
 package mapbuilder;
 
+import game.Direction;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -10,7 +12,6 @@ public class MapBuilderController implements MouseListener,
 		MouseMotionListener, KeyListener {
 	MapBuilder builder;
 	Canvas canvas;
-
 
 	public MapBuilderController(MapBuilder builder, Canvas canvas) {
 		this.builder = builder;
@@ -55,7 +56,21 @@ public class MapBuilderController implements MouseListener,
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getKeyChar() == 'w') {
+			builder.setWall(Direction.North);
+		}
+		if (e.getKeyChar() == 'a') {
+			builder.setWall(Direction.West);
+
+		}
+		if (e.getKeyChar() == 's') {
+			builder.setWall(Direction.South);
+
+		}
+		if (e.getKeyChar() == 'd') {
+			builder.setWall(Direction.East);
+		}
+		canvas.repaint();
 
 	}
 
