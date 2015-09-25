@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
 	Canvas canvas;
+	MapBuilder mapBuilder;
 
 	public Frame() {
 		setTitle("Cool Map Builder");
@@ -41,8 +42,10 @@ public class Frame extends JFrame {
 			}
 		});
 
+		mapBuilder = new MapBuilder();
+
 		final JPanel panel = new JPanel(new BorderLayout());
-		canvas = new Canvas();
+		canvas = new Canvas(mapBuilder);
 		panel.add(canvas, BorderLayout.CENTER);
 		add(panel);
 		setResizable(false);
