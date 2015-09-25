@@ -28,6 +28,15 @@ public interface MoveStrategy {
  */
 abstract class ShortestPathMover implements MoveStrategy {
 
+	/**
+	 * Returns true if path is outdated and needs to be updated,
+	 * false otherwise.
+	 * @param path
+	 * @return
+	 */
+	protected abstract boolean mustUpdate(List<Location> path);
+
+	
 	private List<Location> getNeighbours(Location loc) {
 		return null;
 	}
@@ -98,6 +107,7 @@ abstract class ShortestPathMover implements MoveStrategy {
 		return path;
 
 	}
+	
 
 	/**
 	 * A wrapper class for a location, necessary for findPath() to function

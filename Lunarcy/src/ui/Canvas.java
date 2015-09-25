@@ -73,8 +73,9 @@ public class Canvas extends PApplet {
 
 		// audio setup
 		minim = new Minim(this);
-		track = minim.loadFile("assets/audio/important2.mp3");
-		// track.play(); // IT'S ALWAYS A GOOD TIME
+		track = minim.loadFile("assets/audio/important4.mp3");
+		track.play();
+		track.loop();
 	}
 
 	/**

@@ -15,23 +15,42 @@ import game.Player;
 public class TrackMovement extends ShortestPathMover {
 
 	Player target; // The player we are chasing
-	Location lastSeen; // Where this player was last spotted
 
 	public TrackMovement(Player target) {
 		this.target = target;
-		lastSeen = target.getLocation();
 	}
 
+	/**
+	 * Returns true if any of the following conditions hold
+	 * 
+	 * 1. The paths end location does not equal the target players location 2.
+	 * The path is null 3. The path is empty
+	 * 
+	 * Otherwise returns false
+	 */
+	@Override
+	protected boolean mustUpdate(List<Location> path) {
+		if (path == null || path.isEmpty())
+			return true;
+
+		// Return true if the end location does not equal the
+		// target location, false otherwise
+		return !path.get(path.size() - 1).equals(target.getLocation());
+	}
+
+	/**
+	 * Finds the shortest path from currentLocation, to the target field.
+	 * Returns this path if one was found, or null.
+	 * 
+	 * @param currentLocation:
+	 *            Where the rover is currently located
+	 * @return the path
+	 */
 	public List<Location> move(Location currentLocation) {
-		// They have moved, so we must recompute
+		if (currentLocation == null || target == null)
+			return null;
 
-		if (target.getLocation() != lastSeen) {
-			return findPath(currentLocation, target.getLocation());
-		}
-
-		// They have not moved, so we do not need a new path
-		return null;
-
+		return findPath(currentLocation, target.getLocation());
 	}
 
 }

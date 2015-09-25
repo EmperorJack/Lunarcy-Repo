@@ -14,28 +14,29 @@ import java.util.ArrayList;
  * change to #3 when a player is spotted
  * 
  * 2. Protect: Move around the map on a set path, this will not differ
- * throughout the game (ie will not change to hunt)
+ * throughout the game (ie will not change to Track or Roam)
  * 
  * 3. Track: Track and follow a specific Player, using shortest path to attempt
- * to capture them
+ * to capture them. Gives up after a set number of ticks, and reverts to
+ * the Roam Strategy.
  * 
  * @author b
  *
  */
 public class Rover {
 
-	MoveStrategy movementStrategy;
+	ShortestPathMover movementStrategy;
 	List<Location> path; // Which squares the rover is going to follow
-	Location currentLocation; // Mantains the rovers position at any given time
+	Location currentLocation; // Mantains the rovers position (x,y) at any given time
 
-	Rover(MoveStrategy movementStrategy) {
+	Rover(ShortestPathMover movementStrategy) {
 		this.movementStrategy = movementStrategy;
 		this.path = new ArrayList<Location>();
 	}
 
 	public void move() {
-		// If we have finished our current path, we must get a new one
-		if (path.isEmpty()) {
+		// If we need a new path, update the current path
+		if (movementStrategy.mustUpdate(path)){
 			path = movementStrategy.move(currentLocation);
 		}
 
@@ -45,7 +46,7 @@ public class Rover {
 
 	}
 
-	public void updateMoveStrategy(MoveStrategy movementStrategy) {
+	public void updateMoveStrategy(ShortestPathMover movementStrategy) {
 		this.movementStrategy = movementStrategy;
 	}
 

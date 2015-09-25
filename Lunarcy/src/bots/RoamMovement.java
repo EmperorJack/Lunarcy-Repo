@@ -45,4 +45,9 @@ public class RoamMovement extends ShortestPathMover {
 		return findPath(currentLocation, mostVisited);
 	}
 
+	@Override
+	protected boolean mustUpdate(List<Location> path) {
+		return false;
+	}
+
 }
