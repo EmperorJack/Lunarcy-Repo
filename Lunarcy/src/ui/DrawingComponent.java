@@ -25,7 +25,7 @@ public abstract class DrawingComponent {
 	/**
 	 * Update the component given an update game state.
 	 */
-	public abstract void update(GameState state);
+	public abstract void update(GameState gameState);
 
 	/**
 	 * Draws the component.

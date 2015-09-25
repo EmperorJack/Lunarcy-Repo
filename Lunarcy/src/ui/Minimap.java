@@ -12,8 +12,9 @@ import processing.core.*;
 public class Minimap extends DrawingComponent {
 
 	// TEMPORARY FIELDS: while we do not have a board in gamestate
-	private final int[][] BOARD = new int[][] { { 0, 0, 1 }, { 1, 0, 1 }, { 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 },
-			{ 0, 0, 0 }, { 1, 2, 1 }, { 0, 0, 0 } };
+	private final int[][] BOARD = new int[][] { { 0, 0, 1 }, { 1, 0, 1 },
+			{ 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 }, { 0, 0, 0 }, { 1, 2, 1 },
+			{ 0, 0, 0 } };
 	private final int SIZE = 30;
 
 	// How far in from the left (x axis)
@@ -26,14 +27,20 @@ public class Minimap extends DrawingComponent {
 	}
 
 	@Override
-	public void update(GameState state) {
+	public void update(GameState gameState) {
 		// TODO update the minimap
 
 	}
 
 	@Override
 	public void draw(float delta) {
+		// push matrix and style information onto the stack
+		p.pushMatrix();
 		p.pushStyle();
+
+		// translate to create the padding
+		p.translate(LEFT_PADDING, TOP_PADDING);
+		p.stroke(0, 70);
 
 		// Go through each square, drawing it
 		for (int i = 0; i < BOARD.length; i++) {
@@ -52,10 +59,12 @@ public class Minimap extends DrawingComponent {
 					break;
 				}
 
-				p.rect(LEFT_PADDING + i * SIZE, TOP_PADDING + j * SIZE, SIZE, SIZE);
+				p.rect(i * SIZE, j * SIZE, SIZE, SIZE);
 			}
 		}
 
+		// pop matrix and style information from the stack
 		p.popStyle();
+		p.popMatrix();
 	}
 }

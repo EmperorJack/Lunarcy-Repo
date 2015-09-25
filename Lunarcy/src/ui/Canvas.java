@@ -75,7 +75,7 @@ public class Canvas extends PApplet {
 		minim = new Minim(this);
 		track = minim.loadFile("assets/audio/important4.mp3");
 		track.play();
-		track.loop();
+		//track.loop();
 	}
 
 	/**
@@ -109,7 +109,6 @@ public class Canvas extends PApplet {
 	 */
 	public void draw() {
 		// compute the delta time this frame tick
-		// TODO use delta to keep animation time relative at any frame rate
 		float delta = TARGET_FPS / frameRate;
 
 		// first update all the components

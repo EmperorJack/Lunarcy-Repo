@@ -1,7 +1,7 @@
 package ui;
 
 import processing.core.*;
-import game.GameState;
+import game.*;
 
 /**
  * The view that displays the player perspective of the game world in 3D.
@@ -15,14 +15,18 @@ public class Perspective3D extends DrawingComponent {
 	// 3D graphics layer
 	private PGraphics g;
 
-	// temporary background images
+	// temporary background image
 	private Animation tempGifAnimation;
 
-	// camera
-	public PVector camEye;
-	public PVector camCenter;
-	public float rotationAngle = 0;
-	public float elevationAngle = 0;
+	// 3D world
+	private Square[][] world;
+	private final int SQUARE_SIZE = 250;
+
+	// camera fields
+	private PVector camEye;
+	private PVector camCenter;
+	private float rotationAngle = 0;
+	private float elevationAngle = 0;
 
 	public Perspective3D(PApplet p, GameState gameState, PGraphics g) {
 		super(p, gameState);
@@ -32,19 +36,18 @@ public class Perspective3D extends DrawingComponent {
 		tempGifAnimation = new Animation("assets/animations/shrek/shrek_", 20);
 
 		// camera setup
-		camEye = new PVector(0, -30, 0);
+		camEye = new PVector(0, -50, 0);
 		camCenter = new PVector(0, 0, 0);
 	}
 
 	@Override
-	public void update(GameState state) {
-		// TODO update the 3D perspective
-
+	public void update(GameState gameState) {
+		world = gameState.getBoard();
 	}
 
 	@Override
 	public void draw(float delta) {
-		handleInput();
+		handleInput(delta);
 
 		// allow drawing onto the graphics layer
 		g.beginDraw();
@@ -53,32 +56,98 @@ public class Perspective3D extends DrawingComponent {
 		g.pushMatrix();
 		g.pushStyle();
 
-		// TODO draw the 3D perspective
+		// draw the 3D perspective
 		g.background(255);
 
-		g.stroke(0);
 		g.camera(camEye.x, camEye.y, camEye.z, camCenter.x, camCenter.y,
 				camCenter.z, 0.0f, 1, 0);
 		// float fov = PApplet.PI / 3.0f;
 		// float cameraZ = (g.height / 2.0f) / PApplet.tan(fov / 2.0f);
 		// float aspect = PApplet.parseFloat(g.width)
-		// / PApplet.parseFloat(g.height);
+		// //PApplet.parseFloat(g.height);
 		// //g.perspective(fov, aspect, cameraZ / 100.0f, cameraZ * 100.0f);
-		g.pushMatrix();
-		g.fill(127);
-		g.rotateX(PApplet.PI / 2);
-		g.rectMode(PApplet.CENTER);
-		g.rect(0, 0, 1000, 1000);
-		g.popMatrix();
-		g.translate(0, -20, -80);
-		g.fill(0, 0, 255);
-		g.sphere(20);
 
-		// test image
-		g.translate(0, 0, -500);
-		// g.rotateY(PApplet.radians(p.frameCount));
-		g.scale(4);
-		tempGifAnimation.display(0, 0, delta);
+		// test image plane and gif
+		g.pushMatrix();
+		g.noStroke();
+		g.fill(0, 255, 0);
+		g.rotateX(PApplet.PI / 2);
+		g.rect(10, 0, -20, -SQUARE_SIZE);
+		g.fill(255, 0, 0);
+		g.sphere(10);
+		g.rotateX(-PApplet.PI / 2);
+		g.rotateY(PApplet.radians(p.frameCount));
+		tempGifAnimation.update(delta);
+		tempGifAnimation.display(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+		g.popMatrix();
+
+		// draw test board
+		g.pushMatrix();
+		g.stroke(0);
+		g.strokeWeight(5);
+		g.rotateX(PApplet.PI / 2);
+
+		// VERY VERBOSE need to think of way to store map on construction!
+		for (int x = 0; x < world.length; x++) {
+			for (int y = 0; y < world[0].length; y++) {
+				Square s = world[x][y];
+				if (s instanceof WalkableSquare) {
+					WalkableSquare ws = (WalkableSquare) s;
+
+					g.pushMatrix();
+					g.translate(SQUARE_SIZE * x, SQUARE_SIZE * y, 0);
+
+					g.fill(100);
+					g.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+
+					if (ws.getWalls().get(Direction.North) instanceof SolidWall) {
+						g.pushMatrix();
+						g.rotateX(PApplet.PI / 2);
+
+						g.fill(150);
+						g.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+
+						g.popMatrix();
+					}
+
+					if (ws.getWalls().get(Direction.East) instanceof SolidWall) {
+						g.pushMatrix();
+						g.translate(SQUARE_SIZE, 0);
+						g.rotateX(PApplet.PI / 2);
+						g.rotateY(PApplet.PI / 2);
+
+						g.fill(150);
+						g.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+
+						g.popMatrix();
+					}
+
+					if (ws.getWalls().get(Direction.South) instanceof SolidWall) {
+						g.pushMatrix();
+						g.translate(0, SQUARE_SIZE);
+						g.rotateX(PApplet.PI / 2);
+
+						g.fill(150);
+						g.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+
+						g.popMatrix();
+					}
+
+					if (ws.getWalls().get(Direction.West) instanceof SolidWall) {
+						g.pushMatrix();
+						g.rotateX(PApplet.PI / 2);
+						g.rotateY(PApplet.PI / 2);
+
+						g.fill(150);
+						g.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+
+						g.popMatrix();
+					}
+					g.popMatrix();
+				}
+			}
+		}
+		g.popMatrix();
 
 		// pop matrix and style information from the stack
 		g.popStyle();
@@ -108,44 +177,49 @@ public class Perspective3D extends DrawingComponent {
 			}
 		}
 
-		public void display(float x, float y, float delta) {
+		public void update(float delta) {
 			halfRate = !halfRate;
 			if (halfRate) {
 				frame = ((int) (percent += delta)) % imageCount;
 			}
+		}
+
+		public void display(float x, float y) {
 			g.image(images[frame], x, y);
+		}
+
+		public void display(float x, float y, float w, float h) {
+			g.image(images[frame], x, y, w, h);
 		}
 	}
 
-	private void handleInput() {
-		float rotationAngle = PApplet.map(p.mouseX, 0, p.width, 0,
-				PApplet.TWO_PI);
-		float elevationAngle = PApplet
-				.map(p.mouseY, 0, p.height, 0, PApplet.PI);
+	private void handleInput(float delta) {
+		rotationAngle = PApplet
+				.map(p.mouseX, 0, p.width, 0, PApplet.TWO_PI * 2);
+		elevationAngle = PApplet.map(p.mouseY, 0, p.height, 0, PApplet.PI);
 		PVector move = new PVector(0, 0);
 		if (p.keyPressed) {
 			if (p.key == 'w' || p.key == 'W') {
-				move = new PVector(3, 0);
+				move = new PVector(5 * delta, 0);
 				move.rotate(rotationAngle);
 			}
 			if (p.key == 'a' || p.key == 'A') {
-				move = new PVector(0, -3);
+				move = new PVector(0, -5 * delta);
 				move.rotate(rotationAngle);
 			}
 			if (p.key == 's' || p.key == 'S') {
-				move = new PVector(-3, 0);
+				move = new PVector(-5 * delta, 0);
 				move.rotate(rotationAngle);
 			}
 			if (p.key == 'd' || p.key == 'D') {
-				move = new PVector(0, 3);
+				move = new PVector(0, 5 * delta);
 				move.rotate(rotationAngle);
 			}
 		}
-		updateCamera(rotationAngle, elevationAngle, move);
+		updateCamera(move);
 	}
 
-	private void updateCamera(float rotationAngle, float elevationAngle,
-			PVector move) {
+	private void updateCamera(PVector move) {
 		camEye.x += move.x;
 		camEye.z += move.y;
 		camCenter.x = PApplet.cos(rotationAngle) + camEye.x;
