@@ -1,17 +1,11 @@
 package control;
 
-import java.awt.Color;
-import java.io.ByteArrayInputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -101,26 +95,6 @@ public class Server {
 				}
 				if(action != null)messageQueue.add(action);
     			  
-    			// If the client disconnected
-//    			if (line.equals("CQUIT"))
-//    			{
-//    				// Close the socket
-//    				try
-//    				{
-//		                this.socket.close();
-//		                this.socket = null;
-//    		        } catch(IOException e){System.out.println("Failed to close client socket " + e + "\n");}
-//    				
-//    				// Shut down the server
-//    				System.out.println("\nClient Disconnected, Shutting Server Down\n");
-//    				
-//    				// Sleep for a bit
-//    				try
-//    				{
-//    				    Thread.sleep(2000);
-//    				} catch(InterruptedException ex){Thread.currentThread().interrupt();}
-//    				quit();
-//    			}
     		}
     	}
     	
