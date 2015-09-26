@@ -1,6 +1,6 @@
 package ui;
 
-import game.GameState;
+import game.*;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -29,7 +29,7 @@ public class Frame extends JFrame {
 	// the initial size the frame should be drawn at
 	public static final int INIT_WIDTH = 1280;
 	public static final int INIT_HEIGHT = 720;
-	
+
 	// the maximum size the frame should be drawn at
 	public static final int MAX_WIDTH = 1920;
 	public static final int MAX_HEIGHT = 1080;
@@ -87,6 +87,40 @@ public class Frame extends JFrame {
 	}
 
 	public static void main(String args[]) {
-		new Frame(null);
+		new Frame(createTestGameState1(5, 3));
+	}
+
+	public static GameState createTestGameState1(int w, int h) {
+		// test game state with w x h board
+		GameState state = new GameState(w, h);
+
+		// populate the state board
+		for (int x = 0; x < w; x++) {
+
+			Wall east = null;
+			Wall west = null;
+
+			if (x == 0) {
+				west = new SolidWall();
+			} else if (x == w - 1) {
+				east = new SolidWall();
+			}
+
+			for (int y = 0; y < h; y++) {
+				Wall north = null;
+				Wall south = null;
+
+				if (y == 0) {
+					north = new SolidWall();
+				} else if (y == h - 1) {
+					south = new SolidWall();
+				}
+
+				state.setSquare(new Location(x, y), new WalkableSquare("test",
+						"test description", true, north, east, south, west));
+			}
+		}
+
+		return state;
 	}
 }

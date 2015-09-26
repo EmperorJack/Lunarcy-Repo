@@ -6,5 +6,8 @@ package game;
  * @author Robbie
  *
  */
-public interface Item {
+public abstract class Item extends Entity {
+	public Item(int itemID) {
+		super(itemID);
+	}
 }

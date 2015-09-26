@@ -1,12 +1,13 @@
 package game;
 
+/**
+ * Represents a wall with an unlocked Door that may be entered by anyone
+ * @author Robbie
+ *
+ */
 public class Door implements Wall {
-	private final Key key;
-	public Door(Key key){
-		this.key = key;
-	}
 	@Override
 	public boolean enter(Player player) {
-		return player.getInventory().contains(key);
+		return true;
 	}
 }
