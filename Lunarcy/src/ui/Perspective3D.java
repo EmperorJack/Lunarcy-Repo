@@ -98,9 +98,9 @@ public class Perspective3D extends DrawingComponent {
 		g.rotateX(PApplet.PI / 2);
 
 		// VERY VERBOSE need to think of way to store map on construction!
-		for (int x = 0; x < world.length; x++) {
-			for (int y = 0; y < world[0].length; y++) {
-				Square s = world[x][y];
+		for (int y = 0; y < world.length; y++) {
+			for (int x = 0; x < world[0].length; x++) {
+				Square s = world[y][x];
 				if (s instanceof WalkableSquare) {
 					WalkableSquare ws = (WalkableSquare) s;
 

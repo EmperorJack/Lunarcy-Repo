@@ -87,7 +87,7 @@ public class Frame extends JFrame {
 	}
 
 	public static void main(String args[]) {
-		new Frame(createTestGameState1(4, 4));
+		new Frame(createTestGameState1(20, 20));
 	}
 
 	public static GameState createTestGameState1(int w, int h) {
@@ -95,6 +95,7 @@ public class Frame extends JFrame {
 		GameState state = new GameState(w, h);
 
 		// populate the state board
+		/*
 		for (int x = 0; x < w; x++) {
 
 			Wall east = null;
@@ -121,6 +122,9 @@ public class Frame extends JFrame {
 						south, west));
 			}
 		}
+		*/
+		
+		state.load();
 
 		return state;
 	}

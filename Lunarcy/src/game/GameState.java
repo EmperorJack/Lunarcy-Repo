@@ -1,6 +1,10 @@
 package game;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
+
+import com.thoughtworks.xstream.XStream;
 
 /**
  * This class contains all the information about the game state, it does not
@@ -68,6 +72,16 @@ public class GameState {
 			Square old = board[x][y];
 			board[x][y] = square;
 			return old;
+		}
+	}
+	
+	public void load(){
+		try {
+		      FileInputStream file = new FileInputStream("map.xml");
+		      XStream xstream = new XStream();
+		      board = (Square[][]) xstream.fromXML(file);
+		} catch (FileNotFoundException e) {
+			
 		}
 	}
 
