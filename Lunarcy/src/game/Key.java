@@ -5,9 +5,10 @@ package game;
  * @author Robbie
  *
  */
-public class Key implements Item {
-	private int keyCode;
-	public Key(int keyCode){
+public class Key extends Item {
+	public final int keyCode;
+	public Key(int itemID, int keyCode){
+		super(itemID);
 		this.keyCode = keyCode;
 	}
 }
