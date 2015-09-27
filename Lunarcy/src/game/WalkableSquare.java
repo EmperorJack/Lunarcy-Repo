@@ -85,7 +85,7 @@ public class WalkableSquare implements Square {
 	 * @throws IllegalArgumentException
 	 *             if either argument is null
 	 */
-	private boolean canEnter(Player player, Direction direction) {
+	public boolean canEnter(Player player, Direction direction) {
 		if (player == null)
 			throw new IllegalArgumentException(
 					"Parameter 'player' may not be null");
@@ -96,32 +96,26 @@ public class WalkableSquare implements Square {
 	}
 
 	/**
-	 * Checks whether the specified player can enter the room *FROM* the
-	 * direction parameter and if they can then it adds the Player to the set of
-	 * Players in the room.
+	 * Adds the Player to the set of Players in the room.
 	 * 
 	 * @param player
 	 *            The player that is attempting to enter
-	 * @param direction
-	 *            The direction the player is entering the room *FROM*
-	 * @return True if player entered the room, False otherwise
-	 * @throws IllegalArgumentException
-	 *             if either argument is null
+	 * @return True if player was added to the room, False otherwise
 	 */
-	public boolean enter(Player player, Direction direction) {
-		if (player == null)
-			throw new IllegalArgumentException(
-					"Parameter 'player' may not be null");
-		if (direction == null)
-			throw new IllegalArgumentException(
-					"Parameter 'direction' may not be null");
-		if (canEnter(player, direction)) {
-			players.add(player);
-			return true;
+	public boolean addPlayer(Player player) {
+		if (player != null){
+			return players.add(player);
 		}
 		return false;
 	}
 
+	/**
+	 * Adds the Player to the set of Players in the room.
+	 * 
+	 * @param player
+	 *            The player that is attempting to enter
+	 * @return True if player was added to the room, False otherwise
+	 */
 	public void removePlayer(Player player) {
 		if (player != null) {
 			if (players.contains(player)) {

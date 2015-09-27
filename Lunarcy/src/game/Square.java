@@ -8,4 +8,7 @@ package game;
  *
  */
 public interface Square {
+	public boolean canEnter(Player player, Direction direction);
+	public boolean addPlayer(Player player);
+	public void removePlayer(Player player);
 }
