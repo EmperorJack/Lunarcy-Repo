@@ -59,7 +59,7 @@ public class Frame extends JFrame {
 
 		// setup processing canvas panel
 		final JPanel panel = new JPanel(new BorderLayout());
-		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, gameState);
+		canvas = new Canvas(INIT_WIDTH, INIT_HEIGHT, gameState);
 		panel.add(canvas, BorderLayout.CENTER);
 		add(panel);
 
@@ -71,15 +71,15 @@ public class Frame extends JFrame {
 			}
 		});
 
-		// run the processing canvas
-		canvas.init();
-
 		// Center align the frame on screen
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds((size.width - getWidth()) / 2,
 				(size.height - getHeight()) / 2, getWidth(), getHeight());
 
 		setVisible(true);
+		
+		// run the processing canvas
+		canvas.init();
 	}
 
 	public Canvas getCanvas() {
@@ -87,7 +87,7 @@ public class Frame extends JFrame {
 	}
 
 	public static void main(String args[]) {
-		new Frame(createTestGameState1(5, 3));
+		new Frame(createTestGameState1(4, 4));
 	}
 
 	public static GameState createTestGameState1(int w, int h) {
@@ -117,7 +117,8 @@ public class Frame extends JFrame {
 				}
 
 				state.setSquare(new Location(x, y), new WalkableSquare("test",
-						"test description", true, north, east, south, west));
+						"test description", (Math.random() < 0.5), north, east,
+						south, west));
 			}
 		}
 

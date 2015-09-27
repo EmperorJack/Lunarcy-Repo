@@ -1,6 +1,7 @@
 package ui;
 
 import processing.core.*;
+import saito.objloader.*;
 import game.*;
 
 /**
@@ -12,13 +13,11 @@ import game.*;
  */
 public class Perspective3D extends DrawingComponent {
 
-	// 3D graphics layer
-	private PGraphics g;
-
 	// temporary background image
 	private Animation tempGifAnimation;
 
 	// 3D world
+	private OBJModel worldModel;
 	private Square[][] world;
 	private final int SQUARE_SIZE = 250;
 
@@ -29,15 +28,17 @@ public class Perspective3D extends DrawingComponent {
 	private float elevationAngle = 0;
 
 	public Perspective3D(PApplet p, GameState gameState, PGraphics g) {
-		super(p, gameState);
+		// public Perspective3D(PApplet p, GameState gameState) {
+		super(p, gameState, g);
 
-		// use the given graphics layer as the 3D renderer
-		this.g = g;
 		tempGifAnimation = new Animation("assets/animations/shrek/shrek_", 20);
 
 		// camera setup
-		camEye = new PVector(0, -50, 0);
+		camEye = new PVector(0, -100, 0);
 		camCenter = new PVector(0, 0, 0);
+
+		// world setup
+		worldModel = new OBJModel(p, "assets/models/floor.obj");
 	}
 
 	@Override
@@ -50,14 +51,14 @@ public class Perspective3D extends DrawingComponent {
 		handleInput(delta);
 
 		// allow drawing onto the graphics layer
-		g.beginDraw();
+		// g.beginDraw();
 
 		// push matrix and style information onto the stack
 		g.pushMatrix();
 		g.pushStyle();
 
 		// draw the 3D perspective
-		g.background(255);
+		// g.background(255);
 
 		g.camera(camEye.x, camEye.y, camEye.z, camCenter.x, camCenter.y,
 				camCenter.z, 0.0f, 1, 0);
@@ -67,7 +68,7 @@ public class Perspective3D extends DrawingComponent {
 		// //PApplet.parseFloat(g.height);
 		// //g.perspective(fov, aspect, cameraZ / 100.0f, cameraZ * 100.0f);
 
-		// test image plane and gif
+		// test image plane, spheres and light
 		g.pushMatrix();
 		g.noStroke();
 		g.fill(0, 255, 0);
@@ -75,6 +76,14 @@ public class Perspective3D extends DrawingComponent {
 		g.rect(10, 0, -20, -SQUARE_SIZE);
 		g.fill(255, 0, 0);
 		g.sphere(10);
+
+		g.pushMatrix();
+		g.translate(500, 500, SQUARE_SIZE / 2);
+		g.pointLight(200, 255, 200, 0, 0, 0);
+		g.fill(0, 0, 255);
+		g.sphere(10);
+		g.popMatrix();
+
 		g.rotateX(-PApplet.PI / 2);
 		g.rotateY(PApplet.radians(p.frameCount));
 		tempGifAnimation.update(delta);
@@ -85,6 +94,7 @@ public class Perspective3D extends DrawingComponent {
 		g.pushMatrix();
 		g.stroke(0);
 		g.strokeWeight(5);
+
 		g.rotateX(PApplet.PI / 2);
 
 		// VERY VERBOSE need to think of way to store map on construction!
@@ -95,53 +105,27 @@ public class Perspective3D extends DrawingComponent {
 					WalkableSquare ws = (WalkableSquare) s;
 
 					g.pushMatrix();
-					g.translate(SQUARE_SIZE * x, SQUARE_SIZE * y, 0);
+					g.translate(SQUARE_SIZE * x, SQUARE_SIZE * y);
 
-					g.fill(100);
-					g.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+					renderFloor();
+					if (ws.isInside()) {
+						renderCeiling();
+					}
 
 					if (ws.getWalls().get(Direction.North) instanceof SolidWall) {
-						g.pushMatrix();
-						g.rotateX(PApplet.PI / 2);
-
-						g.fill(150);
-						g.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
-
-						g.popMatrix();
+						renderWall(0, 0, 1, 0);
 					}
 
 					if (ws.getWalls().get(Direction.East) instanceof SolidWall) {
-						g.pushMatrix();
-						g.translate(SQUARE_SIZE, 0);
-						g.rotateX(PApplet.PI / 2);
-						g.rotateY(PApplet.PI / 2);
-
-						g.fill(150);
-						g.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
-
-						g.popMatrix();
+						renderWall(1, 0, 1, 1);
 					}
 
 					if (ws.getWalls().get(Direction.South) instanceof SolidWall) {
-						g.pushMatrix();
-						g.translate(0, SQUARE_SIZE);
-						g.rotateX(PApplet.PI / 2);
-
-						g.fill(150);
-						g.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
-
-						g.popMatrix();
+						renderWall(0, 1, 1, 0);
 					}
 
 					if (ws.getWalls().get(Direction.West) instanceof SolidWall) {
-						g.pushMatrix();
-						g.rotateX(PApplet.PI / 2);
-						g.rotateY(PApplet.PI / 2);
-
-						g.fill(150);
-						g.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
-
-						g.popMatrix();
+						renderWall(0, 0, 1, 1);
 					}
 					g.popMatrix();
 				}
@@ -153,11 +137,46 @@ public class Perspective3D extends DrawingComponent {
 		g.popStyle();
 		g.popMatrix();
 
-		// finish drawing onto the graphics layer
-		g.endDraw();
+		// g.endDraw();
+		// p.image(g, 0, 0);
+	}
 
-		// draw the 3D graphics layer onto the parent canvas
-		p.image(g, 0, 0);
+	private void renderFloor() {
+		g.pushMatrix();
+
+		// test drawing the floor obj model
+		g.translate(0, SQUARE_SIZE);
+		g.scale(100, 100, 100);
+		g.rotateX(-PApplet.PI / 2);
+
+		g.fill(100);
+		worldModel.disableMaterial();
+		worldModel.drawMode(OBJModel.POLYGON);
+		worldModel.draw();
+
+		g.popMatrix();
+	}
+
+	private void renderCeiling() {
+		g.pushMatrix();
+		g.translate(0, 0, SQUARE_SIZE);
+
+		g.fill(100);
+		g.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+
+		g.popMatrix();
+	}
+
+	private void renderWall(int transX, int transY, int rotateX, int rotateY) {
+		g.pushMatrix();
+		g.translate(SQUARE_SIZE * transX, SQUARE_SIZE * transY);
+		g.rotateX(PApplet.PI / 2 * rotateX);
+		g.rotateY(PApplet.PI / 2 * rotateY);
+
+		g.fill(150);
+		g.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+
+		g.popMatrix();
 	}
 
 	public class Animation {
@@ -195,8 +214,8 @@ public class Perspective3D extends DrawingComponent {
 
 	private void handleInput(float delta) {
 		rotationAngle = PApplet
-				.map(p.mouseX, 0, p.width, 0, PApplet.TWO_PI * 2);
-		elevationAngle = PApplet.map(p.mouseY, 0, p.height, 0, PApplet.PI);
+				.map(p.mouseX, 0, g.width, 0, PApplet.TWO_PI * 2);
+		elevationAngle = PApplet.map(p.mouseY, 0, g.height, 0, PApplet.PI);
 		PVector move = new PVector(0, 0);
 		if (p.keyPressed) {
 			if (p.key == 'w' || p.key == 'W') {
