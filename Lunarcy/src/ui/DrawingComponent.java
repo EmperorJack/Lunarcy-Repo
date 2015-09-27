@@ -1,6 +1,6 @@
 package ui;
 
-import processing.core.PApplet;
+import processing.core.*;
 import game.GameState;
 
 /**
@@ -11,11 +11,11 @@ import game.GameState;
  */
 public abstract class DrawingComponent {
 
-	// the parent processing canvas that is drawn onto
+	// the parent processing canvas
 	protected PApplet p;
 
 	public DrawingComponent(PApplet p, GameState gameState) {
-		// set the parent canvas
+		// set the parent canvas and graphics layer
 		this.p = p;
 
 		// set the initial game state

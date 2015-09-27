@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import com.sun.corba.se.impl.ior.NewObjectKeyTemplateBase;
+//import com.sun.corba.se.impl.ior.NewObjectKeyTemplateBase;
 
 public class Client {
 	// Network related fields

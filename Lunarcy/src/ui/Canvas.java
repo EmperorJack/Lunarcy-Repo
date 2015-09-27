@@ -32,7 +32,6 @@ public class Canvas extends PApplet {
 	// drawing components
 	private Perspective3D perspective;
 	private Minimap minimap;
-	private PImage backdrop;
 
 	// audio fields
 	private Minim minim;
@@ -55,27 +54,24 @@ public class Canvas extends PApplet {
 	}
 
 	/**
-	 * When the canvas has been init().
+	 * Initializes the canvas when init() is called.
 	 */
 	public void setup() {
 		// setup the size and use 3D renderer
-		size(maxWidth, maxHeight);
+		size(maxWidth, maxHeight, OPENGL);
+		hint(ENABLE_OPENGL_4X_SMOOTH);
 
 		// initialize the 3D perspective component
-		PGraphics layer3D = createGraphics(maxWidth, maxHeight, P3D);
-		perspective = new Perspective3D(this, gameState, layer3D);
+		perspective = new Perspective3D(this, gameState);
 
-		// initialize the HUD components
+		// initialize the heads up display components
 		minimap = new Minimap(this, gameState);
-
-		// temporary backdrop
-		backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
 
 		// audio setup
 		minim = new Minim(this);
 		track = minim.loadFile("assets/audio/important4.mp3");
 		track.play();
-		//track.loop();
+		// /track.loop();
 	}
 
 	/**
@@ -86,6 +82,8 @@ public class Canvas extends PApplet {
 	 */
 	public synchronized void setGameState(GameState gameState) {
 		this.gameState = gameState;
+
+		// enable updating of drawing components next frame
 		stateUpdated = true;
 	}
 
@@ -115,25 +113,41 @@ public class Canvas extends PApplet {
 		update();
 
 		// clear the screen
-		background(0);
+		background(100);
+
+		// image(backdrop, 0, 0);
 
 		// adjust matrix scaling and offset
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
-
-		image(backdrop, 0, 0);
-
+		
 		// draw the 3D perspective
 		perspective.draw(delta);
+
+		// allow drawing onto the heads up display layer
+		hint(DISABLE_DEPTH_TEST);
+		hint(ENABLE_DEPTH_TEST);
+		camera();
+		noLights();
+
+		translate(xOffset, yOffset);
+		scale(scalingAmount);
 
 		// draw the heads up display components
 		minimap.draw(delta);
 
 		// draw the frame rate string
-		fill(0);
+		fill(255);
 		textSize(40);
 		text(frameRate, maxWidth - 200, 50);
 		text(delta, maxWidth - 200, 100);
+
+		// draw the black borders
+		fill(0);
+		rect(0, 0, maxWidth, -maxHeight);
+		rect(0, maxHeight, maxWidth, maxHeight);
+		rect(0, 0, -maxWidth, maxHeight);
+		rect(maxWidth, 0, maxWidth, maxHeight);
 	}
 
 	/**
