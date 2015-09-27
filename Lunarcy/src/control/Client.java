@@ -28,7 +28,7 @@ public class Client {
 				e.printStackTrace();
 			}
 			
-			serverIn = new ObjectOutputStream(socket.getOutputStream());
+			//serverIn = new ObjectOutputStream(socket.getOutputStream());
 		}
 		
 		

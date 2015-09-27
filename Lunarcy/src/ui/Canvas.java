@@ -3,6 +3,7 @@ package ui;
 import ddf.minim.*;
 import game.GameState;
 import processing.core.*;
+import processing.opengl.*;
 
 /**
  * The primary Processing PApplet, our drawing canvas. This canvas maintains the
@@ -31,6 +32,7 @@ public class Canvas extends PApplet {
 
 	// drawing components
 	private Perspective3D perspective;
+	private PGraphics hud;
 	private PGraphics buffer;
 	private Minimap minimap;
 	private PImage backdrop;
@@ -60,16 +62,17 @@ public class Canvas extends PApplet {
 	 */
 	public void setup() {
 		// setup the size and use 3D renderer
-		size(maxWidth, maxHeight);
 		// size(maxWidth, maxHeight);
+		size(maxWidth, maxHeight, OPENGL);
 
 		// initialize the 3D perspective component
-		PGraphics layer3D = createGraphics(maxWidth, maxHeight, P3D);
-		perspective = new Perspective3D(this, gameState, layer3D);
-		// perspective = new Perspective3D(this, gameState);
+		//PGraphics layer3D = createGraphics(maxWidth, maxHeight, OPENGL);
+		//perspective = new Perspective3D(this, gameState, layer3D);
+		perspective = new Perspective3D(this, gameState, g);
 
 		// initialize the HUD components
-		minimap = new Minimap(this, gameState);
+		//hud = createGraphics(maxWidth, maxHeight, P2D);
+		minimap = new Minimap(this, gameState, g);
 
 		// temporary backdrop
 		backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
@@ -78,7 +81,7 @@ public class Canvas extends PApplet {
 		minim = new Minim(this);
 		track = minim.loadFile("assets/audio/important4.mp3");
 		track.play();
-		// track.loop();
+		track.loop();
 	}
 
 	/**
@@ -118,25 +121,39 @@ public class Canvas extends PApplet {
 		update();
 
 		// clear the screen
-		background(0);
+		background(255);
 
 		// adjust matrix scaling and offset
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
 
-		image(backdrop, 0, 0);
+		//image(backdrop, 0, 0);
 
 		// draw the 3D perspective
 		perspective.draw(delta);
+
+		// allow drawing onto the heads up display layer
+		hint(DISABLE_DEPTH_TEST);
+		hint(ENABLE_DEPTH_TEST);
+		camera();
+		//hud.beginDraw();
 
 		// draw the heads up display components
 		minimap.draw(delta);
 
 		// draw the frame rate string
+		pushMatrix();
+		pushStyle();
 		fill(0);
 		textSize(40);
 		text(frameRate, maxWidth - 200, 50);
 		text(delta, maxWidth - 200, 100);
+		popStyle();
+		popMatrix();
+
+		// finish drawing onto the heads up display layer
+		//hud.endDraw();
+		//image(hud, 0, 0);
 	}
 
 	/**

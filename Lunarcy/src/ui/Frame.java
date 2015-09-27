@@ -59,7 +59,7 @@ public class Frame extends JFrame {
 
 		// setup processing canvas panel
 		final JPanel panel = new JPanel(new BorderLayout());
-		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, gameState);
+		canvas = new Canvas(INIT_WIDTH, INIT_HEIGHT, gameState);
 		panel.add(canvas, BorderLayout.CENTER);
 		add(panel);
 
@@ -87,7 +87,7 @@ public class Frame extends JFrame {
 	}
 
 	public static void main(String args[]) {
-		new Frame(createTestGameState1(5, 3));
+		new Frame(createTestGameState1(4, 4));
 	}
 
 	public static GameState createTestGameState1(int w, int h) {
