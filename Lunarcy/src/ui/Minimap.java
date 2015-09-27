@@ -22,8 +22,8 @@ public class Minimap extends DrawingComponent {
 	// How far down from the top (y axis)
 	private final int TOP_PADDING = 25;
 
-	public Minimap(PApplet p, GameState gameState, PGraphics g) {
-		super(p, gameState, g);
+	public Minimap(PApplet p, GameState gameState) {
+		super(p, gameState);
 	}
 
 	@Override
@@ -35,12 +35,12 @@ public class Minimap extends DrawingComponent {
 	@Override
 	public void draw(float delta) {
 		// push matrix and style information onto the stack
-		g.pushMatrix();
-		g.pushStyle();
+		p.pushMatrix();
+		p.pushStyle();
 
 		// translate to create the padding
-		g.translate(LEFT_PADDING, TOP_PADDING);
-		g.stroke(0, 70);
+		p.translate(LEFT_PADDING, TOP_PADDING);
+		p.stroke(0, 70);
 
 		// Go through each square, drawing it
 		for (int i = 0; i < BOARD.length; i++) {
@@ -48,23 +48,23 @@ public class Minimap extends DrawingComponent {
 				// Set the colour based on square type
 				switch (BOARD[i][j]) {
 				case 0:
-					g.fill(55, 255, 255, 20);
+					p.fill(55, 255, 255, 20);
 					break;
 				case 1:
-					g.fill(0, 0, 0, 70);
+					p.fill(0, 0, 0, 70);
 					break;
 
 				case 2:
-					g.fill(255, 0, 0, 90);
+					p.fill(255, 0, 0, 90);
 					break;
 				}
 
-				g.rect(i * SIZE, j * SIZE, SIZE, SIZE);
+				p.rect(i * SIZE, j * SIZE, SIZE, SIZE);
 			}
 		}
 
 		// pop matrix and style information from the stack
-		g.popStyle();
-		g.popMatrix();
+		p.popStyle();
+		p.popMatrix();
 	}
 }

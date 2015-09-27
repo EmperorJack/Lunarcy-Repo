@@ -13,7 +13,6 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 /**
  * Maintains the Swing window for the Lunarcy game. Handles the confirmation
@@ -31,8 +30,8 @@ public class Frame extends JFrame {
 	public static final int INIT_HEIGHT = 720;
 
 	// the maximum size the frame should be drawn at
-	public static final int MAX_WIDTH = 1920;
-	public static final int MAX_HEIGHT = 1080;
+	public static final int MAX_WIDTH = 1280;
+	public static final int MAX_HEIGHT = 720;
 
 	// the processing canvas
 	private final Canvas canvas;
@@ -57,17 +56,16 @@ public class Frame extends JFrame {
 			}
 		});
 
-		// setup processing canvas panel
-		final JPanel panel = new JPanel(new BorderLayout());
-		canvas = new Canvas(INIT_WIDTH, INIT_HEIGHT, gameState);
-		panel.add(canvas, BorderLayout.CENTER);
-		add(panel);
+		// setup processing canvas
+		setLayout(new BorderLayout());
+		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, gameState);
+		add(canvas, BorderLayout.CENTER);
 
 		// setup panel resize listener
-		panel.addComponentListener(new ComponentAdapter() {
+		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
 				// send the new window size to the canvas
-				canvas.adjustScaling(panel.getWidth(), panel.getHeight());
+				canvas.adjustScaling(getWidth(), getHeight());
 			}
 		});
 
@@ -76,8 +74,9 @@ public class Frame extends JFrame {
 		setBounds((size.width - getWidth()) / 2,
 				(size.height - getHeight()) / 2, getWidth(), getHeight());
 
+		setResizable(true);
 		setVisible(true);
-		
+
 		// run the processing canvas
 		canvas.init();
 	}
@@ -96,34 +95,24 @@ public class Frame extends JFrame {
 
 		// populate the state board
 		/*
-		for (int x = 0; x < w; x++) {
-
-			Wall east = null;
-			Wall west = null;
-
-			if (x == 0) {
-				west = new SolidWall();
-			} else if (x == w - 1) {
-				east = new SolidWall();
-			}
-
-			for (int y = 0; y < h; y++) {
-				Wall north = null;
-				Wall south = null;
-
-				if (y == 0) {
-					north = new SolidWall();
-				} else if (y == h - 1) {
-					south = new SolidWall();
-				}
-
-				state.setSquare(new Location(x, y), new WalkableSquare("test",
-						"test description", (Math.random() < 0.5), north, east,
-						south, west));
-			}
-		}
-		*/
+		 * for (int x = 0; x < w; x++) {
+		 * 
+		 * Wall east = null; Wall west = null;
+		 * 
+		 * if (x == 0) { west = new SolidWall(); } else if (x == w - 1) { east =
+		 * new SolidWall(); }
+		 * 
+		 * for (int y = 0; y < h; y++) { Wall north = null; Wall south = null;
+		 * 
+		 * if (y == 0) { north = new SolidWall(); } else if (y == h - 1) { south
+		 * = new SolidWall(); }
+		 * 
+		 * state.setSquare(new Location(x, y), new WalkableSquare("test",
+		 * "test description", (Math.random() < 0.5), north, east, south,
+		 * west)); } }
+		 */
 		
+		// load the board state from the map.xml
 		state.load();
 
 		return state;

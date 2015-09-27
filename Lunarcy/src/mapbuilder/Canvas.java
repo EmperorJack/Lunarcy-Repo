@@ -2,6 +2,8 @@ package mapbuilder;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import javax.swing.JPanel;
 
 /**
@@ -28,7 +30,7 @@ public class Canvas extends JPanel{
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, 1280, 720);
-		mapBuilder.draw(g);
+		mapBuilder.draw((Graphics2D)g);
 	}
 
 }
