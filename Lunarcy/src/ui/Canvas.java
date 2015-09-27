@@ -31,6 +31,7 @@ public class Canvas extends PApplet {
 
 	// drawing components
 	private Perspective3D perspective;
+	private PGraphics buffer;
 	private Minimap minimap;
 	private PImage backdrop;
 
@@ -60,10 +61,12 @@ public class Canvas extends PApplet {
 	public void setup() {
 		// setup the size and use 3D renderer
 		size(maxWidth, maxHeight);
+		// size(maxWidth, maxHeight);
 
 		// initialize the 3D perspective component
 		PGraphics layer3D = createGraphics(maxWidth, maxHeight, P3D);
 		perspective = new Perspective3D(this, gameState, layer3D);
+		// perspective = new Perspective3D(this, gameState);
 
 		// initialize the HUD components
 		minimap = new Minimap(this, gameState);
@@ -75,7 +78,7 @@ public class Canvas extends PApplet {
 		minim = new Minim(this);
 		track = minim.loadFile("assets/audio/important4.mp3");
 		track.play();
-		//track.loop();
+		// track.loop();
 	}
 
 	/**
@@ -163,5 +166,23 @@ public class Canvas extends PApplet {
 			xOffset = (int) (newWidth - maxWidth * scalingAmount) / 2;
 			yOffset = 0;
 		}
+	}
+
+	// ///////////////////////////////////////////////////////////
+	// Set the applets main canvas to the given one /////////////
+	// ///////////////////////////////////////////////////////////
+	public PGraphics drawOn(PGraphics canvas) {
+		buffer = g;
+		g = canvas;
+		g.beginDraw();
+		return canvas;
+	}
+
+	// ///////////////////////////////////////////////////////////
+	// Reset the applets main canvas ////////////////////////////
+	// ///////////////////////////////////////////////////////////
+	public void drawOff() {
+		g.endDraw();
+		g = buffer;
 	}
 }

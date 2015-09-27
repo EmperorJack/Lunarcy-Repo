@@ -145,4 +145,8 @@ public class WalkableSquare implements Square {
 	public String getDescription() {
 		return description;
 	}
+	
+	public boolean isInside() {
+		return inside;
+	}
 }
