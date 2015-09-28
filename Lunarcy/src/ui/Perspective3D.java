@@ -1,7 +1,11 @@
 package ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import game.GameState;
+import game.Player;
 import processing.core.*;
-import game.*;
 
 /**
  * The view that displays the player perspective of the game world in 3D.
@@ -22,13 +26,17 @@ public class Perspective3D extends DrawingComponent {
 	private final int vel = SQUARE_SIZE / 50;
 	private int r, g, b;
 
+	// player fields
+	private int playerID;
+	private List<Player> players;
+
 	// camera fields
 	private PVector camEye;
 	private PVector camCenter;
 	private float rotationAngle = 0;
 	private float elevationAngle = 0;
 
-	public Perspective3D(PApplet p, GameState gameState) {
+	public Perspective3D(PApplet p, GameState gameState, int playerID) {
 		// public Perspective3D(PApplet p, GameState gameState) {
 		super(p, gameState);
 
@@ -46,7 +54,7 @@ public class Perspective3D extends DrawingComponent {
 
 	@Override
 	public void update(GameState gameState) {
-		// TODO update the Perspective3D with updated game state
+		players = new ArrayList<Player>(gameState.getPlayers());
 	}
 
 	@Override

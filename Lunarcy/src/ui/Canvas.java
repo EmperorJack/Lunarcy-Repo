@@ -1,5 +1,9 @@
 package ui;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import control.Client;
 import ddf.minim.*;
 import game.GameState;
 import processing.core.*;
@@ -14,7 +18,7 @@ import processing.core.*;
  *
  */
 @SuppressWarnings("serial")
-public class Canvas extends PApplet {
+public class Canvas extends PApplet implements KeyListener {
 
 	// canvas dimensional fields
 	private final int maxWidth;
@@ -23,8 +27,12 @@ public class Canvas extends PApplet {
 	private int xOffset, yOffset = 0;
 
 	// renderer fields
-	private static int TARGET_FPS = 60;
+	private static final int TARGET_FPS = 60;
 	private final String renderer;
+
+	// client field
+	private final Client client;
+	private final int playerID;
 
 	// game state fields
 	private GameState gameState;
@@ -34,6 +42,9 @@ public class Canvas extends PApplet {
 	private Perspective3D perspective;
 	private Minimap minimap;
 	private Oxygen oxygen;
+
+	// player input fields
+	private long keyTimer;
 
 	// audio fields
 	private Minim minim;
@@ -49,10 +60,15 @@ public class Canvas extends PApplet {
 	 * @param gameState
 	 *            The initial state of the game to be drawn.
 	 */
-	public Canvas(int w, int h, GameState gameState, boolean hardwareRenderer) {
+	public Canvas(int w, int h, Client client, GameState gameState,
+			boolean hardwareRenderer) {
 		this.maxWidth = w;
 		this.maxHeight = h;
+		this.client = client;
 		this.gameState = gameState;
+
+		// get the player id from the client entity
+		playerID = client.getPlayerID();
 
 		// determine which renderer should be used
 		if (hardwareRenderer) {
@@ -62,6 +78,10 @@ public class Canvas extends PApplet {
 			// use the software P3D renderer
 			renderer = P3D;
 		}
+
+		// allow player key input
+		keyTimer = System.currentTimeMillis();
+		addKeyListener(this);
 	}
 
 	/**
@@ -72,7 +92,7 @@ public class Canvas extends PApplet {
 		size(maxWidth, maxHeight, renderer);
 
 		// initialize the 3D perspective component
-		perspective = new Perspective3D(this, gameState);
+		perspective = new Perspective3D(this, gameState, playerID);
 
 		// initialize the HUD components
 		minimap = new Minimap(this, gameState);
@@ -86,6 +106,7 @@ public class Canvas extends PApplet {
 		track = minim.loadFile("assets/audio/important2.mp3");
 		track.play();
 		// track.loop();
+		// track.mute();
 	}
 
 	/**
@@ -192,4 +213,30 @@ public class Canvas extends PApplet {
 			yOffset = 0;
 		}
 	}
+
+	// @Override
+	// public void keyPressed(KeyEvent e) {
+	// // check if the timer has been exceeded
+	// long currentTime = System.currentTimeMillis();
+	// if (currentTime - keyTimer > 500) {
+	// // update the timer
+	// keyTimer = currentTime;
+	//
+	// // identify which key pressed
+	// switch (e.getKeyCode()) {
+	// case KeyEvent.VK_W:
+	// System.out.println("move forward");
+	// break;
+	// case KeyEvent.VK_A:
+	// System.out.println("rotate left");
+	// break;
+	// case KeyEvent.VK_S:
+	// System.out.println("move back");
+	// break;
+	// case KeyEvent.VK_D:
+	// System.out.println("rotate right");
+	// break;
+	// }
+	// }
+	// }
 }
