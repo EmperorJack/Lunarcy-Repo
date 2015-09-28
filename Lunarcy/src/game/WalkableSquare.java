@@ -12,13 +12,12 @@ import java.util.Set;
  * @author Robbie
  *
  */
-public class WalkableSquare implements Square {
+public class WalkableSquare extends Square {
 
 	private final String name;
 	private final String description;
 
 	private Map<Direction, Set<Item>> items;
-	private Map<Direction, Wall> walls;
 	private Set<Player> players;
 	private boolean inside;
 
@@ -52,25 +51,6 @@ public class WalkableSquare implements Square {
 			west = new EmptyWall();
 		}
 		walls.put(Direction.West, west);
-	}
-
-	/**
-	 * Toggles a wall on or off. Used for the map builder.
-	 *
-	 * @param dir
-	 * @author Kelly
-	 */
-	public void toggleWall(Direction dir) {
-		Wall currentWall = walls.get(dir);
-		if (currentWall instanceof SolidWall) {
-			walls.put(dir, new EmptyWall());
-		} else {
-			walls.put(dir, new SolidWall());
-		}
-	}
-
-	public Map<Direction, Wall> getWalls() {
-		return walls;
 	}
 
 	/**

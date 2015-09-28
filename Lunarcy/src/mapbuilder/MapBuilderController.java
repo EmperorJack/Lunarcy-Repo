@@ -13,6 +13,8 @@ public class MapBuilderController implements MouseListener,
 		MouseMotionListener, KeyListener {
 	MapBuilder builder;
 	Canvas canvas;
+	int startX;
+	int startY;
 
 	public MapBuilderController(MapBuilder builder, Canvas canvas) {
 		this.builder = builder;
@@ -27,7 +29,8 @@ public class MapBuilderController implements MouseListener,
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		startX = e.getX();
+		startY = e.getY();
 
 	}
 
@@ -87,6 +90,9 @@ public class MapBuilderController implements MouseListener,
 				e1.printStackTrace();
 			}
 		}
+		if (e.getKeyChar() == 'm'){
+			builder.toggleWalkable();
+		}
 		canvas.repaint();
 
 	}
@@ -99,7 +105,8 @@ public class MapBuilderController implements MouseListener,
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
+		builder.doSelect(startX, startY, e.getX(), e.getY());
+		canvas.repaint();
 
 	}
 
