@@ -9,7 +9,7 @@ import processing.core.*;
  * dimensions of the entire drawing area. It calls upon separate drawing
  * components to render each frame, these include the 3D perspective and heads
  * up display components.
- * 
+ *
  * @author Jack
  *
  */
@@ -22,8 +22,9 @@ public class Canvas extends PApplet {
 	private float scalingAmount = 1;
 	private int xOffset, yOffset = 0;
 
-	// draw tick fields
+	// renderer fields
 	private static int TARGET_FPS = 60;
+	private final String renderer;
 
 	// game state fields
 	private GameState gameState;
@@ -32,6 +33,7 @@ public class Canvas extends PApplet {
 	// drawing components
 	private Perspective3D perspective;
 	private Minimap minimap;
+	private Oxygen oxygen;
 
 	// audio fields
 	private Minim minim;
@@ -47,10 +49,19 @@ public class Canvas extends PApplet {
 	 * @param gameState
 	 *            The initial state of the game to be drawn.
 	 */
-	public Canvas(int w, int h, GameState gameState) {
+	public Canvas(int w, int h, GameState gameState, boolean hardwareRenderer) {
 		this.maxWidth = w;
 		this.maxHeight = h;
 		this.gameState = gameState;
+
+		// determine which renderer should be used
+		if (hardwareRenderer) {
+			// use the hardware OpenGL renderer
+			renderer = OPENGL;
+		} else {
+			// use the software P3D renderer
+			renderer = P3D;
+		}
 	}
 
 	/**
@@ -58,25 +69,28 @@ public class Canvas extends PApplet {
 	 */
 	public void setup() {
 		// setup the size and use 3D renderer
-		size(maxWidth, maxHeight, OPENGL);
-		hint(ENABLE_OPENGL_4X_SMOOTH);
+		size(maxWidth, maxHeight, renderer);
 
 		// initialize the 3D perspective component
 		perspective = new Perspective3D(this, gameState);
+
+		// initialize the HUD components
+		minimap = new Minimap(this, gameState);
+		oxygen = new Oxygen(this, gameState);
 
 		// initialize the heads up display components
 		minimap = new Minimap(this, gameState);
 
 		// audio setup
 		minim = new Minim(this);
-		track = minim.loadFile("assets/audio/important4.mp3");
+		track = minim.loadFile("assets/audio/important2.mp3");
 		track.play();
-		// /track.loop();
+		// track.loop();
 	}
 
 	/**
 	 * Updates the game state by replacing the local copy with a new one.
-	 * 
+	 *
 	 * @param gameState
 	 *            The new state of the game to be drawn.
 	 */
@@ -96,6 +110,7 @@ public class Canvas extends PApplet {
 			// update each component
 			perspective.update(gameState);
 			minimap.update(gameState);
+			oxygen.update(gameState);
 
 			// the state has now been updated
 			stateUpdated = false;
@@ -115,12 +130,10 @@ public class Canvas extends PApplet {
 		// clear the screen
 		background(100);
 
-		// image(backdrop, 0, 0);
-
 		// adjust matrix scaling and offset
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
-		
+
 		// draw the 3D perspective
 		perspective.draw(delta);
 
@@ -135,6 +148,7 @@ public class Canvas extends PApplet {
 
 		// draw the heads up display components
 		minimap.draw(delta);
+		oxygen.draw(delta);
 
 		// draw the frame rate string
 		fill(255);

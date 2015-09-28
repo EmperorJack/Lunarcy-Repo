@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  * Maintains the Swing window for the Lunarcy game. Handles the confirmation
  * dialog that appears when a user attempts to close their client. Contains the
  * Processing canvas component that handles all rendering of the game state.
- * 
+ *
  * @author Jack & Ben
  *
  */
@@ -36,7 +36,7 @@ public class Frame extends JFrame {
 	// the processing canvas
 	private final Canvas canvas;
 
-	public Frame(GameState gameState) {
+	public Frame(GameState gameState, boolean hardwareRenderer) {
 		setTitle("Lunarcy");
 		setSize(INIT_WIDTH, INIT_HEIGHT);
 
@@ -58,7 +58,7 @@ public class Frame extends JFrame {
 
 		// setup processing canvas
 		setLayout(new BorderLayout());
-		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, gameState);
+		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, gameState, hardwareRenderer);
 		add(canvas, BorderLayout.CENTER);
 
 		// setup panel resize listener
@@ -86,7 +86,7 @@ public class Frame extends JFrame {
 	}
 
 	public static void main(String args[]) {
-		new Frame(createTestGameState1(20, 20));
+		new Frame(createTestGameState1(20, 20), true);
 	}
 
 	public static GameState createTestGameState1(int w, int h) {
@@ -94,24 +94,34 @@ public class Frame extends JFrame {
 		GameState state = new GameState(w, h);
 
 		// populate the state board
-		/*
-		 * for (int x = 0; x < w; x++) {
-		 * 
-		 * Wall east = null; Wall west = null;
-		 * 
-		 * if (x == 0) { west = new SolidWall(); } else if (x == w - 1) { east =
-		 * new SolidWall(); }
-		 * 
-		 * for (int y = 0; y < h; y++) { Wall north = null; Wall south = null;
-		 * 
-		 * if (y == 0) { north = new SolidWall(); } else if (y == h - 1) { south
-		 * = new SolidWall(); }
-		 * 
-		 * state.setSquare(new Location(x, y), new WalkableSquare("test",
-		 * "test description", (Math.random() < 0.5), north, east, south,
-		 * west)); } }
-		 */
-		
+
+		// for (int x = 0; x < w; x++) {
+		//
+		// Wall east = null;
+		// Wall west = null;
+		//
+		// if (x == 0) {
+		// west = new SolidWall();
+		// } else if (x == w - 1) {
+		// east = new SolidWall();
+		// }
+		//
+		// for (int y = 0; y < h; y++) {
+		// Wall north = null;
+		// Wall south = null;
+		//
+		// if (y == 0) {
+		// north = new SolidWall();
+		// } else if (y == h - 1) {
+		// south = new SolidWall();
+		// }
+		//
+		// state.setSquare(new Location(x, y), new WalkableSquare("test",
+		// "test description", (Math.random() < 0.5), north, east,
+		// south, west));
+		// }
+		// }
+
 		// load the board state from the map.xml
 		state.load();
 

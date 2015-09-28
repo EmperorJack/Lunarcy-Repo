@@ -16,7 +16,7 @@ public class Server {
 		private static final int PORT = 58627;
 		private ArrayList<ClientConnection> clientList = new ArrayList<ClientConnection>();
 		private LinkedBlockingQueue<NetworkAction> messageQueue = new LinkedBlockingQueue<NetworkAction>();
-	
+
 		Server(int maxClients){
 			this.maxClients = maxClients;
 			try {
@@ -25,16 +25,16 @@ public class Server {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			processActions();
+			//processActions();
 		}
-		
-	private void processActions() {
-			while(true){
-				if(!messageQueue.isEmpty()){
-					System.out.println();
-				}
-			}
-		}
+
+//	private void processActions() {
+//			while(true){
+//				if(!messageQueue.isEmpty()){
+//					System.out.println();
+//				}
+//			}
+//		}
 
 	private void listenForClients() throws IOException{
 		System.out.println("Listeneing for clients");
@@ -43,7 +43,6 @@ public class Server {
 			Socket s = serverSocket.accept();
 			int clientID = clientList.size();
 			ClientConnection client = new ClientConnection(s,clientID);
-			//client.start();
 			clientList.add(client);
 		}
 	}
@@ -56,9 +55,8 @@ public class Server {
 		ObjectInputStream inputFromClient;
         ObjectOutputStream outputToClient;
 		int clientID;
-		String userName;
-		//Color colour;
-		
+		String username;
+
 		ClientConnection(Socket socket, int id) throws IOException {
 			this.socket = socket;
 			clientID = id;
@@ -68,36 +66,46 @@ public class Server {
 			try{
 			    Thread.sleep(500);
 			} catch(InterruptedException ex){Thread.currentThread().interrupt();}
-			
+
 			// Read the user name sent from the client
         	try{
-				this.userName = (String) inputFromClient.readObject();
+				this.username = (String) inputFromClient.readObject();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-        	System.out.println("new Client" + clientID);
-        	
+        	System.out.println("Server: new Client: " + username + " "+ clientID);
+        	try{
+        		outputToClient.writeInt(clientID);//write(clientID); //send clients ID
+        	}catch(IOException e){
+        		e.printStackTrace();
+        	}
+        	System.out.println("wrote id to client" + clientID);
+
         	// Begin listening to this client
         	new Thread(new Runnable(){ public void run(){
         		listenToClient();
             }}).start();
 		}
-		
+
 		public void listenToClient(){
     		// While the client is sending messages
     		while (true){
     			NetworkAction action = null;
 				try {
 					action = (NetworkAction)inputFromClient.readObject();
-				} catch (ClassNotFoundException | IOException e) {
-					// TODO Auto-generated catch block
+				} catch (IOException e) {
+					// TODO handle disconnected client - this may not be the right way since an IOException could occur for other reasons
+					System.err.println("Client " + clientID + "Disconnected");
+					e.printStackTrace();
+				} catch(ClassNotFoundException e){
 					e.printStackTrace();
 				}
 				if(action != null)messageQueue.add(action);
-    			  
+    			MoveAction a = (MoveAction)action;
+    			System.out.println("Server: id "+ a.getPlayerID() + "  " + a.getDirection());
     		}
     	}
-    	
+
     	/**
     	 * Send a message to the client
     	 */
@@ -105,7 +113,7 @@ public class Server {
     	{
     		if (!message.equals(null))
     		{
-    			
+
     			try {
     				outputToClient.writeObject("Yo");
 					outputToClient.flush();
@@ -115,5 +123,9 @@ public class Server {
 				}
     		}
     	}
+	}
+
+	public static void main(String[] args) {
+		new Server(5);
 	}
 }

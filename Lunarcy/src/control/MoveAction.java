@@ -1,28 +1,34 @@
 package control;
 
+import game.Direction;
 import java.io.Serializable;
 
+/**
+ * A class for representing a players movement on the board,
+ * Can be sent over the network
+ * @author denforjohn
+ *
+ */
 public class MoveAction implements NetworkAction, Serializable {
+
 	int playerID;
-	private int destX;
-	private int destY;
-	
-	public MoveAction(int playerID, int destX, int destY) {
+	private Direction direction;
+
+	/**
+	 *
+	 * @param playerID ID of the player to move
+	 * @param direction Desired direction
+	 */
+	public MoveAction(int playerID, Direction direction) {
 		this.playerID = playerID;
-		this.destX = destX;
-		this.destY = destY;
+		this.direction = direction;
 	}
 
 	public int getPlayerID() {
 		return playerID;
 	}
 
-	public int getDestX() {
-		return destX;
+	public Direction getDirection() {
+		return direction;
 	}
-
-	public int getDestY() {
-		return destY;
-	}
-
 }

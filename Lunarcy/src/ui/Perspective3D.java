@@ -7,7 +7,7 @@ import game.*;
 /**
  * The view that displays the player perspective of the game world in 3D.
  * Renders onto a 3D PGrapihcs layer before drawing onto the parent canvas.
- * 
+ *
  * @author Jack & Kelly
  *
  */
@@ -22,7 +22,8 @@ public class Perspective3D extends DrawingComponent {
 	private Square[][] world;
 	private final int SQUARE_SIZE = 500;
 	private final float MODEL_SCALE = SQUARE_SIZE / 2.5f;
-	private final int vel = SQUARE_SIZE / 30;
+	private final int vel = SQUARE_SIZE / 50;
+	private int r, g, b;
 
 	// camera fields
 	private PVector camEye;
@@ -80,7 +81,12 @@ public class Perspective3D extends DrawingComponent {
 		// test light source and sphere
 		p.pushMatrix();
 		p.translate(500, 500, SQUARE_SIZE / 2);
-		p.pointLight(200, 255, 200, 0, 0, 0);
+		if (p.frameCount % 60 == 0) {
+			r = (int) p.random(255);
+			g = (int) p.random(255);
+			b = (int) p.random(255);
+		}
+		p.pointLight(r, g, b, 0, 0, 0);
 		p.fill(0, 0, 255);
 		p.sphere(10);
 		p.popMatrix();
@@ -94,9 +100,14 @@ public class Perspective3D extends DrawingComponent {
 
 		// draw test board
 		p.pushMatrix();
-		p.stroke(0);
+		//p.stroke(0);
 		p.strokeWeight(5);
 		p.rotateX(PApplet.PI / 2);
+
+		//p.scale(PApplet.sin(PApplet.radians(p.frameCount)));
+		//p.rotateX(PApplet.radians(p.frameCount));
+		//p.rotateY(PApplet.radians(p.frameCount));
+		//p.rotateZ(PApplet.radians(p.frameCount / 4));
 
 		// VERY VERBOSE need to think of way to store map on construction!
 		for (int y = 0; y < world.length; y++) {
@@ -122,11 +133,11 @@ public class Perspective3D extends DrawingComponent {
 					}
 
 					if (ws.getWalls().get(Direction.South) instanceof SolidWall) {
-						renderWall(0, 1, 1, 0);
+						renderWall(1, 1, 1, 2);
 					}
 
 					if (ws.getWalls().get(Direction.West) instanceof SolidWall) {
-						renderWall(0, 0, 1, 1);
+						renderWall(0, 1, 1, 3);
 					}
 					p.popMatrix();
 				}
@@ -160,7 +171,8 @@ public class Perspective3D extends DrawingComponent {
 		p.translate(0, 0, SQUARE_SIZE);
 
 		p.fill(100);
-		p.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+		//p.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+		tempGifAnimation.display(0, 0, SQUARE_SIZE, SQUARE_SIZE);
 
 		p.popMatrix();
 	}
