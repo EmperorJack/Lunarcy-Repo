@@ -22,7 +22,7 @@ public class Perspective3D extends DrawingComponent {
 	private Square[][] world;
 	private final int SQUARE_SIZE = 500;
 	private final float MODEL_SCALE = SQUARE_SIZE / 2.5f;
-	private final int vel = SQUARE_SIZE / 50;
+	private final int vel = SQUARE_SIZE / 30;
 
 	// camera fields
 	private PVector camEye;
@@ -37,7 +37,7 @@ public class Perspective3D extends DrawingComponent {
 		tempGifAnimation = new Animation("assets/animations/shrek/shrek_", 20);
 
 		// camera setup
-		camEye = new PVector(0, -150, 0);
+		camEye = new PVector(0, -100, 0);
 		camCenter = new PVector(0, 0, 0);
 
 		// world setup
