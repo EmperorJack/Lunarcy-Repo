@@ -9,7 +9,7 @@ import processing.core.*;
  * dimensions of the entire drawing area. It calls upon separate drawing
  * components to render each frame, these include the 3D perspective and heads
  * up display components.
- * 
+ *
  * @author Jack
  *
  */
@@ -76,7 +76,7 @@ public class Canvas extends PApplet {
 
 	/**
 	 * Updates the game state by replacing the local copy with a new one.
-	 * 
+	 *
 	 * @param gameState
 	 *            The new state of the game to be drawn.
 	 */
@@ -120,7 +120,7 @@ public class Canvas extends PApplet {
 		// adjust matrix scaling and offset
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
-		
+
 		// draw the 3D perspective
 		perspective.draw(delta);
 
