@@ -3,7 +3,6 @@ package ui;
 import ddf.minim.*;
 import game.GameState;
 import processing.core.*;
-import processing.opengl.*;
 
 /**
  * The primary Processing PApplet, our drawing canvas. This canvas maintains the
@@ -32,8 +31,6 @@ public class Canvas extends PApplet {
 
 	// drawing components
 	private Perspective3D perspective;
-	private PGraphics hud;
-	private PGraphics buffer;
 	private Minimap minimap;
 	private Oxygen oxygen;
 	private PImage backdrop;
@@ -59,17 +56,15 @@ public class Canvas extends PApplet {
 	}
 
 	/**
-	 * When the canvas has been init().
+	 * Initializes the canvas when init() is called.
 	 */
 	public void setup() {
 		// setup the size and use 3D renderer
-		// size(maxWidth, maxHeight);
 		size(maxWidth, maxHeight, OPENGL);
+		hint(ENABLE_OPENGL_4X_SMOOTH);
 
 		// initialize the 3D perspective component
-		//PGraphics layer3D = createGraphics(maxWidth, maxHeight, OPENGL);
-		//perspective = new Perspective3D(this, gameState, layer3D);
-		perspective = new Perspective3D(this, gameState, g);
+		perspective = new Perspective3D(this, gameState);
 
 		// initialize the HUD components
 
@@ -86,6 +81,14 @@ public class Canvas extends PApplet {
 		//track.play();
 		//track.loop();
 
+		// initialize the heads up display components
+		minimap = new Minimap(this, gameState);
+
+		// audio setup
+		minim = new Minim(this);
+		track = minim.loadFile("assets/audio/important4.mp3");
+		track.play();
+		// /track.loop();
 	}
 
 	/**
@@ -96,6 +99,8 @@ public class Canvas extends PApplet {
 	 */
 	public synchronized void setGameState(GameState gameState) {
 		this.gameState = gameState;
+
+		// enable updating of drawing components next frame
 		stateUpdated = true;
 	}
 
@@ -126,14 +131,14 @@ public class Canvas extends PApplet {
 		update();
 
 		// clear the screen
-		background(255);
+		background(100);
+
+		// image(backdrop, 0, 0);
 
 		// adjust matrix scaling and offset
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
-
-		//image(backdrop, 0, 0);
-
+		
 		// draw the 3D perspective
 		perspective.draw(delta);
 
@@ -141,25 +146,27 @@ public class Canvas extends PApplet {
 		hint(DISABLE_DEPTH_TEST);
 		hint(ENABLE_DEPTH_TEST);
 		camera();
-		//hud.beginDraw();
+		noLights();
+
+		translate(xOffset, yOffset);
+		scale(scalingAmount);
 
 		// draw the heads up display components
 		minimap.draw(delta);
 		oxygen.draw(delta);
 
 		// draw the frame rate string
-		pushMatrix();
-		pushStyle();
-		fill(0);
+		fill(255);
 		textSize(40);
 		text(frameRate, maxWidth - 200, 50);
 		text(delta, maxWidth - 200, 100);
-		popStyle();
-		popMatrix();
 
-		// finish drawing onto the heads up display layer
-		//hud.endDraw();
-		//image(hud, 0, 0);
+		// draw the black borders
+		fill(0);
+		rect(0, 0, maxWidth, -maxHeight);
+		rect(0, maxHeight, maxWidth, maxHeight);
+		rect(0, 0, -maxWidth, maxHeight);
+		rect(maxWidth, 0, maxWidth, maxHeight);
 	}
 
 	/**
@@ -189,23 +196,5 @@ public class Canvas extends PApplet {
 			xOffset = (int) (newWidth - maxWidth * scalingAmount) / 2;
 			yOffset = 0;
 		}
-	}
-
-	// ///////////////////////////////////////////////////////////
-	// Set the applets main canvas to the given one /////////////
-	// ///////////////////////////////////////////////////////////
-	public PGraphics drawOn(PGraphics canvas) {
-		buffer = g;
-		g = canvas;
-		g.beginDraw();
-		return canvas;
-	}
-
-	// ///////////////////////////////////////////////////////////
-	// Reset the applets main canvas ////////////////////////////
-	// ///////////////////////////////////////////////////////////
-	public void drawOff() {
-		g.endDraw();
-		g = buffer;
 	}
 }

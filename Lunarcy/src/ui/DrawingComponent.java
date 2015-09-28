@@ -13,14 +13,10 @@ public abstract class DrawingComponent {
 
 	// the parent processing canvas
 	protected PApplet p;
-	
-	// the graphics layer to draw onto
-	protected PGraphics g;
 
-	public DrawingComponent(PApplet p, GameState gameState, PGraphics g) {
+	public DrawingComponent(PApplet p, GameState gameState) {
 		// set the parent canvas and graphics layer
 		this.p = p;
-		this.g = g;
 
 		// set the initial game state
 		update(gameState);

@@ -46,12 +46,12 @@ public class Minimap extends DrawingComponent {
 	@Override
 	public void draw(float delta) {
 		// push matrix and style information onto the stack
-		g.pushMatrix();
-		g.pushStyle();
+		p.pushMatrix();
+		p.pushStyle();
 
 		// translate to create the padding
-		g.translate(LEFT_PADDING, TOP_PADDING);
-		g.stroke(0, 70);
+		p.translate(LEFT_PADDING, TOP_PADDING);
+		p.stroke(0, 70);
 
 		// Go through each square, drawing it
 		for (int i = 0; i < BOARD.length; i++) {
@@ -69,12 +69,11 @@ public class Minimap extends DrawingComponent {
 				//EMPTY SQUARE DONT DRAW
 				case 2:
 					break;
-				}
 			}
 		}
 
 		// pop matrix and style information from the stack
-		g.popStyle();
-		g.popMatrix();
+		p.popStyle();
+		p.popMatrix();
 	}
 }
