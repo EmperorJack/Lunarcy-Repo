@@ -36,8 +36,8 @@ public class Canvas extends PApplet {
 	private PImage backdrop;
 
 	// audio fields
-	//private Minim minim;
-	//private AudioPlayer track;
+	private Minim minim;
+	private AudioPlayer track;
 
 	/**
 	 * Setup a new Processing Canvas.
@@ -67,19 +67,11 @@ public class Canvas extends PApplet {
 		perspective = new Perspective3D(this, gameState);
 
 		// initialize the HUD components
-
-		//hud = createGraphics(maxWidth, maxHeight, P2D);
-		minimap = new Minimap(this, gameState, g);
-		oxygen = new Oxygen(this, gameState, g);
+		minimap = new Minimap(this, gameState);
+		oxygen = new Oxygen(this, gameState);
 
 		// temporary backdrop
 		backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
-
-		// audio setup
-		//minim = new Minim(this);
-		//track = minim.loadFile("assets/audio/important4.mp3");
-		//track.play();
-		//track.loop();
 
 		// initialize the heads up display components
 		minimap = new Minimap(this, gameState);
@@ -87,7 +79,7 @@ public class Canvas extends PApplet {
 		// audio setup
 		minim = new Minim(this);
 		track = minim.loadFile("assets/audio/important4.mp3");
-		track.play();
+		//track.play();
 		// /track.loop();
 	}
 

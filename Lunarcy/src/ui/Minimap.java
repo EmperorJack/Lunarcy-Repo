@@ -12,27 +12,26 @@ import processing.core.*;
 public class Minimap extends DrawingComponent {
 
 	// TEMPORARY FIELDS: while we do not have a board in gamestate
-	private final int[][] BOARD = new int[][] { { 0, 0, 1 }, { 2, 1, 1 },
-			{ 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 },
-			{ 0, 0, 2 } };
+	private final int[][] BOARD = new int[][] { { 0, 0, 1 }, { 2, 1, 1 }, { 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 },
+			{ 0, 0, 0 }, { 1, 1, 1 }, { 0, 0, 2 } };
 	private final int SIZE = 30;
 
 	// How far in from the left (x axis)
 	private final int LEFT_PADDING = 25;
 	// How far down from the top (y axis)
 	private final int TOP_PADDING = 25;
-	
-	//Images to preload
+
+	// Images to preload
 	private final PImage OUTDOOR_GROUND;
 	private final PImage INDOOR_GROUND;
-	//private final PImage UNACCESIBLE_SQUARE;
+	// private final PImage UNACCESIBLE_SQUARE;
 
-	public Minimap(PApplet p, GameState gameState, PGraphics g) {
-		super(p, gameState, g);
-		
+	public Minimap(PApplet p, GameState gameState) {
+		super(p, gameState);
+
 		OUTDOOR_GROUND = p.loadImage("assets/minimap/outdoor.png");
 		INDOOR_GROUND = p.loadImage("assets/minimap/indoor.png");
-		
+
 		OUTDOOR_GROUND.resize(SIZE, SIZE);
 		INDOOR_GROUND.resize(SIZE, SIZE);
 	}
@@ -58,20 +57,22 @@ public class Minimap extends DrawingComponent {
 			for (int j = 0; j < BOARD[i].length; j++) {
 				// Set the colour based on square type
 				switch (BOARD[i][j]) {
-				//OUTDOOR SQUARE
+				// OUTDOOR SQUARE
 				case 0:
-					g.image(OUTDOOR_GROUND, i * SIZE, j * SIZE);
+					p.image(OUTDOOR_GROUND, i * SIZE, j * SIZE);
 					break;
-				//INDOOR SQUARE
+				// INDOOR SQUARE
 				case 1:
-					g.image(INDOOR_GROUND, i * SIZE, j * SIZE);
+					p.image(INDOOR_GROUND, i * SIZE, j * SIZE);
 					break;
-				//EMPTY SQUARE DONT DRAW
+				// EMPTY SQUARE DONT DRAW
 				case 2:
 					break;
+				}
 			}
-		}
 
+		}
+		
 		// pop matrix and style information from the stack
 		p.popStyle();
 		p.popMatrix();
