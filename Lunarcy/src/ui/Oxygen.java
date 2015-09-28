@@ -14,19 +14,19 @@ import processing.core.PGraphics;
  */
 public class Oxygen extends DrawingComponent {
 
-	private float oxygen = 200; //TEMP
+	private float oxygen = 170; //TEMP
 	
 	//Where the oxygen bar starts (x)
-	private final int LEFT_PADDING = (int)(p.width*0.9);
+	private final int LEFT_PADDING = (int)(p.width*0.85);
 	//Where the oxygen bar starts (y)
-	private final int TOP_PADDING = (int)(p.height*0.9);
+	private final int TOP_PADDING = (int)(p.height*0.8);
 	
 	//Sizing of the oxygen tank
-	private final int CYLINDERWIDTH = 200;
-	private final int CYLINDERHEIGHT = 55;
+	private final int CYLINDERWIDTH = 170;
+	private final int CYLINDERHEIGHT = 35;
 	
 	//Size of the dial on the oxygen tank
-	private final int DIALSIZE = 15;
+	private final int DIALSIZE = 10;
 
 	public Oxygen(PApplet p, GameState gameState) {
 		super(p, gameState);
@@ -41,29 +41,38 @@ public class Oxygen extends DrawingComponent {
 	public void draw(float delta) {
 		p.noStroke();
 
+		p.pushMatrix();
+		p.pushStyle();
+		
+		//Translate drawing to match location
+		p.translate(LEFT_PADDING, TOP_PADDING);
+		
 		// Draw the cylinder
 		p.fill(139, 158, 162);
-		p.rect(LEFT_PADDING, TOP_PADDING, CYLINDERWIDTH, CYLINDERHEIGHT);
+		p.rect(0, 0, CYLINDERWIDTH, CYLINDERHEIGHT);
 
 		// Draw the knob
-		p.rect(LEFT_PADDING, TOP_PADDING, 20, 10);
+		p.rect(-35, CYLINDERHEIGHT/2-DIALSIZE/4, 20, DIALSIZE/2);
 
 		// Draw the top section
 		p.fill(0, 150, 104);
-		p.rect(LEFT_PADDING, TOP_PADDING, 35, CYLINDERHEIGHT);
-		//p.ellipse(CLYLINDERLEFTSIDE+30+CYLINDERHEIGHT/2, 25+CYLINDERHEIGHT/2, CYLINDERHEIGHT, CYLINDERHEIGHT);
-		p.ellipse(LEFT_PADDING, TOP_PADDING+CYLINDERHEIGHT/2, CYLINDERHEIGHT, CYLINDERHEIGHT);
+		p.rect(0, 0, 17, CYLINDERHEIGHT);
+		p.ellipse(0, CYLINDERHEIGHT/2, CYLINDERHEIGHT, CYLINDERHEIGHT);
 
 		// Draw the dial
 		p.stroke(1);
 		p.fill(255, 255, 255);
-		p.ellipse(LEFT_PADDING-CYLINDERHEIGHT/2, TOP_PADDING+CYLINDERHEIGHT/2, DIALSIZE, DIALSIZE);
+		p.ellipse(-CYLINDERHEIGHT/2, CYLINDERHEIGHT/2, DIALSIZE, DIALSIZE);
 
 		// Draw the remaining amount of oxygen
 		p.noStroke();
 		p.fill(0, 0, 0, 100);
-		p.rect(LEFT_PADDING+(CYLINDERWIDTH-oxygen), TOP_PADDING, CYLINDERWIDTH, CYLINDERHEIGHT);
+		p.rect(CYLINDERWIDTH-oxygen, 0, CYLINDERWIDTH, CYLINDERHEIGHT);
 		oxygen-=.5;
+		
+		// pop matrix and style information from the stack
+		p.popStyle();
+		p.popMatrix();
 	}
 
 }

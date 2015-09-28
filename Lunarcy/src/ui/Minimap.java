@@ -14,7 +14,7 @@ public class Minimap extends DrawingComponent {
 	// TEMPORARY FIELDS: while we do not have a board in gamestate
 	private final int[][] BOARD = new int[][] { { 0, 0, 1 }, { 2, 1, 1 }, { 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 },
 			{ 0, 0, 0 }, { 1, 1, 1 }, { 0, 0, 2 } };
-	private final int SIZE = 30;
+	private final int SIZE = 20;
 
 	// How far in from the left (x axis)
 	private final int LEFT_PADDING = 25;
@@ -52,6 +52,9 @@ public class Minimap extends DrawingComponent {
 		p.translate(LEFT_PADDING, TOP_PADDING);
 		p.stroke(0, 70);
 
+		//Draw at half opacity
+		p.tint(255, 127);
+		
 		// Go through each square, drawing it
 		for (int i = 0; i < BOARD.length; i++) {
 			for (int j = 0; j < BOARD[i].length; j++) {
