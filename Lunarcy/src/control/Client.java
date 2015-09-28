@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+//import com.sun.corba.se.impl.ior.NewObjectKeyTemplateBase;
+
 public class Client {
 	// Network related fields
 		private String serverAddr;
@@ -17,7 +19,8 @@ public class Client {
 		private Socket socket;
 		private ObjectInputStream inputFromServer;
 		private ObjectOutputStream outputToServer;
-		private int myClientID;
+		private int id;
+		private String name;
 
 		Client(String serverAddr, String name){
 			this.serverAddr = serverAddr;
@@ -29,11 +32,13 @@ public class Client {
 				System.out.println("Couldn't establish connection");
 				e.printStackTrace();
 			}
-			writeObject("IDID");
+			writeObject(name);
+			System.out.println("have written name" + name);
 			readID();
-
+			System.out.println("have read ID"+ id);
 			//this will be replaced with actionlisteners
 			Scanner sc = new Scanner(System.in);
+			System.out.println("Enter command");
 			outerloop:
 			while(true){
 				while(sc.hasNext()){
@@ -41,26 +46,24 @@ public class Client {
 					if(input.equals("q"))break outerloop;
 					switch (input) {
 					case "w":
-						writeObject(new MoveAction(myClientID,Direction.North));
+						writeObject(new MoveAction(id,Direction.North));
 						break;
 					case "a":
-						writeObject(new MoveAction(myClientID,Direction.West));
+						writeObject(new MoveAction(id,Direction.West));
 						break;
 					case "s":
-						writeObject(new MoveAction(myClientID,Direction.South));
+						writeObject(new MoveAction(id,Direction.South));
 						break;
 					case "d":
-						writeObject(new MoveAction(myClientID,Direction.East));
+						writeObject(new MoveAction(id,Direction.East));
 						break;
 					case "p":
-						writeObject(new PickupAction(myClientID,(int)(Math.random()*100))); //TODO this is placeholder for random object
+						writeObject(new PickupAction(id,(int)(Math.random()*100))); //TODO this is placeholder for random object
 						break;
 					default:
 						break;
 					}
-
 				}
-
 			}
 			//close socket
 			try {
@@ -73,15 +76,14 @@ public class Client {
 		}
 
 		private void readID() {
-			while(true){
-				try {
-					myClientID = inputFromServer.readInt();
-					System.out.println("My ID " + myClientID);
-					break;
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			System.out.println("trying to read ID");
+			try {
+				id = inputFromServer.readInt();
+				System.out.println("My ID " + id);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.err.println("cant read ID");
+				e.printStackTrace();
 			}
 		}
 
@@ -99,7 +101,7 @@ public class Client {
 		}
 
 		public static void main(String[] args){
-			new Client("localhost","JP" + Math.random());
+			new Client("localhost","JP" + (int)(Math.random()*100));
 		}
 }
 

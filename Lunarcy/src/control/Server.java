@@ -73,8 +73,13 @@ public class Server {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-        	outputToClient.write(clientID); //send clients ID
         	System.out.println("Server: new Client: " + username + " "+ clientID);
+        	try{
+        		outputToClient.writeInt(clientID);//write(clientID); //send clients ID
+        	}catch(IOException e){
+        		e.printStackTrace();
+        	}
+        	System.out.println("wrote id to client" + clientID);
 
         	// Begin listening to this client
         	new Thread(new Runnable(){ public void run(){
