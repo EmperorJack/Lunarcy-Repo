@@ -59,7 +59,7 @@ public class Canvas extends PApplet {
 	 */
 	public void setup() {
 		// setup the size and use 3D renderer
-		size(maxWidth, maxHeight, OPENGL);
+		size(maxWidth, maxHeight, P3D);
 		hint(ENABLE_OPENGL_4X_SMOOTH);
 
 		// initialize the 3D perspective component
