@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -47,8 +48,9 @@ public class MapBuilder {
 		map = new Square[20][20];
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				map[i][j] = new WalkableSquare("Empty", "Empty", true, null,
-						null, null, null);
+				map[i][j] = new BlankSquare();
+				//map[i][j] = new WalkableSquare("Empty", "Empty", true, null,
+				//		null, null, null);
 			}
 		}
 		gridArea = new Rectangle(GRID_LEFT,GRID_TOP, GRID_SIZE*map[0].length, GRID_SIZE *map.length);
@@ -61,6 +63,19 @@ public class MapBuilder {
 			selected = new Location(selectedX, selectedY);
 		} else {
 			selected = null;
+		}
+	}
+	
+	public void toggleWalkable(){
+		Iterator<Location> tileIterator = selectedTiles.iterator();
+		while (tileIterator.hasNext()){
+			Location currentLoc = tileIterator.next();
+			if (map[currentLoc.getY()][currentLoc.getX()] instanceof BlankSquare){
+				map[currentLoc.getY()][currentLoc.getX()] = new WalkableSquare("Empty", "Empty", true, null,
+						null, null, null);
+			} else {
+				map[currentLoc.getY()][currentLoc.getX()] = new BlankSquare();
+			}
 		}
 	}
 	
@@ -86,27 +101,27 @@ public class MapBuilder {
 	}
 
 	public void setWall(Direction dir) {
-		if (selected != null) {
-			WalkableSquare currentSquare = (WalkableSquare) map[selected.getY()][selected
+		if (selected != null && map[selected.getY()][selected.getX()] instanceof WalkableSquare) {
+			Square currentSquare = map[selected.getY()][selected
 					.getX()];
 			currentSquare.toggleWall(dir);
 			if (dir == Direction.North && selected.getY() > 0) {
-				WalkableSquare adjacentSquare = (WalkableSquare) map[selected
+				Square adjacentSquare = map[selected
 						.getY() - 1][selected.getX()];
 				adjacentSquare.toggleWall(Direction.South);
 			}
 			if (dir == Direction.South && selected.getY() < map.length - 1) {
-				WalkableSquare adjacentSquare = (WalkableSquare) map[selected
+				Square adjacentSquare = map[selected
 						.getY() + 1][selected.getX()];
 				adjacentSquare.toggleWall(Direction.North);
 			}
 			if (dir == Direction.East && selected.getX() < map[0].length - 1) {
-				WalkableSquare adjacentSquare = (WalkableSquare) map[selected
+				Square adjacentSquare = map[selected
 						.getY()][selected.getX() + 1];
 				adjacentSquare.toggleWall(Direction.West);
 			}
 			if (dir == Direction.West && selected.getX() > 0) {
-				WalkableSquare adjacentSquare = (WalkableSquare) map[selected
+				Square adjacentSquare = map[selected
 						.getY()][selected.getX() - 1];
 				adjacentSquare.toggleWall(Direction.East);
 			}
@@ -130,10 +145,12 @@ public class MapBuilder {
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
 				}
+				if (map[i][j] instanceof WalkableSquare){
+					drawSquare(g, (WalkableSquare) map[i][j], GRID_LEFT + j
+							* GRID_SIZE, GRID_TOP + i * GRID_SIZE);
+				}
 				g.drawRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i * GRID_SIZE,
 						GRID_SIZE, GRID_SIZE);
-				drawSquare(g, (WalkableSquare) map[i][j], GRID_LEFT + j
-						* GRID_SIZE, GRID_TOP + i * GRID_SIZE);
 			}
 		}
 		if (dragging){
@@ -165,6 +182,9 @@ public class MapBuilder {
 
 	public void drawSquare(Graphics g, WalkableSquare square, int x, int y) {
 		Map<Direction, Wall> walls = square.getWalls();
+		g.setColor(Color.WHITE);
+		g.fillRect(x,y,GRID_SIZE,GRID_SIZE);
+		g.setColor(Color.BLACK);
 		if (walls.get(Direction.North) instanceof SolidWall) {
 			g.fillRect(x, y, GRID_SIZE, 3);
 		}

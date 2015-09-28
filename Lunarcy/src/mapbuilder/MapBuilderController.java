@@ -90,6 +90,9 @@ public class MapBuilderController implements MouseListener,
 				e1.printStackTrace();
 			}
 		}
+		if (e.getKeyChar() == 'm'){
+			builder.toggleWalkable();
+		}
 		canvas.repaint();
 
 	}
