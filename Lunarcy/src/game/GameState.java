@@ -2,7 +2,10 @@ package game;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import bots.*;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -16,11 +19,21 @@ import com.thoughtworks.xstream.XStream;
  */
 public class GameState {
 	private Square[][] board;
-	private List<Player> players;
+	private Player[] players;
+	private Set<Rover> rovers;
 
 	public GameState(int mapWidth, int mapHeight) {
 		board = new Square[mapWidth][mapHeight];
+		players = new Player[1];
+		rovers = new HashSet<Rover>();
 	}
+	
+	public GameState(int mapWidth, int mapHeight, int numPlayers) {
+		board = new Square[mapWidth][mapHeight];
+		players = new Player[numPlayers];
+		rovers = new HashSet<Rover>();
+	}
+
 
 	/**
 	 * @param location
@@ -82,6 +95,28 @@ public class GameState {
 		      board = (Square[][]) xstream.fromXML(file);
 		} catch (FileNotFoundException e) {
 			
+		}
+	}
+	
+	/**
+	 * Adds a player to the stored array of players, to the index equal to their playerId
+	 * @param player The Player to be added
+	 * @throws IllegalArgumentException if player's id is greater than the number of players in the game
+	 */
+	public void addPlayer(Player player){
+		int id = player.getId();
+		if(id < 0 || id > players.length){
+			throw new IllegalArgumentException("Incorrect Player format, ID is out of range");
+		}else{
+			players[id] = player;
+		}
+	}
+	
+	public Player getPlayer(int playerID){
+		if(playerID < 0 || playerID > players.length){
+			throw new IllegalArgumentException("playerID is out of range");
+		}else{
+			return players[playerID];
 		}
 	}
 

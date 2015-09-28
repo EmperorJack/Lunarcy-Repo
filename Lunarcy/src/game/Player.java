@@ -61,6 +61,14 @@ public class Player {
 	public Direction getOrientation() {
 		return orientation;
 	}
+	
+	public void turnLeft(){
+		orientation = Direction.left(orientation);
+	}
+	
+	public void turnRight(){
+		orientation = Direction.right(orientation);
+	}
 
 	public int getId() {
 		return id;

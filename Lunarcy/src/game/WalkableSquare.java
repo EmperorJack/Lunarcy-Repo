@@ -17,7 +17,7 @@ public class WalkableSquare extends Square {
 	private final String name;
 	private final String description;
 
-	private Map<Direction, Set<Item>> items;
+	private Map<Direction, Set<Entity>> entities;
 	private Set<Player> players;
 	private boolean inside;
 
@@ -27,7 +27,7 @@ public class WalkableSquare extends Square {
 		this.description = description;
 		this.inside = inside;
 
-		items = new HashMap<Direction, Set<Item>>();
+		entities = new HashMap<Direction, Set<Entity>>();
 		players = new HashSet<Player>();
 
 		walls = new HashMap<Direction, Wall>();
@@ -105,39 +105,39 @@ public class WalkableSquare extends Square {
 	}
 
 	/**
-	 * Get the set of items on a certain side of the room. Note: Modifying the
-	 * returned set will not change the items in the room
+	 * Get the set of entities on a certain side of the room. Note: Modifying the
+	 * returned set will not change the entities in the room
 	 * 
 	 * @param side
-	 *            the side of the Square the items are on
-	 * @return Set<Item> of all the items on that side of the room
+	 *            the side of the Square the entities are on
+	 * @return Set<Entity> of all the entities on that side of the room
 	 * @throws IllegalArgumentException
 	 *             if argument is null
 	 */
-	public Set<Item> getItems(Direction side) {
+	public Set<Entity> getEntities(Direction side) {
 		if (side == null)
 			throw new IllegalArgumentException(
 					"Parameter 'side' may not be null");
-		return new HashSet<Item>(items.get(side));
+		return new HashSet<Entity>(entities.get(side));
 	}
 
 	/**
-	 * Adds the item to the set of items on the specified side of the room.
+	 * Adds the entity to the set of entities on the specified side of the room.
 	 *
 	 * @param side
-	 *            the side of the Square to add the item to
-	 * @param item
-	 *            the item to add
-	 * @return True if item could be added, False otherwise
+	 *            the side of the Square to add the entity to
+	 * @param entity
+	 *            the entity to add
+	 * @return True if entity could be added, False otherwise
 	 */
-	public boolean addItem(Direction side, Item item) {
+	public boolean addEntity(Direction side, Entity entity) {
 		if (side == null)
 			throw new IllegalArgumentException(
 					"Parameter 'side' may not be null");
-		if (item == null)
+		if (entity == null)
 			throw new IllegalArgumentException(
-					"Parameter 'item' may not be null");
-		return items.get(side).add(item);
+					"Parameter 'entity' may not be null");
+		return entities.get(side).add(entity);
 	}
 
 	/**
