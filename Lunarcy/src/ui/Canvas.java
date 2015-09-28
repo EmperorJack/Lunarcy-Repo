@@ -158,10 +158,10 @@ public class Canvas extends PApplet {
 
 		// draw the black borders
 		fill(0);
-		rect(0, 0, maxWidth, -maxHeight);
-		rect(0, maxHeight, maxWidth, maxHeight);
-		rect(0, 0, -maxWidth, maxHeight);
-		rect(maxWidth, 0, maxWidth, maxHeight);
+		rect(0, 0, maxWidth, -10 * maxHeight); // top
+		rect(0, maxHeight, maxWidth, 10 * maxHeight); // bottom
+		rect(0, 0, -10 * maxWidth, maxHeight); // left
+		rect(maxWidth, 0, 10 * maxWidth, maxHeight); // right
 	}
 
 	/**

@@ -2,6 +2,7 @@ package ui;
 
 import processing.core.*;
 import saito.objloader.*;
+import saito.objtools.OBJTransform;
 import game.*;
 
 /**
@@ -17,9 +18,7 @@ public class Perspective3D extends DrawingComponent {
 	private Animation tempGifAnimation;
 
 	// 3D world
-	private OBJModel floorModel;
-	private OBJModel wallModel;
-	private Square[][] world;
+	private WorldModel world;
 	private final int SQUARE_SIZE = 500;
 	private final float MODEL_SCALE = SQUARE_SIZE / 2.5f;
 	private final int vel = SQUARE_SIZE / 50;
@@ -35,20 +34,21 @@ public class Perspective3D extends DrawingComponent {
 		// public Perspective3D(PApplet p, GameState gameState) {
 		super(p, gameState);
 
+		// temp gif
 		tempGifAnimation = new Animation("assets/animations/shrek/shrek_", 20);
 
-		// camera setup
-		camEye = new PVector(0, -100, 0);
-		camCenter = new PVector(0, 0, 0);
+		// world model setup
+		world = new WorldModel(p, gameState.getBoard(), MODEL_SCALE,
+				SQUARE_SIZE);
 
-		// world setup
-		floorModel = new OBJModel(p, "assets/models/floor.obj");
-		wallModel = new OBJModel(p, "assets/models/wall.obj");
+		// camera setup
+		camEye = new PVector(SQUARE_SIZE, -100, SQUARE_SIZE);
+		camCenter = new PVector(0, 0, 0);
 	}
 
 	@Override
 	public void update(GameState gameState) {
-		world = gameState.getBoard();
+		// TODO update the Perspective3D with updated game state
 	}
 
 	@Override
@@ -63,12 +63,6 @@ public class Perspective3D extends DrawingComponent {
 		p.camera(camEye.x, camEye.y, camEye.z, camCenter.x, camCenter.y,
 				camCenter.z, 0.0f, 1, 0);
 
-		// float fov = PApplet.PI / 3.0f;
-		// float cameraZ = (p.height / 2.0f) / PApplet.tan(fov / 2.0f);
-		// float aspect = PApplet.parseFloat(p.width)
-		// / PApplet.parseFloat(p.height);
-		// p.perspective(fov, aspect, cameraZ / 100.0f, cameraZ * 100.0f);
-
 		// test north pointer and sphere
 		p.pushMatrix();
 		p.noStroke();
@@ -82,9 +76,9 @@ public class Perspective3D extends DrawingComponent {
 		p.pushMatrix();
 		p.translate(500, 500, SQUARE_SIZE / 2);
 		if (p.frameCount % 60 == 0) {
-			r = (int) p.random(255);
-			g = (int) p.random(255);
-			b = (int) p.random(255);
+			r = (int) p.random(200) + 55;
+			g = (int) p.random(200) + 55;
+			b = (int) p.random(200) + 55;
 		}
 		p.pointLight(r, g, b, 0, 0, 0);
 		p.fill(0, 0, 255);
@@ -98,101 +92,17 @@ public class Perspective3D extends DrawingComponent {
 		tempGifAnimation.display(0, 0, SQUARE_SIZE, SQUARE_SIZE);
 		p.popMatrix();
 
-		// draw test board
-		p.pushMatrix();
-		//p.stroke(0);
-		p.strokeWeight(5);
-		p.rotateX(PApplet.PI / 2);
+		// UNCOMMENT THE FOLLOWING LINES FOR A GOOD TIME
+		// p.scale(PApplet.sin(PApplet.radians(p.frameCount)));
+		// p.rotateX(PApplet.radians(p.frameCount));
+		// p.rotateY(PApplet.radians(p.frameCount));
+		// p.rotateZ(PApplet.radians(p.frameCount / 4));
 
-		//p.scale(PApplet.sin(PApplet.radians(p.frameCount)));
-		//p.rotateX(PApplet.radians(p.frameCount));
-		//p.rotateY(PApplet.radians(p.frameCount));
-		//p.rotateZ(PApplet.radians(p.frameCount / 4));
-
-		// VERY VERBOSE need to think of way to store map on construction!
-		for (int y = 0; y < world.length; y++) {
-			for (int x = 0; x < world[0].length; x++) {
-				Square s = world[y][x];
-				if (s instanceof WalkableSquare) {
-					WalkableSquare ws = (WalkableSquare) s;
-
-					p.pushMatrix();
-					p.translate(SQUARE_SIZE * x, SQUARE_SIZE * y);
-
-					renderFloor();
-					if (ws.isInside()) {
-						renderCeiling();
-					}
-
-					if (ws.getWalls().get(Direction.North) instanceof SolidWall) {
-						renderWall(0, 0, 1, 0);
-					}
-
-					if (ws.getWalls().get(Direction.East) instanceof SolidWall) {
-						renderWall(1, 0, 1, 1);
-					}
-
-					if (ws.getWalls().get(Direction.South) instanceof SolidWall) {
-						renderWall(1, 1, 1, 2);
-					}
-
-					if (ws.getWalls().get(Direction.West) instanceof SolidWall) {
-						renderWall(0, 1, 1, 3);
-					}
-					p.popMatrix();
-				}
-			}
-		}
-		p.popMatrix();
+		// draw the game world
+		world.draw();
 
 		// pop matrix and style information from the stack
 		p.popStyle();
-		p.popMatrix();
-	}
-
-	private void renderFloor() {
-		p.pushMatrix();
-
-		// test drawing the floor obj model
-		p.translate(0, SQUARE_SIZE);
-		p.scale(MODEL_SCALE);
-		p.rotateX(-PApplet.PI / 2);
-
-		p.fill(100);
-		floorModel.disableMaterial();
-		floorModel.drawMode(OBJModel.POLYGON);
-		floorModel.draw();
-
-		p.popMatrix();
-	}
-
-	private void renderCeiling() {
-		p.pushMatrix();
-		p.translate(0, 0, SQUARE_SIZE);
-
-		p.fill(100);
-		//p.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
-		tempGifAnimation.display(0, 0, SQUARE_SIZE, SQUARE_SIZE);
-
-		p.popMatrix();
-	}
-
-	private void renderWall(int transX, int transY, int rotateX, int rotateY) {
-		p.pushMatrix();
-		p.translate(SQUARE_SIZE * transX, SQUARE_SIZE * transY);
-		p.rotateX(PApplet.PI / 2 * rotateX);
-		p.rotateY(PApplet.PI / 2 * rotateY);
-
-		// test drawing the wall obj model
-		p.translate(0, SQUARE_SIZE);
-		p.scale(MODEL_SCALE);
-
-		p.fill(150);
-		wallModel.disableMaterial();
-		wallModel.drawMode(OBJModel.POLYGON);
-		wallModel.draw();
-		//rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
-
 		p.popMatrix();
 	}
 
