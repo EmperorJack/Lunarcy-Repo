@@ -22,8 +22,9 @@ public class Canvas extends PApplet {
 	private float scalingAmount = 1;
 	private int xOffset, yOffset = 0;
 
-	// draw tick fields
+	// renderer fields
 	private static int TARGET_FPS = 60;
+	private final String renderer;
 
 	// game state fields
 	private GameState gameState;
@@ -48,10 +49,19 @@ public class Canvas extends PApplet {
 	 * @param gameState
 	 *            The initial state of the game to be drawn.
 	 */
-	public Canvas(int w, int h, GameState gameState) {
+	public Canvas(int w, int h, GameState gameState, boolean hardwareRenderer) {
 		this.maxWidth = w;
 		this.maxHeight = h;
 		this.gameState = gameState;
+
+		// determine which renderer should be used
+		if (hardwareRenderer) {
+			// use the hardware OpenGL renderer
+			renderer = OPENGL;
+		} else {
+			// use the software P3D renderer
+			renderer = P3D;
+		}
 	}
 
 	/**
@@ -59,8 +69,7 @@ public class Canvas extends PApplet {
 	 */
 	public void setup() {
 		// setup the size and use 3D renderer
-		size(maxWidth, maxHeight, P3D);
-		hint(ENABLE_OPENGL_4X_SMOOTH);
+		size(maxWidth, maxHeight, renderer);
 
 		// initialize the 3D perspective component
 		perspective = new Perspective3D(this, gameState);

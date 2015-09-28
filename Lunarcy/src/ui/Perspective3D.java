@@ -100,9 +100,14 @@ public class Perspective3D extends DrawingComponent {
 
 		// draw test board
 		p.pushMatrix();
-		p.stroke(0);
+		//p.stroke(0);
 		p.strokeWeight(5);
 		p.rotateX(PApplet.PI / 2);
+
+		//p.scale(PApplet.sin(PApplet.radians(p.frameCount)));
+		//p.rotateX(PApplet.radians(p.frameCount));
+		//p.rotateY(PApplet.radians(p.frameCount));
+		//p.rotateZ(PApplet.radians(p.frameCount / 4));
 
 		// VERY VERBOSE need to think of way to store map on construction!
 		for (int y = 0; y < world.length; y++) {
@@ -128,11 +133,11 @@ public class Perspective3D extends DrawingComponent {
 					}
 
 					if (ws.getWalls().get(Direction.South) instanceof SolidWall) {
-						renderWall(0, 1, 1, 0);
+						renderWall(1, 1, 1, 2);
 					}
 
 					if (ws.getWalls().get(Direction.West) instanceof SolidWall) {
-						renderWall(0, 0, 1, 1);
+						renderWall(0, 1, 1, 3);
 					}
 					p.popMatrix();
 				}

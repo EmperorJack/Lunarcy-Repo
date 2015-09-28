@@ -36,7 +36,7 @@ public class Frame extends JFrame {
 	// the processing canvas
 	private final Canvas canvas;
 
-	public Frame(GameState gameState) {
+	public Frame(GameState gameState, boolean hardwareRenderer) {
 		setTitle("Lunarcy");
 		setSize(INIT_WIDTH, INIT_HEIGHT);
 
@@ -58,7 +58,7 @@ public class Frame extends JFrame {
 
 		// setup processing canvas
 		setLayout(new BorderLayout());
-		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, gameState);
+		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, gameState, hardwareRenderer);
 		add(canvas, BorderLayout.CENTER);
 
 		// setup panel resize listener
@@ -86,7 +86,7 @@ public class Frame extends JFrame {
 	}
 
 	public static void main(String args[]) {
-		new Frame(createTestGameState1(20, 20));
+		new Frame(createTestGameState1(20, 20), true);
 	}
 
 	public static GameState createTestGameState1(int w, int h) {
