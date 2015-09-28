@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,19 +27,22 @@ import javax.swing.JTextField;
 class ClientWelcomeScreen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	//Used ion the server textbox
+	// Used ion the server textbox
 	private final String EXAMPLESERVER = "eg 127.0.0.1";
-	
-	//Will be used to make a palette of size MAXCOLORS x MAXCOLORS
+
+	// Will be used to make a palette of size MAXCOLORS x MAXCOLORS
 	private final int MAXCOLORS = 5;
-	
+
 	// Width of the textboxes
-	private final int WIDTH = 200; 
-	
-	 // To dynamically update from colorChooser
+	private final int WIDTH = 200;
+
+	// To dynamically update from colorChooser
 	private JPanel spacesuitPanel;
 	private Color chosenColor;
 	private BufferedImage spacesuitImage;
+
+	// So we can read the choice when start button is pushed
+	private JComboBox mode;
 
 	public ClientWelcomeScreen() {
 		super("Player info");
@@ -62,6 +68,9 @@ class ClientWelcomeScreen extends JFrame {
 		// Setup preview panel
 		addColorPreview();
 
+		// Add rendering option
+		addRenderDropdown();
+
 		// Setup start game button
 		addStart();
 
@@ -81,14 +90,14 @@ class ClientWelcomeScreen extends JFrame {
 		// Setup layout
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
-		
+
 		JLabel title = new JLabel("Welcome to Lunarcy");
 		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 25));
-		
-		//Welcome label at 0,0 taking up two cells
-		c.gridwidth = 2; 
+
+		// Welcome label at 0,0 taking up two cells
+		c.gridwidth = 2;
 		c.gridx = 0;
-		c.gridy = 0; 
+		c.gridy = 0;
 		c.anchor = GridBagConstraints.CENTER;
 
 		add(title, c);
@@ -235,6 +244,30 @@ class ClientWelcomeScreen extends JFrame {
 		add(spacesuitPanel, c);
 	}
 
+	private void addRenderDropdown() {
+		// Setup layout
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
+
+		String[] options = new String[] { "Software", "Hardware" };
+		mode = new JComboBox<>(options);
+		JLabel title = new JLabel("Select your rendering mode:");
+
+		// Title at 0,5 width a width of 2 cells
+		c.gridx = 0;
+		c.gridy = 5;
+		c.gridwidth = 2;
+
+		add(title, c);
+
+		// Option dropdown at 0,6 with a width of 2 cells
+		c.gridx = 0;
+		c.gridy = 6;
+
+		add(mode, c);
+
+	}
+
 	private void addStart() {
 		// Setup layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -243,9 +276,20 @@ class ClientWelcomeScreen extends JFrame {
 		JButton start = new JButton();
 		start.setText("Join game");
 
-		// Start button at 0,5 with a width of 2 cells
+		// Open frame on button push
+		start.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Frame(Frame.createTestGameState1(20, 20),
+						// Frame takes a true value for hardware, false for
+						// software
+						mode.getSelectedItem().equals("Hardware"));
+			}
+		});
+
+		// Start button at 0,7 with a width of 2 cells
 		c.gridx = 0;
-		c.gridy = 5;
+		c.gridy = 7;
 		c.gridwidth = 2;
 		add(start, c);
 	}
