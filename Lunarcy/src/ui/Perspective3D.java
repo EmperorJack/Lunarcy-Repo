@@ -7,7 +7,7 @@ import game.*;
 /**
  * The view that displays the player perspective of the game world in 3D.
  * Renders onto a 3D PGrapihcs layer before drawing onto the parent canvas.
- * 
+ *
  * @author Jack & Kelly
  *
  */
@@ -23,6 +23,7 @@ public class Perspective3D extends DrawingComponent {
 	private final int SQUARE_SIZE = 500;
 	private final float MODEL_SCALE = SQUARE_SIZE / 2.5f;
 	private final int vel = SQUARE_SIZE / 50;
+	private int r, g, b;
 
 	// camera fields
 	private PVector camEye;
@@ -80,7 +81,12 @@ public class Perspective3D extends DrawingComponent {
 		// test light source and sphere
 		p.pushMatrix();
 		p.translate(500, 500, SQUARE_SIZE / 2);
-		p.pointLight(200, 255, 200, 0, 0, 0);
+		if (p.frameCount % 60 == 0) {
+			r = (int) p.random(255);
+			g = (int) p.random(255);
+			b = (int) p.random(255);
+		}
+		p.pointLight(r, g, b, 0, 0, 0);
 		p.fill(0, 0, 255);
 		p.sphere(10);
 		p.popMatrix();
