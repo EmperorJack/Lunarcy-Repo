@@ -9,5 +9,4 @@ public abstract class Container extends Entity {
 		super(itemID);
 		items = new HashSet<Item>();
 	}
-
 }

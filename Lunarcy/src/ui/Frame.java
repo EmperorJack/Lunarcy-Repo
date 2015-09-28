@@ -96,13 +96,10 @@ public class Frame extends JFrame {
 
 	public static GameState createTestGameState1(int w, int h) {
 		// test game state with w x h board
-		GameState state = new GameState(w, h);
+		GameState state = new GameState(w, h,new Player(0, "Jack", new Location(1, 1)));
 
 		// load the board state from the map.xml
 		state.load();
-
-		// setup players
-		state.getPlayers().add(new Player(0, "Jack", new Location(1, 1)));
 
 		return state;
 	}

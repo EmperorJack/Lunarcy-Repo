@@ -13,10 +13,6 @@ public class GameLogic {
 		this.state = state;
 	}
 	
-	public GameLogic(int mapWidth, int mapHeight){
-		this.state = new GameState(mapWidth,mapHeight);
-	}
-	
 	/**
 	 * Checks if a player can enter a square and if they can will move them into that square
 	 * @param playerId The ID of the Player to be moved

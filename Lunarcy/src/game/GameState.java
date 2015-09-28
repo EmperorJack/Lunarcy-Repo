@@ -28,9 +28,8 @@ public class GameState {
 	private Set<Rover> rovers;
 
 
-	public GameState(int mapWidth, int mapHeight, int numPlayers, Player... players) {
+	public GameState(int mapWidth, int mapHeight, Player... players) {
 		board = new Square[mapWidth][mapHeight];
-		players = new Player[numPlayers];
 		rovers = new HashSet<Rover>();
 		this.players = new ArrayList<Player>();
 		for(int curID = 0; curID < players.length; curID++){
