@@ -166,7 +166,8 @@ public class Perspective3D extends DrawingComponent {
 		p.translate(0, 0, SQUARE_SIZE);
 
 		p.fill(100);
-		p.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+		//p.rect(0, 0, SQUARE_SIZE, SQUARE_SIZE);
+		tempGifAnimation.display(0, 0, SQUARE_SIZE, SQUARE_SIZE);
 
 		p.popMatrix();
 	}
