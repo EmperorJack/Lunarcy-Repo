@@ -1,7 +1,8 @@
-
 package ui;
 
-import game.*;
+import game.GameState;
+import game.Location;
+import game.Player;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -14,6 +15,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+
+import control.Client;
 
 /**
  * Maintains the Swing window for the Lunarcy game. Handles the confirmation
@@ -37,7 +40,7 @@ public class Frame extends JFrame {
 	// the processing canvas
 	private final Canvas canvas;
 
-	public Frame(GameState gameState, boolean hardwareRenderer) {
+	public Frame(Client client, GameState gameState, boolean hardwareRenderer) {
 		setTitle("Lunarcy");
 		setSize(INIT_WIDTH, INIT_HEIGHT);
 
@@ -59,7 +62,8 @@ public class Frame extends JFrame {
 
 		// setup processing canvas
 		setLayout(new BorderLayout());
-		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, gameState, hardwareRenderer);
+		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, client, gameState,
+				hardwareRenderer);
 		add(canvas, BorderLayout.CENTER);
 
 		// setup panel resize listener
@@ -87,7 +91,7 @@ public class Frame extends JFrame {
 	}
 
 	public static void main(String args[]) {
-		new Frame(createTestGameState1(20, 20), true);
+		new Frame(new Client(), createTestGameState1(20, 20), true);
 	}
 
 	public static GameState createTestGameState1(int w, int h) {
@@ -96,6 +100,9 @@ public class Frame extends JFrame {
 
 		// load the board state from the map.xml
 		state.load();
+
+		// setup players
+		state.getPlayers().add(new Player(0, "Jack", new Location(1, 1)));
 
 		return state;
 	}

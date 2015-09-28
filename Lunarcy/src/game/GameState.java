@@ -2,6 +2,7 @@ package game;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
@@ -20,6 +21,9 @@ public class GameState {
 
 	public GameState(int mapWidth, int mapHeight) {
 		board = new Square[mapWidth][mapHeight];
+
+		// needed for testing...
+		players = new ArrayList<Player>();
 	}
 
 	/**
@@ -74,18 +78,22 @@ public class GameState {
 			return old;
 		}
 	}
-	
-	public void load(){
+
+	public void load() {
 		try {
-		      FileInputStream file = new FileInputStream("map.xml");
-		      XStream xstream = new XStream();
-		      board = (Square[][]) xstream.fromXML(file);
+			FileInputStream file = new FileInputStream("map.xml");
+			XStream xstream = new XStream();
+			board = (Square[][]) xstream.fromXML(file);
 		} catch (FileNotFoundException e) {
-			
+
 		}
 	}
 
 	public Square[][] getBoard() {
 		return board;
+	}
+
+	public List<Player> getPlayers() {
+		return players;
 	}
 }
