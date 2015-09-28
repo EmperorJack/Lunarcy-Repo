@@ -94,35 +94,6 @@ public class Frame extends JFrame {
 		// test game state with w x h board
 		GameState state = new GameState(w, h);
 
-		// populate the state board
-
-		// for (int x = 0; x < w; x++) {
-		//
-		// Wall east = null;
-		// Wall west = null;
-		//
-		// if (x == 0) {
-		// west = new SolidWall();
-		// } else if (x == w - 1) {
-		// east = new SolidWall();
-		// }
-		//
-		// for (int y = 0; y < h; y++) {
-		// Wall north = null;
-		// Wall south = null;
-		//
-		// if (y == 0) {
-		// north = new SolidWall();
-		// } else if (y == h - 1) {
-		// south = new SolidWall();
-		// }
-		//
-		// state.setSquare(new Location(x, y), new WalkableSquare("test",
-		// "test description", (Math.random() < 0.5), north, east,
-		// south, west));
-		// }
-		// }
-
 		// load the board state from the map.xml
 		state.load();
 

@@ -1,8 +1,6 @@
 package ui;
 
 import processing.core.*;
-import saito.objloader.*;
-import saito.objtools.OBJTransform;
 import game.*;
 
 /**
