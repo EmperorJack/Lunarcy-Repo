@@ -25,16 +25,16 @@ public class Server {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			processActions();
+			//processActions();
 		}
 		
-	private void processActions() {
-			while(true){
-				if(!messageQueue.isEmpty()){
-					System.out.println();
-				}
-			}
-		}
+//	private void processActions() {
+//			while(true){
+//				if(!messageQueue.isEmpty()){
+//					System.out.println();
+//				}
+//			}
+//		}
 
 	private void listenForClients() throws IOException{
 		System.out.println("Listeneing for clients");
@@ -43,7 +43,6 @@ public class Server {
 			Socket s = serverSocket.accept();
 			int clientID = clientList.size();
 			ClientConnection client = new ClientConnection(s,clientID);
-			//client.start();
 			clientList.add(client);
 		}
 	}
@@ -56,8 +55,7 @@ public class Server {
 		ObjectInputStream inputFromClient;
         ObjectOutputStream outputToClient;
 		int clientID;
-		String userName;
-		//Color colour;
+		String username;
 		
 		ClientConnection(Socket socket, int id) throws IOException {
 			this.socket = socket;
@@ -71,11 +69,11 @@ public class Server {
 			
 			// Read the user name sent from the client
         	try{
-				this.userName = (String) inputFromClient.readObject();
+				this.username = (String) inputFromClient.readObject();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-        	System.out.println("new Client" + clientID);
+        	System.out.println("Server: new Client: " + username + " "+ clientID);
         	
         	// Begin listening to this client
         	new Thread(new Runnable(){ public void run(){
@@ -94,7 +92,8 @@ public class Server {
 					e.printStackTrace();
 				}
 				if(action != null)messageQueue.add(action);
-    			  
+    			MoveAction a = (MoveAction)action;
+    			System.out.println("Server: new action: x " + a.getDestX() + " y " + a.getDestY());
     		}
     	}
     	
@@ -115,5 +114,9 @@ public class Server {
 				}
     		}
     	}
+	}
+	
+	public static void main(String[] args) {
+		new Server(5);
 	}
 }
