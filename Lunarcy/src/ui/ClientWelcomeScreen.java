@@ -91,7 +91,8 @@ class ClientWelcomeScreen extends JFrame {
 
 		// Center the window on the screen
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((size.width - getWidth()) / 2, (size.height - getHeight()) / 2, getWidth(), getHeight());
+		setBounds((size.width - getWidth()) / 2,
+				(size.height - getHeight()) / 2, getWidth(), getHeight());
 
 		setVisible(true);
 	}
@@ -168,7 +169,8 @@ class ClientWelcomeScreen extends JFrame {
 		final JTextField address = new JTextField(EXAMPLESERVER);
 
 		// Width of 200, height of the font height
-		address.setPreferredSize(new Dimension(WIDTH, address.getFont().getSize() + 5));
+		address.setPreferredSize(new Dimension(WIDTH, address.getFont()
+				.getSize() + 5));
 
 		// When the textbox is clicked, clear the default text.
 		address.addMouseListener(new MouseAdapter() {
@@ -209,12 +211,14 @@ class ClientWelcomeScreen extends JFrame {
 		for (int i = 0; i < MAXCOLORS; i++) {
 			for (int j = 0; j < MAXCOLORS; j++) {
 				// Create a label of a random color
-				JLabel label = makeLabel(
-						new Color((float) Math.random(), (float) Math.random(), (float) Math.random()));
+				JLabel label = makeLabel(new Color((float) Math.random(),
+						(float) Math.random(), (float) Math.random()));
 				colorPalette.add(label);
 			}
 		}
-		colorPalette.setPreferredSize(new Dimension(spacesuitImage.getWidth(), spacesuitImage.getHeight()));
+
+		colorPalette.setPreferredSize(new Dimension(spacesuitImage.getWidth(),
+				spacesuitImage.getHeight()));
 
 		// Color label at 0,5 with a width of 2 cells
 		c.gridx = 0;
@@ -258,8 +262,9 @@ class ClientWelcomeScreen extends JFrame {
 						// If the pixel is not transparent
 						if ((pixel >> 24) != 0x00) {
 							// Draw a transparent rect in this pixels location
-							g.setColor(new Color(chosenColor.getRed() / 255f, chosenColor.getGreen() / 255f,
-									chosenColor.getBlue() / 255f, .1f));
+							g.setColor(new Color(chosenColor.getRed() / 255f,
+									chosenColor.getGreen() / 255f, chosenColor
+											.getBlue() / 255f, .1f));
 							g.drawRect(x, y, 1, 1);
 						}
 					}
@@ -267,7 +272,8 @@ class ClientWelcomeScreen extends JFrame {
 			}
 
 		};
-		spacesuitPanel.setPreferredSize(new Dimension(spacesuitImage.getWidth(), spacesuitImage.getHeight()));
+		spacesuitPanel.setPreferredSize(new Dimension(
+				spacesuitImage.getWidth(), spacesuitImage.getHeight()));
 
 		// The panel is at cell 1,6
 		c.gridx = 1;
@@ -313,9 +319,9 @@ class ClientWelcomeScreen extends JFrame {
 		start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Frame(Frame.createTestGameState1(20, 20),
-						// Frame takes a true value for hardware, false for
-						// software
+				new Frame(null, Frame.createTestGameState1(20, 20),
+				// Frame takes a true value for hardware, false for
+				// software
 						mode.getSelectedItem().equals("Hardware"));
 			}
 		});
@@ -366,7 +372,8 @@ class ClientWelcomeScreen extends JFrame {
 	private void loadImage() {
 		try {
 			// TODO: Replace with creative commons image
-			spacesuitImage = ImageIO.read(new File("assets/items/space_suit.png"));
+			spacesuitImage = ImageIO.read(new File(
+					"assets/items/space_suit.png"));
 		} catch (IOException e) {
 			// Error loading image
 			return;

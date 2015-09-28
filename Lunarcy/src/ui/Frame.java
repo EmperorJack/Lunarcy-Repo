@@ -1,7 +1,8 @@
-
 package ui;
 
-import game.*;
+import game.GameState;
+import game.Location;
+import game.Player;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -14,6 +15,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+
+import control.Client;
 
 /**
  * Maintains the Swing window for the Lunarcy game. Handles the confirmation
@@ -37,7 +40,7 @@ public class Frame extends JFrame {
 	// the processing canvas
 	private final Canvas canvas;
 
-	public Frame(GameState gameState, boolean hardwareRenderer) {
+	public Frame(Client client, GameState gameState, boolean hardwareRenderer) {
 		setTitle("Lunarcy");
 		setSize(INIT_WIDTH, INIT_HEIGHT);
 
@@ -59,7 +62,8 @@ public class Frame extends JFrame {
 
 		// setup processing canvas
 		setLayout(new BorderLayout());
-		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, gameState, hardwareRenderer);
+		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, client, gameState,
+				hardwareRenderer);
 		add(canvas, BorderLayout.CENTER);
 
 		// setup panel resize listener
@@ -87,44 +91,18 @@ public class Frame extends JFrame {
 	}
 
 	public static void main(String args[]) {
-		new Frame(createTestGameState1(20, 20), true);
+		new Frame(new Client(), createTestGameState1(20, 20), true);
 	}
 
 	public static GameState createTestGameState1(int w, int h) {
 		// test game state with w x h board
 		GameState state = new GameState(w, h);
 
-		// populate the state board
-
-		// for (int x = 0; x < w; x++) {
-		//
-		// Wall east = null;
-		// Wall west = null;
-		//
-		// if (x == 0) {
-		// west = new SolidWall();
-		// } else if (x == w - 1) {
-		// east = new SolidWall();
-		// }
-		//
-		// for (int y = 0; y < h; y++) {
-		// Wall north = null;
-		// Wall south = null;
-		//
-		// if (y == 0) {
-		// north = new SolidWall();
-		// } else if (y == h - 1) {
-		// south = new SolidWall();
-		// }
-		//
-		// state.setSquare(new Location(x, y), new WalkableSquare("test",
-		// "test description", (Math.random() < 0.5), north, east,
-		// south, west));
-		// }
-		// }
-
 		// load the board state from the map.xml
 		state.load();
+
+		// setup players
+		state.getPlayers().add(new Player(0, "Jack", new Location(1, 1)));
 
 		return state;
 	}
