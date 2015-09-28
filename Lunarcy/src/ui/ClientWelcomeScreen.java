@@ -57,7 +57,7 @@ class ClientWelcomeScreen extends JFrame {
 
 		// Setup the title
 		addWelcomeText();
-		
+
 		// Add a horizontal line
 		addSeperator(0, 1);
 
@@ -66,7 +66,7 @@ class ClientWelcomeScreen extends JFrame {
 
 		// Setup IP address entry
 		addConnectionBox();
-		
+
 		// Add a horizontal line
 		addSeperator(0, 4);
 
@@ -81,7 +81,7 @@ class ClientWelcomeScreen extends JFrame {
 
 		// Add a horizontal line
 		addSeperator(0, 7);
-		
+
 		// Setup start game button
 		addStart();
 
@@ -96,22 +96,22 @@ class ClientWelcomeScreen extends JFrame {
 		setVisible(true);
 	}
 
-	private void addSeperator(int x, int y){
-		//Setup layout
+	private void addSeperator(int x, int y) {
+		// Setup layout
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
-		
+
 		JSeparator seperator = new JSeparator();
-		
-		//Pad the seperator, and set allignment based on params
+
+		// Pad the seperator, and set allignment based on params
 		c.insets = new Insets(10, 25, 10, 25);
 		c.gridx = x;
 		c.gridy = y;
 		c.gridwidth = GridBagConstraints.REMAINDER;
-		
+
 		add(seperator, c);
 	}
-	
+
 	private void addWelcomeText() {
 
 		// Setup layout
@@ -121,15 +121,15 @@ class ClientWelcomeScreen extends JFrame {
 		JLabel title = new JLabel("Welcome to Lunarcy");
 		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 25));
 
-		//Left padding to centre text
+		// Left padding to centre text
 		c.insets = new Insets(0, 30, 0, 0);
-		
+
 		// Welcome label at 0,0 taking up two cells
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.CENTER;
-		
+
 		add(title, c);
 	}
 
@@ -147,7 +147,7 @@ class ClientWelcomeScreen extends JFrame {
 		// Name label goes at 0,2
 		c.gridx = 0;
 		c.gridy = 2;
-		
+
 		add(nameLabel, c);
 
 		// Name textbox goes at 1,2
@@ -215,7 +215,7 @@ class ClientWelcomeScreen extends JFrame {
 			}
 		}
 		colorPalette.setPreferredSize(new Dimension(spacesuitImage.getWidth(), spacesuitImage.getHeight()));
-		
+
 		// Color label at 0,5 with a width of 2 cells
 		c.gridx = 0;
 		c.gridy = 5;
@@ -226,7 +226,7 @@ class ClientWelcomeScreen extends JFrame {
 		c.gridx = 0;
 		c.gridy = 6;
 		c.gridwidth = 1;
-		c.insets =  new Insets(0, 20, 0, 0);
+		c.insets = new Insets(0, 20, 0, 0);
 		add(colorPalette, c);
 
 	}
@@ -272,8 +272,8 @@ class ClientWelcomeScreen extends JFrame {
 		// The panel is at cell 1,6
 		c.gridx = 1;
 		c.gridy = 6;
-		c.insets =  new Insets(0, 25, 0, 0);
-		
+		c.insets = new Insets(0, 25, 0, 0);
+
 		add(spacesuitPanel, c);
 	}
 
@@ -285,7 +285,7 @@ class ClientWelcomeScreen extends JFrame {
 		String[] options = new String[] { "Software", "Hardware" };
 		mode = new JComboBox<>(options);
 		JLabel title = new JLabel("Select your rendering mode:");
-		
+
 		// Title at 0,8 width a width of 2 cells
 		c.gridx = 0;
 		c.gridy = 8;
@@ -319,7 +319,6 @@ class ClientWelcomeScreen extends JFrame {
 						mode.getSelectedItem().equals("Hardware"));
 			}
 		});
-		
 
 		// Start button at 0,10 with a width of 2 cells
 		c.gridx = 0;
