@@ -28,8 +28,8 @@ public class Oxygen extends DrawingComponent {
 	//Size of the dial on the oxygen tank
 	private final int DIALSIZE = 15;
 
-	public Oxygen(PApplet p, GameState gameState, PGraphics g) {
-		super(p, gameState, g);
+	public Oxygen(PApplet p, GameState gameState) {
+		super(p, gameState);
 	}
 
 	@Override
@@ -39,30 +39,30 @@ public class Oxygen extends DrawingComponent {
 
 	@Override
 	public void draw(float delta) {
-		g.noStroke();
+		p.noStroke();
 
 		// Draw the cylinder
-		g.fill(139, 158, 162);
-		g.rect(LEFT_PADDING, TOP_PADDING, CYLINDERWIDTH, CYLINDERHEIGHT);
+		p.fill(139, 158, 162);
+		p.rect(LEFT_PADDING, TOP_PADDING, CYLINDERWIDTH, CYLINDERHEIGHT);
 
 		// Draw the knob
-		g.rect(LEFT_PADDING, TOP_PADDING, 20, 10);
+		p.rect(LEFT_PADDING, TOP_PADDING, 20, 10);
 
 		// Draw the top section
-		g.fill(0, 150, 104);
-		g.rect(LEFT_PADDING, TOP_PADDING, 35, CYLINDERHEIGHT);
+		p.fill(0, 150, 104);
+		p.rect(LEFT_PADDING, TOP_PADDING, 35, CYLINDERHEIGHT);
 		//p.ellipse(CLYLINDERLEFTSIDE+30+CYLINDERHEIGHT/2, 25+CYLINDERHEIGHT/2, CYLINDERHEIGHT, CYLINDERHEIGHT);
-		g.ellipse(LEFT_PADDING, TOP_PADDING+CYLINDERHEIGHT/2, CYLINDERHEIGHT, CYLINDERHEIGHT);
+		p.ellipse(LEFT_PADDING, TOP_PADDING+CYLINDERHEIGHT/2, CYLINDERHEIGHT, CYLINDERHEIGHT);
 
 		// Draw the dial
-		g.stroke(1);
-		g.fill(255, 255, 255);
-		g.ellipse(LEFT_PADDING-CYLINDERHEIGHT/2, TOP_PADDING+CYLINDERHEIGHT/2, DIALSIZE, DIALSIZE);
+		p.stroke(1);
+		p.fill(255, 255, 255);
+		p.ellipse(LEFT_PADDING-CYLINDERHEIGHT/2, TOP_PADDING+CYLINDERHEIGHT/2, DIALSIZE, DIALSIZE);
 
 		// Draw the remaining amount of oxygen
-		g.noStroke();
-		g.fill(0, 0, 0, 100);
-		g.rect(LEFT_PADDING+(CYLINDERWIDTH-oxygen), TOP_PADDING, CYLINDERWIDTH, CYLINDERHEIGHT);
+		p.noStroke();
+		p.fill(0, 0, 0, 100);
+		p.rect(LEFT_PADDING+(CYLINDERWIDTH-oxygen), TOP_PADDING, CYLINDERWIDTH, CYLINDERHEIGHT);
 		oxygen-=.5;
 	}
 
