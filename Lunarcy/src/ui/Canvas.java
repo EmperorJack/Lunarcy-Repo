@@ -114,7 +114,7 @@ public class Canvas extends PApplet {
 			perspective.update(gameState);
 			minimap.update(gameState);
 			oxygen.update(gameState);
-			
+
 			// the state has now been updated
 			stateUpdated = false;
 		}
