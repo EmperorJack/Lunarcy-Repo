@@ -32,10 +32,12 @@ public class Canvas extends PApplet {
 	// drawing components
 	private Perspective3D perspective;
 	private Minimap minimap;
+	private Oxygen oxygen;
+	private PImage backdrop;
 
 	// audio fields
-	private Minim minim;
-	private AudioPlayer track;
+	//private Minim minim;
+	//private AudioPlayer track;
 
 	/**
 	 * Setup a new Processing Canvas.
@@ -63,6 +65,21 @@ public class Canvas extends PApplet {
 
 		// initialize the 3D perspective component
 		perspective = new Perspective3D(this, gameState);
+
+		// initialize the HUD components
+
+		//hud = createGraphics(maxWidth, maxHeight, P2D);
+		minimap = new Minimap(this, gameState, g);
+		oxygen = new Oxygen(this, gameState, g);
+
+		// temporary backdrop
+		backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
+
+		// audio setup
+		//minim = new Minim(this);
+		//track = minim.loadFile("assets/audio/important4.mp3");
+		//track.play();
+		//track.loop();
 
 		// initialize the heads up display components
 		minimap = new Minimap(this, gameState);
@@ -96,7 +113,8 @@ public class Canvas extends PApplet {
 			// update each component
 			perspective.update(gameState);
 			minimap.update(gameState);
-
+			oxygen.update(gameState);
+			
 			// the state has now been updated
 			stateUpdated = false;
 		}
@@ -135,6 +153,7 @@ public class Canvas extends PApplet {
 
 		// draw the heads up display components
 		minimap.draw(delta);
+		oxygen.draw(delta);
 
 		// draw the frame rate string
 		fill(255);
