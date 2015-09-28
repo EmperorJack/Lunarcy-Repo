@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import game.GameState;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 /**
  * Displays the oxygen bar in the bottom right corner of the canvas
@@ -27,8 +28,8 @@ public class Oxygen extends DrawingComponent {
 	//Size of the dial on the oxygen tank
 	private final int DIALSIZE = 15;
 
-	public Oxygen(PApplet p, GameState gameState) {
-		super(p, gameState);
+	public Oxygen(PApplet p, GameState gameState, PGraphics g) {
+		super(p, gameState, g);
 	}
 
 	@Override
@@ -38,30 +39,30 @@ public class Oxygen extends DrawingComponent {
 
 	@Override
 	public void draw(float delta) {
-		p.noStroke();
+		g.noStroke();
 
 		// Draw the cylinder
-		p.fill(139, 158, 162);
-		p.rect(LEFT_PADDING, TOP_PADDING, CYLINDERWIDTH, CYLINDERHEIGHT);
+		g.fill(139, 158, 162);
+		g.rect(LEFT_PADDING, TOP_PADDING, CYLINDERWIDTH, CYLINDERHEIGHT);
 
 		// Draw the knob
-		p.rect(LEFT_PADDING, TOP_PADDING, 20, 10);
+		g.rect(LEFT_PADDING, TOP_PADDING, 20, 10);
 
 		// Draw the top section
-		p.fill(0, 150, 104);
-		p.rect(LEFT_PADDING, TOP_PADDING, 35, CYLINDERHEIGHT);
+		g.fill(0, 150, 104);
+		g.rect(LEFT_PADDING, TOP_PADDING, 35, CYLINDERHEIGHT);
 		//p.ellipse(CLYLINDERLEFTSIDE+30+CYLINDERHEIGHT/2, 25+CYLINDERHEIGHT/2, CYLINDERHEIGHT, CYLINDERHEIGHT);
-		p.ellipse(LEFT_PADDING, TOP_PADDING+CYLINDERHEIGHT/2, CYLINDERHEIGHT, CYLINDERHEIGHT);
+		g.ellipse(LEFT_PADDING, TOP_PADDING+CYLINDERHEIGHT/2, CYLINDERHEIGHT, CYLINDERHEIGHT);
 
 		// Draw the dial
-		p.stroke(1);
-		p.fill(255, 255, 255);
-		p.ellipse(LEFT_PADDING-CYLINDERHEIGHT/2, TOP_PADDING+CYLINDERHEIGHT/2, DIALSIZE, DIALSIZE);
+		g.stroke(1);
+		g.fill(255, 255, 255);
+		g.ellipse(LEFT_PADDING-CYLINDERHEIGHT/2, TOP_PADDING+CYLINDERHEIGHT/2, DIALSIZE, DIALSIZE);
 
 		// Draw the remaining amount of oxygen
-		p.noStroke();
-		p.fill(0, 0, 0, 100);
-		p.rect(LEFT_PADDING+(CYLINDERWIDTH-oxygen), TOP_PADDING, CYLINDERWIDTH, CYLINDERHEIGHT);
+		g.noStroke();
+		g.fill(0, 0, 0, 100);
+		g.rect(LEFT_PADDING+(CYLINDERWIDTH-oxygen), TOP_PADDING, CYLINDERWIDTH, CYLINDERHEIGHT);
 		oxygen-=.5;
 	}
 

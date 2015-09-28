@@ -75,6 +75,7 @@ public class Canvas extends PApplet {
 
 		//hud = createGraphics(maxWidth, maxHeight, P2D);
 		minimap = new Minimap(this, gameState, g);
+		oxygen = new Oxygen(this, gameState, g);
 
 		// temporary backdrop
 		backdrop = loadImage("assets/backgrounds/temp-backdrop.jpg");
@@ -144,6 +145,7 @@ public class Canvas extends PApplet {
 
 		// draw the heads up display components
 		minimap.draw(delta);
+		oxygen.draw(delta);
 
 		// draw the frame rate string
 		pushMatrix();
