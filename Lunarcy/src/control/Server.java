@@ -28,13 +28,6 @@ public class Server {
 			//processActions();
 		}
 
-//	private void processActions() {
-//			while(true){
-//				if(!messageQueue.isEmpty()){
-//					System.out.println();
-//				}
-//			}
-//		}
 
 	private void listenForClients() throws IOException{
 		System.out.println("Listeneing for clients");
@@ -76,6 +69,7 @@ public class Server {
         	System.out.println("Server: new Client: " + username + " "+ clientID);
         	try{
         		outputToClient.writeInt(clientID);//write(clientID); //send clients ID
+        		outputToClient.flush();
         	}catch(IOException e){
         		e.printStackTrace();
         	}
@@ -95,8 +89,8 @@ public class Server {
 					action = (NetworkAction)inputFromClient.readObject();
 				} catch (IOException e) {
 					// TODO handle disconnected client - this may not be the right way since an IOException could occur for other reasons
-					System.err.println("Client " + clientID + "Disconnected");
-					e.printStackTrace();
+					System.out.println("Client " + clientID + "Disconnected");
+					//e.printStackTrace();
 				} catch(ClassNotFoundException e){
 					e.printStackTrace();
 				}

@@ -91,6 +91,7 @@ public class Client {
 			if(o != null){
 				try {
 					outputToServer.writeObject(o);
+					outputToServer.flush();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
