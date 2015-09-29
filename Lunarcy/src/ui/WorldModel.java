@@ -16,7 +16,7 @@ import saito.objtools.*;
  * game state board with modular 3D components. Lists holds all the distinct 3D
  * models where each have unique transformations required to be drawn correctly,
  * depending on the map layout.
- * 
+ *
  * @author Jack
  *
  */
@@ -48,7 +48,7 @@ public class WorldModel {
 	 * Setup a new world model with the given board. Each square will be
 	 * interpreted into 3D geometry depending on it's walls and inside or
 	 * outside state.
-	 * 
+	 *
 	 * @param p
 	 *            The parent PApplet to draw onto.
 	 * @param board
@@ -88,7 +88,7 @@ public class WorldModel {
 		for (int y = 0; y < board.length; y++) {
 			for (int x = 0; x < board[0].length; x++) {
 				// get the square at x, y
-				Square s = board[y][x];
+				Square s = board[x][y];
 
 				// if the square is walkable
 				if (s instanceof WalkableSquare) {
@@ -139,7 +139,7 @@ public class WorldModel {
 
 	/**
 	 * Load a new object model from file.
-	 * 
+	 *
 	 * @param objName
 	 *            The name of the object model to load.
 	 * @param objectTransformer
@@ -220,7 +220,7 @@ public class WorldModel {
 	/**
 	 * A wrapper class for an Object Model. Contains translation data to draw
 	 * the model at a set position.
-	 * 
+	 *
 	 * @author Jack
 	 *
 	 */

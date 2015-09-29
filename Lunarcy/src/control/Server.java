@@ -28,6 +28,7 @@ public class Server {
 	private Interpreter interpreter;
 	private GameLogic gameLogic;
 	private int updateFreq;
+	
 	Server(int maxClients,int updateFreq){
 		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;

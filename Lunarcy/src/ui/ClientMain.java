@@ -28,7 +28,7 @@ import javax.swing.JTextField;
 
 import control.Client;
 
-class ClientWelcomeScreen extends JFrame {
+class ClientMain extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	// Used ion the server textbox
@@ -45,10 +45,12 @@ class ClientWelcomeScreen extends JFrame {
 	private Color chosenColor;
 	private BufferedImage spacesuitImage;
 
-	// So we can read the choice when start button is pushed
+	// All need to be accessed when start button is pushed
 	private JComboBox<String> mode;
+	private JTextField nameTextbox;
+	private JTextField serverTextbox;
 
-	public ClientWelcomeScreen() {
+	public ClientMain() {
 		super("Player info");
 
 		setLayout(new GridBagLayout());
@@ -143,9 +145,10 @@ class ClientWelcomeScreen extends JFrame {
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
 
 		JLabel nameLabel = new JLabel("Enter your name:");
-		JTextField name = new JTextField("");
+		nameTextbox = new JTextField("");
 		// Width of 200, Height of the font size
-		name.setPreferredSize(new Dimension(WIDTH, name.getFont().getSize() + 5));
+		nameTextbox.setPreferredSize(new Dimension(WIDTH, nameTextbox.getFont()
+				.getSize() + 5));
 
 		// Name label goes at 0,2
 		c.gridx = 0;
@@ -157,7 +160,7 @@ class ClientWelcomeScreen extends JFrame {
 		c.gridx = 1;
 		c.gridy = 2;
 
-		add(name, c);
+		add(nameTextbox, c);
 	}
 
 	private void addConnectionBox() {
@@ -168,19 +171,19 @@ class ClientWelcomeScreen extends JFrame {
 
 		JLabel addressLabel = new JLabel("Enter the server IP:");
 
-		final JTextField address = new JTextField(EXAMPLESERVER);
+		serverTextbox = new JTextField(EXAMPLESERVER);
 
 		// Width of 200, height of the font height
-		address.setPreferredSize(new Dimension(WIDTH, address.getFont()
-				.getSize() + 5));
+		serverTextbox.setPreferredSize(new Dimension(WIDTH, serverTextbox
+				.getFont().getSize() + 5));
 
 		// When the textbox is clicked, clear the default text.
-		address.addMouseListener(new MouseAdapter() {
+		serverTextbox.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (address.getText().equals(EXAMPLESERVER)) {
-					address.setText("");
+				if (serverTextbox.getText().equals(EXAMPLESERVER)) {
+					serverTextbox.setText("");
 				}
 			}
 
@@ -194,7 +197,7 @@ class ClientWelcomeScreen extends JFrame {
 		// Address textbox goes at 1,3
 		c.gridx = 1;
 		c.gridy = 3;
-		add(address, c);
+		add(serverTextbox, c);
 	}
 
 	private void addColorPallete() {
@@ -321,10 +324,51 @@ class ClientWelcomeScreen extends JFrame {
 		start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Frame(new Client(), Frame.createTestGameState1(20, 20),
-				// Frame takes a true value for hardware, false for
-				// software
-						mode.getSelectedItem().equals("Hardware"));
+
+				//Exit if they have not completed all fields
+				if(!validInput()){
+					return;
+				}
+
+				//Check if user wants OpenGL or Software Rendering
+				boolean hardwareRenderer = mode.getSelectedItem().equals(
+						"Hardware");
+
+				//Make a new client, with the entered details
+				Client client = new Client( );
+
+			}
+
+			private boolean validInput(){
+
+				//Regex from: http://www.mkyong.com/regular-expressions/how-to-validate-ip-address-with-regular-expression/
+				String IPADDRESS_PATTERN =
+							"^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+							"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+							"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+							"([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+
+				//No name was entered (or just spaces were used)
+				if(nameTextbox.getText().trim().isEmpty()){
+
+					//Set a red border on the nameTextbox
+					nameTextbox.setBorder(BorderFactory.createLineBorder(Color.RED));
+					return false;
+				}
+
+				//Server can either hold localhost or an IP
+				if(serverTextbox.getText() != "locahost"
+						|| !serverTextbox.getText().matches(IPADDRESS_PATTERN) ){
+
+					//The name must be valid now, so we can remove the red border
+					nameTextbox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+					//Set a red border on the serverTextbox
+					serverTextbox.setBorder(BorderFactory.createLineBorder(Color.RED));
+					return false;
+				}
+
+				return true;
 			}
 		});
 
@@ -383,7 +427,7 @@ class ClientWelcomeScreen extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new ClientWelcomeScreen();
+		new ClientMain();
 	}
 
 }
