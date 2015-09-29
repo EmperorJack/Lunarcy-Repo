@@ -52,9 +52,12 @@ public class Inventory extends DrawingComponent {
 
 		//Draw all the players items
 		List<Item> inventory = player.getInventory();
-		for(int i=0; i<inventory.size(); i++){
-			//TEMP: While we discuss images for items
-			p.rect(i*SIZE, 0, SIZE, SIZE);
+
+		if(inventory !=null){
+			for(int i=0; i<inventory.size(); i++){
+				//TEMP: While we discuss images for items
+				p.rect(i*SIZE, 0, SIZE, SIZE);
+			}
 		}
 
 		// pop matrix and style information from the stack

@@ -99,7 +99,7 @@ public class Canvas extends PApplet implements KeyListener {
 		perspective = new Perspective3D(this, gameState, playerID);
 
 		// initialize the HUD components
-		minimap = new Minimap(this, gameState);
+		minimap = new Minimap(playerID, this, gameState);
 		oxygen = new Oxygen(this, gameState);
 		inventory = new Inventory(playerID, this, gameState);
 
@@ -133,6 +133,7 @@ public class Canvas extends PApplet implements KeyListener {
 			// update each component
 			perspective.update(gameState);
 			minimap.update(gameState);
+			inventory.update(gameState);
 			oxygen.update(gameState);
 
 			// the state has now been updated
@@ -172,6 +173,7 @@ public class Canvas extends PApplet implements KeyListener {
 		// draw the heads up display components
 		minimap.draw(delta);
 		oxygen.draw(delta);
+		inventory.draw(delta);
 
 		// draw the frame rate string
 		fill(255);
