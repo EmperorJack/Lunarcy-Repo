@@ -26,8 +26,7 @@ public class GameLogic {
 		Player player = state.getPlayer(playerID);
 		Square dest = state.getSquare(player.getLocation().getAdjacent(direction));
 		
-		
-		if(dest != null && dest.canEnter(player, direction)){
+		if(dest != null && dest.canEnter(player, Direction.opposite(direction))){
 			Square src = state.getSquare(player.getLocation());
 			src.removePlayer(player);
 			dest.addPlayer(player);

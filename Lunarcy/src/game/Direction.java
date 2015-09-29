@@ -10,6 +10,20 @@ public enum Direction {
 	North, East, South, West;
 	
 	/**
+	 * @return The Direction opposite from current
+	 */
+	public static Direction opposite(Direction current){
+		if(current==North){
+			return South;
+		}else if(current==East){
+			return West;
+		}else if(current==South){
+			return North;
+		}else{//Else West
+			return East;
+		}
+	}
+	/**
 	 * @return The Direction that you would be facing if you turned left from current
 	 */
 	public static Direction left(Direction current){
