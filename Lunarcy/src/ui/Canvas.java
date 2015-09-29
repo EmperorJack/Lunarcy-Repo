@@ -5,7 +5,10 @@ import java.awt.event.KeyListener;
 
 import control.Client;
 import ddf.minim.*;
+import game.Direction;
+import game.GameLogic;
 import game.GameState;
+import game.Player;
 import processing.core.*;
 
 /**
@@ -177,6 +180,12 @@ public class Canvas extends PApplet implements KeyListener {
 		text(frameRate, maxWidth - 200, 50);
 		text(delta, maxWidth - 200, 100);
 
+		// draw player position and orientation
+		Player player = gameState.getPlayers().get(playerID);
+		text(player.getLocation().getX() + " : " + player.getLocation().getY(),
+				maxWidth - 200, 150);
+		text(player.getOrientation().toString(), maxWidth - 200, 200);
+
 		// draw the black borders
 		fill(0);
 		rect(0, 0, maxWidth, -10 * maxHeight); // top
@@ -214,29 +223,41 @@ public class Canvas extends PApplet implements KeyListener {
 		}
 	}
 
-	// @Override
-	// public void keyPressed(KeyEvent e) {
-	// // check if the timer has been exceeded
-	// long currentTime = System.currentTimeMillis();
-	// if (currentTime - keyTimer > 500) {
-	// // update the timer
-	// keyTimer = currentTime;
-	//
-	// // identify which key pressed
-	// switch (e.getKeyCode()) {
-	// case KeyEvent.VK_W:
-	// System.out.println("move forward");
-	// break;
-	// case KeyEvent.VK_A:
-	// System.out.println("rotate left");
-	// break;
-	// case KeyEvent.VK_S:
-	// System.out.println("move back");
-	// break;
-	// case KeyEvent.VK_D:
-	// System.out.println("rotate right");
-	// break;
-	// }
-	// }
-	// }
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// check if the timer has been exceeded
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - keyTimer > 100) {
+			// update the timer
+			keyTimer = currentTime;
+
+			// identify which key pressed
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_W:
+				System.out.println("move forward");
+				new GameLogic(gameState).movePlayer(playerID, gameState
+						.getPlayers().get(playerID).getOrientation());
+				setGameState(gameState);
+				break;
+			case KeyEvent.VK_A:
+				System.out.println("rotate left");
+				new GameLogic(gameState).turnPlayerLeft(playerID);
+				setGameState(gameState);
+				break;
+			case KeyEvent.VK_S:
+				System.out.println("move back");
+				new GameLogic(gameState).movePlayer(
+						playerID,
+						Direction.right(Direction.right(gameState.getPlayers()
+								.get(playerID).getOrientation())));
+				setGameState(gameState);
+				break;
+			case KeyEvent.VK_D:
+				System.out.println("rotate right");
+				new GameLogic(gameState).turnPlayerRight(playerID);
+				setGameState(gameState);
+				break;
+			}
+		}
+	}
 }

@@ -2,8 +2,15 @@ package game;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import bots.*;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 import com.thoughtworks.xstream.XStream;
 
@@ -18,13 +25,22 @@ import com.thoughtworks.xstream.XStream;
 public class GameState {
 	private Square[][] board;
 	private List<Player> players;
+	private Set<Rover> rovers;
 
-	public GameState(int mapWidth, int mapHeight) {
+
+	public GameState(int mapWidth, int mapHeight, Player... players) {
 		board = new Square[mapWidth][mapHeight];
-
-		// needed for testing...
-		players = new ArrayList<Player>();
+		rovers = new HashSet<Rover>();
+		this.players = new ArrayList<Player>();
+		for(int curID = 0; curID < players.length; curID++){
+			for(Player player: players){
+				if(player.getId()==curID){
+					this.players.add(curID, player);
+				}
+			}
+		}
 	}
+
 
 	/**
 	 * @param location
@@ -88,12 +104,16 @@ public class GameState {
 
 		}
 	}
+	
+	public Player getPlayer(int playerID){
+		return players.get(playerID);
+	}
 
 	public Square[][] getBoard() {
 		return board;
 	}
 
 	public List<Player> getPlayers() {
-		return players;
+		return new ArrayList<Player>(players);
 	}
 }

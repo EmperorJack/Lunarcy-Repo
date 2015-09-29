@@ -17,9 +17,6 @@ public abstract class DrawingComponent {
 	public DrawingComponent(PApplet p, GameState gameState) {
 		// set the parent canvas to draw onto
 		this.p = p;
-
-		// set the initial game state
-		update(gameState);
 	}
 
 	/**

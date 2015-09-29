@@ -1,5 +1,7 @@
 package control;
 
+import game.GameLogic;
+
 import java.io.Serializable;
 
 public class PickupAction implements NetworkAction, Serializable {
@@ -18,5 +20,11 @@ public class PickupAction implements NetworkAction, Serializable {
 	
 	public int getObjectID() {
 		return objectID;
+	}
+
+	@Override
+	public void applyAction(GameLogic logic) {
+		// TODO Auto-generated method stub
+		System.out.println("Player " + playerID + " picking up " + objectID);
 	}
 }
