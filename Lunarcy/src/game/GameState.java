@@ -18,7 +18,7 @@ import com.thoughtworks.xstream.XStream;
  * This class contains all the information about the game state, it does not
  * contain any of the logic for the game but should instead be modified by
  * another class containing the game logic.
- * 
+ *
  * @author Robbie
  *
  */
@@ -56,15 +56,15 @@ public class GameState {
 		}
 		int x = location.getX();
 		int y = location.getY();
-		if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) {
+		if (x < 0 || x >= board[0].length || y < 0 || y >= board.length) {
 			return null;
 		} else {
-			return board[x][y];
+			return board[y][x];
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param location
 	 *            - The location of the Square to be replaced
 	 * @param square
@@ -85,11 +85,11 @@ public class GameState {
 		}
 		int x = location.getX();
 		int y = location.getY();
-		if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) {
+		if (x < 0 || x >= board[0].length || y < 0 || y >= board.length) {
 			return null;
 		} else {
-			Square old = board[x][y];
-			board[x][y] = square;
+			Square old = board[y][x];
+			board[y][x] = square;
 			return old;
 		}
 	}
@@ -103,7 +103,7 @@ public class GameState {
 
 		}
 	}
-	
+
 	public Player getPlayer(int playerID){
 		return players.get(playerID);
 	}
