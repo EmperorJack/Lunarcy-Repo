@@ -2,7 +2,7 @@ package game;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +10,7 @@ import bots.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 import com.thoughtworks.xstream.XStream;
@@ -23,6 +24,7 @@ import com.thoughtworks.xstream.XStream;
  *
  */
 public class GameState {
+	//Goes board[Y][X]
 	private Square[][] board;
 	private List<Player> players;
 	private Set<Rover> rovers;
@@ -59,7 +61,7 @@ public class GameState {
 		if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) {
 			return null;
 		} else {
-			return board[x][y];
+			return board[y][x];
 		}
 	}
 
@@ -88,8 +90,8 @@ public class GameState {
 		if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) {
 			return null;
 		} else {
-			Square old = board[x][y];
-			board[x][y] = square;
+			Square old = board[y][x];
+			board[y][x] = square;
 			return old;
 		}
 	}
