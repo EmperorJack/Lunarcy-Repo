@@ -12,8 +12,9 @@ import processing.core.*;
 public class Minimap extends DrawingComponent {
 
 	// TEMPORARY FIELDS: while we do not have a board in gamestate
-	private final int[][] BOARD = new int[][] { { 0, 0, 1 }, { 2, 1, 1 }, { 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 },
-			{ 0, 0, 0 }, { 1, 1, 1 }, { 0, 0, 2 } };
+	private final int[][] BOARD = new int[][] { { 0, 0, 1 }, { 2, 1, 1 },
+			{ 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 },
+			{ 0, 0, 2 } };
 	private final int SIZE = 20;
 
 	// How far in from the left (x axis)
@@ -24,6 +25,7 @@ public class Minimap extends DrawingComponent {
 	// Images to preload
 	private final PImage OUTDOOR_GROUND;
 	private final PImage INDOOR_GROUND;
+
 	// private final PImage UNACCESIBLE_SQUARE;
 
 	public Minimap(PApplet p, GameState gameState) {
@@ -34,6 +36,9 @@ public class Minimap extends DrawingComponent {
 
 		OUTDOOR_GROUND.resize(SIZE, SIZE);
 		INDOOR_GROUND.resize(SIZE, SIZE);
+
+		// set the initial game state
+		update(gameState);
 	}
 
 	@Override
@@ -52,9 +57,9 @@ public class Minimap extends DrawingComponent {
 		p.translate(LEFT_PADDING, TOP_PADDING);
 		p.stroke(0, 70);
 
-		//Draw at half opacity
+		// Draw at half opacity
 		p.tint(255, 127);
-		
+
 		// Go through each square, drawing it
 		for (int i = 0; i < BOARD.length; i++) {
 			for (int j = 0; j < BOARD[i].length; j++) {
@@ -75,7 +80,7 @@ public class Minimap extends DrawingComponent {
 			}
 
 		}
-		
+
 		// pop matrix and style information from the stack
 		p.popStyle();
 		p.popMatrix();

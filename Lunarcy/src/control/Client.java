@@ -38,17 +38,16 @@ public class Client {
 				e.printStackTrace();
 			}
 			writeObject(name);
-			System.out.println("have written name" + name);
-			readID();
-			System.out.println("have read ID"+ id);
+			System.out.println("Name sent to server: " + name);
+			readInt();
 			//this will be replaced with actionlisteners
 			Scanner sc = new Scanner(System.in);
-			System.out.println("Enter command");
+			System.out.println("Enter command: ");
 			outerloop:
 			while(true){
 				while(sc.hasNext()){
 					String input = sc.next();
-					if(input.equals("q"))break outerloop;
+					if(input.equals("quit"))break outerloop;
 					switch (input) {
 					case "w":
 						writeObject(new MoveAction(id,Direction.North));
@@ -62,8 +61,14 @@ public class Client {
 					case "d":
 						writeObject(new MoveAction(id,Direction.East));
 						break;
-					case "p":
+					case "q":
 						writeObject(new PickupAction(id,(int)(Math.random()*100))); //TODO this is placeholder for random object
+						break;
+					case "e":
+						writeObject(new DropAction(id,(int)(Math.random()*100))); //TODO this is placeholder for random object
+						break;
+					case "o":
+						writeObject(new OrientAction(id,Direction.South)); //TODO this is placeholder for random object
 						break;
 					default:
 						break;
@@ -80,25 +85,23 @@ public class Client {
 
 		}
 
-		private void readID() {
+		private void readInt() {
 			System.out.println("trying to read ID");
 			try {
 				id = inputFromServer.readInt();
-				System.out.println("My ID " + id);
+				System.out.println("My clientID is: " + id);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				System.err.println("cant read ID");
 				e.printStackTrace();
 			}
 		}
 
-		boolean writeObject(Object o){
+		private boolean writeObject(Object o){
 			if(o != null){
 				try {
 					outputToServer.writeObject(o);
 					outputToServer.flush();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					return false;
 				}

@@ -9,22 +9,8 @@ public class Interpreter {
 	Interpreter(GameLogic gameController){
 		this.gameController = gameController;
 	}
-	
-	void interpret(DropAction dropAction){
-		//GameController.movePlayer(player, direction)
-		System.out.println("moved player");
+
+	public void interpret(NetworkAction action) {
+		action.applyAction(gameController);
 	}
-	
-	void interpret(MoveAction action){
-		
-	}
-	
-	void interpret(PickupAction action){
-		
-	}
-	
-	void interpret(OrientAction action){
-		
-	}
-	
 }

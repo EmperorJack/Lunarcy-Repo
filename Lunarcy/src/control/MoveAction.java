@@ -1,6 +1,8 @@
 package control;
 
 import game.Direction;
+import game.GameLogic;
+
 import java.io.Serializable;
 
 /**
@@ -30,5 +32,11 @@ public class MoveAction implements NetworkAction, Serializable {
 
 	public Direction getDirection() {
 		return direction;
+	}
+
+	@Override
+	public void applyAction(GameLogic logic) {
+		// TODO Auto-generated method stub
+		System.out.println("moving player "+ playerID + " " + direction );
 	}
 }
