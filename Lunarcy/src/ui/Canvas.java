@@ -104,7 +104,7 @@ public class Canvas extends PApplet implements KeyListener {
 		// audio setup
 		minim = new Minim(this);
 		track = minim.loadFile("assets/audio/important2.mp3");
-		track.play();
+		// track.play();
 		// track.loop();
 		// track.mute();
 	}

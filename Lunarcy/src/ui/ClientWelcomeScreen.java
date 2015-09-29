@@ -26,6 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
+import control.Client;
+
 class ClientWelcomeScreen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -319,7 +321,7 @@ class ClientWelcomeScreen extends JFrame {
 		start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Frame(null, Frame.createTestGameState1(20, 20),
+				new Frame(new Client(), Frame.createTestGameState1(20, 20),
 				// Frame takes a true value for hardware, false for
 				// software
 						mode.getSelectedItem().equals("Hardware"));
