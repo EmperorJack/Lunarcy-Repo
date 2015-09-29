@@ -7,27 +7,19 @@ import java.io.Serializable;
 
 public class OrientAction implements NetworkAction, Serializable{
 	int playerID;
-	private Direction direction;
-	
-	
-	
-	public OrientAction(int playerID, Direction direction) {
+	private boolean turnLeft;
+
+
+
+	public OrientAction(int playerID, boolean turnLeft) {
 		this.playerID = playerID;
-		this.direction = direction;
+		this.turnLeft = turnLeft;
 	}
 
-	/*public int getPlayerID() {
-		return playerID;
-	}
-
-	public Direction getDirection() {
-		return direction;
-	}*/
-	
 	@Override
 	public void applyAction(GameLogic logic) {
-		// TODO apply logic for orienting player
-		System.out.println("Orienting player "+ playerID + "towards" + direction);
+		if(this.turnLeft)System.out.println("Orienting player "+ playerID + " left");
+		else System.out.println("Orienting player "+ playerID + " right");
 	}
 
 }

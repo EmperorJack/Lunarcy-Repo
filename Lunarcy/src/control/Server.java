@@ -3,8 +3,10 @@ package control;
 import game.GameLogic;
 import game.GameState;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -70,11 +72,33 @@ public class Server {
 		System.out.println("All clients disconnected \n closing down server");
 	}
 
-	private void transmitState() {
-		byte[] serializedGameState = gameLogic.getGameState(); //TODO serialized gamestate
-		for(ClientConnection client : clientList){
-			client.writeGameStateBytes(serializedGameState);
+	private void transmitState(){
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutput out = null;
+		try {
+		  out = new ObjectOutputStream(bos);
+		  out.writeObject(gameLogic.getGameState());
+		  byte[] serializedGameState = bos.toByteArray();
+		  for(ClientConnection client : clientList){
+				client.writeGameStateBytes(serializedGameState);
+		  }
+		}catch(IOException e){
+			System.err.println("failed to write gamestate");
+		}finally {
+		  try {
+			    if (out != null) {
+			      out.close();
+			    }
+			  } catch (IOException ex) {
+			    // ignore close exception
+			  }
+			  try {
+			    bos.close();
+			  } catch (IOException ex) {
+			    // ignore close exception
+			  }
 		}
+
 	}
 
 
