@@ -13,7 +13,7 @@ public abstract class DrawingComponent {
 
 	// the parent processing canvas
 	protected PApplet p;
-
+	
 	public DrawingComponent(PApplet p, GameState gameState) {
 		// set the parent canvas to draw onto
 		this.p = p;

@@ -1,6 +1,8 @@
 package ui;
 
 import game.GameState;
+import game.Square;
+import game.WalkableSquare;
 import processing.core.*;
 
 /**
@@ -11,11 +13,8 @@ import processing.core.*;
  */
 public class Minimap extends DrawingComponent {
 
-	// TEMPORARY FIELDS: while we do not have a board in gamestate
-	private final int[][] BOARD = new int[][] { { 0, 0, 1 }, { 2, 1, 1 },
-			{ 0, 0, 0 }, { 0, 1, 0 }, { 1, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 },
-			{ 0, 0, 2 } };
 	private final int SIZE = 20;
+	private GameState gameState;
 
 	// How far in from the left (x axis)
 	private final int LEFT_PADDING = 25;
@@ -43,8 +42,7 @@ public class Minimap extends DrawingComponent {
 
 	@Override
 	public void update(GameState gameState) {
-		// TODO update the minimap
-
+		this.gameState = gameState;
 	}
 
 	@Override
@@ -60,21 +58,23 @@ public class Minimap extends DrawingComponent {
 		// Draw at half opacity
 		p.tint(255, 127);
 
+		Square[][] board = gameState.getBoard();
+
 		// Go through each square, drawing it
-		for (int i = 0; i < BOARD.length; i++) {
-			for (int j = 0; j < BOARD[i].length; j++) {
-				// Set the colour based on square type
-				switch (BOARD[i][j]) {
-				// OUTDOOR SQUARE
-				case 0:
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				Square current = board[i][j];
+
+				// TODO: DISTINGUISH BETWEEN INDOOR/OUTDOOR
+
+				// Walkable square
+				if (current instanceof WalkableSquare) {
 					p.image(OUTDOOR_GROUND, i * SIZE, j * SIZE);
 					break;
-				// INDOOR SQUARE
-				case 1:
+				}
+				// Unwalkable square
+				else {
 					p.image(INDOOR_GROUND, i * SIZE, j * SIZE);
-					break;
-				// EMPTY SQUARE DONT DRAW
-				case 2:
 					break;
 				}
 			}

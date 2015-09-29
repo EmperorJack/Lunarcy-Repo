@@ -9,6 +9,14 @@ package game;
  */
 public class Location {
 
+	private int x;
+	private int y;
+
+	public Location(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -34,14 +42,6 @@ public class Location {
 		return true;
 	}
 
-	private int x;
-	private int y;
-
-	public Location(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-
 	public int getX() {
 		return x;
 	}
@@ -50,15 +50,21 @@ public class Location {
 		return y;
 	}
 	
+	/**
+	 * Returns the location adjacent to this one in the direction specified.
+	 * South is positive y and East is positive x
+	 * @param direction Direction to get the new location from
+	 * @return
+	 */
 	public Location getAdjacent(Direction direction){
 		if(direction==Direction.North){
-			return new Location(x + 1, y);
-		}else if(direction==Direction.East){
-			return new Location(x, y + 1);
-		}else if(direction==Direction.South){
-			return new Location(x - 1, y);
-		}else{//Else West
 			return new Location(x, y - 1);
+		}else if(direction==Direction.East){
+			return new Location(x + 1, y);
+		}else if(direction==Direction.South){
+			return new Location(x, y + 1);
+		}else{//Else West
+			return new Location(x - 1, y);
 		}
 	}
 

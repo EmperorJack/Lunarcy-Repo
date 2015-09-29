@@ -27,7 +27,6 @@ public class GameState {
 	private List<Player> players;
 	private Set<Rover> rovers;
 
-
 	public GameState(int mapWidth, int mapHeight, Player... players) {
 		board = new Square[mapWidth][mapHeight];
 		rovers = new HashSet<Rover>();

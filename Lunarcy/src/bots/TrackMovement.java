@@ -4,6 +4,7 @@ import java.util.List;
 
 import game.Location;
 import game.Player;
+import game.Square;
 
 /**
  * Track Movement: Follow a Player around the map, computing the shortest path
@@ -46,11 +47,11 @@ public class TrackMovement extends ShortestPathMover {
 	 *            Where the rover is currently located
 	 * @return the path
 	 */
-	public List<Location> move(Location currentLocation) {
+	public List<Location> path(Square[][] board, Location currentLocation) {
 		if (currentLocation == null || target == null)
 			return null;
 
-		return findPath(currentLocation, target.getLocation());
+		return findPath(board, currentLocation, target.getLocation());
 	}
 
 }
