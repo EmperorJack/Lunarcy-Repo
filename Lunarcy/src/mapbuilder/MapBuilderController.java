@@ -15,6 +15,7 @@ public class MapBuilderController implements MouseListener,
 	Canvas canvas;
 	int startX;
 	int startY;
+	boolean addWalls = false;
 
 	public MapBuilderController(MapBuilder builder, Canvas canvas) {
 		this.builder = builder;
@@ -61,18 +62,34 @@ public class MapBuilderController implements MouseListener,
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyChar() == 'w') {
-			builder.setWall(Direction.North);
+			if (addWalls) {
+				builder.setWall(Direction.North);
+			} else {
+				builder.removeWall(Direction.North);
+			}
 		}
 		if (e.getKeyChar() == 'a') {
-			builder.setWall(Direction.West);
+			if (addWalls) {
+				builder.setWall(Direction.West);
+			} else {
+				builder.removeWall(Direction.West);
+			}
 
 		}
 		if (e.getKeyChar() == 's') {
-			builder.setWall(Direction.South);
+			if (addWalls) {
+				builder.setWall(Direction.South);
+			} else {
+				builder.removeWall(Direction.South);
+			}
 
 		}
 		if (e.getKeyChar() == 'd') {
-			builder.setWall(Direction.East);
+			if (addWalls) {
+				builder.setWall(Direction.East);
+			} else {
+				builder.removeWall(Direction.East);
+			}
 		}
 		if (e.getKeyChar() == 'x') {
 			try {
@@ -90,8 +107,11 @@ public class MapBuilderController implements MouseListener,
 				e1.printStackTrace();
 			}
 		}
-		if (e.getKeyChar() == 'm'){
+		if (e.getKeyChar() == 'm') {
 			builder.toggleWalkable();
+		}
+		if (e.getKeyChar() == 'g') {
+			addWalls = !addWalls;
 		}
 		canvas.repaint();
 
