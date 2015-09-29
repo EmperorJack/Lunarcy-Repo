@@ -45,6 +45,7 @@ public class Canvas extends PApplet implements KeyListener {
 	private Perspective3D perspective;
 	private Minimap minimap;
 	private Oxygen oxygen;
+	private Inventory inventory;
 
 	// player input fields
 	private long keyTimer;
@@ -100,9 +101,7 @@ public class Canvas extends PApplet implements KeyListener {
 		// initialize the HUD components
 		minimap = new Minimap(this, gameState);
 		oxygen = new Oxygen(this, gameState);
-
-		// initialize the heads up display components
-		minimap = new Minimap(this, gameState);
+		inventory = new Inventory(playerID, this, gameState);
 
 		// audio setup
 		minim = new Minim(this);

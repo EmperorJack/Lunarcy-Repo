@@ -2,6 +2,7 @@ package bots;
 
 import java.util.List;
 
+import game.GameState;
 import game.Location;
 
 import java.util.ArrayList;
@@ -25,11 +26,13 @@ import java.util.ArrayList;
  */
 public class Rover {
 
-	ShortestPathMover movementStrategy;
-	List<Location> path; // Which squares the rover is going to follow
-	Location currentLocation; // Mantains the rovers position (x,y) at any given time
+	private ShortestPathMover movementStrategy;
+	private List<Location> path; // Which squares the rover is going to follow
+	private Location currentLocation; // Mantains the rovers position (x,y) at any given time
+	private GameState gameState;
 
-	Rover(ShortestPathMover movementStrategy) {
+	Rover(GameState gameState, ShortestPathMover movementStrategy) {
+		this.gameState = gameState;
 		this.movementStrategy = movementStrategy;
 		this.path = new ArrayList<Location>();
 	}
@@ -37,9 +40,9 @@ public class Rover {
 	public void move() {
 		// If we need a new path, update the current path
 		if (movementStrategy.mustUpdate(path)){
-			path = movementStrategy.move(currentLocation);
+			path = movementStrategy.path(gameState.getBoard(), currentLocation);
 		}
-
+		
 		// Move along one step in the path
 		// removing the location we visit
 		currentLocation = path.remove(0);

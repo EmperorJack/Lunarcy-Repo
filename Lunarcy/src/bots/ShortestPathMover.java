@@ -8,16 +8,7 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 import game.Location;
-
-/**
- * Base class for movement. Various implementations of Movement should implement
- * this interface, or alternatively if they rely on a shortest path algorithm
- * when moving hey should extend ShortestPathMover.
- *
- */
-public interface MoveStrategy {
-	public List<Location> move(Location currentLocation);
-}
+import game.Square;
 
 /**
  * A special instance of MoveStrategy, where the movement is defined by
@@ -29,15 +20,15 @@ public interface MoveStrategy {
 abstract class ShortestPathMover implements MoveStrategy {
 
 	/**
-	 * Returns true if path is outdated and needs to be updated,
-	 * false otherwise.
+	 * Returns true if path is outdated and needs to be updated, false
+	 * otherwise.
+	 * 
 	 * @param path
 	 * @return
 	 */
 	protected abstract boolean mustUpdate(List<Location> path);
 
-	
-	private List<Location> getNeighbours(Location loc) {
+	private List<Location> getNeighbours(Square[][] board, Location loc) {
 		return null;
 	}
 
@@ -57,13 +48,13 @@ abstract class ShortestPathMover implements MoveStrategy {
 	}
 
 	/**
-	 * Uses a* search to find the shortest path from start
-	 * to end. 
+	 * Uses a* search to find the shortest path from start to end.
+	 * 
 	 * @param start
 	 * @param end
 	 * @return
 	 */
-	protected List<Location> findPath(Location start, Location end) {
+	protected List<Location> findPath(Square[][] board, Location start, Location end) {
 
 		List<Location> path = new ArrayList<Location>();
 		PriorityQueue<LocationWrapper> fringe = new PriorityQueue<>();
@@ -95,8 +86,9 @@ abstract class ShortestPathMover implements MoveStrategy {
 				}
 
 				// Add all of this nodes valid neighbours onto the queue
-				for (Location neighbour : getNeighbours(current)) {
-					// The cost to a neighbouring node, will be the cost to here + 1
+				for (Location neighbour : getNeighbours(board, current)) {
+					// The cost to a neighbouring node, will be the cost to here
+					// + 1
 					int costToNeigh = item.getCostToHere() + 1;
 					int estTotal = costToNeigh + estimate(neighbour, end);
 					fringe.offer(new LocationWrapper(neighbour, item, costToNeigh, estTotal));
@@ -107,13 +99,12 @@ abstract class ShortestPathMover implements MoveStrategy {
 		return path;
 
 	}
-	
 
 	/**
 	 * A wrapper class for a location, necessary for findPath() to function
 	 *
 	 */
-	class LocationWrapper implements Comparable<LocationWrapper> {
+	private class LocationWrapper implements Comparable<LocationWrapper> {
 		private final Location location;
 		private final LocationWrapper from;
 		private final int costToHere;
