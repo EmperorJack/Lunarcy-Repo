@@ -11,26 +11,36 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
-
+/**
+ * This class handles communication between all clients and the gameLogic over a network 
+ * @author JTFM
+ *
+ */
 public class Server {
 	// Network related fields
-		private ServerSocket serverSocket;
-		private int maxClients;
-		private static final int PORT = 58627;
-		private ArrayList<ClientConnection> clientList = new ArrayList<ClientConnection>();
-		private LinkedBlockingQueue<NetworkAction> actionQueue = new LinkedBlockingQueue<NetworkAction>();
-		private Interpreter interpreter;
-		
-		Server(int maxClients){
-			this.maxClients = maxClients;
-			try {
-				serverSocket = new ServerSocket(PORT);
-				listenForClients();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			processActions();
+	private ServerSocket serverSocket;
+	private int maxClients;
+	private static final int PORT = 58627;
+	private ArrayList<ClientConnection> clientList = new ArrayList<ClientConnection>();
+	private LinkedBlockingQueue<NetworkAction> actionQueue = new LinkedBlockingQueue<NetworkAction>();
+	private Interpreter interpreter;
+	private GameLogic gameLogic;
+	private int updateFreq;
+	Server(int maxClients,int updateFreq){
+		this.maxClients = maxClients;
+		this.updateFreq = updateFreq;
+		try {
+			serverSocket = new ServerSocket(PORT);
+			listenForClients();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		GameState gameState = new GameState(10,10);
+		gameLogic = new GameLogic(gameState);
+		interpreter = new Interpreter(gameLogic); //TODO initialise interpreter
+		
+		run(); //send to all clients
+	}
 
 
 	private void listenForClients() throws IOException{
@@ -42,19 +52,35 @@ public class Server {
 			ClientConnection client = new ClientConnection(s,clientID);
 			clientList.add(client);
 		}
-		interpreter = new Interpreter(new GameLogic(new GameState(10,10))); //TODO testing
-		processActions();
+		
 	}
 
-	void processActions(){
-		System.out.println("Processing actions");
+	void run(){
+		transmitState(); //transmit initially
+		System.out.println("Server running fully");
+		long lastUpdate = System.currentTimeMillis();
 		while(clientList.size() > 0){
-			NetworkAction action = actionQueue.poll();
-			if(action != null)interpreter.interpret(action);
+			if(System.currentTimeMillis()< lastUpdate+updateFreq){
+				//gameLogic.tick()
+				transmitState();
+			}
+			else processAction();
 		}
 		System.out.println("All clients disconnected \n closing down server");
 	}
+	
+	private void transmitState() {
+		byte[] serializedGameState = gameLogic.getGameState(); //TODO serialized gamestate
+		for(ClientConnection client : clientList){
+			client.writeGameStateBytes(serializedGameState);
+		}
+	}
 
+
+	void processAction(){
+		NetworkAction action = actionQueue.poll();
+		if(action != null)interpreter.interpret(action);
+	}
 
 	private class ClientConnection{
 		Socket socket;
@@ -88,6 +114,14 @@ public class Server {
         	new Thread(new Runnable(){ public void run(){
         		listenToClient();
             }}).start();
+		}
+
+		public void writeGameStateBytes(byte[] serializedGameState) {
+			try {
+				outputToClient.write(serializedGameState);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		private void sendID(int clientID2) {
@@ -152,6 +186,6 @@ public class Server {
 	}
 
 	public static void main(String[] args) {
-		new Server(2);
+		new Server(2,50);
 	}
 }

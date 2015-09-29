@@ -49,4 +49,8 @@ public class GameLogic {
 	public void turnPlayerRight(int playerID){
 		state.getPlayer(playerID).turnRight();
 	}
+	
+	public GameState getGameState(){
+		return state;
+	}
 }
