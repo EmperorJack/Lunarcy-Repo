@@ -21,7 +21,7 @@ public class Client {
 		private ObjectOutputStream outputToServer;
 		private int id;
 		private String name;
-		
+
 		// test constructor
 		public Client() {
 			id = 0;
@@ -108,7 +108,7 @@ public class Client {
 			}
 			return true;
 		}
-		
+
 		public int getPlayerID() {
 			return id;
 		}

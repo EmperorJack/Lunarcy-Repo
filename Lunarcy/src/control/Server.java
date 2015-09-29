@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * This class handles communication between all clients and the gameLogic over a network 
+ * This class handles communication between all clients and the gameLogic over a network
  * @author JTFM
  *
  */
@@ -26,6 +26,7 @@ public class Server {
 	private Interpreter interpreter;
 	private GameLogic gameLogic;
 	private int updateFreq;
+	
 	Server(int maxClients,int updateFreq){
 		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;
@@ -38,7 +39,7 @@ public class Server {
 		GameState gameState = new GameState(10,10);
 		gameLogic = new GameLogic(gameState);
 		interpreter = new Interpreter(gameLogic); //TODO initialise interpreter
-		
+
 		run(); //send to all clients
 	}
 
@@ -52,7 +53,7 @@ public class Server {
 			ClientConnection client = new ClientConnection(s,clientID);
 			clientList.add(client);
 		}
-		
+
 	}
 
 	void run(){
@@ -68,7 +69,7 @@ public class Server {
 		}
 		System.out.println("All clients disconnected \n closing down server");
 	}
-	
+
 	private void transmitState() {
 		byte[] serializedGameState = gameLogic.getGameState(); //TODO serialized gamestate
 		for(ClientConnection client : clientList){
@@ -107,7 +108,7 @@ public class Server {
 			}
         	System.out.println("Server: new Client: " + username + " "+ clientID);
         	sendID(clientID);
-        	
+
         	System.out.println("wrote id to client" + clientID);
 
         	// Begin listening to this client

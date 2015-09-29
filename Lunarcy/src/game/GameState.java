@@ -18,7 +18,7 @@ import com.thoughtworks.xstream.XStream;
  * This class contains all the information about the game state, it does not
  * contain any of the logic for the game but should instead be modified by
  * another class containing the game logic.
- * 
+ *
  * @author Robbie
  *
  */
@@ -64,7 +64,7 @@ public class GameState {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param location
 	 *            - The location of the Square to be replaced
 	 * @param square
@@ -103,7 +103,7 @@ public class GameState {
 
 		}
 	}
-	
+
 	public Player getPlayer(int playerID){
 		return players.get(playerID);
 	}

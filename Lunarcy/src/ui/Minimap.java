@@ -1,5 +1,6 @@
 package ui;
 
+import game.BlankSquare;
 import game.GameState;
 import game.Square;
 import game.WalkableSquare;
@@ -7,7 +8,7 @@ import processing.core.*;
 
 /**
  * The minimap overlay that displays a 2D top down view of the game world.
- * 
+ *
  * @author Jack & Ben
  *
  */
@@ -62,20 +63,22 @@ public class Minimap extends DrawingComponent {
 
 		// Go through each square, drawing it
 		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
-				Square current = board[i][j];
+			for (int j = 0; j < board[0].length; j++) {
+				Square current = board[j][i];
 
 				// TODO: DISTINGUISH BETWEEN INDOOR/OUTDOOR
 
 				// Walkable square
 				if (current instanceof WalkableSquare) {
-					p.image(OUTDOOR_GROUND, i * SIZE, j * SIZE);
-					break;
+					p.image(OUTDOOR_GROUND, j * SIZE, i * SIZE, SIZE, SIZE);
+				}
+				//Dont draw blankSquares
+				if(current instanceof BlankSquare){
+
 				}
 				// Unwalkable square
 				else {
-					p.image(INDOOR_GROUND, i * SIZE, j * SIZE);
-					break;
+					p.image(INDOOR_GROUND, j * SIZE, i * SIZE, SIZE, SIZE);
 				}
 			}
 
