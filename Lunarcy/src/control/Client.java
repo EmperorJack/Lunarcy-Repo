@@ -27,7 +27,7 @@ public class Client {
 			id = 0;
 		}
 
-		Client(String serverAddr, String name, boolean hardwareRenderer){
+		public Client(String serverAddr, String name, boolean hardwareRenderer){
 			this.serverAddr = serverAddr;
 			try {
 				socket = new Socket(serverAddr, DEFAULT_PORT);
@@ -42,40 +42,7 @@ public class Client {
 			readInt();
 			//listen for gamestates from the server
 			//this will be replaced with actionlisteners
-			Scanner sc = new Scanner(System.in);
-			System.out.println("Enter command: ");
-			outerloop:
-			while(true){
-				while(sc.hasNext()){
-					String input = sc.next();
-					if(input.equals("quit"))break outerloop;
-					switch (input) {
-					case "w":
-						writeObject(new MoveAction(id,Direction.North));
-						break;
-					case "a":
-						writeObject(new MoveAction(id,Direction.West));
-						break;
-					case "s":
-						writeObject(new MoveAction(id,Direction.South));
-						break;
-					case "d":
-						writeObject(new MoveAction(id,Direction.East));
-						break;
-					case "q":
-						writeObject(new PickupAction(id,(int)(Math.random()*100))); //TODO this is placeholder for random object
-						break;
-					case "e":
-						writeObject(new DropAction(id,(int)(Math.random()*100))); //TODO this is placeholder for random object
-						break;
-					case "o":
-						writeObject(new OrientAction(id,Direction.South)); //TODO this is placeholder for random object
-						break;
-					default:
-						break;
-					}
-				}
-			}
+			testClientControls();
 			//close socket
 			try {
 				socket.close();
@@ -87,6 +54,48 @@ public class Client {
 		}
 
 
+
+		private void testClientControls() {
+			// TODO Auto-generated method stub
+			new Thread(new Runnable(){
+				public void run(){
+					Scanner sc = new Scanner(System.in);
+					System.out.println("Enter command: ");
+					outerloop:
+					while(true){
+						while(sc.hasNext()){
+							String input = sc.next();
+							if(input.equals("quit"))break outerloop;
+							switch (input) {
+							case "w":
+								writeObject(new MoveAction(id,Direction.North));
+								break;
+							case "a":
+								writeObject(new MoveAction(id,Direction.West));
+								break;
+							case "s":
+								writeObject(new MoveAction(id,Direction.South));
+								break;
+							case "d":
+								writeObject(new MoveAction(id,Direction.East));
+								break;
+							case "q":
+								writeObject(new PickupAction(id,(int)(Math.random()*100))); //TODO this is placeholder for random object
+								break;
+							case "e":
+								writeObject(new DropAction(id,(int)(Math.random()*100))); //TODO this is placeholder for random object
+								break;
+							case "o":
+								writeObject(new OrientAction(id,true)); //TODO this is placeholder for random object
+								break;
+							default:
+								break;
+							}
+						}
+					}
+				}
+			}).start();
+		}
 
 		private void readInt() {
 			System.out.println("trying to read ID");
