@@ -3,7 +3,9 @@ package ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import game.Direction;
 import game.GameState;
+import game.Location;
 import game.Player;
 import processing.core.*;
 
@@ -31,8 +33,8 @@ public class Perspective3D extends DrawingComponent {
 	private List<Player> players;
 
 	// camera fields
-	private PVector camEye;
-	private PVector camCenter;
+	private PVector cameraEye;
+	private PVector cameraCenter;
 	private float rotationAngle = 0;
 	private float elevationAngle = 0;
 
@@ -48,13 +50,22 @@ public class Perspective3D extends DrawingComponent {
 				SQUARE_SIZE);
 
 		// camera setup
-		camEye = new PVector(SQUARE_SIZE, -100, SQUARE_SIZE);
-		camCenter = new PVector(0, 0, 0);
+		cameraEye = new PVector(0, -100, 0);
+		cameraCenter = new PVector(0, PApplet.PI / 2, 0);
+
+		// set the initial game state
+		update(gameState);
 	}
 
 	@Override
 	public void update(GameState gameState) {
-		players = new ArrayList<Player>(gameState.getPlayers());
+		players = gameState.getPlayers();
+
+		// get the player associated with this client
+		Player player = players.get(playerID);
+
+		// update the camera to the player position and orientation
+		setCamera(player.getLocation(), player.getOrientation());
 	}
 
 	@Override
@@ -66,8 +77,8 @@ public class Perspective3D extends DrawingComponent {
 		p.pushStyle();
 
 		// position the camera
-		p.camera(camEye.x, camEye.y, camEye.z, camCenter.x, camCenter.y,
-				camCenter.z, 0.0f, 1, 0);
+		p.camera(cameraEye.x, cameraEye.y, cameraEye.z, cameraCenter.x,
+				cameraCenter.y, cameraCenter.z, 0.0f, 1, 0);
 
 		// test north pointer and sphere
 		p.pushMatrix();
@@ -172,10 +183,38 @@ public class Perspective3D extends DrawingComponent {
 	}
 
 	private void updateCamera(PVector move) {
-		camEye.x += move.x;
-		camEye.z += move.y;
-		camCenter.x = PApplet.cos(rotationAngle) + camEye.x;
-		camCenter.z = PApplet.sin(rotationAngle) + camEye.z;
-		camCenter.y = -PApplet.cos(elevationAngle) + camEye.y;
+		cameraEye.x += move.x;
+		cameraEye.z += move.y;
+		cameraCenter.x = PApplet.cos(rotationAngle) + cameraEye.x;
+		cameraCenter.z = PApplet.sin(rotationAngle) + cameraEye.z;
+		cameraCenter.y = -PApplet.cos(elevationAngle) + cameraEye.y;
+	}
+
+	private void setCamera(Location location, Direction orientation) {
+		cameraEye.x = location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2;
+		cameraEye.z = location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2;
+		float rotAngle = 0;
+
+		switch (orientation) {
+
+		case North:
+			rotAngle = 0;
+			break;
+
+		case East:
+			rotAngle = PApplet.PI / 2;
+			break;
+
+		case South:
+			rotAngle = PApplet.PI;
+			break;
+
+		case West:
+			rotAngle = PApplet.PI / 2 * 3;
+			break;
+		}
+
+		cameraCenter.x = PApplet.cos(rotAngle) + cameraEye.x;
+		cameraCenter.z = PApplet.sin(rotAngle) + cameraEye.z;
 	}
 }

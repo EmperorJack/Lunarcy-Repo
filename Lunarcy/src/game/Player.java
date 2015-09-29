@@ -20,13 +20,14 @@ public class Player {
 	private int oxygen;
 	private List<Item> inventory;
 
-	public Player(int uniqueID, String name, Location location) {
+	public Player(int uniqueID, String name, Location location, Direction orientation) {
 		this.id = uniqueID;
 		this.name = name;
 		if(location==null){
 			location = new Location(0,0);
 		}
 		this.location = location;
+		this.orientation = orientation;
 		this.oxygen = 200;
 	}
 
