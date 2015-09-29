@@ -21,7 +21,9 @@ import com.thoughtworks.xstream.XStream;
  * @author Robbie
  *
  */
+
 public class GameState implements Serializable{
+	//board[Y][X]
 	private Square[][] board;
 	private List<Player> players;
 	private Set<Rover> rovers;
