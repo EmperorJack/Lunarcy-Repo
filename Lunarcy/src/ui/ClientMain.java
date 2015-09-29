@@ -28,6 +28,12 @@ import javax.swing.JTextField;
 
 import control.Client;
 
+/**
+ * A GUI Window for starting a new Client.
+ *
+ * @author Ben
+ *
+ */
 class ClientMain extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -51,7 +57,7 @@ class ClientMain extends JFrame {
 	private JTextField serverTextbox;
 
 	public ClientMain() {
-		super("Player info");
+		super("Join Game");
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(370, 370));
@@ -325,46 +331,50 @@ class ClientMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				//Exit if they have not completed all fields
-				if(!validInput()){
+				// Exit if they have not completed all fields
+				if (!validInput()) {
 					return;
 				}
 
-				//Check if user wants OpenGL or Software Rendering
+				// Check if user wants OpenGL or Software Rendering
 				boolean hardwareRenderer = mode.getSelectedItem().equals(
 						"Hardware");
 
-				//Make a new client, with the entered details
-				Client client = new Client( );
-
+				// Make a new client, with the entered details
+				Client client = new Client(serverTextbox.getText(), nameTextbox
+						.getText(), hardwareRenderer);
 			}
 
-			private boolean validInput(){
+			private boolean validInput() {
 
-				//Regex from: http://www.mkyong.com/regular-expressions/how-to-validate-ip-address-with-regular-expression/
-				String IPADDRESS_PATTERN =
-							"^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-							"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-							"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-							"([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+				// Regex from:
+				// http://www.mkyong.com/regular-expressions/how-to-validate-ip-address-with-regular-expression/
+				String IPADDRESS_PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+						+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+						+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+						+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
-				//No name was entered (or just spaces were used)
-				if(nameTextbox.getText().trim().isEmpty()){
+				// If no name was entered (or just spaces were used)
+				if (nameTextbox.getText().trim().isEmpty()) {
 
-					//Set a red border on the nameTextbox
-					nameTextbox.setBorder(BorderFactory.createLineBorder(Color.RED));
+					// Set a red border on the nameTextbox
+					nameTextbox.setBorder(BorderFactory
+							.createLineBorder(Color.RED));
 					return false;
 				}
 
-				//Server can either hold localhost or an IP
-				if(serverTextbox.getText() != "locahost"
-						|| !serverTextbox.getText().matches(IPADDRESS_PATTERN) ){
+				// Server can only hold localhost or an IP
+				if (serverTextbox.getText() != "locahost"
+						|| !serverTextbox.getText().matches(IPADDRESS_PATTERN)) {
 
-					//The name must be valid now, so we can remove the red border
-					nameTextbox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+					// The name must be valid now, so we can remove the red
+					// border
+					nameTextbox.setBorder(BorderFactory
+							.createLineBorder(Color.GRAY));
 
-					//Set a red border on the serverTextbox
-					serverTextbox.setBorder(BorderFactory.createLineBorder(Color.RED));
+					// Set a red border on the serverTextbox
+					serverTextbox.setBorder(BorderFactory
+							.createLineBorder(Color.RED));
 					return false;
 				}
 

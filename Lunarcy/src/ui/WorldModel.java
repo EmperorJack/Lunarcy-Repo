@@ -88,7 +88,7 @@ public class WorldModel {
 		for (int y = 0; y < board.length; y++) {
 			for (int x = 0; x < board[0].length; x++) {
 				// get the square at x, y
-				Square s = board[x][y];
+				Square s = board[y][x];
 
 				// if the square is walkable
 				if (s instanceof WalkableSquare) {

@@ -2,6 +2,7 @@ package ui;
 
 import game.BlankSquare;
 import game.GameState;
+import game.Player;
 import game.Square;
 import game.WalkableSquare;
 import processing.core.*;
@@ -25,10 +26,12 @@ public class Minimap extends DrawingComponent {
 	// Images to preload
 	private final PImage OUTDOOR_GROUND;
 	private final PImage INDOOR_GROUND;
-
 	// private final PImage UNACCESIBLE_SQUARE;
 
-	public Minimap(PApplet p, GameState gameState) {
+	private Player player;
+	private int playerID;
+
+	public Minimap(int playerID, PApplet p, GameState gameState) {
 		super(p, gameState);
 
 		OUTDOOR_GROUND = p.loadImage("assets/minimap/outdoor.png");
@@ -37,6 +40,7 @@ public class Minimap extends DrawingComponent {
 		OUTDOOR_GROUND.resize(SIZE, SIZE);
 		INDOOR_GROUND.resize(SIZE, SIZE);
 
+		this.playerID = playerID;
 		// set the initial game state
 		update(gameState);
 	}
@@ -44,6 +48,7 @@ public class Minimap extends DrawingComponent {
 	@Override
 	public void update(GameState gameState) {
 		this.gameState = gameState;
+		player = gameState.getPlayer(playerID);
 	}
 
 	@Override
@@ -70,7 +75,7 @@ public class Minimap extends DrawingComponent {
 
 				// Walkable square
 				if (current instanceof WalkableSquare) {
-					p.image(OUTDOOR_GROUND, j * SIZE, i * SIZE, SIZE, SIZE);
+					p.image(OUTDOOR_GROUND, i * SIZE, j * SIZE, SIZE, SIZE);
 				}
 				//Dont draw blankSquares
 				if(current instanceof BlankSquare){
@@ -78,11 +83,15 @@ public class Minimap extends DrawingComponent {
 				}
 				// Unwalkable square
 				else {
-					p.image(INDOOR_GROUND, j * SIZE, i * SIZE, SIZE, SIZE);
+					p.image(INDOOR_GROUND, i * SIZE, j * SIZE, SIZE, SIZE);
 				}
 			}
 
 		}
+
+		//Draw player in their current location
+		p.fill(255,0,0);
+		p.rect(player.getLocation().getX()*SIZE, player.getLocation().getY()*SIZE, SIZE, SIZE);
 
 		// pop matrix and style information from the stack
 		p.popStyle();
