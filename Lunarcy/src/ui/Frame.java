@@ -65,6 +65,7 @@ public class Frame extends JFrame {
 		setLayout(new BorderLayout());
 		canvas = new Canvas(MAX_WIDTH, MAX_HEIGHT, client, gameState,
 				hardwareRenderer);
+
 		add(canvas, BorderLayout.CENTER);
 
 		// setup panel resize listener
