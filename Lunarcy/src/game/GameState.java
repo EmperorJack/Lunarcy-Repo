@@ -2,7 +2,7 @@ package game;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,18 +11,17 @@ import bots.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import com.thoughtworks.xstream.XStream;
 
 /**
  * This class contains all the information about the game state, it does not
  * contain any of the logic for the game but should instead be modified by
  * another class containing the game logic.
- * 
+ *
  * @author Robbie
  *
  */
-public class GameState {
+public class GameState implements Serializable{
 	private Square[][] board;
 	private List<Player> players;
 	private Set<Rover> rovers;
@@ -64,7 +63,7 @@ public class GameState {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param location
 	 *            - The location of the Square to be replaced
 	 * @param square
@@ -103,7 +102,7 @@ public class GameState {
 
 		}
 	}
-	
+
 	public Player getPlayer(int playerID){
 		return players.get(playerID);
 	}

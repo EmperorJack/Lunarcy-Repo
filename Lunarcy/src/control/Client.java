@@ -21,13 +21,13 @@ public class Client {
 		private ObjectOutputStream outputToServer;
 		private int id;
 		private String name;
-		
+
 		// test constructor
 		public Client() {
 			id = 0;
 		}
 
-		Client(String serverAddr, String name){
+		Client(String serverAddr, String name, boolean hardwareRenderer){
 			this.serverAddr = serverAddr;
 			try {
 				socket = new Socket(serverAddr, DEFAULT_PORT);
@@ -40,6 +40,7 @@ public class Client {
 			writeObject(name);
 			System.out.println("Name sent to server: " + name);
 			readInt();
+			//listen for gamestates from the server
 			//this will be replaced with actionlisteners
 			Scanner sc = new Scanner(System.in);
 			System.out.println("Enter command: ");
@@ -85,6 +86,8 @@ public class Client {
 
 		}
 
+
+
 		private void readInt() {
 			System.out.println("trying to read ID");
 			try {
@@ -108,13 +111,13 @@ public class Client {
 			}
 			return true;
 		}
-		
+
 		public int getPlayerID() {
 			return id;
 		}
 
 		public static void main(String[] args){
-			new Client("localhost","JP" + (int)(Math.random()*100));
+			new Client("localhost","JP" + (int)(Math.random()*100),true);
 		}
 }
 

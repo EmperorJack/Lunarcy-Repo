@@ -3,8 +3,10 @@ package control;
 import game.GameLogic;
 import game.GameState;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * This class handles communication between all clients and the gameLogic over a network 
+ * This class handles communication between all clients and the gameLogic over a network
  * @author JTFM
  *
  */
@@ -38,7 +40,7 @@ public class Server {
 		GameState gameState = new GameState(10,10);
 		gameLogic = new GameLogic(gameState);
 		interpreter = new Interpreter(gameLogic); //TODO initialise interpreter
-		
+
 		run(); //send to all clients
 	}
 
@@ -52,7 +54,7 @@ public class Server {
 			ClientConnection client = new ClientConnection(s,clientID);
 			clientList.add(client);
 		}
-		
+
 	}
 
 	void run(){
@@ -68,12 +70,34 @@ public class Server {
 		}
 		System.out.println("All clients disconnected \n closing down server");
 	}
-	
-	private void transmitState() {
-		byte[] serializedGameState = gameLogic.getGameState(); //TODO serialized gamestate
-		for(ClientConnection client : clientList){
-			client.writeGameStateBytes(serializedGameState);
+
+	private void transmitState(){
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutput out = null;
+		try {
+		  out = new ObjectOutputStream(bos);
+		  out.writeObject(gameLogic.getGameState());
+		  byte[] serializedGameState = bos.toByteArray();
+		  for(ClientConnection client : clientList){
+				client.writeGameStateBytes(serializedGameState);
+		  }
+		}catch(IOException e){
+			System.err.println("failed to write gamestate");
+		}finally {
+		  try {
+			    if (out != null) {
+			      out.close();
+			    }
+			  } catch (IOException ex) {
+			    // ignore close exception
+			  }
+			  try {
+			    bos.close();
+			  } catch (IOException ex) {
+			    // ignore close exception
+			  }
 		}
+
 	}
 
 
@@ -107,7 +131,7 @@ public class Server {
 			}
         	System.out.println("Server: new Client: " + username + " "+ clientID);
         	sendID(clientID);
-        	
+
         	System.out.println("wrote id to client" + clientID);
 
         	// Begin listening to this client
