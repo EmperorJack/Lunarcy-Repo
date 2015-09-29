@@ -1,6 +1,8 @@
 package control;
 
 import game.Direction;
+import game.GameState;
+import ui.Frame;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,6 +11,8 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
+
+
 
 //import com.sun.corba.se.impl.ior.NewObjectKeyTemplateBase;
 
@@ -21,6 +25,7 @@ public class Client {
 		private ObjectOutputStream outputToServer;
 		private int id;
 		private String name;
+		private Frame frame;
 
 		// test constructor
 		public Client() {
@@ -43,17 +48,25 @@ public class Client {
 			//listen for gamestates from the server
 			//this will be replaced with actionlisteners
 			testClientControls();
-			//close socket
-			try {
-				socket.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+			listenForGameUpdates();
 		}
 
 
+
+		private void listenForGameUpdates() {
+			while(true){
+				GameState state = null;
+				try {
+					System.out.println("attempting to listen to client");
+					state = (GameState)inputFromServer.readObject();
+				} catch (IOException e) {
+
+				} catch(ClassNotFoundException e){
+					e.printStackTrace();
+				}
+				if(state != null)frame.getCanvas().setGameState(state);
+			}
+		}
 
 		private void testClientControls() {
 			// TODO Auto-generated method stub
