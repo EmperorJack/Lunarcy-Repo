@@ -98,7 +98,7 @@ public class Frame extends JFrame {
 	public static GameState createTestGameState1(int w, int h) {
 		// test game state with w x h board
 		GameState state = new GameState(w, h, new Player(0, "Jack",
-				new Location(1, 1), Direction.North));
+				new Location(1, 1), Direction.East));
 
 		// load the board state from the map.xml
 		state.load();

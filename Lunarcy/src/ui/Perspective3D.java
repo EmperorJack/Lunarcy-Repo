@@ -51,7 +51,7 @@ public class Perspective3D extends DrawingComponent {
 
 		// camera setup
 		cameraEye = new PVector(0, -100, 0);
-		cameraCenter = new PVector(0, PApplet.PI / 2, 0);
+		cameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2) -100, 0);
 
 		// set the initial game state
 		update(gameState);
@@ -70,7 +70,7 @@ public class Perspective3D extends DrawingComponent {
 
 	@Override
 	public void draw(float delta) {
-		handleInput(delta);
+		//handleInput(delta);
 
 		// push matrix and style information onto the stack
 		p.pushMatrix();
@@ -160,6 +160,7 @@ public class Perspective3D extends DrawingComponent {
 		rotationAngle = PApplet
 				.map(p.mouseX, 0, p.width, 0, PApplet.TWO_PI * 2);
 		elevationAngle = PApplet.map(p.mouseY, 0, p.height, 0, PApplet.PI);
+
 		PVector move = new PVector(0, 0);
 		if (p.keyPressed) {
 			if (p.key == 'w' || p.key == 'W') {
@@ -188,6 +189,8 @@ public class Perspective3D extends DrawingComponent {
 		cameraCenter.x = PApplet.cos(rotationAngle) + cameraEye.x;
 		cameraCenter.z = PApplet.sin(rotationAngle) + cameraEye.z;
 		cameraCenter.y = -PApplet.cos(elevationAngle) + cameraEye.y;
+		System.out.println(elevationAngle);
+		System.out.println(cameraCenter.y);
 	}
 
 	private void setCamera(Location location, Direction orientation) {
@@ -198,19 +201,19 @@ public class Perspective3D extends DrawingComponent {
 		switch (orientation) {
 
 		case North:
-			rotAngle = 0;
+			rotAngle = -PApplet.PI / 2;
 			break;
 
 		case East:
-			rotAngle = PApplet.PI / 2;
+			rotAngle = 0;
 			break;
 
 		case South:
-			rotAngle = PApplet.PI;
+			rotAngle = PApplet.PI / 2;
 			break;
 
 		case West:
-			rotAngle = PApplet.PI / 2 * 3;
+			rotAngle = PApplet.PI;
 			break;
 		}
 
