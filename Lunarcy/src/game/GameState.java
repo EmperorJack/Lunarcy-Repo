@@ -32,11 +32,16 @@ public class GameState implements Serializable{
 		board = new Square[mapWidth][mapHeight];
 		rovers = new HashSet<Rover>();
 		this.players = new ArrayList<Player>();
+		//Here loop through the array and place players into the List in order by their Id's
+		//Allows you to access a player using ID as the index in the list
 		for(int curID = 0; curID < players.length; curID++){
 			for(Player player: players){
 				if(player.getId()==curID){
 					this.players.add(curID, player);
 				}
+			}
+			if(this.players.size()!=curID+1){
+				throw new IllegalArgumentException("Players must have ID numbers 0 to (maxPlayers-1) when creating GameState");
 			}
 		}
 	}
