@@ -111,8 +111,11 @@ public class Server {
 	 */
 	private void transmitState(){
 		//TODO This can be made more efficient by serialising once before transmitting
+		GameState state = gameLogic.getGameState();
+		System.out.println("sending Gamestate" + state.toString() + " " + state.hashCode());
+		System.out.println(state.getPlayer(0).getLocation().getX());
 		  for(ClientConnection client : clientList){
-			  client.writeObject(gameLogic.getGameState());
+			  client.writeObject(state);
 		  }
 	}
 
@@ -121,7 +124,7 @@ public class Server {
 	 */
 	private void processAction(){
 		NetworkAction action = actionQueue.poll();
-		if(action != null)interpreter.interpret(action);
+		if(action != null)action.applyAction(gameLogic);//interpreter.interpret(action);
 	}
 
 	private class ClientConnection{

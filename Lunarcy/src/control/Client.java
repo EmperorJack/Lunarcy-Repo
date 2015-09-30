@@ -62,7 +62,8 @@ public class Client {
 			while(true){
 				GameState state = getGameState();
 				if(state != null){
-					System.out.println("Recieved gamestate" + state.toString());
+					System.out.println("Recieved gamestate" + state.toString() + " " + state.hashCode());
+					System.out.println(state.getPlayer(0).getLocation().getX());
 					frame.getCanvas().setGameState(state);
 				}
 			}
@@ -72,16 +73,16 @@ public class Client {
 		}
 
 		private GameState getGameState() {
-				GameState state = null;
-				try {
-					//System.out.println("attempting to listen for game update");
-					state = (GameState)inputFromServer.readObject();
-					return state;
-				} catch (IOException e) {
+			GameState state = null;
+			try {
+				//System.out.println("attempting to listen for game update");
+				state = (GameState)inputFromServer.readObject();
+				return state;
+			} catch (IOException e) {
 
-				} catch(ClassNotFoundException e){
-					e.printStackTrace();
-				}
+			} catch(ClassNotFoundException e){
+				e.printStackTrace();
+			}
 			return null;
 		}
 		/**
