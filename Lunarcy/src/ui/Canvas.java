@@ -64,10 +64,12 @@ public class Canvas extends PApplet implements KeyListener {
 	 * @param gameState
 	 *            The initial state of the game to be drawn.
 	 */
-	public Canvas(int w, int h, Client client, boolean hardwareRenderer) {
+	public Canvas(int w, int h, Client client, GameState gameState,
+			boolean hardwareRenderer) {
 		this.maxWidth = w;
 		this.maxHeight = h;
 		this.client = client;
+		this.gameState = gameState;
 
 		// get the player id from the client entity
 		playerID = client.getPlayerID();
