@@ -47,7 +47,7 @@ public class Client {
 			//get gamestate setup game
 			GameState initialGameState = null;
 			while(initialGameState == null){
-				initialGameState = getGameState();
+				initialGameState = getGameState(); //wait for the initial gamestate
 			}
 			this.frame = new Frame(this,initialGameState, hardwareRenderer);
 

@@ -13,9 +13,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import com.sun.prism.paint.Color;
-
+import java.awt.Color;
 /**
  * This class handles communication between all clients and the gameLogic over a network
  * @author JTFM
@@ -32,6 +30,7 @@ public class Server {
 	private GameLogic gameLogic;
 	private GameState gameState;
 	private int updateFreq;
+	private boolean stopServer = false;
 
 	public Server(int maxClients,int updateFreq){
 		this.maxClients = maxClients;
@@ -43,14 +42,36 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		//add players to gamestate
+		for(ClientConnection client : clientList){
+			gameState.addPlayer(client.getClientID(),client.getName(),Color.RED);
+		}
 		gameLogic = new GameLogic(gameState);
 		interpreter = new Interpreter(gameLogic); //TODO initialise interpreter
-
+		sleep(500);
+		transmitState();
 		run(); //send to all clients
 	}
+	/**
+	 * Nicely shutdown server and return current gamestate
+	 */
+	public GameState stop(){
+		GameState state = this.gameState;
+		stopServer = true;
+		return state;
+	}
 
+	private void sleep(int time) {
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+		}
+	}
 
+	/**
+	 *
+	 * @throws IOException
+	 */
 	private void listenForClients() throws IOException{
 		System.out.println("Listeneing for clients");
 		//wait for all clients to connect
@@ -63,12 +84,14 @@ public class Server {
 		}
 
 	}
-
-	void run(){
+	/**
+	 * Run the client processing client actions and sending gamestates
+	 */
+	private void run(){
 		transmitState(); //transmit initially
 		System.out.println("Server running fully");
 		long lastUpdate = System.currentTimeMillis();
-		while(clientList.size() > 0){
+		while(clientList.size() > 0 && !stopServer){
 			if(System.currentTimeMillis()> lastUpdate+updateFreq){
 				//gameLogic.tick()
 				System.out.println("transmitting gamestate");
@@ -77,29 +100,36 @@ public class Server {
 			}
 			else processAction();
 		}
+		for(ClientConnection client : clientList){
+			//TODO send disconnect
+			client.disconnect();
+		}
 		System.out.println("All clients disconnected \n closing down server");
 	}
-
+	/**
+	 * Send out the current gamestate to all clients
+	 */
 	private void transmitState(){
 		//TODO This can be made more efficient by serialising once before transmitting
 		  for(ClientConnection client : clientList){
-				//client.writeGameStateBytes(serializedGameState);
 			  client.writeObject(gameLogic.getGameState());
 		  }
 	}
 
-
-	void processAction(){
+	/**
+	 * Process the next client action from the queue
+	 */
+	private void processAction(){
 		NetworkAction action = actionQueue.poll();
 		if(action != null)interpreter.interpret(action);
 	}
 
 	private class ClientConnection{
-		Socket socket;
-		ObjectInputStream inputFromClient;
-        ObjectOutputStream outputToClient;
-		int clientID;
-		String username;
+		private Socket socket;
+		private ObjectInputStream inputFromClient;
+        private ObjectOutputStream outputToClient;
+		private int clientID;
+		private String username;
 
 		ClientConnection(Socket socket, int id) throws IOException {
 			this.socket = socket;
@@ -121,12 +151,19 @@ public class Server {
         	sendID(clientID);
 
         	System.out.println("wrote id to client" + clientID);
-        	gameState.addPlayer(clientID,"username",Color.RED);
-        	System.out.println("made new player");
+
         	// Begin listening to this client
         	new Thread(new Runnable(){ public void run(){
         		listenToClient();
             }}).start();
+		}
+
+		public String getName() {
+			return this.username;
+		}
+
+		public int getClientID() {
+			return this.clientID;
 		}
 
 		public void writeGameStateBytes(byte[] serializedGameState) {
@@ -188,10 +225,12 @@ public class Server {
 		/**
 		 * Remove Client from active client list and attempt to close socket
 		 */
-		private void removeClient() {
+		private void disconnect() {
     		System.out.println("Client " + clientID + "Disconnected");
 			try {
 				socket.close();
+				inputFromClient.close();
+				outputToClient.close();
 
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
