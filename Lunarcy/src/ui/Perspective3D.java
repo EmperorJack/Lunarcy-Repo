@@ -51,7 +51,7 @@ public class Perspective3D extends DrawingComponent {
 
 		// camera setup
 		cameraEye = new PVector(0, -100, 0);
-		cameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2) -100, 0);
+		cameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2) - 100, 0);
 
 		// set the initial game state
 		update(gameState);
@@ -70,7 +70,7 @@ public class Perspective3D extends DrawingComponent {
 
 	@Override
 	public void draw(float delta) {
-		//handleInput(delta);
+		// handleInput(delta);
 
 		// push matrix and style information onto the stack
 		p.pushMatrix();

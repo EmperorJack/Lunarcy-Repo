@@ -92,20 +92,10 @@ public class MapBuilderController implements MouseListener,
 			}
 		}
 		if (e.getKeyChar() == 'x') {
-			try {
 				builder.save();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 		}
 		if (e.getKeyChar() == 'c') {
-			try {
 				builder.load();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 		}
 		if (e.getKeyChar() == 'm') {
 			builder.toggleWalkable();

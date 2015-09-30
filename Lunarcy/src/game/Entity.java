@@ -1,8 +1,8 @@
 package game;
 
 public abstract class Entity {
-	public final int itemID;
-	public Entity(int itemID){
-		this.itemID = itemID;
+	public final int entityID;
+	public Entity(int entityID){
+		this.entityID = entityID;
 	}
 }
