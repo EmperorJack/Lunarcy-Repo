@@ -31,28 +31,28 @@ public class ServerMain extends JFrame {
 	private JSlider refreshRate;
 	private JSlider playerNum;
 
-	public ServerMain(){
+	public ServerMain() {
 		super("Start Game");
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(370, 570));
 
-		//Display a message at the top
+		// Display a message at the top
 		addTitle();
 
-		//Add a slider for refresh rate
+		// Add a slider for refresh rate
 		addRefreshRateChooser();
 
-		//Add a slider for number of players
+		// Add a slider for number of players
 		addPlayerNumChooser();
 
-		//Add buttons to start/stop the server
+		// Add buttons to start/stop the server
 		addStartStopButtons();
 
-		//Add buttons for saving/loading the whole game state
+		// Add buttons for saving/loading the whole game state
 		addSaveLoadButtons();
 
-		//Add a text are for printing output etc
+		// Add a text are for printing output etc
 		addConsole();
 
 		pack();
@@ -73,7 +73,7 @@ public class ServerMain extends JFrame {
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
 
 		JLabel title = new JLabel("Lunarcy: Server");
-		//Make the font larger (25px)
+		// Make the font larger (25px)
 		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 25));
 
 		// Left/top/bottom padding to center text
@@ -94,7 +94,7 @@ public class ServerMain extends JFrame {
 
 		JLabel label = new JLabel("Refresh rate (millis):");
 
-		//Label is at 0,1 with a width of 2
+		// Label is at 0,1 with a width of 2
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 2;
@@ -106,7 +106,7 @@ public class ServerMain extends JFrame {
 		refreshRate.setPaintTicks(true);
 		refreshRate.setPaintLabels(true);
 
-		//Slider is at 0,2 with a width of 2
+		// Slider is at 0,2 with a width of 2
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
@@ -121,7 +121,7 @@ public class ServerMain extends JFrame {
 
 		JLabel label = new JLabel("Num Players:");
 
-		//Label is at 0,3 with a width of 2
+		// Label is at 0,3 with a width of 2
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = 2;
@@ -132,7 +132,7 @@ public class ServerMain extends JFrame {
 		playerNum.setPaintTicks(true);
 		playerNum.setPaintLabels(true);
 
-		//Slider is at 0,4 with a width of 2
+		// Slider is at 0,4 with a width of 2
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridwidth = 2;
@@ -147,7 +147,7 @@ public class ServerMain extends JFrame {
 		JButton start = new JButton("Start");
 		JButton stop = new JButton("Stop");
 
-		//When clicked, make start unclickable and stop clickable
+		// When clicked, make start unclickable and stop clickable
 		start.addActionListener(new ActionListener() {
 
 			@Override
@@ -155,33 +155,38 @@ public class ServerMain extends JFrame {
 				start.setEnabled(false);
 				stop.setEnabled(true);
 
-				//Make a new server with the selected values
-				server = new Server(playerNum.getValue(), refreshRate.getValue());
+				// Makes a new thread, which deals with the server
+
+				new Thread(new Runnable() {
+					public void run() {
+						server = new Server(playerNum.getValue(), refreshRate.getValue());
+					}
+				}).start();
 
 			}
 		});
 
-		//Start button is at 0, 5
+		// Start button is at 0, 5
 		c.gridx = 0;
 		c.gridy = 5;
 		add(start, c);
 
-		//When clicked, make stop unclickable and start clicabe
+		// When clicked, make stop unclickable and start clicabe
 		stop.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				start.setEnabled(true);
 				stop.setEnabled(false);
-				//Tell the server to end
-				//server.stop();
+				// Tell the server to end
+				server.stop();
 			}
 		});
 
-		//Not enabled until start has been clicked
+		// Not enabled until start has been clicked
 		stop.setEnabled(false);
 
-		//Stop button is at 1, 5
+		// Stop button is at 1, 5
 		c.gridx = 1;
 		c.gridy = 5;
 
@@ -194,18 +199,17 @@ public class ServerMain extends JFrame {
 		JButton save = new JButton("Save");
 		JButton load = new JButton("Load");
 
-		//Save button is at 0,6
+		// Save button is at 0,6
 		c.gridx = 0;
 		c.gridy = 6;
 		add(save, c);
 
-		//Load button is at 1,6
+		// Load button is at 1,6
 		c.gridx = 1;
 		c.gridy = 6;
 		add(load, c);
 
 	}
-
 
 	private void addConsole() {
 		GridBagConstraints c = new GridBagConstraints();
@@ -213,11 +217,11 @@ public class ServerMain extends JFrame {
 
 		JTextArea console = new JTextArea();
 
-		//Not directly editable by user
+		// Not directly editable by user
 		console.setEditable(false);
 		console.setPreferredSize(new Dimension(getWidth(), 250));
 
-		//Console is at 0, 7
+		// Console is at 0, 7
 		c.gridx = 0;
 		c.gridy = 7;
 		c.gridwidth = 2;
@@ -226,11 +230,8 @@ public class ServerMain extends JFrame {
 		add(console, c);
 	}
 
-
 	public static void main(String[] args) {
 		new ServerMain();
 	}
-
-
 
 }

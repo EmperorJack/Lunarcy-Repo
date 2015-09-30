@@ -153,6 +153,7 @@ class ClientMain extends JFrame {
 
 		JLabel nameLabel = new JLabel("Enter your name:");
 		nameTextbox = new JTextField("");
+
 		// Width of 200, Height of the font size
 		nameTextbox.setPreferredSize(new Dimension(WIDTH, nameTextbox.getFont()
 				.getSize() + 5));
@@ -334,9 +335,9 @@ class ClientMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				// Exit if they have not completed all fields
-				if (!validInput()) {
-					return;
-				}
+				//if (!validInput()) {
+				//	return;
+				//}
 
 				// Check if user wants OpenGL or Software Rendering
 				boolean hardwareRenderer = mode.getSelectedItem().equals(
@@ -366,20 +367,21 @@ class ClientMain extends JFrame {
 				}
 
 				// Server can only hold localhost or an IP
-				if (!serverTextbox.getText().equals("localhost")
+				if (!serverTextbox.getText().trim().equals("localhost")
 						|| !serverTextbox.getText().matches(IPADDRESS_PATTERN)) {
 
-					// The name must be valid now, so we can remove the red
-					// border
+					// The name must be valid now, so we can remove the red border
 					nameTextbox.setBorder(BorderFactory
 							.createLineBorder(Color.GRAY));
 
 					// Set a red border on the serverTextbox
 					serverTextbox.setBorder(BorderFactory
 							.createLineBorder(Color.RED));
+
 					return false;
 				}
 
+				System.out.println("True my friend");
 				return true;
 			}
 		});
