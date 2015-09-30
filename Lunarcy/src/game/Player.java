@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Represents a Player character and contains all the information about the
  * Player e.g orientation, position, inventory, identification
- * 
+ *
  * @author Robbie
  *
  */
@@ -24,7 +24,7 @@ public class Player implements Serializable{
 	public Player(int uniqueID, String name, Location location, Direction orientation) {
 		this.id = uniqueID;
 		this.name = name;
-		this.location = location == null ? new Location(0,0) : location;
+		this.location = location == null ? new Location(1,1) : location;
 		this.orientation = orientation == null ? Direction.NORTH : orientation;
 		this.oxygen = 200;
 	}
@@ -60,11 +60,11 @@ public class Player implements Serializable{
 	public Direction getOrientation() {
 		return orientation;
 	}
-	
+
 	public void turnLeft(){
 		orientation = Direction.left(orientation);
 	}
-	
+
 	public void turnRight(){
 		orientation = Direction.right(orientation);
 	}

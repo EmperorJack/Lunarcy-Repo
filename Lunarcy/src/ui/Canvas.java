@@ -230,7 +230,6 @@ public class Canvas extends PApplet implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("TEST KEY INPUT CANVAS");
 		// check if the timer has been exceeded
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - keyTimer > 100) {
@@ -249,9 +248,9 @@ public class Canvas extends PApplet implements KeyListener {
 						.getOrientation()));
 				break;
 			case KeyEvent.VK_A:
-				System.out.println("rotate left");
-				new GameLogic(gameState).turnPlayerLeft(playerID);
-				setGameState(gameState);
+				// System.out.println("rotate left");
+				// new GameLogic(gameState).turnPlayerLeft(playerID);
+				// setGameState(gameState);
 				break;
 			case KeyEvent.VK_S:
 				System.out.println("move back");
@@ -262,9 +261,9 @@ public class Canvas extends PApplet implements KeyListener {
 						.opposite(player.getOrientation())));
 				break;
 			case KeyEvent.VK_D:
-				System.out.println("rotate right");
-				new GameLogic(gameState).turnPlayerRight(playerID);
-				setGameState(gameState);
+				// System.out.println("rotate right");
+				// new GameLogic(gameState).turnPlayerRight(playerID);
+				// setGameState(gameState);
 				break;
 			}
 		}
