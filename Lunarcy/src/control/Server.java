@@ -33,9 +33,31 @@ public class Server {
 	private LinkedBlockingQueue<NetworkAction> actionQueue = new LinkedBlockingQueue<NetworkAction>();
 	private Interpreter interpreter;
 	private GameLogic gameLogic;
-	private GameState gameState;
 	private int updateFreq;
 	private boolean stopServer = false;
+
+
+	public Server(int maxClients, int updateFreq,GameState gameState) {
+		this.maxClients = maxClients;
+		this.updateFreq = updateFreq;
+
+		try {
+			serverSocket = new ServerSocket(PORT);
+			listenForClients();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// add players to gamestate
+		for (ClientConnection client : clientList) {
+			gameState.addPlayer(client.getClientID(), client.getName(),
+					Color.RED);
+		}
+		gameLogic = new GameLogic(gameState);
+		//interpreter = new Interpreter(gameLogic); // TODO initialise interpreter
+		sleep(500);
+		transmitState();
+		run(); // send to all clients
+	}
 
 	public Server(int maxClients, int updateFreq) {
 		this.maxClients = maxClients;
@@ -63,9 +85,8 @@ public class Server {
 	 * Nicely shutdown server and return current gamestate
 	 */
 	public GameState stop() {
-		GameState state = this.gameState;
 		stopServer = true;
-		return state;
+		return gameLogic.getGameState();
 	}
 
 	private void sleep(int time) {
@@ -110,8 +131,9 @@ public class Server {
 		}
 		for (ClientConnection client : clientList) {
 			// TODO send disconnect
-			client.disconnect();
+			client.stop();
 		}
+		saveGamestate();
 		System.out.println("All clients disconnected \n closing down server");
 	}
 
@@ -145,6 +167,7 @@ public class Server {
 		private ObjectOutputStream outputToClient;
 		private int clientID;
 		private String username;
+		private boolean stop = false;
 
 		ClientConnection(Socket socket, int id) throws IOException {
 			this.socket = socket;
@@ -204,7 +227,7 @@ public class Server {
 		 */
 		public void listenToClient() {
 			// While the client is sending messages
-			while (true) {
+			while (!stop) {
 				NetworkAction action = null;
 				try {
 					// System.out.println("attempting to listen to client");
@@ -223,6 +246,7 @@ public class Server {
 				if (action != null)
 					actionQueue.add(action);
 			}
+			disconnect();
 		}
 
 		/**
@@ -260,6 +284,9 @@ public class Server {
 			clientList.remove(this);
 		}
 
+		private void stop(){
+			this.stop  = true;
+		}
 	}
 
 	/**

@@ -222,7 +222,7 @@ public class ServerMain extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				server.loadGamestate();
+				server = new Server(playerNum.getValue(), refreshRate.getValue(), Storage.loadState());
 			}
 
 		});
