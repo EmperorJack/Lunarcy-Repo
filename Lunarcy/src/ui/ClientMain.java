@@ -385,7 +385,6 @@ class ClientMain extends JFrame {
 					return false;
 				}
 
-				System.out.println("True my friend");
 				return true;
 			}
 		});
