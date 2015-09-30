@@ -1,18 +1,18 @@
 package game;
 
-/** 
- * This class controls the interaction between input and the GameState 
- * 
+/**
+ * This class controls the interaction between input and the GameState
+ *
  * @author Robbie
  *
  */
 public class GameLogic {
 	private GameState state;
-	
+
 	public GameLogic(GameState state){
 		this.state = state;
 	}
-	
+
 	/**
 	 * Checks if a player can enter a square and if they can will move them into that square
 	 * @param playerId The ID of the Player to be moved
@@ -25,7 +25,7 @@ public class GameLogic {
 			throw new IllegalArgumentException("Parameter 'direction' may not be null");
 		Player player = state.getPlayer(playerID);
 		Square dest = state.getSquare(player.getLocation().getAdjacent(direction));
-		
+
 		if(dest != null && dest.canEnter(player, Direction.opposite(direction))){
 			Square src = state.getSquare(player.getLocation());
 			src.removePlayer(player);
@@ -35,7 +35,7 @@ public class GameLogic {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Turn a player to the left of their current orientation
 	 * @param playerID the ID of the player to be turned
@@ -43,7 +43,7 @@ public class GameLogic {
 	public void turnPlayerLeft(int playerID){
 		state.getPlayer(playerID).turnLeft();
 	}
-	
+
 	/**
 	 * Turn a player to the right of their current orientation
 	 * @param playerID the ID of the player to be turned
@@ -51,7 +51,7 @@ public class GameLogic {
 	public void turnPlayerRight(int playerID){
 		state.getPlayer(playerID).turnRight();
 	}
-	
+
 	public GameState getGameState(){
 		return state;
 	}

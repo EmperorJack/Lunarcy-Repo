@@ -51,25 +51,17 @@ public class Client {
 			}
 			this.frame = new Frame(this,initialGameState, hardwareRenderer);
 
-			//testClientControls();//this will be replaced with actionlisteners
 			System.out.println("Listening for gamestate");
 			listenForGameUpdates(); //listen for gamestates from the server
 		}
-
-
 
 		private void listenForGameUpdates() {
 			while(true){
 				GameState state = getGameState();
 				if(state != null){
-					System.out.println("Recieved gamestate" + state.toString() + " " + state.hashCode());
-					System.out.println(state.getPlayer(0).getLocation().getX());
 					frame.getCanvas().setGameState(state);
 				}
 			}
-
-
-
 		}
 
 		private GameState getGameState() {
@@ -84,50 +76,6 @@ public class Client {
 				e.printStackTrace();
 			}
 			return null;
-		}
-		/**
-		 * A method for testing the sending of network actions to the server
-		 */
-		private void testClientControls() {
-			// TODO Auto-generated method stub
-			new Thread(new Runnable(){
-				public void run(){
-					Scanner sc = new Scanner(System.in);
-					System.out.println("Enter command: ");
-					outerloop:
-					while(true){
-						while(sc.hasNext()){
-							String input = sc.next();
-							if(input.equals("quit"))break outerloop;
-							switch (input) {
-							case "w":
-								writeObject(new MoveAction(id,Direction.NORTH));
-								break;
-							case "a":
-								writeObject(new MoveAction(id,Direction.WEST));
-								break;
-							case "s":
-								writeObject(new MoveAction(id,Direction.SOUTH));
-								break;
-							case "d":
-								writeObject(new MoveAction(id,Direction.EAST));
-								break;
-							case "q":
-								writeObject(new PickupAction(id,(int)(Math.random()*100),(int)(Math.random()*100))); //TODO this is placeholder for random object
-								break;
-							case "e":
-								writeObject(new DropAction(id,(int)(Math.random()*100))); //TODO this is placeholder for random object
-								break;
-							case "o":
-								writeObject(new OrientAction(id,true)); //TODO this is placeholder for random object
-								break;
-							default:
-								break;
-							}
-						}
-					}
-				}
-			}).start();
 		}
 
 		public void sendAction(NetworkAction action) {
