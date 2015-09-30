@@ -39,7 +39,7 @@ class ClientMain extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	// Used ion the server textbox
-	private final String EXAMPLESERVER = "eg 127.0.0.1";
+	private final String EXAMPLESERVER = "localhost";
 
 	// Will be used to make a palette of size MAXCOLORS x MAXCOLORS
 	private final int MAXCOLORS = 5;
