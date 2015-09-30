@@ -1,5 +1,6 @@
 package game;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -10,7 +11,7 @@ import java.util.HashMap;
  * @author Robbie
  *
  */
-public abstract class Square {
+public abstract class Square implements Serializable {
 	protected Map<Direction, Wall> walls;
 	public abstract boolean canEnter(Player player, Direction direction);
 	public abstract boolean addPlayer(Player player);

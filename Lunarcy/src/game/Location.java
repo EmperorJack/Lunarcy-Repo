@@ -1,5 +1,7 @@
 package game;
 
+import java.io.Serializable;
+
 /**
  * This class will store an x,y coordinate corresponding to a location on the
  * game grid
@@ -7,7 +9,7 @@ package game;
  * @author b
  *
  */
-public class Location {
+public class Location implements Serializable{
 
 	private int x;
 	private int y;

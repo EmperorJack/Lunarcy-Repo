@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * @author Robbie
  *
  */
-public class Player {
+public class Player implements Serializable{
 	private final int id;
 	private final String name;
 	private Color color;

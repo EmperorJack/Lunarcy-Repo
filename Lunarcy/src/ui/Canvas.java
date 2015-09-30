@@ -105,10 +105,8 @@ public class Canvas extends PApplet implements KeyListener {
 
 		// audio setup
 		minim = new Minim(this);
-		track = minim.loadFile("assets/audio/important2.mp3");
+		// track = minim.loadFile("assets/audio/*.mp3");
 		// track.play();
-		// track.loop();
-		// track.mute();
 	}
 
 	/**
@@ -249,7 +247,8 @@ public class Canvas extends PApplet implements KeyListener {
 				System.out.println("move back");
 				new GameLogic(gameState).movePlayer(
 						playerID,
-						Direction.right(Direction.right(gameState.getPlayer(playerID).getOrientation())));
+						Direction.right(Direction.right(gameState.getPlayer(
+								playerID).getOrientation())));
 				setGameState(gameState);
 				break;
 			case KeyEvent.VK_D:
