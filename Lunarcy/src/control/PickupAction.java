@@ -5,19 +5,25 @@ import game.GameLogic;
 import java.io.Serializable;
 
 public class PickupAction implements NetworkAction, Serializable {
-	
+
 	int playerID;
+	int containerID;
 	int objectID;
-	
-	public PickupAction(int playerID, int objectID) {
+
+	public PickupAction(int playerID, int containerID, int objectID) {
 		this.playerID = playerID;
+		this.containerID = containerID;
 		this.objectID = objectID;
 	}
-	
+
 	public int getPlayerID() {
 		return playerID;
 	}
-	
+
+	public int getContainerID() {
+		return containerID;
+	}
+
 	public int getObjectID() {
 		return objectID;
 	}

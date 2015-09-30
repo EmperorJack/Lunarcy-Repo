@@ -29,7 +29,7 @@ public class Server {
 	private GameLogic gameLogic;
 	private int updateFreq;
 
-	Server(int maxClients,int updateFreq){
+	public Server(int maxClients,int updateFreq){
 		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;
 		try {
@@ -63,9 +63,11 @@ public class Server {
 		System.out.println("Server running fully");
 		long lastUpdate = System.currentTimeMillis();
 		while(clientList.size() > 0){
-			if(System.currentTimeMillis()< lastUpdate+updateFreq){
+			if(System.currentTimeMillis()> lastUpdate+updateFreq){
 				//gameLogic.tick()
+				System.out.println("transmitting gamestate");
 				transmitState();
+				lastUpdate = System.currentTimeMillis();
 			}
 			else processAction();
 		}
@@ -73,32 +75,11 @@ public class Server {
 	}
 
 	private void transmitState(){
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutput out = null;
-		try {
-		  out = new ObjectOutputStream(bos);
-		  out.writeObject(gameLogic.getGameState());
-		  byte[] serializedGameState = bos.toByteArray();
+		//TODO This can be made more efficient by serialising once before transmitting
 		  for(ClientConnection client : clientList){
-				client.writeGameStateBytes(serializedGameState);
+				//client.writeGameStateBytes(serializedGameState);
+			  client.writeObject(gameLogic.getGameState());
 		  }
-		}catch(IOException e){
-			System.err.println("failed to write gamestate");
-		}finally {
-		  try {
-			    if (out != null) {
-			      out.close();
-			    }
-			  } catch (IOException ex) {
-			    // ignore close exception
-			  }
-			  try {
-			    bos.close();
-			  } catch (IOException ex) {
-			    // ignore close exception
-			  }
-		}
-
 	}
 
 
@@ -215,6 +196,6 @@ public class Server {
 	}
 
 	public static void main(String[] args) {
-		new Server(2,50);
+		new Server(2,1000);
 	}
 }

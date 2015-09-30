@@ -27,9 +27,8 @@ public class Client {
 		private String name;
 		private Frame frame;
 
-		// test constructor
-		public Client() {
-			id = 0;
+		public Client(){
+			this.id = 0;
 		}
 
 		public Client(String serverAddr, String name, boolean hardwareRenderer){
@@ -45,27 +44,44 @@ public class Client {
 			writeObject(name);
 			System.out.println("Name sent to server: " + name);
 			readInt();
-			//listen for gamestates from the server
-			//this will be replaced with actionlisteners
-			testClientControls();
-			listenForGameUpdates();
+			//get gamestate setup game
+			GameState initialGameState = null;
+			while(initialGameState == null){
+				initialGameState = getGameState();
+			}
+			this.frame = new Frame(this,initialGameState,hardwareRenderer);
+			testClientControls();//this will be replaced with actionlisteners
+			System.out.println("Listening for gamestate");
+			listenForGameUpdates(); //listen for gamestates from the server
 		}
 
 
 
 		private void listenForGameUpdates() {
 			while(true){
+				GameState state = getGameState();
+				if(state != null){
+					System.out.println("Recieved gamestate" + state.toString());
+					//frame.getCanvas().setGameState(state);
+				}
+			}
+
+
+
+		}
+
+		private GameState getGameState() {
 				GameState state = null;
 				try {
-					System.out.println("attempting to listen to client");
+					System.out.println("attempting to listen for game update");
 					state = (GameState)inputFromServer.readObject();
+					return state;
 				} catch (IOException e) {
 
 				} catch(ClassNotFoundException e){
 					e.printStackTrace();
 				}
-				if(state != null)frame.getCanvas().setGameState(state);
-			}
+			return null;
 		}
 
 		private void testClientControls() {
@@ -93,7 +109,7 @@ public class Client {
 								writeObject(new MoveAction(id,Direction.East));
 								break;
 							case "q":
-								writeObject(new PickupAction(id,(int)(Math.random()*100))); //TODO this is placeholder for random object
+								writeObject(new PickupAction(id,(int)(Math.random()*100),(int)(Math.random()*100))); //TODO this is placeholder for random object
 								break;
 							case "e":
 								writeObject(new DropAction(id,(int)(Math.random()*100))); //TODO this is placeholder for random object
