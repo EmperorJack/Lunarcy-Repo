@@ -2,6 +2,7 @@ package control;
 
 import game.GameLogic;
 import game.GameState;
+import game.Player;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,6 +13,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import com.sun.prism.paint.Color;
 
 /**
  * This class handles communication between all clients and the gameLogic over a network
@@ -27,18 +30,20 @@ public class Server {
 	private LinkedBlockingQueue<NetworkAction> actionQueue = new LinkedBlockingQueue<NetworkAction>();
 	private Interpreter interpreter;
 	private GameLogic gameLogic;
+	private GameState gameState;
 	private int updateFreq;
 
-	Server(int maxClients,int updateFreq){
+	public Server(int maxClients,int updateFreq){
 		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;
+		GameState gameState = new GameState(maxClients);
 		try {
 			serverSocket = new ServerSocket(PORT);
 			listenForClients();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		GameState gameState = new GameState(10,10);
+
 		gameLogic = new GameLogic(gameState);
 		interpreter = new Interpreter(gameLogic); //TODO initialise interpreter
 
@@ -52,6 +57,7 @@ public class Server {
 		while(clientList.size() < maxClients){
 			Socket s = serverSocket.accept();
 			int clientID = clientList.size();
+
 			ClientConnection client = new ClientConnection(s,clientID);
 			clientList.add(client);
 		}
@@ -63,9 +69,11 @@ public class Server {
 		System.out.println("Server running fully");
 		long lastUpdate = System.currentTimeMillis();
 		while(clientList.size() > 0){
-			if(System.currentTimeMillis()< lastUpdate+updateFreq){
+			if(System.currentTimeMillis()> lastUpdate+updateFreq){
 				//gameLogic.tick()
+				System.out.println("transmitting gamestate");
 				transmitState();
+				lastUpdate = System.currentTimeMillis();
 			}
 			else processAction();
 		}
@@ -73,32 +81,11 @@ public class Server {
 	}
 
 	private void transmitState(){
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutput out = null;
-		try {
-		  out = new ObjectOutputStream(bos);
-		  out.writeObject(gameLogic.getGameState());
-		  byte[] serializedGameState = bos.toByteArray();
+		//TODO This can be made more efficient by serialising once before transmitting
 		  for(ClientConnection client : clientList){
-				client.writeGameStateBytes(serializedGameState);
+				//client.writeGameStateBytes(serializedGameState);
+			  client.writeObject(gameLogic.getGameState());
 		  }
-		}catch(IOException e){
-			System.err.println("failed to write gamestate");
-		}finally {
-		  try {
-			    if (out != null) {
-			      out.close();
-			    }
-			  } catch (IOException ex) {
-			    // ignore close exception
-			  }
-			  try {
-			    bos.close();
-			  } catch (IOException ex) {
-			    // ignore close exception
-			  }
-		}
-
 	}
 
 
@@ -134,7 +121,8 @@ public class Server {
         	sendID(clientID);
 
         	System.out.println("wrote id to client" + clientID);
-
+        	gameState.addPlayer(clientID,"username",Color.RED);
+        	System.out.println("made new player");
         	// Begin listening to this client
         	new Thread(new Runnable(){ public void run(){
         		listenToClient();
@@ -215,6 +203,6 @@ public class Server {
 	}
 
 	public static void main(String[] args) {
-		new Server(2,50);
+		new Server(2,1000);
 	}
 }

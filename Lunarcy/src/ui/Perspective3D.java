@@ -104,10 +104,10 @@ public class Perspective3D extends DrawingComponent {
 		p.popMatrix();
 
 		// UNCOMMENT THE FOLLOWING LINES FOR A GOOD TIME
-		// p.scale(PApplet.sin(PApplet.radians(p.frameCount)));
-		// p.rotateX(PApplet.radians(p.frameCount));
-		// p.rotateY(PApplet.radians(p.frameCount));
-		// p.rotateZ(PApplet.radians(p.frameCount / 4));
+		//p.scale(PApplet.sin(PApplet.radians(p.frameCount)));
+		//p.rotateX(PApplet.radians(p.frameCount));
+		//p.rotateY(PApplet.radians(p.frameCount));
+		//p.rotateZ(PApplet.radians(p.frameCount / 4));
 
 		// draw the game world
 		world.draw();

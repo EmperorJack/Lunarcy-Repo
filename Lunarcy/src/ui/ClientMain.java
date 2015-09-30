@@ -60,7 +60,7 @@ class ClientMain extends JFrame {
 		super("Join Game");
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(370, 370));
+		setPreferredSize(new Dimension(370, 390));
 
 		// Pre load our spacesuit image
 		loadImage();
@@ -130,6 +130,7 @@ class ClientMain extends JFrame {
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
 
 		JLabel title = new JLabel("Welcome to Lunarcy");
+		//Make the font larger (25px)
 		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 25));
 
 		// Left padding to centre text
@@ -313,6 +314,7 @@ class ClientMain extends JFrame {
 		// Option dropdown at 0,9 with a width of 2 cells
 		c.gridx = 0;
 		c.gridy = 9;
+		c.insets = new Insets(0, 0, 15, 0);
 
 		add(mode, c);
 
@@ -364,7 +366,7 @@ class ClientMain extends JFrame {
 				}
 
 				// Server can only hold localhost or an IP
-				if (serverTextbox.getText() != "locahost"
+				if (!serverTextbox.getText().equals("localhost")
 						|| !serverTextbox.getText().matches(IPADDRESS_PATTERN)) {
 
 					// The name must be valid now, so we can remove the red
