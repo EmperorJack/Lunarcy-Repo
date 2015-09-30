@@ -165,6 +165,7 @@ public class WorldModel {
 	 * separately.
 	 */
 	public void draw() {
+		p.pushStyle();
 		p.fill(150);
 
 		// draw the floor
@@ -215,6 +216,8 @@ public class WorldModel {
 			o.draw();
 		}
 		p.popMatrix();
+
+		p.popStyle();
 	}
 
 	/**
