@@ -23,11 +23,8 @@ public class Player {
 	public Player(int uniqueID, String name, Location location, Direction orientation) {
 		this.id = uniqueID;
 		this.name = name;
-		if(location==null){
-			location = new Location(0,0);
-		}
-		this.location = location;
-		this.orientation = orientation;
+		this.location = location == null ? new Location(0,0) : location;
+		this.orientation = orientation == null ? Direction.North : orientation;
 		this.oxygen = 200;
 	}
 
