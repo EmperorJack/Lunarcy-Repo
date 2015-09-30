@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.awt.Color;
 
+import storage.Storage;
+
 /**
  * This class handles communication between all clients and the gameLogic over a
  * network
@@ -260,8 +262,18 @@ public class Server {
 
 	}
 
-	public GameState getGamestate() {
-		return gameState;
+	/**
+	 * Saves the current gamestate to disc
+	 */
+	public void saveGamestate(){
+		Storage.saveState(gameLogic.getGameState());
+	}
+
+	/**
+	 * Loads the previous gamestate from disc
+	 */
+	public void loadGamestate(){
+		gameLogic = new GameLogic(Storage.loadState());
 	}
 
 	public static void main(String[] args) {

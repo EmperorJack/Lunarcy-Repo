@@ -9,6 +9,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -37,7 +39,7 @@ public class ServerMain extends JFrame {
 		super("Start Game");
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(370, 570));
+		setPreferredSize(new Dimension(370, 590));
 
 		// Display a message at the top
 		addTitle();
@@ -54,6 +56,9 @@ public class ServerMain extends JFrame {
 		// Add buttons for saving/loading the whole game state
 		addSaveLoadButtons();
 
+		//Add a label for the servers IP Adress
+		addServerIP();
+
 		// Add a text are for printing output etc
 		addConsole();
 
@@ -67,6 +72,7 @@ public class ServerMain extends JFrame {
 		setVisible(true);
 
 	}
+
 
 	private void addTitle() {
 		// Setup layout
@@ -206,8 +212,9 @@ public class ServerMain extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Storage.saveState(server.getGamestate());
+				server.saveGamestate();
 			}
+
 		});
 		JButton load = new JButton("Load");
 
@@ -215,8 +222,9 @@ public class ServerMain extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Storage.loadState();
+				server.loadGamestate();
 			}
+
 		});
 
 		// Save button is at 0,6
@@ -231,6 +239,31 @@ public class ServerMain extends JFrame {
 
 	}
 
+
+	private void addServerIP() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
+
+		JLabel ipLabel;
+
+		//Get the IP Adress, can throw an Unknown Host expection so scheck for this
+		try {
+			ipLabel = new JLabel("IP Address: " + InetAddress.getLocalHost().getHostAddress());
+		} catch (UnknownHostException e) {
+			ipLabel = new JLabel("IP Address: ERROR UNKNOWN HOST");
+		}
+
+		//IP address is at 0,7
+		c.gridx = 0;
+		c.gridy = 7;
+		c.gridwidth = 2;
+		c.insets = new Insets(10, 0, 0, 0);
+
+		add(ipLabel, c);
+
+
+	}
+
 	private void addConsole() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
@@ -241,9 +274,9 @@ public class ServerMain extends JFrame {
 		console.setEditable(false);
 		console.setPreferredSize(new Dimension(getWidth(), 250));
 
-		// Console is at 0, 7
+		// Console is at 0, 8
 		c.gridx = 0;
-		c.gridy = 7;
+		c.gridy = 8;
 		c.gridwidth = 2;
 		c.insets = new Insets(15, 0, 0, 0);
 
