@@ -2,6 +2,7 @@ package control;
 
 import game.GameLogic;
 import game.GameState;
+import game.Player;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,6 +13,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import com.sun.prism.paint.Color;
 
 /**
  * This class handles communication between all clients and the gameLogic over a network
@@ -27,18 +30,20 @@ public class Server {
 	private LinkedBlockingQueue<NetworkAction> actionQueue = new LinkedBlockingQueue<NetworkAction>();
 	private Interpreter interpreter;
 	private GameLogic gameLogic;
+	private GameState gameState;
 	private int updateFreq;
 
 	public Server(int maxClients,int updateFreq){
 		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;
+		GameState gameState = new GameState(maxClients);
 		try {
 			serverSocket = new ServerSocket(PORT);
 			listenForClients();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		GameState gameState = new GameState(10,10);
+
 		gameLogic = new GameLogic(gameState);
 		interpreter = new Interpreter(gameLogic); //TODO initialise interpreter
 
@@ -52,6 +57,7 @@ public class Server {
 		while(clientList.size() < maxClients){
 			Socket s = serverSocket.accept();
 			int clientID = clientList.size();
+
 			ClientConnection client = new ClientConnection(s,clientID);
 			clientList.add(client);
 		}
@@ -115,7 +121,8 @@ public class Server {
         	sendID(clientID);
 
         	System.out.println("wrote id to client" + clientID);
-
+        	gameState.addPlayer(clientID,"username",Color.RED);
+        	System.out.println("made new player");
         	// Begin listening to this client
         	new Thread(new Runnable(){ public void run(){
         		listenToClient();

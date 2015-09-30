@@ -49,7 +49,8 @@ public class Client {
 			while(initialGameState == null){
 				initialGameState = getGameState();
 			}
-			this.frame = new Frame(this,initialGameState,hardwareRenderer);
+			this.frame = new Frame(this,initialGameState, hardwareRenderer);
+
 			testClientControls();//this will be replaced with actionlisteners
 			System.out.println("Listening for gamestate");
 			listenForGameUpdates(); //listen for gamestates from the server
