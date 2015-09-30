@@ -107,6 +107,9 @@ public class Canvas extends PApplet implements KeyListener {
 		minim = new Minim(this);
 		// track = minim.loadFile("assets/audio/*.mp3");
 		// track.play();
+
+		// drawing setup
+		noStroke();
 	}
 
 	/**
