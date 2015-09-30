@@ -104,10 +104,10 @@ public class Perspective3D extends DrawingComponent {
 		p.popMatrix();
 
 		// UNCOMMENT THE FOLLOWING LINES FOR A GOOD TIME
-		//p.scale(PApplet.sin(PApplet.radians(p.frameCount)));
-		//p.rotateX(PApplet.radians(p.frameCount));
-		//p.rotateY(PApplet.radians(p.frameCount));
-		//p.rotateZ(PApplet.radians(p.frameCount / 4));
+		// p.scale(PApplet.sin(PApplet.radians(p.frameCount)));
+		// p.rotateX(PApplet.radians(p.frameCount));
+		// p.rotateY(PApplet.radians(p.frameCount));
+		// p.rotateZ(PApplet.radians(p.frameCount / 4));
 
 		// draw the game world
 		world.draw();
@@ -187,30 +187,45 @@ public class Perspective3D extends DrawingComponent {
 		System.out.println(cameraCenter.y);
 	}
 
+	/**
+	 * Set the camera position and facing direction to given location and
+	 * orientation.
+	 *
+	 * @param location
+	 *            The location to move the camera to.
+	 * @param orientation
+	 *            The direction the camera should face.
+	 */
 	private void setCamera(Location location, Direction orientation) {
+		// set the camera position
 		cameraEye.x = location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2;
 		cameraEye.z = location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2;
 		float rotAngle = 0;
 
+		// depending on the orientation
 		switch (orientation) {
-
 		case North:
+			// set north rotation angle
 			rotAngle = -PApplet.PI / 2;
 			break;
 
 		case East:
+			// set east rotation angle
 			rotAngle = 0;
 			break;
 
 		case South:
+			// set south rotation angle
 			rotAngle = PApplet.PI / 2;
 			break;
 
 		case West:
+			// set west rotation angle
 			rotAngle = PApplet.PI;
 			break;
 		}
 
+		// rotate the camera to the correct orientation
 		cameraCenter.x = PApplet.cos(rotAngle) + cameraEye.x;
 		cameraCenter.z = PApplet.sin(rotAngle) + cameraEye.z;
 	}

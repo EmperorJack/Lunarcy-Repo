@@ -29,7 +29,7 @@ public class GameState implements Serializable{
 	private Square[][] board;
 	private Player[] players;
 	private Set<Rover> rovers;
-	
+
 	public GameState(int numPlayers) {
 		loadMap();
 		rovers = new HashSet<Rover>();
@@ -116,7 +116,7 @@ public class GameState implements Serializable{
 		return board;
 	}
 
-	public List<Player> getPlayers() {
-		return Arrays.asList(players);
+	public Player[] getPlayers() {
+		return Arrays.copyOf(players, players.length);
 	}
 }
