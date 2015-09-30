@@ -102,22 +102,22 @@ public class Perspective3D extends DrawingComponent {
 
 		// depending on the orientation
 		switch (orientation) {
-		case North:
+		case NORTH:
 			// set north rotation angle
 			rotAngle = -PApplet.PI / 2;
 			break;
 
-		case East:
+		case EAST:
 			// set east rotation angle
 			rotAngle = 0;
 			break;
 
-		case South:
+		case SOUTH:
 			// set south rotation angle
 			rotAngle = PApplet.PI / 2;
 			break;
 
-		case West:
+		case WEST:
 			// set west rotation angle
 			rotAngle = PApplet.PI;
 			break;

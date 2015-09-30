@@ -98,16 +98,16 @@ public class Client {
 							if(input.equals("quit"))break outerloop;
 							switch (input) {
 							case "w":
-								writeObject(new MoveAction(id,Direction.North));
+								writeObject(new MoveAction(id,Direction.NORTH));
 								break;
 							case "a":
-								writeObject(new MoveAction(id,Direction.West));
+								writeObject(new MoveAction(id,Direction.WEST));
 								break;
 							case "s":
-								writeObject(new MoveAction(id,Direction.South));
+								writeObject(new MoveAction(id,Direction.SOUTH));
 								break;
 							case "d":
-								writeObject(new MoveAction(id,Direction.East));
+								writeObject(new MoveAction(id,Direction.EAST));
 								break;
 							case "q":
 								writeObject(new PickupAction(id,(int)(Math.random()*100),(int)(Math.random()*100))); //TODO this is placeholder for random object

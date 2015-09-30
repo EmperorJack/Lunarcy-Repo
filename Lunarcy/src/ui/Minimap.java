@@ -101,19 +101,19 @@ public class Minimap extends DrawingComponent {
 				p.stroke(0, 100);
 
 				//Only draw the walls if they are not an EmptyWall
-				if(!(walls.get(Direction.North) instanceof EmptyWall)){
+				if(!(walls.get(Direction.NORTH) instanceof EmptyWall)){
 					p.line(0, 0, SIZE, 0);
 				}
 
-				if(!(walls.get(Direction.East) instanceof EmptyWall)){
+				if(!(walls.get(Direction.EAST) instanceof EmptyWall)){
 					p.line(SIZE, 0, SIZE, SIZE);
 				}
 
-				if(!(walls.get(Direction.South) instanceof EmptyWall)){
+				if(!(walls.get(Direction.SOUTH) instanceof EmptyWall)){
 					p.line(0, SIZE, SIZE, SIZE);
 				}
 
-				if(!(walls.get(Direction.West) instanceof EmptyWall)){
+				if(!(walls.get(Direction.WEST) instanceof EmptyWall)){
 					p.line(0, 0, 0, SIZE);
 				}
 

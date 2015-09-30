@@ -112,23 +112,23 @@ public class MapBuilder {
 				&& map[selected.getY()][selected.getX()] instanceof WalkableSquare) {
 			Square currentSquare = map[selected.getY()][selected.getX()];
 			currentSquare.setWall(dir);
-			if (dir == Direction.North && selected.getY() > 0) {
+			if (dir == Direction.NORTH && selected.getY() > 0) {
 				Square adjacentSquare = map[selected.getY() - 1][selected
 						.getX()];
-				adjacentSquare.setWall(Direction.South);
+				adjacentSquare.setWall(Direction.SOUTH);
 			}
-			if (dir == Direction.South && selected.getY() < map.length - 1) {
+			if (dir == Direction.SOUTH && selected.getY() < map.length - 1) {
 				Square adjacentSquare = map[selected.getY() + 1][selected
 						.getX()];
-				adjacentSquare.setWall(Direction.North);
+				adjacentSquare.setWall(Direction.NORTH);
 			}
-			if (dir == Direction.East && selected.getX() < map[0].length - 1) {
+			if (dir == Direction.EAST && selected.getX() < map[0].length - 1) {
 				Square adjacentSquare = map[selected.getY()][selected.getX() + 1];
-				adjacentSquare.setWall(Direction.West);
+				adjacentSquare.setWall(Direction.WEST);
 			}
-			if (dir == Direction.West && selected.getX() > 0) {
+			if (dir == Direction.WEST && selected.getX() > 0) {
 				Square adjacentSquare = map[selected.getY()][selected.getX() - 1];
-				adjacentSquare.setWall(Direction.East);
+				adjacentSquare.setWall(Direction.EAST);
 			}
 		}
 	}
@@ -138,23 +138,23 @@ public class MapBuilder {
 				&& map[selected.getY()][selected.getX()] instanceof WalkableSquare) {
 			Square currentSquare = map[selected.getY()][selected.getX()];
 			currentSquare.removeWall(dir);
-			if (dir == Direction.North && selected.getY() > 0) {
+			if (dir == Direction.NORTH && selected.getY() > 0) {
 				Square adjacentSquare = map[selected.getY() - 1][selected
 						.getX()];
-				adjacentSquare.removeWall(Direction.South);
+				adjacentSquare.removeWall(Direction.SOUTH);
 			}
-			if (dir == Direction.South && selected.getY() < map.length - 1) {
+			if (dir == Direction.SOUTH && selected.getY() < map.length - 1) {
 				Square adjacentSquare = map[selected.getY() + 1][selected
 						.getX()];
-				adjacentSquare.removeWall(Direction.North);
+				adjacentSquare.removeWall(Direction.NORTH);
 			}
-			if (dir == Direction.East && selected.getX() < map[0].length - 1) {
+			if (dir == Direction.EAST && selected.getX() < map[0].length - 1) {
 				Square adjacentSquare = map[selected.getY()][selected.getX() + 1];
-				adjacentSquare.removeWall(Direction.West);
+				adjacentSquare.removeWall(Direction.WEST);
 			}
-			if (dir == Direction.West && selected.getX() > 0) {
+			if (dir == Direction.WEST && selected.getX() > 0) {
 				Square adjacentSquare = map[selected.getY()][selected.getX() - 1];
-				adjacentSquare.removeWall(Direction.East);
+				adjacentSquare.removeWall(Direction.EAST);
 			}
 		}
 	}
@@ -227,16 +227,16 @@ public class MapBuilder {
 
 	public void drawSquare(Graphics g, WalkableSquare square, int x, int y) {
 		Map<Direction, Wall> walls = square.getWalls();
-		if (walls.get(Direction.North) instanceof SolidWall) {
+		if (walls.get(Direction.NORTH) instanceof SolidWall) {
 			g.fillRect(x, y, GRID_SIZE, 3);
 		}
-		if (walls.get(Direction.East) instanceof SolidWall) {
+		if (walls.get(Direction.EAST) instanceof SolidWall) {
 			g.fillRect(x + GRID_SIZE - 3, y, 3, GRID_SIZE);
 		}
-		if (walls.get(Direction.South) instanceof SolidWall) {
+		if (walls.get(Direction.SOUTH) instanceof SolidWall) {
 			g.fillRect(x, y + GRID_SIZE - 3, GRID_SIZE, 3);
 		}
-		if (walls.get(Direction.West) instanceof SolidWall) {
+		if (walls.get(Direction.WEST) instanceof SolidWall) {
 			g.fillRect(x, y, 3, GRID_SIZE);
 		}
 	}

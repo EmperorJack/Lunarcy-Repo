@@ -25,7 +25,7 @@ public class Player implements Serializable{
 		this.id = uniqueID;
 		this.name = name;
 		this.location = location == null ? new Location(0,0) : location;
-		this.orientation = orientation == null ? Direction.North : orientation;
+		this.orientation = orientation == null ? Direction.NORTH : orientation;
 		this.oxygen = 200;
 	}
 

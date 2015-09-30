@@ -106,28 +106,28 @@ public class WorldModel {
 					}
 
 					// if the square has a north wall
-					if (ws.getWalls().get(Direction.North) instanceof SolidWall) {
+					if (ws.getWalls().get(Direction.NORTH) instanceof SolidWall) {
 						// create a north wall model
 						northWalls.add(new OBJWrapper(northWallObj, SQUARE_SIZE
 								* x, 0, SQUARE_SIZE * y));
 					}
 
 					// if the square has an east wall
-					if (ws.getWalls().get(Direction.East) instanceof SolidWall) {
+					if (ws.getWalls().get(Direction.EAST) instanceof SolidWall) {
 						// create a east wall model
 						eastWalls.add(new OBJWrapper(eastWallObj, SQUARE_SIZE
 								* x, 0, SQUARE_SIZE * y));
 					}
 
 					// if the square has a south wall
-					if (ws.getWalls().get(Direction.South) instanceof SolidWall) {
+					if (ws.getWalls().get(Direction.SOUTH) instanceof SolidWall) {
 						// create a a south
 						southWalls.add(new OBJWrapper(southWallObj, SQUARE_SIZE
 								* x, 0, SQUARE_SIZE * y));
 					}
 
 					// if the square has a west wall
-					if (ws.getWalls().get(Direction.West) instanceof SolidWall) {
+					if (ws.getWalls().get(Direction.WEST) instanceof SolidWall) {
 						// create a west wall
 						westWalls.add(new OBJWrapper(westWallObj, SQUARE_SIZE
 								* x, 0, SQUARE_SIZE * y));

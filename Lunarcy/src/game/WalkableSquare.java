@@ -35,22 +35,22 @@ public class WalkableSquare extends Square {
 		if (north == null) {
 			north = new EmptyWall();
 		}
-		walls.put(Direction.North, north);
+		walls.put(Direction.NORTH, north);
 
 		if (east == null) {
 			east = new EmptyWall();
 		}
-		walls.put(Direction.East, east);
+		walls.put(Direction.EAST, east);
 
 		if (south == null) {
 			south = new EmptyWall();
 		}
-		walls.put(Direction.South, south);
+		walls.put(Direction.SOUTH, south);
 
 		if (west == null) {
 			west = new EmptyWall();
 		}
-		walls.put(Direction.West, west);
+		walls.put(Direction.WEST, west);
 	}
 
 	/**
