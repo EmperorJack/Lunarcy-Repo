@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -41,11 +42,11 @@ public class MapBuilder {
 	private Rectangle gridArea;
 	public static final int GRID_LEFT = 340;
 	public static final int GRID_TOP = 60;
-	public static final int GRID_SIZE = 60;
+	public static final int GRID_SIZE = 30;
 
 	public MapBuilder() {
 		selectedTiles = new HashSet<Location>();
-		map = new Square[10][10];
+		map = new Square[20][20];
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				map[i][j] = new BlankSquare();
@@ -77,6 +78,7 @@ public class MapBuilder {
 				map[currentLoc.getY()][currentLoc.getX()] = new BlankSquare();
 			}
 		}
+		selectedTiles.clear();
 	}
 
 	public void getSelectedTiles(){
@@ -195,7 +197,7 @@ public class MapBuilder {
 		}
 	}
 
-	public void save() throws FileNotFoundException {
+	public void save(){
 		try {
 		      FileOutputStream file = new FileOutputStream("map.xml", false);
 		      XStream xstream = new XStream();
@@ -205,7 +207,12 @@ public class MapBuilder {
 		}
 	}
 
-	public void load() throws FileNotFoundException {
+	public void load(){
+		int n = JOptionPane.showConfirmDialog(
+			    null,
+			    "Would you liketo load?",
+			    "An Inane Question",
+			    JOptionPane.YES_NO_OPTION);
 		try {
 		      FileInputStream file = new FileInputStream("map.xml");
 		      XStream xstream = new XStream();
