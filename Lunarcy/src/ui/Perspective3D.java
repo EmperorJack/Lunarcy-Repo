@@ -29,7 +29,7 @@ public class Perspective3D extends DrawingComponent {
 
 	// player fields
 	private int playerID;
-	private List<Player> players;
+	private Player[] players;
 
 	// camera fields
 	private PVector cameraEye;
@@ -61,7 +61,7 @@ public class Perspective3D extends DrawingComponent {
 		players = gameState.getPlayers();
 
 		// get the player associated with this client
-		Player player = players.get(playerID);
+		Player player = players[playerID];
 
 		// update the camera to the player position and orientation
 		setCamera(player.getLocation(), player.getOrientation());

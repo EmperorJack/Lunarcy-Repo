@@ -182,7 +182,7 @@ public class Canvas extends PApplet implements KeyListener {
 		text(delta, maxWidth - 200, 100);
 
 		// draw player position and orientation
-		Player player = gameState.getPlayers().get(playerID);
+		Player player = gameState.getPlayer(playerID);
 		text(player.getLocation().getX() + " : " + player.getLocation().getY(),
 				maxWidth - 200, 150);
 		text(player.getOrientation().toString(), maxWidth - 200, 200);
@@ -237,7 +237,7 @@ public class Canvas extends PApplet implements KeyListener {
 			case KeyEvent.VK_W:
 				System.out.println("move forward");
 				new GameLogic(gameState).movePlayer(playerID, gameState
-						.getPlayers().get(playerID).getOrientation());
+						.getPlayer(playerID).getOrientation());
 				setGameState(gameState);
 				break;
 			case KeyEvent.VK_A:
@@ -249,8 +249,7 @@ public class Canvas extends PApplet implements KeyListener {
 				System.out.println("move back");
 				new GameLogic(gameState).movePlayer(
 						playerID,
-						Direction.right(Direction.right(gameState.getPlayers()
-								.get(playerID).getOrientation())));
+						Direction.right(Direction.right(gameState.getPlayer(playerID).getOrientation())));
 				setGameState(gameState);
 				break;
 			case KeyEvent.VK_D:
