@@ -3,6 +3,8 @@ package mapbuilder;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
@@ -10,6 +12,9 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -19,7 +24,7 @@ import javax.swing.JPanel;
  *
  */
 @SuppressWarnings("serial")
-public class Frame extends JFrame {
+public class Frame extends JFrame implements ActionListener {
 	Canvas canvas;
 	MapBuilder mapBuilder;
 
@@ -43,12 +48,25 @@ public class Frame extends JFrame {
 		});
 
 		mapBuilder = new MapBuilder();
-
+		
+		JMenuBar menuBar;
+		JMenu menu, submenu;
+		menuBar = new JMenuBar();
+		menu = new JMenu("Options");
+		menuBar.add(menu);
+		JMenuItem saveMenuItem = new JMenuItem("Save");
+		JMenuItem loadMenuItem = new JMenuItem("Load");
+		menu.add(saveMenuItem);
+		menu.add(loadMenuItem);
+		saveMenuItem.addActionListener(this);
+		loadMenuItem.addActionListener(this);
 		final JPanel panel = new JPanel(new BorderLayout());
 		canvas = new Canvas(mapBuilder);
 		canvas.setFocusable(true);
 		panel.add(canvas, BorderLayout.CENTER);
+		setJMenuBar(menuBar);
 		add(panel);
+		
 		setResizable(false);
 		setVisible(true);
 
@@ -56,5 +74,15 @@ public class Frame extends JFrame {
 
 	public static void main(String[] args) {
 		new Frame();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("Save")){
+			mapBuilder.save();
+		}
+		if(e.getActionCommand().equals("Load")){
+			mapBuilder.load();
+		}
 	}
 }

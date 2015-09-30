@@ -25,20 +25,13 @@ import com.thoughtworks.xstream.XStream;
 public class GameState implements Serializable{
 	//board[Y][X]
 	private Square[][] board;
-	private List<Player> players;
+	private Player[] players;
 	private Set<Rover> rovers;
-
-	public GameState(int mapWidth, int mapHeight, Player... players) {
-		board = new Square[mapWidth][mapHeight];
+	
+	public GameState(int numPlayers) {
+		loadMap();
 		rovers = new HashSet<Rover>();
-		this.players = new ArrayList<Player>();
-		for(int curID = 0; curID < players.length; curID++){
-			for(Player player: players){
-				if(player.getId()==curID){
-					this.players.add(curID, player);
-				}
-			}
-		}
+		this.players = new Player[numPlayers];
 	}
 
 
@@ -95,7 +88,7 @@ public class GameState implements Serializable{
 		}
 	}
 
-	public void load() {
+	public void loadMap() {
 		try {
 			FileInputStream file = new FileInputStream("map.xml");
 			XStream xstream = new XStream();
@@ -105,15 +98,23 @@ public class GameState implements Serializable{
 		}
 	}
 
+	public boolean addPlayer(Player player){
+		int playerID = player.getId();
+		if(playerID<0||playerID>players.length)return false;
+		players[playerID] = player;
+		return true;
+	}
+
 	public Player getPlayer(int playerID){
-		return players.get(playerID);
+		if(playerID<0||playerID>players.length)return null;
+		return players[playerID];
 	}
 
 	public Square[][] getBoard() {
 		return board;
 	}
 
-	public List<Player> getPlayers() {
-		return new ArrayList<Player>(players);
+	public Player[] getPlayers() {
+		return players;
 	}
 }
