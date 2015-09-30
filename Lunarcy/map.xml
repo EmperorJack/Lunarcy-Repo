@@ -3,44 +3,19 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.SolidWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
           <game.Direction>EAST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
           <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -53,11 +28,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -65,7 +36,11 @@
           <game.SolidWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -78,11 +53,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -90,7 +61,36 @@
           <game.SolidWall/>
         </entry>
         <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
           <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -103,17 +103,9 @@
     <game.BlankSquare>
       <walls>
         <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
           <game.Direction>WEST</game.Direction>
           <game.SolidWall/>
         </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls>
         <entry>
           <game.Direction>SOUTH</game.Direction>
           <game.SolidWall/>
@@ -161,13 +153,36 @@
       </walls>
     </game.BlankSquare>
     <game.BlankSquare>
-      <walls/>
+      <walls>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
     </game.BlankSquare>
     <game.BlankSquare>
-      <walls/>
+      <walls>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
     </game.BlankSquare>
     <game.BlankSquare>
-      <walls/>
+      <walls>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
     </game.BlankSquare>
     <game.BlankSquare>
       <walls/>
@@ -192,21 +207,21 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
           <game.Direction>WEST</game.Direction>
           <game.SolidWall/>
         </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
       </walls>
       <name>Empty</name>
       <description>Empty</description>
@@ -217,11 +232,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -229,7 +240,11 @@
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -242,11 +257,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -254,7 +265,11 @@
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -267,11 +282,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -279,7 +290,11 @@
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -292,11 +307,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -304,7 +315,11 @@
           <game.SolidWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -317,11 +332,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -329,7 +340,11 @@
           <game.SolidWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -342,11 +357,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -354,7 +365,11 @@
           <game.SolidWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -367,11 +382,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -379,7 +390,11 @@
           <game.SolidWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -392,11 +407,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -404,7 +415,11 @@
           <game.SolidWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -417,11 +432,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -429,7 +440,11 @@
           <game.SolidWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -442,11 +457,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -454,7 +465,86 @@
           <game.SolidWall/>
         </entry>
         <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
           <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -471,15 +561,6 @@
           <game.SolidWall/>
         </entry>
       </walls>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
     </game.BlankSquare>
     <game.BlankSquare>
       <walls/>
@@ -501,6 +582,14 @@
     <game.WalkableSquare>
       <walls>
         <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
           <game.Direction>EAST</game.Direction>
           <game.EmptyWall/>
         </entry>
@@ -508,12 +597,104 @@
           <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
           <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.SolidWall/>
         </entry>
       </walls>
@@ -526,80 +707,13 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
         <entry>
           <game.Direction>EAST</game.Direction>
           <game.EmptyWall/>
@@ -608,14 +722,6 @@
           <game.Direction>SOUTH</game.Direction>
           <game.SolidWall/>
         </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
       </walls>
       <name>Empty</name>
       <description>Empty</description>
@@ -625,6 +731,14 @@
     </game.WalkableSquare>
     <game.WalkableSquare>
       <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
         <entry>
           <game.Direction>EAST</game.Direction>
           <game.EmptyWall/>
@@ -633,12 +747,29 @@
           <game.Direction>SOUTH</game.Direction>
           <game.SolidWall/>
         </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -650,6 +781,39 @@
     </game.WalkableSquare>
     <game.WalkableSquare>
       <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
         <entry>
           <game.Direction>EAST</game.Direction>
           <game.EmptyWall/>
@@ -658,14 +822,6 @@
           <game.Direction>SOUTH</game.Direction>
           <game.SolidWall/>
         </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
       </walls>
       <name>Empty</name>
       <description>Empty</description>
@@ -676,55 +832,13 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
         <entry>
           <game.Direction>EAST</game.Direction>
           <game.EmptyWall/>
@@ -733,12 +847,29 @@
           <game.Direction>SOUTH</game.Direction>
           <game.SolidWall/>
         </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -751,19 +882,44 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
           <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -780,15 +936,6 @@
           <game.SolidWall/>
         </entry>
       </walls>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
     </game.BlankSquare>
     <game.BlankSquare>
       <walls/>
@@ -810,11 +957,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.SolidWall/>
         </entry>
         <entry>
@@ -822,7 +965,11 @@
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.SolidWall/>
         </entry>
       </walls>
@@ -835,126 +982,19 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
         <entry>
           <game.Direction>EAST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
           <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.BlankSquare>
-      <walls>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
           <game.SolidWall/>
         </entry>
       </walls>
@@ -967,11 +1007,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
@@ -979,7 +1015,118 @@
           <game.EmptyWall/>
         </entry>
         <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
           <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -992,11 +1139,11 @@
     <game.BlankSquare>
       <walls>
         <entry>
-          <game.Direction>NORTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.SolidWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>NORTH</game.Direction>
           <game.SolidWall/>
         </entry>
       </walls>
@@ -1007,19 +1154,94 @@
           <game.Direction>NORTH</game.Direction>
           <game.SolidWall/>
         </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
       </walls>
     </game.BlankSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
     <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
     </game.BlankSquare>
     <game.BlankSquare>
       <walls/>
@@ -1049,60 +1271,9 @@
     <game.BlankSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
           <game.Direction>NORTH</game.Direction>
           <game.SolidWall/>
         </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.BlankSquare>
-      <walls>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls>
         <entry>
           <game.Direction>EAST</game.Direction>
           <game.SolidWall/>
@@ -1112,44 +1283,19 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
           <game.Direction>EAST</game.Direction>
           <game.SolidWall/>
         </entry>
         <entry>
           <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -1165,40 +1311,15 @@
           <game.Direction>WEST</game.Direction>
           <game.SolidWall/>
         </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
       </walls>
     </game.BlankSquare>
     <game.BlankSquare>
       <walls/>
     </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-  </game.Square-array>
-  <game.Square-array>
     <game.BlankSquare>
       <walls/>
     </game.BlankSquare>
@@ -1213,259 +1334,19 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.BlankSquare>
-      <walls>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
           <game.Direction>EAST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
           <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.BlankSquare>
-      <walls>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-  </game.Square-array>
-  <game.Square-array>
-    <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.BlankSquare>
-      <walls>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-    </game.BlankSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -1478,94 +1359,19 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
         <entry>
           <game.Direction>EAST</game.Direction>
           <game.SolidWall/>
         </entry>
         <entry>
           <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -1584,13 +1390,95 @@
       </walls>
     </game.BlankSquare>
     <game.BlankSquare>
-      <walls/>
+      <walls>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
     </game.BlankSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
     <game.BlankSquare>
-      <walls/>
-    </game.BlankSquare>
-    <game.BlankSquare>
-      <walls/>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
     </game.BlankSquare>
     <game.BlankSquare>
       <walls/>
@@ -1623,205 +1511,13 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
           <game.Direction>WEST</game.Direction>
           <game.SolidWall/>
         </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
-        <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>NORTH</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-      </walls>
-      <name>Empty</name>
-      <description>Empty</description>
-      <entities/>
-      <players/>
-      <inside>true</inside>
-    </game.WalkableSquare>
-    <game.WalkableSquare>
-      <walls>
         <entry>
           <game.Direction>EAST</game.Direction>
           <game.SolidWall/>
@@ -1830,12 +1526,629 @@
           <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
           <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+  </game.Square-array>
+  <game.Square-array>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+  </game.Square-array>
+  <game.Square-array>
+    <game.BlankSquare>
+      <walls/>
+    </game.BlankSquare>
+    <game.BlankSquare>
+      <walls>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+    </game.BlankSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+      </walls>
+      <name>Empty</name>
+      <description>Empty</description>
+      <entities/>
+      <players/>
+      <inside>true</inside>
+    </game.WalkableSquare>
+    <game.WalkableSquare>
+      <walls>
+        <entry>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>NORTH</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.EmptyWall/>
         </entry>
       </walls>
@@ -1904,11 +2217,11 @@
     <game.BlankSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
+          <game.Direction>NORTH</game.Direction>
           <game.SolidWall/>
         </entry>
         <entry>
-          <game.Direction>NORTH</game.Direction>
+          <game.Direction>EAST</game.Direction>
           <game.SolidWall/>
         </entry>
       </walls>
@@ -1916,11 +2229,7 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.SolidWall/>
         </entry>
         <entry>
@@ -1928,7 +2237,11 @@
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
+          <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
           <game.SolidWall/>
         </entry>
       </walls>
@@ -1941,20 +2254,20 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
           <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
         </entry>
       </walls>
       <name>Empty</name>
@@ -1966,20 +2279,20 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
           <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
         </entry>
       </walls>
       <name>Empty</name>
@@ -1991,20 +2304,20 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
           <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
         </entry>
       </walls>
       <name>Empty</name>
@@ -2016,20 +2329,20 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
+          <game.Direction>WEST</game.Direction>
           <game.EmptyWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
+          <game.Direction>EAST</game.Direction>
           <game.EmptyWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
         </entry>
       </walls>
       <name>Empty</name>
@@ -2041,20 +2354,20 @@
     <game.WalkableSquare>
       <walls>
         <entry>
-          <game.Direction>EAST</game.Direction>
-          <game.SolidWall/>
-        </entry>
-        <entry>
-          <game.Direction>SOUTH</game.Direction>
-          <game.SolidWall/>
+          <game.Direction>WEST</game.Direction>
+          <game.EmptyWall/>
         </entry>
         <entry>
           <game.Direction>NORTH</game.Direction>
           <game.EmptyWall/>
         </entry>
         <entry>
-          <game.Direction>WEST</game.Direction>
-          <game.EmptyWall/>
+          <game.Direction>EAST</game.Direction>
+          <game.SolidWall/>
+        </entry>
+        <entry>
+          <game.Direction>SOUTH</game.Direction>
+          <game.SolidWall/>
         </entry>
       </walls>
       <name>Empty</name>

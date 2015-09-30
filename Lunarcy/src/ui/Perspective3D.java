@@ -47,8 +47,6 @@ public class Perspective3D extends DrawingComponent {
 
 	@Override
 	public void update(GameState gameState) {
-		System.out.println("Perspective ID: " + playerID);
-
 		// update the player associated with this client
 		player = gameState.getPlayer(playerID);
 

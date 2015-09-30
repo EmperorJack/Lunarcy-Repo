@@ -66,6 +66,7 @@ public class Client {
 			GameState state = null;
 			try {
 				//System.out.println("attempting to listen for game update");
+				//inputFromServer.
 				state = (GameState)inputFromServer.readObject();
 				return state;
 			} catch (IOException e) {

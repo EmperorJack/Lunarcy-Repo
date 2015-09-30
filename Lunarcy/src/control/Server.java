@@ -51,7 +51,7 @@ public class Server {
 					Color.RED);
 		}
 		gameLogic = new GameLogic(gameState);
-		interpreter = new Interpreter(gameLogic); // TODO initialise interpreter
+		//interpreter = new Interpreter(gameLogic); // TODO initialise interpreter
 		sleep(500);
 		transmitState();
 		run(); // send to all clients
@@ -121,7 +121,10 @@ public class Server {
 		// transmitting
 		GameState state = gameLogic.getGameState();
 		for (ClientConnection client : clientList) {
-			client.writeObject(state);
+			//System.out.println("Transmitting gamestate to: "+ client.clientID);
+			if(client.writeObject(state)){
+				System.out.println("Sucessfully sent gamestate");
+			}
 		}
 	}
 
@@ -144,8 +147,8 @@ public class Server {
 		ClientConnection(Socket socket, int id) throws IOException {
 			this.socket = socket;
 			clientID = id;
-			inputFromClient = new ObjectInputStream(socket.getInputStream());
 			outputToClient = new ObjectOutputStream(socket.getOutputStream());
+			inputFromClient = new ObjectInputStream(socket.getInputStream());
 			// Sleep for a bit
 			try {
 				Thread.sleep(500);
@@ -181,16 +184,9 @@ public class Server {
 			return this.clientID;
 		}
 
-		public void writeGameStateBytes(byte[] serializedGameState) {
-			try {
-				outputToClient.write(serializedGameState);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
 		private void sendID(int clientID2) {
 			try {
+				outputToClient.reset();
 				outputToClient.writeInt(clientID);// write(clientID); //send
 													// clients ID
 				outputToClient.flush();
@@ -233,9 +229,9 @@ public class Server {
 		public boolean writeObject(Object o) {
 			if (o != null) {
 				try {
+					outputToClient.reset();
 					outputToClient.writeObject(o);
 					outputToClient.flush();
-					outputToClient.reset();
 				} catch (IOException e) {
 					e.printStackTrace();
 					return false;

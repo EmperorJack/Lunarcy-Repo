@@ -137,7 +137,6 @@ public class Canvas extends PApplet implements KeyListener {
 		if (stateUpdated) {
 			// update player field
 			player = gameState.getPlayer(playerID);
-			System.out.println("Canvas ID: " + playerID);
 
 			// update each component
 			perspective.update(gameState);

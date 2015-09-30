@@ -199,8 +199,8 @@ public class ServerMain extends JFrame {
 
 		JButton save = new JButton("Save");
 
-		save.setEnabled(false); //Disabled until  a game has begun
-		
+		save.setEnabled(true); //Disabled until  a game has begun
+
 		// When clicked, save the game state using Storage class
 		save.addActionListener(new ActionListener() {
 
@@ -210,9 +210,9 @@ public class ServerMain extends JFrame {
 			}
 		});
 		JButton load = new JButton("Load");
-		
+
 		load.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Storage.loadState();
