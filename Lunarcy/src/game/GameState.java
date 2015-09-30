@@ -1,8 +1,10 @@
 package game;
 
+import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -98,8 +100,8 @@ public class GameState implements Serializable{
 		}
 	}
 
-	public boolean addPlayer(Player player){
-		int playerID = player.getId();
+	public boolean addPlayer(int playerID, String name, Color color){
+		Player player = new Player(playerID, name, null, null);
 		if(playerID<0||playerID>players.length)return false;
 		players[playerID] = player;
 		return true;
@@ -114,7 +116,7 @@ public class GameState implements Serializable{
 		return board;
 	}
 
-	public Player[] getPlayers() {
-		return players;
+	public List<Player> getPlayers() {
+		return Arrays.asList(players);
 	}
 }
