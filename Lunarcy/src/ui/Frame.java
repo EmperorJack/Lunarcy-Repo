@@ -93,20 +93,4 @@ public class Frame extends JFrame {
 	public Canvas getCanvas() {
 		return canvas;
 	}
-
-	public static void main(String args[]) {
-		new Frame(new Client(), createTestGameState1(20, 20), true);
-	}
-
-	public static GameState createTestGameState1(int w, int h) {
-		// test game state with w x h board
-		GameState state = new GameState(5);
-
-		state.addPlayer(0, "Jack", new Color(255, 0, 0));
-
-		// load the board state from the map.xml
-		state.loadMap();
-
-		return state;
-	}
 }

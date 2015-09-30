@@ -27,9 +27,7 @@ public class Client {
 		private String name;
 		private Frame frame;
 
-		public Client(){
-			this.id = 0;
-		}
+
 
 		public Client(String serverAddr, String name, boolean hardwareRenderer){
 			this.serverAddr = serverAddr;

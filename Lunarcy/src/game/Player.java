@@ -14,7 +14,7 @@ import java.util.List;
 public class Player implements Serializable{
 	private final int id;
 	private final String name;
-	private Color color;
+	private Color colour;
 
 	private Location location;
 	private Direction orientation;
@@ -75,5 +75,9 @@ public class Player implements Serializable{
 
 	public String getName() {
 		return name;
+	}
+
+	public Color getColour() {
+		return colour;
 	}
 }
