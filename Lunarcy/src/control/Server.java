@@ -239,9 +239,16 @@ public class Server {
 			}
 			clientList.remove(this);
 		}
+		
+		
 	}
 
+	public GameState getGamestate() {
+		return gameState;
+	}
+	
 	public static void main(String[] args) {
 		new Server(2,1000);
 	}
+	
 }

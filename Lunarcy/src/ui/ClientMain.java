@@ -27,6 +27,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
 import control.Client;
+import control.Server;
 
 /**
  * A GUI Window for starting a new Client.
@@ -101,8 +102,7 @@ class ClientMain extends JFrame {
 
 		// Center the window on the screen
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((size.width - getWidth()) / 2,
-				(size.height - getHeight()) / 2, getWidth(), getHeight());
+		setBounds((size.width - getWidth()) / 2, (size.height - getHeight()) / 2, getWidth(), getHeight());
 
 		setVisible(true);
 	}
@@ -130,7 +130,7 @@ class ClientMain extends JFrame {
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
 
 		JLabel title = new JLabel("Welcome to Lunarcy");
-		//Make the font larger (25px)
+		// Make the font larger (25px)
 		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 25));
 
 		// Left padding to centre text
@@ -155,8 +155,7 @@ class ClientMain extends JFrame {
 		nameTextbox = new JTextField("");
 
 		// Width of 200, Height of the font size
-		nameTextbox.setPreferredSize(new Dimension(WIDTH, nameTextbox.getFont()
-				.getSize() + 5));
+		nameTextbox.setPreferredSize(new Dimension(WIDTH, nameTextbox.getFont().getSize() + 5));
 
 		// Name label goes at 0,2
 		c.gridx = 0;
@@ -182,8 +181,7 @@ class ClientMain extends JFrame {
 		serverTextbox = new JTextField(EXAMPLESERVER);
 
 		// Width of 200, height of the font height
-		serverTextbox.setPreferredSize(new Dimension(WIDTH, serverTextbox
-				.getFont().getSize() + 5));
+		serverTextbox.setPreferredSize(new Dimension(WIDTH, serverTextbox.getFont().getSize() + 5));
 
 		// When the textbox is clicked, clear the default text.
 		serverTextbox.addMouseListener(new MouseAdapter() {
@@ -224,14 +222,13 @@ class ClientMain extends JFrame {
 		for (int i = 0; i < MAXCOLORS; i++) {
 			for (int j = 0; j < MAXCOLORS; j++) {
 				// Create a label of a random color
-				JLabel label = makeLabel(new Color((float) Math.random(),
-						(float) Math.random(), (float) Math.random()));
+				JLabel label = makeLabel(
+						new Color((float) Math.random(), (float) Math.random(), (float) Math.random()));
 				colorPalette.add(label);
 			}
 		}
 
-		colorPalette.setPreferredSize(new Dimension(spacesuitImage.getWidth(),
-				spacesuitImage.getHeight()));
+		colorPalette.setPreferredSize(new Dimension(spacesuitImage.getWidth(), spacesuitImage.getHeight()));
 
 		// Color label at 0,5 with a width of 2 cells
 		c.gridx = 0;
@@ -275,9 +272,8 @@ class ClientMain extends JFrame {
 						// If the pixel is not transparent
 						if ((pixel >> 24) != 0x00) {
 							// Draw a transparent rect in this pixels location
-							g.setColor(new Color(chosenColor.getRed() / 255f,
-									chosenColor.getGreen() / 255f, chosenColor
-											.getBlue() / 255f, .1f));
+							g.setColor(new Color(chosenColor.getRed() / 255f, chosenColor.getGreen() / 255f,
+									chosenColor.getBlue() / 255f, .1f));
 							g.drawRect(x, y, 1, 1);
 						}
 					}
@@ -285,8 +281,7 @@ class ClientMain extends JFrame {
 			}
 
 		};
-		spacesuitPanel.setPreferredSize(new Dimension(
-				spacesuitImage.getWidth(), spacesuitImage.getHeight()));
+		spacesuitPanel.setPreferredSize(new Dimension(spacesuitImage.getWidth(), spacesuitImage.getHeight()));
 
 		// The panel is at cell 1,6
 		c.gridx = 1;
@@ -335,17 +330,23 @@ class ClientMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				// Exit if they have not completed all fields
-				//if (!validInput()) {
-				//	return;
-				//}
+				// if (!validInput()) {
+				// return;
+				// }
+				
+				
 
 				// Check if user wants OpenGL or Software Rendering
-				boolean hardwareRenderer = mode.getSelectedItem().equals(
-						"Hardware");
+				boolean hardwareRenderer = mode.getSelectedItem().equals("Hardware");
 
-				// Make a new client, with the entered details
-				Client client = new Client(serverTextbox.getText(), nameTextbox
-						.getText(), hardwareRenderer);
+				// Make a new thread for a new client, with the entered details
+				new Thread(new Runnable() {
+					public void run() {
+						new Client(serverTextbox.getText(), nameTextbox.getText(), hardwareRenderer);
+					}
+				}).start();
+				
+				
 			}
 
 			private boolean validInput() {
@@ -353,16 +354,14 @@ class ClientMain extends JFrame {
 				// Regex from:
 				// http://www.mkyong.com/regular-expressions/how-to-validate-ip-address-with-regular-expression/
 				String IPADDRESS_PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-						+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-						+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+						+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
 						+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
 				// If no name was entered (or just spaces were used)
 				if (nameTextbox.getText().trim().isEmpty()) {
 
 					// Set a red border on the nameTextbox
-					nameTextbox.setBorder(BorderFactory
-							.createLineBorder(Color.RED));
+					nameTextbox.setBorder(BorderFactory.createLineBorder(Color.RED));
 					return false;
 				}
 
@@ -370,13 +369,12 @@ class ClientMain extends JFrame {
 				if (!serverTextbox.getText().trim().equals("localhost")
 						|| !serverTextbox.getText().matches(IPADDRESS_PATTERN)) {
 
-					// The name must be valid now, so we can remove the red border
-					nameTextbox.setBorder(BorderFactory
-							.createLineBorder(Color.GRAY));
+					// The name must be valid now, so we can remove the red
+					// border
+					nameTextbox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
 					// Set a red border on the serverTextbox
-					serverTextbox.setBorder(BorderFactory
-							.createLineBorder(Color.RED));
+					serverTextbox.setBorder(BorderFactory.createLineBorder(Color.RED));
 
 					return false;
 				}
@@ -432,8 +430,7 @@ class ClientMain extends JFrame {
 	private void loadImage() {
 		try {
 			// TODO: Replace with creative commons image
-			spacesuitImage = ImageIO.read(new File(
-					"assets/items/space_suit.png"));
+			spacesuitImage = ImageIO.read(new File("assets/items/space_suit.png"));
 		} catch (IOException e) {
 			// Error loading image
 			return;

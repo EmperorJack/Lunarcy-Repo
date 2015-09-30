@@ -17,6 +17,8 @@ import javax.swing.JSlider;
 import javax.swing.JTextArea;
 
 import control.Server;
+import game.GameState;
+import storage.Storage;
 
 /**
  * A GUI window for starting a new server.
@@ -60,8 +62,7 @@ public class ServerMain extends JFrame {
 
 		// Center the window on the screen
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((size.width - getWidth()) / 2,
-				(size.height - getHeight()) / 2, getWidth(), getHeight());
+		setBounds((size.width - getWidth()) / 2, (size.height - getHeight()) / 2, getWidth(), getHeight());
 
 		setVisible(true);
 
@@ -197,7 +198,26 @@ public class ServerMain extends JFrame {
 		GridBagConstraints c = new GridBagConstraints();
 
 		JButton save = new JButton("Save");
+
+		save.setEnabled(false); //Disabled until  a game has begun
+		
+		// When clicked, save the game state using Storage class
+		save.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Storage.saveState(server.getGamestate());
+			}
+		});
 		JButton load = new JButton("Load");
+		
+		load.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Storage.loadState();
+			}
+		});
 
 		// Save button is at 0,6
 		c.gridx = 0;
