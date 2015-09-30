@@ -84,7 +84,9 @@ public class Client {
 				}
 			return null;
 		}
-
+		/**
+		 * A method for testing the sending of network actions to the server
+		 */
 		private void testClientControls() {
 			// TODO Auto-generated method stub
 			new Thread(new Runnable(){

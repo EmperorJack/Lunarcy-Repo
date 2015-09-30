@@ -11,6 +11,7 @@ public class Interpreter {
 	}
 
 	public void interpret(NetworkAction action) {
+		System.out.println("processing action");
 		action.applyAction(gameController);
 	}
 }

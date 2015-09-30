@@ -107,7 +107,7 @@ public class Canvas extends PApplet implements KeyListener {
 		inventory = new Inventory(playerID, this, gameState);
 
 		// audio setup
-		minim = new Minim(this);
+		//minim = new Minim(this);
 		// track = minim.loadFile("assets/audio/*.mp3");
 		// track.play();
 
