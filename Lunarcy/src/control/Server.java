@@ -192,7 +192,7 @@ public class Server {
     		while (true){
     			NetworkAction action = null;
 				try {
-					System.out.println("attempting to listen to client");
+					//System.out.println("attempting to listen to client");
 					action = (NetworkAction)inputFromClient.readObject();
 				} catch (IOException e) {
 					// TODO handle disconnected client - this may not be the right way since an IOException could occur for other reasons

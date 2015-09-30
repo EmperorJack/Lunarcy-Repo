@@ -38,5 +38,6 @@ public class MoveAction implements NetworkAction, Serializable {
 	public void applyAction(GameLogic logic) {
 		// TODO Auto-generated method stub
 		System.out.println("moving player "+ playerID + " " + direction );
+		logic.movePlayer(playerID, direction);
 	}
 }

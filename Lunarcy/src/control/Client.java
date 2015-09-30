@@ -51,7 +51,7 @@ public class Client {
 			}
 			this.frame = new Frame(this,initialGameState, hardwareRenderer);
 
-			testClientControls();//this will be replaced with actionlisteners
+			//testClientControls();//this will be replaced with actionlisteners
 			System.out.println("Listening for gamestate");
 			listenForGameUpdates(); //listen for gamestates from the server
 		}
@@ -63,7 +63,7 @@ public class Client {
 				GameState state = getGameState();
 				if(state != null){
 					System.out.println("Recieved gamestate" + state.toString());
-					//frame.getCanvas().setGameState(state);
+					frame.getCanvas().setGameState(state);
 				}
 			}
 
@@ -74,7 +74,7 @@ public class Client {
 		private GameState getGameState() {
 				GameState state = null;
 				try {
-					System.out.println("attempting to listen for game update");
+					//System.out.println("attempting to listen for game update");
 					state = (GameState)inputFromServer.readObject();
 					return state;
 				} catch (IOException e) {
@@ -125,6 +125,10 @@ public class Client {
 					}
 				}
 			}).start();
+		}
+
+		public void sendAction(NetworkAction action) {
+			writeObject(action);
 		}
 
 		private void readInt() {

@@ -144,8 +144,8 @@ public class ServerMain extends JFrame {
 	private void addStartStopButtons() {
 		GridBagConstraints c = new GridBagConstraints();
 
-		JButton start = new JButton("Start");
-		JButton stop = new JButton("Stop");
+		final JButton start = new JButton("Start");
+		final JButton stop = new JButton("Stop");
 
 		// When clicked, make start unclickable and stop clickable
 		start.addActionListener(new ActionListener() {

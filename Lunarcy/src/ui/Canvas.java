@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import control.Client;
+import control.MoveAction;
 import ddf.minim.*;
 import game.Direction;
 import game.GameLogic;
@@ -36,6 +37,7 @@ public class Canvas extends PApplet implements KeyListener {
 	// client field
 	private final Client client;
 	private final int playerID;
+	private Player player;
 
 	// game state fields
 	private GameState gameState;
@@ -73,6 +75,7 @@ public class Canvas extends PApplet implements KeyListener {
 
 		// get the player id from the client entity
 		playerID = client.getPlayerID();
+		player = gameState.getPlayer(playerID);
 
 		// determine which renderer should be used
 		if (hardwareRenderer) {
@@ -227,19 +230,23 @@ public class Canvas extends PApplet implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println("TEST KEY INPUT CANVAS");
 		// check if the timer has been exceeded
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - keyTimer > 100) {
 			// update the timer
 			keyTimer = currentTime;
 
+			// TODO Move UI control to a separate class
+
 			// identify which key pressed
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:
-				System.out.println("move forward");
-				new GameLogic(gameState).movePlayer(playerID, gameState
-						.getPlayer(playerID).getOrientation());
-				setGameState(gameState);
+				// new GameLogic(gameState).movePlayer(playerID,
+				// player.getOrientation());
+				// setGameState(gameState);
+				client.sendAction(new MoveAction(playerID, player
+						.getOrientation()));
 				break;
 			case KeyEvent.VK_A:
 				System.out.println("rotate left");
@@ -248,11 +255,11 @@ public class Canvas extends PApplet implements KeyListener {
 				break;
 			case KeyEvent.VK_S:
 				System.out.println("move back");
-				new GameLogic(gameState).movePlayer(
-						playerID,
-						Direction.right(Direction.right(gameState.getPlayer(
-								playerID).getOrientation())));
-				setGameState(gameState);
+				// new GameLogic(gameState).movePlayer(playerID,
+				// Direction.opposite(player.getOrientation()));
+				// setGameState(gameState);
+				client.sendAction(new MoveAction(playerID, Direction
+						.opposite(player.getOrientation())));
 				break;
 			case KeyEvent.VK_D:
 				System.out.println("rotate right");

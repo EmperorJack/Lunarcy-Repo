@@ -87,6 +87,7 @@ public class Frame extends JFrame {
 
 		// run the processing canvas
 		canvas.init();
+		addKeyListener(canvas);
 	}
 
 	public Canvas getCanvas() {
