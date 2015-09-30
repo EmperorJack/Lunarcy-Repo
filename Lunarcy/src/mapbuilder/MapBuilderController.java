@@ -63,32 +63,32 @@ public class MapBuilderController implements MouseListener,
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyChar() == 'w') {
 			if (addWalls) {
-				builder.setWall(Direction.North);
+				builder.setWall(Direction.NORTH);
 			} else {
-				builder.removeWall(Direction.North);
+				builder.removeWall(Direction.NORTH);
 			}
 		}
 		if (e.getKeyChar() == 'a') {
 			if (addWalls) {
-				builder.setWall(Direction.West);
+				builder.setWall(Direction.WEST);
 			} else {
-				builder.removeWall(Direction.West);
+				builder.removeWall(Direction.WEST);
 			}
 
 		}
 		if (e.getKeyChar() == 's') {
 			if (addWalls) {
-				builder.setWall(Direction.South);
+				builder.setWall(Direction.SOUTH);
 			} else {
-				builder.removeWall(Direction.South);
+				builder.removeWall(Direction.SOUTH);
 			}
 
 		}
 		if (e.getKeyChar() == 'd') {
 			if (addWalls) {
-				builder.setWall(Direction.East);
+				builder.setWall(Direction.EAST);
 			} else {
-				builder.removeWall(Direction.East);
+				builder.removeWall(Direction.EAST);
 			}
 		}
 		if (e.getKeyChar() == 'x') {

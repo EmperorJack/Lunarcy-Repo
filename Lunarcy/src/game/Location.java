@@ -59,11 +59,11 @@ public class Location implements Serializable{
 	 * @return
 	 */
 	public Location getAdjacent(Direction direction){
-		if(direction==Direction.North){
+		if(direction==Direction.NORTH){
 			return new Location(x, y - 1);
-		}else if(direction==Direction.East){
+		}else if(direction==Direction.EAST){
 			return new Location(x + 1, y);
-		}else if(direction==Direction.South){
+		}else if(direction==Direction.SOUTH){
 			return new Location(x, y + 1);
 		}else{//Else West
 			return new Location(x - 1, y);
