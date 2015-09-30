@@ -8,7 +8,7 @@ import processing.core.PGraphics;
 
 /**
  * Displays the oxygen bar in the bottom right corner of the canvas
- * 
+ *
  * @author b
  *
  */
@@ -42,10 +42,10 @@ public class Oxygen extends DrawingComponent {
 
 	@Override
 	public void draw(float delta) {
-		p.noStroke();
-
 		p.pushMatrix();
 		p.pushStyle();
+
+		p.noStroke();
 
 		// Translate drawing to match location
 		p.translate(LEFT_PADDING, TOP_PADDING);

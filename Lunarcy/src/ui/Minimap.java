@@ -1,10 +1,15 @@
 package ui;
 
+import java.util.Map;
+
 import game.BlankSquare;
+import game.Direction;
+import game.EmptyWall;
 import game.GameState;
 import game.Player;
 import game.Square;
 import game.WalkableSquare;
+import game.Wall;
 import processing.core.*;
 
 /**
@@ -71,20 +76,49 @@ public class Minimap extends DrawingComponent {
 			for (int j = 0; j < board[0].length; j++) {
 				Square current = board[j][i];
 
-				// TODO: DISTINGUISH BETWEEN INDOOR/OUTDOOR
+				//So the translation is independant each iteration
+				p.pushMatrix();
+
+				p.translate(i * SIZE, j * SIZE);
 
 				// Walkable square
 				if (current instanceof WalkableSquare) {
-					p.image(OUTDOOR_GROUND, i * SIZE, j * SIZE, SIZE, SIZE);
+					p.image(OUTDOOR_GROUND, 0, 0, SIZE, SIZE);
 				}
 				//Dont draw blankSquares
 				if(current instanceof BlankSquare){
-
+					p.popMatrix();
+					continue;
 				}
 				// Unwalkable square
 				else {
-					p.image(INDOOR_GROUND, i * SIZE, j * SIZE, SIZE, SIZE);
+					p.image(INDOOR_GROUND, 0, 0, SIZE, SIZE);
 				}
+
+				//Draw the four walls
+				Map<Direction, Wall> walls = current.getWalls();
+
+				p.stroke(0, 100);
+
+				//Only draw the walls if they are not an EmptyWall
+				if(!(walls.get(Direction.North) instanceof EmptyWall)){
+					p.line(0, 0, SIZE, 0);
+				}
+
+				if(!(walls.get(Direction.East) instanceof EmptyWall)){
+					p.line(SIZE, 0, SIZE, SIZE);
+				}
+
+				if(!(walls.get(Direction.South) instanceof EmptyWall)){
+					p.line(0, SIZE, SIZE, SIZE);
+				}
+
+				if(!(walls.get(Direction.West) instanceof EmptyWall)){
+					p.line(0, 0, 0, SIZE);
+				}
+
+				p.popMatrix();
+
 			}
 
 		}

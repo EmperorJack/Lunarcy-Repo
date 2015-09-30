@@ -35,7 +35,7 @@ public class ServerMain extends JFrame {
 		super("Start Game");
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(370, 550));
+		setPreferredSize(new Dimension(370, 570));
 
 		//Display a message at the top
 		addTitle();
@@ -48,6 +48,9 @@ public class ServerMain extends JFrame {
 
 		//Add buttons to start/stop the server
 		addStartStopButtons();
+
+		//Add buttons for saving/loading the whole game state
+		addSaveLoadButtons();
 
 		//Add a text are for printing output etc
 		addConsole();
@@ -161,7 +164,6 @@ public class ServerMain extends JFrame {
 		//Start button is at 0, 5
 		c.gridx = 0;
 		c.gridy = 5;
-		c.fill = GridBagConstraints.HORIZONTAL;
 		add(start, c);
 
 		//When clicked, make stop unclickable and start clicabe
@@ -172,7 +174,7 @@ public class ServerMain extends JFrame {
 				start.setEnabled(true);
 				stop.setEnabled(false);
 				//Tell the server to end
-				server.stop();
+				//server.stop();
 			}
 		});
 
@@ -186,19 +188,38 @@ public class ServerMain extends JFrame {
 		add(stop, c);
 	}
 
+	private void addSaveLoadButtons() {
+		GridBagConstraints c = new GridBagConstraints();
+
+		JButton save = new JButton("Save");
+		JButton load = new JButton("Load");
+
+		//Save button is at 0,6
+		c.gridx = 0;
+		c.gridy = 6;
+		add(save, c);
+
+		//Load button is at 1,6
+		c.gridx = 1;
+		c.gridy = 6;
+		add(load, c);
+
+	}
+
 
 	private void addConsole() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
 
 		JTextArea console = new JTextArea();
+
 		//Not directly editable by user
 		console.setEditable(false);
 		console.setPreferredSize(new Dimension(getWidth(), 250));
 
-		//Console is at 0, 6
+		//Console is at 0, 7
 		c.gridx = 0;
-		c.gridy = 6;
+		c.gridy = 7;
 		c.gridwidth = 2;
 		c.insets = new Insets(15, 0, 0, 0);
 

@@ -42,10 +42,10 @@ public class Inventory extends DrawingComponent {
 
 	@Override
 	public void draw(float delta) {
-		p.noStroke();
-
 		p.pushMatrix();
 		p.pushStyle();
+
+		p.noStroke();
 
 		// Translate drawing to match location
 		p.translate(LEFT_PADDING, TOP_PADDING);
