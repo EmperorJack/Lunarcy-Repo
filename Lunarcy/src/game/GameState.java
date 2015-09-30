@@ -100,7 +100,7 @@ public class GameState implements Serializable{
 		}
 	}
 
-	public void load() {
+	public void loadMap() {
 		try {
 			FileInputStream file = new FileInputStream("map.xml");
 			XStream xstream = new XStream();
@@ -108,7 +108,7 @@ public class GameState implements Serializable{
 		} catch (FileNotFoundException e) {
 
 		}
-	}
+	}	
 
 	public Player getPlayer(int playerID){
 		return players.get(playerID);

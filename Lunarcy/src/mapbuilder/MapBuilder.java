@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -41,19 +42,20 @@ public class MapBuilder {
 	private Rectangle gridArea;
 	public static final int GRID_LEFT = 340;
 	public static final int GRID_TOP = 60;
-	public static final int GRID_SIZE = 60;
+	public static final int GRID_SIZE = 30;
 
 	public MapBuilder() {
 		selectedTiles = new HashSet<Location>();
-		map = new Square[10][10];
+		map = new Square[20][20];
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				map[i][j] = new BlankSquare();
-				//map[i][j] = new WalkableSquare("Empty", "Empty", true, null,
-				//		null, null, null);
+				// map[i][j] = new WalkableSquare("Empty", "Empty", true, null,
+				// null, null, null);
 			}
 		}
-		gridArea = new Rectangle(GRID_LEFT,GRID_TOP, GRID_SIZE*map[0].length, GRID_SIZE *map.length);
+		gridArea = new Rectangle(GRID_LEFT, GRID_TOP,
+				GRID_SIZE * map[0].length, GRID_SIZE * map.length);
 	}
 
 	public void setTile(int x, int y) {
@@ -66,33 +68,38 @@ public class MapBuilder {
 		}
 	}
 
-	public void toggleWalkable(){
+	public void toggleWalkable() {
 		Iterator<Location> tileIterator = selectedTiles.iterator();
-		while (tileIterator.hasNext()){
+		while (tileIterator.hasNext()) {
 			Location currentLoc = tileIterator.next();
-			if (map[currentLoc.getY()][currentLoc.getX()] instanceof BlankSquare){
-				map[currentLoc.getY()][currentLoc.getX()] = new WalkableSquare("Empty", "Empty", true, null,
-						null, null, null);
+			if (map[currentLoc.getY()][currentLoc.getX()] instanceof BlankSquare) {
+				map[currentLoc.getY()][currentLoc.getX()] = new WalkableSquare(
+						"Empty", "Empty", true, null, null, null, null);
 			} else {
 				map[currentLoc.getY()][currentLoc.getX()] = new BlankSquare();
 			}
 		}
+		selectedTiles.clear();
 	}
 
-	public void getSelectedTiles(){
+	public void getSelectedTiles() {
 		selectedTiles.clear();
-		if(selectedArea != null){
-			if (selectedArea.intersects(gridArea)){
-				int startX = (int)((selectedArea.getMinX() - GRID_LEFT)/ GRID_SIZE);
-				int startY = (int)((selectedArea.getMinY() - GRID_TOP)/ GRID_SIZE);
-				if (startX < 0) startX = 0;
-				if (startY < 0) startY = 0;
-				int endX = (int)((selectedArea.getMaxX() - GRID_LEFT)/ GRID_SIZE);
-				int endY = (int)((selectedArea.getMaxY() - GRID_TOP)/ GRID_SIZE);
-				if (endX >= map[0].length) endX = map[0].length -1;
-				if (endY >= map.length) endY = map[0].length - 1;
-				for (int i = startY; i<= endY; i++){
-					for (int j = startX; j <= endX; j++){
+		if (selectedArea != null) {
+			if (selectedArea.intersects(gridArea)) {
+				int startX = (int) ((selectedArea.getMinX() - GRID_LEFT) / GRID_SIZE);
+				int startY = (int) ((selectedArea.getMinY() - GRID_TOP) / GRID_SIZE);
+				if (startX < 0)
+					startX = 0;
+				if (startY < 0)
+					startY = 0;
+				int endX = (int) ((selectedArea.getMaxX() - GRID_LEFT) / GRID_SIZE);
+				int endY = (int) ((selectedArea.getMaxY() - GRID_TOP) / GRID_SIZE);
+				if (endX >= map[0].length)
+					endX = map[0].length - 1;
+				if (endY >= map.length)
+					endY = map[0].length - 1;
+				for (int i = startY; i <= endY; i++) {
+					for (int j = startX; j <= endX; j++) {
 						selectedTiles.add(new Location(j, i));
 					}
 				}
@@ -101,73 +108,68 @@ public class MapBuilder {
 	}
 
 	public void setWall(Direction dir) {
-		if (selected != null && map[selected.getY()][selected.getX()] instanceof WalkableSquare) {
-			Square currentSquare = map[selected.getY()][selected
-					.getX()];
+		if (selected != null
+				&& map[selected.getY()][selected.getX()] instanceof WalkableSquare) {
+			Square currentSquare = map[selected.getY()][selected.getX()];
 			currentSquare.setWall(dir);
 			if (dir == Direction.North && selected.getY() > 0) {
-				Square adjacentSquare = map[selected
-						.getY() - 1][selected.getX()];
+				Square adjacentSquare = map[selected.getY() - 1][selected
+						.getX()];
 				adjacentSquare.setWall(Direction.South);
 			}
 			if (dir == Direction.South && selected.getY() < map.length - 1) {
-				Square adjacentSquare = map[selected
-						.getY() + 1][selected.getX()];
+				Square adjacentSquare = map[selected.getY() + 1][selected
+						.getX()];
 				adjacentSquare.setWall(Direction.North);
 			}
 			if (dir == Direction.East && selected.getX() < map[0].length - 1) {
-				Square adjacentSquare = map[selected
-						.getY()][selected.getX() + 1];
+				Square adjacentSquare = map[selected.getY()][selected.getX() + 1];
 				adjacentSquare.setWall(Direction.West);
 			}
 			if (dir == Direction.West && selected.getX() > 0) {
-				Square adjacentSquare = map[selected
-						.getY()][selected.getX() - 1];
+				Square adjacentSquare = map[selected.getY()][selected.getX() - 1];
 				adjacentSquare.setWall(Direction.East);
 			}
 		}
 	}
 
 	public void removeWall(Direction dir) {
-		if (selected != null && map[selected.getY()][selected.getX()] instanceof WalkableSquare) {
-			Square currentSquare = map[selected.getY()][selected
-					.getX()];
+		if (selected != null
+				&& map[selected.getY()][selected.getX()] instanceof WalkableSquare) {
+			Square currentSquare = map[selected.getY()][selected.getX()];
 			currentSquare.removeWall(dir);
 			if (dir == Direction.North && selected.getY() > 0) {
-				Square adjacentSquare = map[selected
-						.getY() - 1][selected.getX()];
+				Square adjacentSquare = map[selected.getY() - 1][selected
+						.getX()];
 				adjacentSquare.removeWall(Direction.South);
 			}
 			if (dir == Direction.South && selected.getY() < map.length - 1) {
-				Square adjacentSquare = map[selected
-						.getY() + 1][selected.getX()];
+				Square adjacentSquare = map[selected.getY() + 1][selected
+						.getX()];
 				adjacentSquare.removeWall(Direction.North);
 			}
 			if (dir == Direction.East && selected.getX() < map[0].length - 1) {
-				Square adjacentSquare = map[selected
-						.getY()][selected.getX() + 1];
+				Square adjacentSquare = map[selected.getY()][selected.getX() + 1];
 				adjacentSquare.removeWall(Direction.West);
 			}
 			if (dir == Direction.West && selected.getX() > 0) {
-				Square adjacentSquare = map[selected
-						.getY()][selected.getX() - 1];
+				Square adjacentSquare = map[selected.getY()][selected.getX() - 1];
 				adjacentSquare.removeWall(Direction.East);
 			}
 		}
 	}
 
-
 	public void draw(Graphics2D g) {
 		g.setColor(Color.BLACK);
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				if (map[i][j] instanceof WalkableSquare){
+				if (map[i][j] instanceof WalkableSquare) {
 					g.setColor(Color.WHITE);
 					g.fillRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i
-							* GRID_SIZE, GRID_SIZE,GRID_SIZE);
+							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
 				}
-				if (selectedTiles.contains(new Location(j,i))){
+				if (selectedTiles.contains(new Location(j, i))) {
 					g.setColor(Color.PINK);
 					g.fillRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
@@ -180,7 +182,7 @@ public class MapBuilder {
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
 				}
-				if (map[i][j] instanceof WalkableSquare){
+				if (map[i][j] instanceof WalkableSquare) {
 					drawSquare(g, (WalkableSquare) map[i][j], GRID_LEFT + j
 							* GRID_SIZE, GRID_TOP + i * GRID_SIZE);
 				}
@@ -188,30 +190,38 @@ public class MapBuilder {
 						GRID_SIZE, GRID_SIZE);
 			}
 		}
-		if (dragging){
+		if (dragging) {
 			g.setColor(Color.GREEN);
 			g.draw(selectedArea);
 			dragging = false;
 		}
 	}
 
-	public void save() throws FileNotFoundException {
-		try {
-		      FileOutputStream file = new FileOutputStream("map.xml", false);
-		      XStream xstream = new XStream();
-		      xstream.toXML(map, file);
-		} catch (FileNotFoundException e) {
+	public void save() {
+		int n = JOptionPane.showConfirmDialog(null, "Would you like to save?",
+				"Save", JOptionPane.YES_NO_OPTION);
+		if (n == JOptionPane.YES_OPTION) {
+			try {
+				FileOutputStream file = new FileOutputStream("map.xml", false);
+				XStream xstream = new XStream();
+				xstream.toXML(map, file);
+			} catch (FileNotFoundException e) {
 
+			}
 		}
 	}
 
-	public void load() throws FileNotFoundException {
-		try {
-		      FileInputStream file = new FileInputStream("map.xml");
-		      XStream xstream = new XStream();
-		      map = (Square[][]) xstream.fromXML(file);
-		} catch (FileNotFoundException e) {
+	public void load() {
+		int n = JOptionPane.showConfirmDialog(null, "Would you like to load?",
+				"Load", JOptionPane.YES_NO_OPTION);
+		if (n == JOptionPane.YES_OPTION) {
+			try {
+				FileInputStream file = new FileInputStream("map.xml");
+				XStream xstream = new XStream();
+				map = (Square[][]) xstream.fromXML(file);
+			} catch (FileNotFoundException e) {
 
+			}
 		}
 	}
 
@@ -233,7 +243,8 @@ public class MapBuilder {
 
 	public void doSelect(int startX, int startY, int x, int y) {
 		dragging = true;
-		selectedArea = new Rectangle(Math.min(startX, x), Math.min(startY, y), Math.abs(x - startX), Math.abs(y - startY));
+		selectedArea = new Rectangle(Math.min(startX, x), Math.min(startY, y),
+				Math.abs(x - startX), Math.abs(y - startY));
 		getSelectedTiles();
 	}
 }

@@ -28,7 +28,7 @@ public class Server {
 	private Interpreter interpreter;
 	private GameLogic gameLogic;
 	private int updateFreq;
-	
+
 	Server(int maxClients,int updateFreq){
 		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;
@@ -167,11 +167,14 @@ public class Server {
     		while (true){
     			NetworkAction action = null;
 				try {
+					System.out.println("attempting to listen to client");
 					action = (NetworkAction)inputFromClient.readObject();
 				} catch (IOException e) {
 					// TODO handle disconnected client - this may not be the right way since an IOException could occur for other reasons
-					removeClient();
 					//e.printStackTrace();
+					//removeClient();
+					//return;
+					//
 				} catch(ClassNotFoundException e){
 					e.printStackTrace();
 				}
@@ -201,6 +204,7 @@ public class Server {
     		System.out.println("Client " + clientID + "Disconnected");
 			try {
 				socket.close();
+
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				System.out.println("Unable to close client socket descriptor");

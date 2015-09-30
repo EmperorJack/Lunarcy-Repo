@@ -28,6 +28,12 @@ import javax.swing.JTextField;
 
 import control.Client;
 
+/**
+ * A GUI Window for starting a new Client.
+ *
+ * @author Ben
+ *
+ */
 class ClientMain extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -51,7 +57,7 @@ class ClientMain extends JFrame {
 	private JTextField serverTextbox;
 
 	public ClientMain() {
-		super("Player info");
+		super("Join Game");
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(370, 370));
