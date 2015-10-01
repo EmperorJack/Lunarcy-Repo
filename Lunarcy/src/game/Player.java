@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +28,7 @@ public class Player implements Serializable{
 		this.location = location == null ? new Location(1,1) : location;
 		this.orientation = orientation == null ? Direction.NORTH : orientation;
 		this.oxygen = 200;
+		this.inventory = new ArrayList<Item>();
 	}
 
 	public void move(Direction direction) {
@@ -54,7 +56,23 @@ public class Player implements Serializable{
 	}
 
 	public List<Item> getInventory() {
-		return inventory;
+		return new ArrayList<Item>(inventory);
+	}
+	
+	public boolean giveItem(Item item){
+		if(item==null)
+			return false;
+		return inventory.add(item);
+	}
+	
+	public Item removeItem(Item item){
+		if(item==null)
+			return null;
+		if(inventory.contains(item)){
+			inventory.remove(item);
+			return item;
+		}
+		return null;
 	}
 
 	public Direction getOrientation() {

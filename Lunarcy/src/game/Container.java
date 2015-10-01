@@ -21,6 +21,15 @@ public abstract class Container extends Entity {
 		items.add(item);
 	}
 	
+	public boolean hasItem(int itemID){
+		for(Item item: items){
+			if(item.entityID==itemID){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Finds the item with specified ID and removes it from the container
 	 * @param itemID The ID number of the wanted item
@@ -40,8 +49,9 @@ public abstract class Container extends Entity {
 		if(canAccess(player)){
 			items.remove(item);
 			return item;
+		}else{
+			return null;
 		}
-		return null;
 	}
 	
 	/**
