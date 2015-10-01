@@ -5,6 +5,7 @@ import java.util.List;
 import game.GameState;
 import game.Location;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -24,7 +25,7 @@ import java.util.ArrayList;
  * @author b
  *
  */
-public class Rover {
+public class Rover implements Serializable {
 
 	private ShortestPathMover movementStrategy;
 	private List<Location> path; // Which squares the rover is going to follow

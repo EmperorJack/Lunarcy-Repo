@@ -28,8 +28,15 @@ public class WalkableSquare extends Square {
 		this.inside = inside;
 
 		entities = new HashMap<Direction, Set<Entity>>();
+		
+		//populate with empty sets to avoid Null Pointers
+		entities.put(Direction.NORTH, new HashSet<Entity>());
+		entities.put(Direction.EAST, new HashSet<Entity>());
+		entities.put(Direction.SOUTH, new HashSet<Entity>());
+		entities.put(Direction.WEST, new HashSet<Entity>());
+		
 		players = new HashSet<Player>();
-
+		
 		walls = new HashMap<Direction, Wall>();
 
 		if (north == null) {
@@ -66,12 +73,8 @@ public class WalkableSquare extends Square {
 	 *             if either argument is null
 	 */
 	public boolean canEnter(Player player, Direction direction) {
-		if (player == null)
-			throw new IllegalArgumentException(
-					"Parameter 'player' may not be null");
-		if (direction == null)
-			throw new IllegalArgumentException(
-					"Parameter 'direction' may not be null");
+		if (player == null||direction == null)
+			return false;
 		return walls.get(direction).enter(player);
 	}
 
@@ -111,13 +114,10 @@ public class WalkableSquare extends Square {
 	 * @param side
 	 *            the side of the Square the entities are on
 	 * @return Set<Entity> of all the entities on that side of the room
-	 * @throws IllegalArgumentException
-	 *             if argument is null
 	 */
 	public Set<Entity> getEntities(Direction side) {
 		if (side == null)
-			throw new IllegalArgumentException(
-					"Parameter 'side' may not be null");
+			return null;
 		return new HashSet<Entity>(entities.get(side));
 	}
 
@@ -131,12 +131,8 @@ public class WalkableSquare extends Square {
 	 * @return True if entity could be added, False otherwise
 	 */
 	public boolean addEntity(Direction side, Entity entity) {
-		if (side == null)
-			throw new IllegalArgumentException(
-					"Parameter 'side' may not be null");
-		if (entity == null)
-			throw new IllegalArgumentException(
-					"Parameter 'entity' may not be null");
+		if (side == null||entity == null)
+			return false;
 		return entities.get(side).add(entity);
 	}
 
@@ -148,6 +144,16 @@ public class WalkableSquare extends Square {
 	 */
 	public Set<Player> getPlayers() {
 		return new HashSet<Player>(players);
+	}
+	
+	public Item takeItem(Direction side, Item item){
+		if (side == null||item == null)
+			return null;
+		if(entities.get(side).contains(item)){
+			entities.get(side).remove(item);
+			return item;
+		}
+		return null;
 	}
 
 	public String getName() {

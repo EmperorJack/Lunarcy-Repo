@@ -18,8 +18,7 @@ public class RoamMovement extends ShortestPathMover {
 	private final int MAXSQUARES = 3; // How many random squares to check
 
 	/**
-	 * Find a path from currentLocation to a randomly chosen square (prioritise
-	 * popular squares)
+	 * Find a path from currentLocation to a randomly chosen square.
 	 * 
 	 * @return path to the end location
 	 */
@@ -29,22 +28,15 @@ public class RoamMovement extends ShortestPathMover {
 		int playersSeen = -1;
 		Location mostVisited = null;
 
-		// Iterate MAXSQUARES random squares, choosing the most visited one
-		for (int i = 0; i < MAXSQUARES; i++) {
-
-			// Choose a random location on the board
-			Location rand = new Location((int) Math.random() * board.length, (int) Math.random() * board[0].length);
-
-			
-
-		}
+		// Choose a random location on the board
+		Location rand = new Location((int) (Math.random() * board.length), (int) (Math.random() * board[0].length));
 
 		return findPath(board, currentLocation, mostVisited);
 	}
 
 	@Override
 	protected boolean mustUpdate(List<Location> path) {
-		return false;
+		return path.isEmpty();
 	}
 
 }
