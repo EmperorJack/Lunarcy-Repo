@@ -106,6 +106,7 @@ class ClientMain extends JFrame {
 				(size.height - getHeight()) / 2, getWidth(), getHeight());
 
 		setVisible(true);
+		setResizable(false);
 	}
 
 	private void addSeperator(int x, int y) {

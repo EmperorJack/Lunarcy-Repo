@@ -39,7 +39,7 @@ public class ServerMain extends JFrame {
 		super("Start Game");
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(370, 590));
+		setPreferredSize(new Dimension(320, 590));
 
 		// Display a message at the top
 		addTitle();
@@ -70,7 +70,7 @@ public class ServerMain extends JFrame {
 		setBounds((size.width - getWidth()) / 2, (size.height - getHeight()) / 2, getWidth(), getHeight());
 
 		setVisible(true);
-
+		setResizable(false);
 	}
 
 
