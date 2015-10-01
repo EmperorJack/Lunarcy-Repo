@@ -23,6 +23,7 @@ public class Perspective3D extends DrawingComponent {
 	// player fields
 	private int playerID;
 	private Player player;
+	private Player[] players;
 
 	// camera fields
 	private PVector cameraEye;
@@ -48,6 +49,9 @@ public class Perspective3D extends DrawingComponent {
 	public void update(GameState gameState) {
 		// update the player associated with this client
 		player = gameState.getPlayer(playerID);
+
+		// update the players given from the updated game state
+		players = gameState.getPlayers();
 
 		// update the camera to the player position and orientation
 		setCamera(player.getLocation(), player.getOrientation());
@@ -79,6 +83,29 @@ public class Perspective3D extends DrawingComponent {
 
 		// draw the game world
 		world.draw();
+
+		// draw the players
+		for (int i = 0; i < players.length; i++) {
+			// don't draw a sprite for this player
+			if (i != playerID) {
+				p.pushMatrix();
+				p.pushStyle();
+
+				Player player = players[i];
+				// use the player colour
+				//p.fill(player.getColour().getRGB());
+
+				Location location = player.getLocation();
+
+				// draw the player
+				p.translate(location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2,
+						location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2);
+				p.sphere(30);
+
+				p.popStyle();
+				p.popMatrix();
+			}
+		}
 
 		// pop matrix and style information from the stack
 		p.popStyle();

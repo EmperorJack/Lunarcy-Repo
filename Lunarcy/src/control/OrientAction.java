@@ -18,8 +18,11 @@ public class OrientAction implements NetworkAction, Serializable{
 
 	@Override
 	public void applyAction(GameLogic logic) {
-		if(this.turnLeft)System.out.println("Orienting player "+ playerID + " left");
-		else System.out.println("Orienting player "+ playerID + " right");
+		if (turnLeft) {
+			logic.turnPlayerLeft(playerID);
+		} else {
+			logic.turnPlayerRight(playerID);
+		}
 	}
 
 }

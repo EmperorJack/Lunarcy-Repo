@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 
 import control.Client;
 import control.MoveAction;
+import control.OrientAction;
 import ddf.minim.*;
 import game.Direction;
 import game.GameLogic;
@@ -107,7 +108,7 @@ public class Canvas extends PApplet implements KeyListener {
 		inventory = new Inventory(playerID, this, gameState);
 
 		// audio setup
-		minim = new Minim(this);
+		//minim = new Minim(this);
 		// track = minim.loadFile("assets/audio/*.mp3");
 		// track.play();
 
@@ -134,6 +135,9 @@ public class Canvas extends PApplet implements KeyListener {
 	 */
 	public synchronized void update() {
 		if (stateUpdated) {
+			// update player field
+			player = gameState.getPlayer(playerID);
+
 			// update each component
 			perspective.update(gameState);
 			minimap.update(gameState);
@@ -230,7 +234,6 @@ public class Canvas extends PApplet implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("TEST KEY INPUT CANVAS");
 		// check if the timer has been exceeded
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - keyTimer > 100) {
@@ -242,29 +245,18 @@ public class Canvas extends PApplet implements KeyListener {
 			// identify which key pressed
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:
-				// new GameLogic(gameState).movePlayer(playerID,
-				// player.getOrientation());
-				// setGameState(gameState);
 				client.sendAction(new MoveAction(playerID, player
 						.getOrientation()));
 				break;
 			case KeyEvent.VK_A:
-				System.out.println("rotate left");
-				new GameLogic(gameState).turnPlayerLeft(playerID);
-				setGameState(gameState);
+				client.sendAction(new OrientAction(playerID, true));
 				break;
 			case KeyEvent.VK_S:
-				System.out.println("move back");
-				// new GameLogic(gameState).movePlayer(playerID,
-				// Direction.opposite(player.getOrientation()));
-				// setGameState(gameState);
 				client.sendAction(new MoveAction(playerID, Direction
 						.opposite(player.getOrientation())));
 				break;
 			case KeyEvent.VK_D:
-				System.out.println("rotate right");
-				new GameLogic(gameState).turnPlayerRight(playerID);
-				setGameState(gameState);
+				client.sendAction(new OrientAction(playerID, false));
 				break;
 			}
 		}
