@@ -27,7 +27,6 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
 import control.Client;
-import control.Server;
 
 /**
  * A GUI Window for starting a new Client.
@@ -105,6 +104,7 @@ class ClientMain extends JFrame {
 		setBounds((size.width - getWidth()) / 2, (size.height - getHeight()) / 2, getWidth(), getHeight());
 
 		setVisible(true);
+		setResizable(false);
 	}
 
 	private void addSeperator(int x, int y) {

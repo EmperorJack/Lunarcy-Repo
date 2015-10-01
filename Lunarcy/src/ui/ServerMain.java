@@ -8,6 +8,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintStream;
 
 import javax.swing.JButton;
@@ -17,7 +19,6 @@ import javax.swing.JSlider;
 import javax.swing.JTextArea;
 
 import control.Server;
-import game.GameState;
 import storage.Storage;
 
 /**
@@ -32,12 +33,13 @@ public class ServerMain extends JFrame {
 	private Server server;
 	private JSlider refreshRate;
 	private JSlider playerNum;
+	private JTextArea console;
 
 	public ServerMain() {
 		super("Start Game");
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(370, 570));
+		setPreferredSize(new Dimension(350, 570));
 
 		// Display a message at the top
 		addTitle();
@@ -56,6 +58,7 @@ public class ServerMain extends JFrame {
 
 		// Add a text are for printing output etc
 		addConsole();
+			
 
 		pack();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -65,6 +68,7 @@ public class ServerMain extends JFrame {
 		setBounds((size.width - getWidth()) / 2, (size.height - getHeight()) / 2, getWidth(), getHeight());
 
 		setVisible(true);
+		setResizable(false);
 
 	}
 
@@ -235,8 +239,13 @@ public class ServerMain extends JFrame {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
 
-		JTextArea console = new JTextArea();
-
+		console = new JTextArea();
+		
+		//Configure the text area to get the input from stdout
+		PrintStream printStream = new PrintStream(new ConsoleOutput(console));
+		System.setOut(printStream);
+		
+		
 		// Not directly editable by user
 		console.setEditable(false);
 		console.setPreferredSize(new Dimension(getWidth(), 250));
@@ -249,7 +258,30 @@ public class ServerMain extends JFrame {
 
 		add(console, c);
 	}
+	
+	/**
+	 * Used for remapping stdout to the textarea
+	 * to display any messages.
+	 * 
+	 * @author b
+	 *
+	 */
+	private class ConsoleOutput extends OutputStream {
 
+		JTextArea console;
+		
+		public ConsoleOutput(JTextArea console){
+			this.console = console;
+			
+		}
+		
+		@Override
+		public void write(int i) throws IOException {
+			console.append(Character.toString ((char) i));
+			
+		}
+		
+	}
 	public static void main(String[] args) {
 		new ServerMain();
 	}
