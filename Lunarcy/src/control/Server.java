@@ -49,8 +49,7 @@ public class Server {
 		}
 		// add players to gamestate
 		for (ClientConnection client : clientList) {
-			gameState.addPlayer(client.getClientID(), client.getName(),
-					Color.RED);
+			gameState.addPlayer(client.getClientID(), client.getName(),Color.RED);
 		}
 		gameLogic = new GameLogic(gameState);
 		//interpreter = new Interpreter(gameLogic); // TODO initialise interpreter
@@ -123,14 +122,11 @@ public class Server {
 		while (clientList.size() > 0 && !stopServer) {
 			if (System.currentTimeMillis() > lastUpdate + updateFreq) {
 				// gameLogic.tick()
-				//System.out.println("transmitting gamestate");
 				transmitState();
 				lastUpdate = System.currentTimeMillis();
-			} else
-				processAction();
+			} else processAction();
 		}
 		for (ClientConnection client : clientList) {
-			// TODO send disconnect
 			client.stop();
 		}
 		saveGamestate();
@@ -232,16 +228,8 @@ public class Server {
 				try {
 					// System.out.println("attempting to listen to client");
 					action = (NetworkAction) inputFromClient.readObject();
-				} catch (IOException e) {
-					// TODO handle disconnected client - this may not be the
-					// right way since an IOException could occur for other
-					// reasons
-					// e.printStackTrace();
-					// removeClient();
-					// return;
-					//
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
+				} catch (IOException | ClassNotFoundException e) {
+
 				}
 				if (action != null)
 					actionQueue.add(action);
@@ -272,9 +260,9 @@ public class Server {
 		private void disconnect() {
 			System.out.println("Client " + clientID + "Disconnected");
 			try {
-				socket.close();
 				inputFromClient.close();
 				outputToClient.close();
+				socket.close();
 
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
