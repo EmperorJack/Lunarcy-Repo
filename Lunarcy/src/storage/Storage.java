@@ -9,7 +9,7 @@ import com.thoughtworks.xstream.XStream;
 import game.GameState;
 
 public class Storage {
-	
+
 	public static final GameState loadState(){
 		try {
 			FileInputStream file = new FileInputStream("state.xml");
@@ -21,7 +21,7 @@ public class Storage {
 		}
 		return null;
 	}
-	
+
 	public static final void saveState(GameState state){
 		try {
 			FileOutputStream file = new FileOutputStream("state.xml", false);
@@ -31,7 +31,7 @@ public class Storage {
 
 		}
 	}
-	
-	
+
+
 
 }

@@ -46,35 +46,40 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// add players to gamestate
-		for (ClientConnection client : clientList) {
-			gameState.addPlayer(client.clientID, client.username,Color.RED);
-		}
+
 		gameLogic = new GameLogic(gameState);
-		sleep(500);
-		transmitState();
-		run(); // send to all clients
+
+		//sleep(500);
+
+		//transmitState();
+		//run(); // send to all clients
 	}
 
 	public Server(int maxClients, int updateFreq) {
 		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;
 		GameState gameState = new GameState(maxClients);
+
 		try {
 			serverSocket = new ServerSocket(PORT);
 			listenForClients();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		// add players to gamestate
 		for (ClientConnection client : clientList) {
 			gameState.addPlayer(client.clientID, client.username,Color.RED);
 		}
+
 		gameLogic = new GameLogic(gameState);
+
 		//interpreter = new Interpreter(gameLogic); // TODO initialise interpreter
-		sleep(500);
-		transmitState();
-		run(); // send to all clients
+
+		//sleep(500);
+
+		//transmitState();
+		//run(); // send to all clients
 	}
 
 	/**
@@ -95,7 +100,7 @@ public class Server {
 		Storage.saveState(gameLogic.getGameState());
 	}
 	/**
-	 * Sleep the server for the given 
+	 * Sleep the server for the given
 	 * @param time
 	 */
 	private void sleep(int time) {
@@ -125,7 +130,7 @@ public class Server {
 	/**
 	 * Run the client processing client actions and sending gamestates
 	 */
-	private void run() {
+	public void run() {
 		transmitState(); // transmit initially
 		System.out.println("Server running fully");
 		long lastUpdate = System.currentTimeMillis();
@@ -213,7 +218,7 @@ public class Server {
 			}).start();
 		}
 
-		
+
 
 		private void sendID(int clientID) {
 			try {
@@ -275,7 +280,7 @@ public class Server {
 			}
 			clientList.remove(this);
 		}
-		
+
 		/**
 		 * Gracefully close client connection
 		 */

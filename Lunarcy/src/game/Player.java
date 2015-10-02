@@ -12,7 +12,7 @@ import java.util.List;
  * @author Robbie
  *
  */
-public class Player implements Serializable{
+public class Player implements Serializable {
 	private final int id;
 	private final String name;
 	private Color colour;
@@ -58,13 +58,13 @@ public class Player implements Serializable{
 	public List<Item> getInventory() {
 		return new ArrayList<Item>(inventory);
 	}
-	
+
 	public boolean giveItem(Item item){
 		if(item==null)
 			return false;
 		return inventory.add(item);
 	}
-	
+
 	public Item removeItem(Item item){
 		if(item==null)
 			return null;

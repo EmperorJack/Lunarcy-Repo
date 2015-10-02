@@ -17,6 +17,7 @@ import java.net.UnknownHostException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 
@@ -36,6 +37,7 @@ public class ServerMain extends JFrame {
 	private JSlider refreshRate;
 	private JSlider playerNum;
 	private JTextArea console;
+	private JButton load;
 
 	public ServerMain() {
 		super("Start Game");
@@ -64,7 +66,7 @@ public class ServerMain extends JFrame {
 
 		// Add a text are for printing output etc
 		addConsole();
-			
+
 
 		pack();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -166,14 +168,18 @@ public class ServerMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				start.setEnabled(false);
 				stop.setEnabled(true);
+				load.setEnabled(false);
 
 				// Makes a new thread, which deals with the server
 
+				server = new Server(playerNum.getValue(), refreshRate.getValue());
+
 				new Thread(new Runnable() {
 					public void run() {
-						server = new Server(playerNum.getValue(), refreshRate.getValue());
+						server.run();
 					}
 				}).start();
+
 
 			}
 		});
@@ -190,8 +196,23 @@ public class ServerMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				start.setEnabled(true);
 				stop.setEnabled(false);
-				// Tell the server to end
-				server.stop();
+				load.setEnabled(true);
+
+				//Stop the game
+				//server.stop();
+
+				//Ask if you want to save the server
+				int save = JOptionPane.showConfirmDialog(
+					    ServerMain.this,
+					    "Do you want to save?",
+					    "Save",
+					    JOptionPane.YES_NO_OPTION);
+
+				//If they chose yes, then save
+				if(save == JOptionPane.YES_OPTION){
+					server.saveGamestate();
+				}
+
 			}
 		});
 
@@ -208,37 +229,29 @@ public class ServerMain extends JFrame {
 	private void addSaveLoadButtons() {
 		GridBagConstraints c = new GridBagConstraints();
 
-		JButton save = new JButton("Save");
-
-		save.setEnabled(true); //Disabled until  a game has begun
-
-		// When clicked, save the game state using Storage class
-		save.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				server.saveGamestate();
-			}
-
-		});
-		JButton load = new JButton("Load");
+		load = new JButton("Load");
 
 		load.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
+				//Make a new server, using the saved gamestate
 				server = new Server(playerNum.getValue(), refreshRate.getValue(), Storage.loadState());
+
+				//Make a new thread, as server.run() is non terminating
+				new Thread(new Runnable() {
+					public void run() {
+						server.run();
+					}
+				}).start();
 			}
 
 		});
 
-		// Save button is at 0,6
-		c.gridx = 0;
-		c.gridy = 6;
-		add(save, c);
 
-		// Load button is at 1,6
-		c.gridx = 1;
+		// Load button is at 0,6
+		c.gridx = 0;
 		c.gridy = 6;
 		add(load, c);
 
@@ -274,12 +287,12 @@ public class ServerMain extends JFrame {
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
 
 		console = new JTextArea();
-		
+
 		//Configure the text area to get the input from stdout
 		PrintStream printStream = new PrintStream(new ConsoleOutput(console));
 		System.setOut(printStream);
-		
-		
+
+
 		// Not directly editable by user
 		console.setEditable(false);
 		console.setPreferredSize(new Dimension(getWidth(), 250));
@@ -292,29 +305,29 @@ public class ServerMain extends JFrame {
 
 		add(console, c);
 	}
-	
+
 	/**
 	 * Used for remapping stdout to the textarea
 	 * to display any messages.
-	 * 
+	 *
 	 * @author b
 	 *
 	 */
 	private class ConsoleOutput extends OutputStream {
 
 		JTextArea console;
-		
+
 		public ConsoleOutput(JTextArea console){
 			this.console = console;
-			
+
 		}
-		
+
 		@Override
 		public void write(int i) throws IOException {
 			console.append(Character.toString ((char) i));
-			
+
 		}
-		
+
 	}
 	public static void main(String[] args) {
 		new ServerMain();
