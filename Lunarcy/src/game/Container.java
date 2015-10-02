@@ -12,8 +12,8 @@ import java.util.Set;
 public abstract class Container extends Entity {
 	Set<Item> items;
 	
-	public Container(int entityID) {
-		super(entityID);
+	public Container(int entityID, String imageName) {
+		super(entityID, imageName);
 		items = new HashSet<Item>();
 	}
 	

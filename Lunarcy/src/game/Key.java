@@ -8,7 +8,7 @@ package game;
 public class Key extends Item {
 	public final int keyCode;
 	public Key(int entityID, int keyCode){
-		super(entityID);
+		super(entityID,"key");
 		this.keyCode = keyCode;
 	}
 }

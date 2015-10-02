@@ -7,7 +7,7 @@ package game;
  *
  */
 public abstract class Item extends Entity {
-	public Item(int entityID) {
-		super(entityID);
+	public Item(int entityID, String imageName) {
+		super(entityID,imageName);
 	}
 }

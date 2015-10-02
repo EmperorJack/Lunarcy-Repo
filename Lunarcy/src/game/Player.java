@@ -29,6 +29,7 @@ public class Player implements Serializable {
 		this.orientation = orientation == null ? Direction.NORTH : orientation;
 		this.oxygen = 200;
 		this.inventory = new ArrayList<Item>();
+		testAddItems();
 	}
 
 	public void move(Direction direction) {
@@ -97,5 +98,16 @@ public class Player implements Serializable {
 
 	public Color getColour() {
 		return colour;
+	}
+	
+	/**
+	 * FOR TESTING PURPOSES
+	 * Adds some items to the players inventory
+	 */
+	public void testAddItems(){
+		if(inventory==null)return;
+		inventory.add(new ShipPart(id*100,0));
+		inventory.add(new Key(id*100 + 1,0));
+		inventory.add(new Key(id*100 + 2,1));
 	}
 }

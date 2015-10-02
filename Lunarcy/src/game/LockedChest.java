@@ -3,7 +3,7 @@ package game;
 public class LockedChest extends Container {
 	private final Key key;
 	public LockedChest(int entityID, Key key) {
-		super(entityID);
+		super(entityID,"lockedChest");
 		this.key = key;
 	}
 	@Override
