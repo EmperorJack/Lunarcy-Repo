@@ -1,12 +1,8 @@
 package ui;
 
-import game.Direction;
 import game.GameState;
-import game.Location;
-import game.Player;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;

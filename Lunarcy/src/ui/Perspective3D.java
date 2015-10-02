@@ -20,18 +20,13 @@ public class Perspective3D extends DrawingComponent {
 	private final int SQUARE_SIZE = 500;
 	private final float MODEL_SCALE = SQUARE_SIZE / 2.5f;
 
-	// player fields
-	private int playerID;
-	private Player player;
-	private Player[] players;
-
 	// camera fields
 	private PVector cameraEye;
 	private PVector cameraCenter;
 
 	public Perspective3D(PApplet p, GameState gameState, int playerID) {
 		// public Perspective3D(PApplet p, GameState gameState) {
-		super(p, gameState);
+		super(p, gameState, playerID);
 
 		// world model setup
 		world = new WorldModel(p, gameState.getBoard(), MODEL_SCALE,
@@ -40,25 +35,19 @@ public class Perspective3D extends DrawingComponent {
 		// camera setup
 		cameraEye = new PVector(0, -100, 0);
 		cameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2) - 100, 0);
-
-		// set the initial game state
-		update(gameState);
 	}
-
+	
 	@Override
-	public void update(GameState gameState) {
-		// update the player associated with this client
-		player = gameState.getPlayer(playerID);
-
-		// update the players given from the updated game state
-		players = gameState.getPlayers();
-
+	public void draw(GameState gameState, float delta) {
+		// get the player from the current game state
+		Player player = gameState.getPlayer(playerID);
+		
+		// get the players from the current game state
+		Player[] players = gameState.getPlayers();
+		
 		// update the camera to the player position and orientation
 		setCamera(player.getLocation(), player.getOrientation());
-	}
 
-	@Override
-	public void draw(float delta) {
 		// push matrix and style information onto the stack
 		p.pushMatrix();
 		p.pushStyle();
@@ -87,15 +76,16 @@ public class Perspective3D extends DrawingComponent {
 		// draw the players
 		for (int i = 0; i < players.length; i++) {
 			// don't draw a sprite for this player
-			if (i != playerID) {
+			if (i != player.getId()) {
 				p.pushMatrix();
 				p.pushStyle();
 
-				Player player = players[i];
+				Player currentPlayer = players[i];
+				
 				// use the player colour
-				//p.fill(player.getColour().getRGB());
+				// p.fill(player.getColour().getRGB());
 
-				Location location = player.getLocation();
+				Location location = currentPlayer.getLocation();
 
 				// draw the player
 				p.translate(location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2,
