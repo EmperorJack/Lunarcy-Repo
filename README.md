@@ -4,7 +4,7 @@ Lunarcy is a multiplay game project coded in Java.
 The aim of the game is to compete against other players to escape the moon. Stranded with limited resources there is only one seat available on the escape ship. The 'rovers' or moon robots are malfunctioning and must be avoided. The first player to collect the items required to fix the ship and escape wins the game!
 
 Team:
-- Game Logic: Robbie Iversson
+- Game Logic: Robbie Iversen
 - Networking: Johnny Denford
 - Data Storage & Map Builder: Kelly Moen
 - User Interface: Ben Evans
