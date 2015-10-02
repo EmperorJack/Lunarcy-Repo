@@ -33,13 +33,13 @@ public class GameState implements Serializable{
 	public GameState(int numPlayers) {
 		loadMap();
 		rovers = new HashSet<Rover>();
-		this.players = new Player[numPlayers];
+		players = new Player[numPlayers];
 	}
 
 
 	/**
 	 * @param location
-	 *            - A location to retrieve the square from
+	 *            A location to retrieve the square from
 	 * @return The Square at the (x,y) coordinate, from the location, on the
 	 *         board
 	 * @throws IllegalArgumentException
@@ -62,9 +62,9 @@ public class GameState implements Serializable{
 	/**
 	 *
 	 * @param location
-	 *            - The location of the Square to be replaced
+	 *            The location of the Square to be replaced
 	 * @param square
-	 *            - The Square that will take the location in the array
+	 *            The Square that will take the location in the array
 	 * @return The Square that was replaced, Null if the location does not exist
 	 *         on the board
 	 * @throws IllegalArgumentException
@@ -100,6 +100,13 @@ public class GameState implements Serializable{
 		}
 	}
 
+	/**
+	 * Creates a new player object and stores them in the game 
+	 * @param playerID The ID of the player
+	 * @param name The name of the Player
+	 * @param color The Colour that the player selected
+	 * @return
+	 */
 	public boolean addPlayer(int playerID, String name, Color color){
 		Player player = new Player(playerID, name, null, null);
 		if(playerID<0||playerID>players.length)return false;
@@ -107,9 +114,28 @@ public class GameState implements Serializable{
 		return true;
 	}
 
+	/**
+	 * Get the Player whose ID matches the parameter
+	 * @param playerID The ID of the player wanted
+	 * @return Player that has matching ID, null if invalid ID number
+	 */
 	public Player getPlayer(int playerID){
 		if(playerID<0||playerID>players.length)return null;
 		return players[playerID];
+	}
+	
+	/**
+	 * Retrieves the ID number of the player whose name matches the parameter.
+	 * @param playerName The name of the Player whose name matches
+	 * @return Player.getID() of the matching player, -1 if no player with that name exists 
+	 */
+	public int getPlayerID(String playerName){
+		for(Player p: players){
+			if(p.getName().equals(playerName)){
+				return p.getId();
+			}
+		}
+		return -1;
 	}
 
 	public Square[][] getBoard() {

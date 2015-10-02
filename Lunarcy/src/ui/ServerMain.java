@@ -44,7 +44,7 @@ public class ServerMain extends JFrame {
 
 		setLayout(new GridBagLayout());
 
-		setPreferredSize(new Dimension(320, 590));
+		setPreferredSize(new Dimension(320, 600));
 
 		// Display a message at the top
 		addTitle();
