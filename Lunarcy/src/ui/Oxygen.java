@@ -1,10 +1,8 @@
 package ui;
 
-import java.awt.Color;
-
 import game.GameState;
+import game.Player;
 import processing.core.PApplet;
-import processing.core.PGraphics;
 
 /**
  * Displays the oxygen bar in the bottom right corner of the canvas
@@ -28,20 +26,15 @@ public class Oxygen extends DrawingComponent {
 	// Size of the dial on the oxygen tank
 	private final int DIALSIZE = 10;
 
-	public Oxygen(PApplet p, GameState gameState) {
-		super(p, gameState);
-
-		// set the initial game state
-		update(gameState);
+	public Oxygen(PApplet p, GameState gameState, int playerID) {
+		super(p, gameState, playerID);
 	}
 
 	@Override
-	public void update(GameState gameState) {
-		// Todo: update local copy of oxygen level
-	}
+	public void draw(GameState gameState, float delta) {
+		// get the player from the current game state
+		Player player = gameState.getPlayer(playerID);
 
-	@Override
-	public void draw(float delta) {
 		p.pushMatrix();
 		p.pushStyle();
 
