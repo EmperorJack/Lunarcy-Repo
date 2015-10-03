@@ -1,8 +1,5 @@
 package game;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Represents a filler square that cannot be entered or contain items.
  * @author Robbie

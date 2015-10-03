@@ -25,7 +25,7 @@ public class Player implements Serializable {
 	public Player(int uniqueID, String name, Location location, Direction orientation) {
 		this.id = uniqueID;
 		this.name = name;
-		this.location = location == null ? new Location(1,1) : location;
+		this.location = location == null ? new Location(0,0) : location;
 		this.orientation = orientation == null ? Direction.NORTH : orientation;
 		this.oxygen = 200;
 		this.inventory = new ArrayList<Item>();
@@ -66,16 +66,27 @@ public class Player implements Serializable {
 		return inventory.add(item);
 	}
 
-	public Item removeItem(Item item){
-		if(item==null)
+	/**
+	 * Searches the players inventory to find a matching item and then removes it
+	 * @param itemID The enitiyID of the item being removed
+	 * @return The Item that was removed, null if no match was found
+	 */
+	public Item removeItem(int itemID){
+		if(itemID<0)
 			return null;
-		if(inventory.contains(item)){
+		Item item = null;
+		for(Item i: inventory){
+			if(i.entityID==itemID){
+				item = i;
+			}
+		}
+		if(item != null && inventory.contains(item)){
 			inventory.remove(item);
 			return item;
 		}
 		return null;
 	}
-
+	
 	public Direction getOrientation() {
 		return orientation;
 	}

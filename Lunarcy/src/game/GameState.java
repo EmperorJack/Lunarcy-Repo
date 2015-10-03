@@ -27,6 +27,7 @@ import com.thoughtworks.xstream.XStream;
 public class GameState implements Serializable{
 	//board[Y][X]
 	private Square[][] board;
+	private Location spawn;
 	private Player[] players;
 	private Set<Rover> rovers;
 
@@ -95,6 +96,8 @@ public class GameState implements Serializable{
 			FileInputStream file = new FileInputStream("map.xml");
 			XStream xstream = new XStream();
 			board = (Square[][]) xstream.fromXML(file);
+			//To be read from map once File IO done with JSON
+			spawn = new Location(1,1);
 		} catch (FileNotFoundException e) {
 
 		}
@@ -108,7 +111,7 @@ public class GameState implements Serializable{
 	 * @return
 	 */
 	public boolean addPlayer(int playerID, String name, Color color){
-		Player player = new Player(playerID, name, null, null);
+		Player player = new Player(playerID, name, spawn, Direction.NORTH);
 		if(playerID<0||playerID>players.length)return false;
 		players[playerID] = player;
 		return true;
