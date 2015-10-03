@@ -9,7 +9,6 @@ import control.MoveAction;
 import control.OrientAction;
 import ddf.minim.*;
 import game.Direction;
-import game.GameLogic;
 import game.GameState;
 import game.Player;
 import processing.core.*;
@@ -103,11 +102,11 @@ public class Canvas extends PApplet implements KeyListener {
 		DrawingComponentFactory factory = new DrawingComponentFactory(this,
 				gameState, playerID);
 
-		// initialize the 3D perspective component
+		// get a 3D perspective component
 		perspective = factory
 				.getDrawingComponent(DrawingComponentFactory.PERSPECTIVE3D);
 
-		// initialize the HUD components
+		// get the HUD components
 		hud = new ArrayList<DrawingComponent>();
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.OXYGEN));
@@ -239,7 +238,7 @@ public class Canvas extends PApplet implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// check if the timer has been exceeded
 		long currentTime = System.currentTimeMillis();
-		if (currentTime - keyTimer > 100) {
+		if (currentTime - keyTimer > 250) {
 			// update the timer
 			keyTimer = currentTime;
 

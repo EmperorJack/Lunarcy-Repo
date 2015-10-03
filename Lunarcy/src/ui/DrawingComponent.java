@@ -28,8 +28,8 @@ public abstract class DrawingComponent {
 	/**
 	 * Draw the component.
 	 * 
-	 * @param player
-	 *            The player to draw the component in reference to.
+	 * @param gameState
+	 *            The current game state to draw the component in reference to.
 	 * @param delta
 	 *            The delta time for the current draw tick.
 	 */

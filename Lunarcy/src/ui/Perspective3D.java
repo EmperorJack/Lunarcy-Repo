@@ -25,7 +25,6 @@ public class Perspective3D extends DrawingComponent {
 	private PVector cameraCenter;
 
 	public Perspective3D(PApplet p, GameState gameState, int playerID) {
-		// public Perspective3D(PApplet p, GameState gameState) {
 		super(p, gameState, playerID);
 
 		// world model setup
@@ -64,11 +63,6 @@ public class Perspective3D extends DrawingComponent {
 				* SQUARE_SIZE + SQUARE_SIZE / 2);
 		p.popMatrix();
 
-		// UNCOMMENT THE FOLLOWING LINES FOR A GOOD TIME
-		// p.scale(PApplet.sin(PApplet.radians(p.frameCount)));
-		// p.rotateX(PApplet.radians(p.frameCount));
-		// p.rotateY(PApplet.radians(p.frameCount));
-		// p.rotateZ(PApplet.radians(p.frameCount / 4));
 
 		// draw the game world
 		world.draw();
