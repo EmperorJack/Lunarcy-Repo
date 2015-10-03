@@ -12,7 +12,8 @@ import game.Square;
 
 /**
  * A special instance of MoveStrategy, where the movement is defined by
- * following the shortest path to a given destination.
+ * following the shortest path to a given destination. You should extend
+ * this class directly if the movement relies on following a path.
  * 
  * @author b
  *
@@ -40,8 +41,9 @@ abstract class ShortestPathMover implements MoveStrategy {
 	 * @return
 	 */
 	private int estimate(Location start, Location end) {
-		if (start == null || end == null)
+		if (start == null || end == null){
 			return -1;
+		}
 
 		return Math.abs(start.getX() - end.getX()) + // Horizontal difference +
 				Math.abs(start.getY() - end.getY()); // Vertical Difference
@@ -118,10 +120,10 @@ abstract class ShortestPathMover implements MoveStrategy {
 		}
 
 		/**
-		 * Will return a
-		 * 
-		 * -Positive if this is closer to the final location -Zero if they are
-		 * equal -Negative if the other location is closer
+		 * Will return
+		 * -Positive if this is closer to the final location 
+		 * -Zero if they are equal 
+		 * -Negative if the other location is closer
 		 * 
 		 * @return
 		 */

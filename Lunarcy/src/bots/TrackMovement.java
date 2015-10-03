@@ -15,8 +15,15 @@ import game.Square;
  */
 public class TrackMovement extends ShortestPathMover {
 
-	Player target; // The player we are chasing
-
+	// The player we are chasing
+	private Player target; 
+	
+	//Keep track of how many ticks we have been following player for
+	private int tickCounter;
+	
+	//How many ticks to give up after
+	private final int MAXTICKS = 20;
+	
 	public TrackMovement(Player target) {
 		this.target = target;
 	}
@@ -37,6 +44,17 @@ public class TrackMovement extends ShortestPathMover {
 		// Return true if the end location does not equal the
 		// target location, false otherwise
 		return !path.get(path.size() - 1).equals(target.getLocation());
+	}
+	
+	/**
+	 * Increments the tick counter, 
+	 * and returns whether the ticks are less
+	 * than the maximum ticks.
+	 * 
+	 * @return
+	 */
+	public boolean shouldGiveup(){
+		return ++tickCounter < MAXTICKS;
 	}
 
 	/**

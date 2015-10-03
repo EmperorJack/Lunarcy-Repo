@@ -14,16 +14,18 @@ import processing.core.PApplet;
  * @author b
  *
  */
-public class Inventory extends DrawingComponent {
+public class Inventory extends DrawingComponent{
 
-	// Where the oxygen bar starts (x)
-	private final int LEFT_PADDING = (int) (p.width * 0.1);
-	// Where the oxygen bar starts (y)
+	// Where the Inventory bar starts (x)
+	private final int LEFT_PADDING = 25;
+	// Where the Inventory bar starts (y)
 	private final int TOP_PADDING = (int) (p.height * 0.8);
 
-	private final int SIZE = 15;
+	//Size of each item
+	private final int SIZE = 35;
+	//Space between each item
+	private final int SPACING = 20;
 
-	private GameState gameState;
 	private Player player;
 	private int playerID;
 
@@ -36,7 +38,6 @@ public class Inventory extends DrawingComponent {
 
 	@Override
 	public void update(GameState gameState) {
-		this.gameState = gameState;
 		player = gameState.getPlayer(playerID);
 	}
 
@@ -45,22 +46,28 @@ public class Inventory extends DrawingComponent {
 		p.pushMatrix();
 		p.pushStyle();
 
-		p.noStroke();
+		p.stroke(1);
 
 		// Translate drawing to match location
 		p.translate(LEFT_PADDING, TOP_PADDING);
 
 		//Draw all the players items
 		List<Item> inventory = player.getInventory();
+		
+		p.textSize(SIZE);
+		p.noFill();
 
 		if(inventory !=null){
 			for(int i=0; i<inventory.size(); i++){
 				//TEMP: While we discuss images for items
-				p.rect(i*SIZE, 0, SIZE, SIZE);
+				p.rect(i*SIZE+SPACING, 0, SIZE, SIZE);
+				
+				//Draw the first character of item name (TEMPORARY)
+				p.text(inventory.get(i).imageName.charAt(0), i*SIZE+SPACING, SIZE);
 			}
 		}
 
-		// pop matrix and style information from the stack
+		// pop matrix and style information from the stack	
 		p.popStyle();
 		p.popMatrix();
 	}
