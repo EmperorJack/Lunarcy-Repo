@@ -132,10 +132,25 @@ public class Minimap extends DrawingComponent {
 
 		}
 
-		// Draw player in their current location
+		// Draw the player
+
+		// Set our colour to be red
 		p.fill(255, 0, 0);
-		p.rect(player.getLocation().getX() * SQUARE_SIZE, player.getLocation()
-				.getY() * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+
+		// Find players location
+		float playerX = player.getLocation().getX() * SQUARE_SIZE;
+		float playerY = player.getLocation().getY() * SQUARE_SIZE;
+
+		// Rotate around center point to be players direction
+		int degrees = player.getOrientation().ordinal() * 90;
+
+		p.translate(playerX+SQUARE_SIZE/2, playerY+SQUARE_SIZE/2);
+		p.rotate(p.radians(degrees));
+
+		// Draw our player as an arrow facing their direction
+		p.triangle(0, -SQUARE_SIZE/2, 
+				-SQUARE_SIZE/2, SQUARE_SIZE/2, 
+				SQUARE_SIZE/2, SQUARE_SIZE/2);
 
 		// pop matrix and style information from the stack
 		p.popStyle();

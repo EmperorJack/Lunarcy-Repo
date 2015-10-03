@@ -37,6 +37,9 @@ public class Player implements Serializable {
 			throw new IllegalArgumentException(
 					"Parameter 'direction' may not be null");
 		location = location.getAdjacent(direction);
+		
+		//ADDED FOR TESTING
+		modifyOxygen(-5);
 	}
 
 	public void modifyOxygen(int amount) {

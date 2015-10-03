@@ -13,16 +13,16 @@ import processing.core.PApplet;
  * @author b
  *
  */
-public class Inventory extends DrawingComponent{
+public class Inventory extends DrawingComponent {
 
 	// Where the Inventory bar starts (x)
 	private final int LEFT_PADDING = 25;
 	// Where the Inventory bar starts (y)
 	private final int TOP_PADDING = (int) (p.height * 0.8);
 
-	//Size of each item
+	// Size of each item
 	private final int SIZE = 35;
-	//Space between each item
+	// Space between each item
 	private final int SPACING = 20;
 
 	public Inventory(PApplet p, GameState gameState, int playerID) {
@@ -44,19 +44,19 @@ public class Inventory extends DrawingComponent{
 
 		// Draw all the players items
 		List<Item> inventory = player.getInventory();
-		
+
 		p.textSize(SIZE);
 		p.noFill();
 
-		if(inventory !=null){
-			for(int i=0; i<inventory.size(); i++){
-				//TEMP: While we discuss images for items
-				
-				p.image(p.loadImage("/assets/items/"+inventory.get(i).imageName+".png"), i*SIZE+SPACING, 0, SIZE, SIZE);
+		if (inventory != null) {
+			for (int i = 0; i < inventory.size(); i++) {
+				// TEMP: While we discuss images for items
+				p.image(p.loadImage("/assets/items/" + inventory.get(i).imageName + ".png"), i * SIZE + SPACING, 0,
+						SIZE, SIZE);
 			}
 		}
 
-		// pop matrix and style information from the stack	
+		// pop matrix and style information from the stack
 		p.popStyle();
 		p.popMatrix();
 	}
