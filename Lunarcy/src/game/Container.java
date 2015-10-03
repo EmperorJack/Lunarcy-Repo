@@ -17,8 +17,8 @@ public abstract class Container extends Entity {
 		items = new HashSet<Item>();
 	}
 	
-	public void addItem(Item item){
-		items.add(item);
+	public boolean addItem(Item item){
+		return items.add(item);
 	}
 	
 	public boolean hasItem(int itemID){

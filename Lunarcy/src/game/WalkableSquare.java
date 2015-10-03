@@ -13,7 +13,6 @@ import java.util.Set;
  *
  */
 public class WalkableSquare extends Square {
-
 	private final String name;
 	private final String description;
 

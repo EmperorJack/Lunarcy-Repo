@@ -1,6 +1,5 @@
 package ui;
 
-
 import java.util.List;
 
 import game.GameState;
@@ -26,23 +25,15 @@ public class Inventory extends DrawingComponent{
 	//Space between each item
 	private final int SPACING = 20;
 
-	private Player player;
-	private int playerID;
-
-	public Inventory(int playerID, PApplet p, GameState gameState) {
-		super(p, gameState);
-
-		// set the initial game state
-		update(gameState);
+	public Inventory(PApplet p, GameState gameState, int playerID) {
+		super(p, gameState, playerID);
 	}
 
 	@Override
-	public void update(GameState gameState) {
-		player = gameState.getPlayer(playerID);
-	}
+	public void draw(GameState gameState, float delta) {
+		// get the player from the current game state
+		Player player = gameState.getPlayer(playerID);
 
-	@Override
-	public void draw(float delta) {
 		p.pushMatrix();
 		p.pushStyle();
 
@@ -51,7 +42,7 @@ public class Inventory extends DrawingComponent{
 		// Translate drawing to match location
 		p.translate(LEFT_PADDING, TOP_PADDING);
 
-		//Draw all the players items
+		// Draw all the players items
 		List<Item> inventory = player.getInventory();
 		
 		p.textSize(SIZE);
@@ -60,10 +51,8 @@ public class Inventory extends DrawingComponent{
 		if(inventory !=null){
 			for(int i=0; i<inventory.size(); i++){
 				//TEMP: While we discuss images for items
-				p.rect(i*SIZE+SPACING, 0, SIZE, SIZE);
 				
-				//Draw the first character of item name (TEMPORARY)
-				p.text(inventory.get(i).imageName.charAt(0), i*SIZE+SPACING, SIZE);
+				p.image(p.loadImage("/assets/items/"+inventory.get(i).imageName+".png"), i*SIZE+SPACING, 0, SIZE, SIZE);
 			}
 		}
 

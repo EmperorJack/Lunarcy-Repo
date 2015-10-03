@@ -63,13 +63,18 @@ public class GameLogic {
 	 * @param itemID The entityID of the Item to pick up
 	 * @return True if Item was picked up, false otherwise
 	 */
-	public boolean pickUpItem(Player player, int itemID){
-		if(player==null)
+	public boolean pickUpItem(int playerID, int itemID){
+		Player player = state.getPlayer(playerID);
+		if(player==null||itemID<0)
 			return false;
 		Square square = state.getSquare(player.getLocation());
+		
+		//Otherwise cannot contain players/items
+		//Shouldn't need to check as it's from Player location, but to be safe
 		if(square instanceof WalkableSquare){
 			WalkableSquare wSquare = (WalkableSquare)square;
 			Set<Entity> entities = wSquare.getEntities(player.getOrientation());
+			
 			for(Entity e: entities){
 				if(e instanceof Item && e.entityID == itemID){
 					Item item = wSquare.takeItem(player.getOrientation(), (Item)e);
@@ -95,22 +100,58 @@ public class GameLogic {
 	 * the Players current location, in the Direction the Player is facing.
 	 * @param player The Player that is dropping the item
 	 * @param itemID The entityID of the Item being dropped
-	 * @return True if the Item was dropped, false otherwise
+	 * @return True if the Item was dropped, false otherwise (null Player or invalid itemID)
 	 */
-	public boolean dropItem(Player player, int itemID){
-		if(player==null)
+	public boolean dropItem(int playerID, int itemID){
+		Player player = state.getPlayer(playerID);
+		if(player==null||itemID<0)
 			return false;
 		Square square = state.getSquare(player.getLocation());
+		
+		//Otherwise cannot contain players/items
+		//Shouldn't need to check as it's from Player location, but to be safe
 		if(square instanceof WalkableSquare){
-			Item item = null;
-			for(Item i: player.getInventory()){
-				if(i.entityID==itemID){
-					item = i;
-				}
-			}
-			if(item!=null && item.equals(player.removeItem(item))){
+			Item item = player.removeItem(itemID);
+			if(item!=null){
 				WalkableSquare wSquare = (WalkableSquare)square;
 				wSquare.addEntity(player.getOrientation(), item);
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Puts the item corresponding to the itemID into a container.
+	 * Will only put the Item if the container is in the same Square as Player
+	 * and  if it is on the side they are facing.
+	 * 
+	 * @param player The Player that is picking up the Item
+	 * @param itemID The entityID of the Item to pick up
+	 * @return True if Item was picked up, false otherwise
+	 */
+	public boolean putItemIntoContainer(int playerID, int containerID, int itemID){
+		Player player = state.getPlayer(playerID);
+		if(player==null||containerID<0||itemID<0)
+			return false;
+		Square square = state.getSquare(player.getLocation());
+		
+		//Otherwise cannot contain players/items
+		//Shouldn't need to check as it's from Player location, but to be safe
+		if(square instanceof WalkableSquare){
+			WalkableSquare wSquare = (WalkableSquare)square;
+			Set<Entity> entities = wSquare.getEntities(player.getOrientation());
+			for(Entity e: entities){
+				if(e instanceof Container && e.entityID==containerID){
+					Container container = (Container)e;
+					if(!container.hasItem(itemID)){
+						Item item = player.removeItem(itemID);
+						if(item!=null){
+							return container.addItem(item);
+						}else{
+							return false;
+						}
+					}
+				}
 			}
 		}
 		return false;

@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import control.Client;
 import control.MoveAction;
@@ -42,13 +43,12 @@ public class Canvas extends PApplet implements KeyListener {
 
 	// game state fields
 	private GameState gameState;
+	private GameState updatedState;
 	private boolean stateUpdated;
 
 	// drawing components
-	private Perspective3D perspective;
-	private Minimap minimap;
-	private Oxygen oxygen;
-	private Inventory inventory;
+	private DrawingComponent perspective;
+	private ArrayList<DrawingComponent> hud;
 
 	// player input fields
 	private long keyTimer;
@@ -99,16 +99,22 @@ public class Canvas extends PApplet implements KeyListener {
 		// setup the size and use 3D renderer
 		size(maxWidth, maxHeight, renderer);
 
+		// setup the drawing component factory
+		DrawingComponentFactory factory = new DrawingComponentFactory(this,
+				gameState, playerID);
+
 		// initialize the 3D perspective component
-		perspective = new Perspective3D(this, gameState, playerID);
+		perspective = factory
+				.getDrawingComponent(DrawingComponentFactory.PERSPECTIVE3D);
 
 		// initialize the HUD components
-		minimap = new Minimap(playerID, this, gameState);
-		oxygen = new Oxygen(this, gameState);
-		inventory = new Inventory(playerID, this, gameState);
+		hud = new ArrayList<DrawingComponent>();
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.OXYGEN));
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORY));
 
 		// audio setup
-		//minim = new Minim(this);
+		// minim = new Minim(this);
 		// track = minim.loadFile("assets/audio/*.mp3");
 		// track.play();
 
@@ -122,8 +128,8 @@ public class Canvas extends PApplet implements KeyListener {
 	 * @param gameState
 	 *            The new state of the game to be drawn.
 	 */
-	public synchronized void setGameState(GameState gameState) {
-		this.gameState = gameState;
+	public synchronized void setGameState(GameState updatedState) {
+		this.updatedState = updatedState;
 
 		// enable updating of drawing components next frame
 		stateUpdated = true;
@@ -135,14 +141,11 @@ public class Canvas extends PApplet implements KeyListener {
 	 */
 	public synchronized void update() {
 		if (stateUpdated) {
+			// replace the game state with the new updated state
+			gameState = updatedState;
+			
 			// update player field
 			player = gameState.getPlayer(playerID);
-
-			// update each component
-			perspective.update(gameState);
-			minimap.update(gameState);
-			inventory.update(gameState);
-			oxygen.update(gameState);
 
 			// the state has now been updated
 			stateUpdated = false;
@@ -167,7 +170,7 @@ public class Canvas extends PApplet implements KeyListener {
 		scale(scalingAmount);
 
 		// draw the 3D perspective
-		perspective.draw(delta);
+		perspective.draw(gameState, delta);
 
 		// allow drawing onto the heads up display layer
 		hint(DISABLE_DEPTH_TEST);
@@ -179,9 +182,9 @@ public class Canvas extends PApplet implements KeyListener {
 		scale(scalingAmount);
 
 		// draw the heads up display components
-		minimap.draw(delta);
-		oxygen.draw(delta);
-		inventory.draw(delta);
+		for (DrawingComponent component : hud) {
+			component.draw(gameState, delta);
+		}
 
 		// draw the frame rate string
 		fill(255);
