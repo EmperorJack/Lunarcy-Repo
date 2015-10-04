@@ -35,15 +35,15 @@ public class Perspective3D extends DrawingComponent {
 		cameraEye = new PVector(0, -100, 0);
 		cameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2) - 100, 0);
 	}
-	
+
 	@Override
 	public void draw(GameState gameState, float delta) {
 		// get the player from the current game state
 		Player player = gameState.getPlayer(playerID);
-		
+
 		// get the players from the current game state
 		Player[] players = gameState.getPlayers();
-		
+
 		// update the camera to the player position and orientation
 		setCamera(player.getLocation(), player.getOrientation());
 
@@ -63,7 +63,6 @@ public class Perspective3D extends DrawingComponent {
 				* SQUARE_SIZE + SQUARE_SIZE / 2);
 		p.popMatrix();
 
-
 		// draw the game world
 		world.draw();
 
@@ -75,15 +74,17 @@ public class Perspective3D extends DrawingComponent {
 				p.pushStyle();
 
 				Player currentPlayer = players[i];
-				
+
 				// use the player colour
 				// p.fill(player.getColour().getRGB());
 
 				Location location = currentPlayer.getLocation();
 
 				// draw the player
+				System.out.println("Player " + i + " is at " + location.getX()
+						+ ", " + location.getY());
 				p.translate(location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2,
-						location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2);
+						-100, location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2);
 				p.sphere(30);
 
 				p.popStyle();
