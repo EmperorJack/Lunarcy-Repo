@@ -67,7 +67,7 @@ public class Server {
 			e.printStackTrace();
 		}
 
-		// add players to gamestate
+		// add players to gamestate 
 		for (ClientConnection client : clientList) {
 			gameState.addPlayer(client.clientID, client.username,Color.RED);
 		}
@@ -297,6 +297,9 @@ public class Server {
 	}
 
 
+	public int getMaxClients(){
+		return maxClients;
+	}
 
 	public static void main(String[] args) {
 		new Server(2, 1000);

@@ -50,10 +50,10 @@ public class Client {
 			this.frame = new Frame(this,initialGameState, hardwareRenderer);
 
 			System.out.println("Listening for gamestate");
-			listenForGameUpdates(); //listen for gamestates from the server
+			//listenForGameUpdates(); //listen for gamestates from the server
 		}
 
-		private void listenForGameUpdates() {
+		public void listenForGameUpdates() {
 			while(true){
 				GameState state = getGameState();
 				if(state != null){
