@@ -1,5 +1,6 @@
 package game;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -73,13 +74,15 @@ public class GameLogic {
 		//Shouldn't need to check as it's from Player location, but to be safe
 		if(square instanceof WalkableSquare){
 			WalkableSquare wSquare = (WalkableSquare)square;
-			Set<Entity> entities = wSquare.getEntities(player.getOrientation());
 
-			for(Entity e: entities){
+			//Check all Items/Containers in the square to find the matching item
+			for(Entity e: wSquare.getEntities(player.getOrientation())){
 				if(e instanceof Item && e.entityID == itemID){
+					//Found the matching item
 					Item item = wSquare.takeItem(player.getOrientation(), (Item)e);
 					return player.giveItem(item);
 				}else if(e instanceof Container){
+					//Have to check if the container has the item and can be accessed
 					Container container = (Container)e;
 					if(container.hasItem(itemID)){
 						Item item = container.takeItem(player, itemID);
@@ -139,8 +142,9 @@ public class GameLogic {
 		//Shouldn't need to check as it's from Player location, but to be safe
 		if(square instanceof WalkableSquare){
 			WalkableSquare wSquare = (WalkableSquare)square;
-			Set<Entity> entities = wSquare.getEntities(player.getOrientation());
-			for(Entity e: entities){
+
+			//Check all the containers to find a matching one
+			for(Entity e: wSquare.getEntities(player.getOrientation())){
 				if(e instanceof Container && e.entityID==containerID){
 					Container container = (Container)e;
 					if(!container.hasItem(itemID)){
@@ -155,6 +159,22 @@ public class GameLogic {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Updates all the characters inside the GameState e.g Moves the Rovers and changes Player Oxygen
+	 */
+	public void tickGameState(){
+		Set<Location> locations = new HashSet<Location>();
+		for(Player player: state.getPlayers()){
+			if(player!=null){
+				locations.add(player.getLocation());
+			}
+		}
+		for(Location loc: locations){
+			Square square = state.getSquare(loc);
+			square.tickPlayerOxygen();
+		}
 	}
 
 	public GameState getGameState(){

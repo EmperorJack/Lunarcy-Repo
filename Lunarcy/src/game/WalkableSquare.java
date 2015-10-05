@@ -27,15 +27,15 @@ public class WalkableSquare extends Square {
 		this.inside = inside;
 
 		entities = new HashMap<Direction, Set<Entity>>();
-		
+
 		//populate with empty sets to avoid Null Pointers
 		entities.put(Direction.NORTH, new HashSet<Entity>());
 		entities.put(Direction.EAST, new HashSet<Entity>());
 		entities.put(Direction.SOUTH, new HashSet<Entity>());
 		entities.put(Direction.WEST, new HashSet<Entity>());
-		
+
 		players = new HashSet<Player>();
-		
+
 		walls = new HashMap<Direction, Wall>();
 
 		if (north == null) {
@@ -59,10 +59,16 @@ public class WalkableSquare extends Square {
 		walls.put(Direction.WEST, west);
 	}
 
+	public void tickPlayerOxygen() {
+		for(Player player: players){
+			player.modifyOxygen(inside ? 4 : -2);
+		}
+	}
+
 	/**
 	 * Checks whether the specified player can enter the room *FROM* the
 	 * direction parameter
-	 * 
+	 *
 	 * @param player
 	 *            The player that is attempting to enter
 	 * @param direction
@@ -79,9 +85,9 @@ public class WalkableSquare extends Square {
 
 	/**
 	 * Adds the Player to the set of Players in the room.
-	 * 
+	 *
 	 * @param player
-	 *            The player that is attempting to enter
+	 *            The player that is being added
 	 * @return True if player was added to the room, False otherwise
 	 */
 	public boolean addPlayer(Player player) {
@@ -92,11 +98,10 @@ public class WalkableSquare extends Square {
 	}
 
 	/**
-	 * Adds the Player to the set of Players in the room.
-	 * 
+	 * Removes the Player from the set of Players in the room.
+	 *
 	 * @param player
-	 *            The player that is attempting to enter
-	 * @return True if player was added to the room, False otherwise
+	 *            The player that is being removed
 	 */
 	public void removePlayer(Player player) {
 		if (player != null) {
@@ -109,7 +114,7 @@ public class WalkableSquare extends Square {
 	/**
 	 * Get the set of entities on a certain side of the room. Note: Modifying the
 	 * returned set will not change the entities in the room
-	 * 
+	 *
 	 * @param side
 	 *            the side of the Square the entities are on
 	 * @return Set<Entity> of all the entities on that side of the room
@@ -138,13 +143,13 @@ public class WalkableSquare extends Square {
 	/**
 	 * Get the set of all the players in the room Note: Modifying the returned
 	 * set will not change the players in the room
-	 * 
+	 *
 	 * @return Set<Player> of all players inside the room
 	 */
 	public Set<Player> getPlayers() {
 		return new HashSet<Player>(players);
 	}
-	
+
 	public Item takeItem(Direction side, Item item){
 		if (side == null||item == null)
 			return null;
@@ -162,7 +167,7 @@ public class WalkableSquare extends Square {
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public boolean isInside() {
 		return inside;
 	}

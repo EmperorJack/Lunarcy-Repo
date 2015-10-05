@@ -6,7 +6,7 @@ package game;
  *
  */
 public class BlankSquare extends Square {
-	
+
 	@Override
 	public boolean canEnter(Player player, Direction direction) {
 		return false;
@@ -17,6 +17,9 @@ public class BlankSquare extends Square {
 	}
 	@Override
 	public void removePlayer(Player player) {
+	}
+	@Override
+	public void tickPlayerOxygen() {
 	}
 
 }
