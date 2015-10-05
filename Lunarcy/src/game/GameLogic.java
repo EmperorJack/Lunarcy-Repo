@@ -29,7 +29,7 @@ public class GameLogic {
 			return false;
 		Square dest = state.getSquare(player.getLocation().getAdjacent(direction));
 
-		if(dest != null && dest.canEnter(player, Direction.opposite(direction))){
+		if(dest != null && dest.canEnter(player, direction.opposite())){
 			Square src = state.getSquare(player.getLocation());
 			src.removePlayer(player);
 			dest.addPlayer(player);
@@ -54,11 +54,11 @@ public class GameLogic {
 	public void turnPlayerRight(int playerID){
 		state.getPlayer(playerID).turnRight();
 	}
-	
+
 	/**
 	 * Picks up the item corresponding to the itemID and gives it to the Player.
 	 * Will only take the Item if it is in the same Square as Player and is on the side they are facing.
-	 * 
+	 *
 	 * @param player The Player that is picking up the Item
 	 * @param itemID The entityID of the Item to pick up
 	 * @return True if Item was picked up, false otherwise
@@ -68,13 +68,13 @@ public class GameLogic {
 		if(player==null||itemID<0)
 			return false;
 		Square square = state.getSquare(player.getLocation());
-		
+
 		//Otherwise cannot contain players/items
 		//Shouldn't need to check as it's from Player location, but to be safe
 		if(square instanceof WalkableSquare){
 			WalkableSquare wSquare = (WalkableSquare)square;
 			Set<Entity> entities = wSquare.getEntities(player.getOrientation());
-			
+
 			for(Entity e: entities){
 				if(e instanceof Item && e.entityID == itemID){
 					Item item = wSquare.takeItem(player.getOrientation(), (Item)e);
@@ -94,7 +94,7 @@ public class GameLogic {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Drops the specified Item from the Players inventory into the Square at
 	 * the Players current location, in the Direction the Player is facing.
@@ -107,7 +107,7 @@ public class GameLogic {
 		if(player==null||itemID<0)
 			return false;
 		Square square = state.getSquare(player.getLocation());
-		
+
 		//Otherwise cannot contain players/items
 		//Shouldn't need to check as it's from Player location, but to be safe
 		if(square instanceof WalkableSquare){
@@ -119,12 +119,12 @@ public class GameLogic {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Puts the item corresponding to the itemID into a container.
 	 * Will only put the Item if the container is in the same Square as Player
 	 * and  if it is on the side they are facing.
-	 * 
+	 *
 	 * @param player The Player that is picking up the Item
 	 * @param itemID The entityID of the Item to pick up
 	 * @return True if Item was picked up, false otherwise
@@ -134,7 +134,7 @@ public class GameLogic {
 		if(player==null||containerID<0||itemID<0)
 			return false;
 		Square square = state.getSquare(player.getLocation());
-		
+
 		//Otherwise cannot contain players/items
 		//Shouldn't need to check as it's from Player location, but to be safe
 		if(square instanceof WalkableSquare){

@@ -142,7 +142,7 @@ public class Canvas extends PApplet implements KeyListener {
 		if (stateUpdated) {
 			// replace the game state with the new updated state
 			gameState = updatedState;
-			
+
 			// update player field
 			player = gameState.getPlayer(playerID);
 
@@ -254,8 +254,8 @@ public class Canvas extends PApplet implements KeyListener {
 				client.sendAction(new OrientAction(playerID, true));
 				break;
 			case KeyEvent.VK_S:
-				client.sendAction(new MoveAction(playerID, Direction
-						.opposite(player.getOrientation())));
+				client.sendAction(new MoveAction(playerID, player.getOrientation()
+						.opposite()));
 				break;
 			case KeyEvent.VK_D:
 				client.sendAction(new OrientAction(playerID, false));
