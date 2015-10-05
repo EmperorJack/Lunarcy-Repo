@@ -21,7 +21,7 @@ public class Oxygen extends DrawingComponent {
 	// Sizing of the oxygen tank
 	private final int CYLINDERWIDTH = 200;
 	private final int CYLINDERHEIGHT = 35;
-	
+
 	private final int LOW_OXYGEN = 50;
 
 	// Size of the dial on the oxygen tank
@@ -45,26 +45,26 @@ public class Oxygen extends DrawingComponent {
 		p.translate(LEFT_PADDING, TOP_PADDING);
 
 		// Draw the cylinder
-		p.fill(139, 158, 162);
+		p.fill(0, 0, 0, 100);
 		p.rect(0, 0, CYLINDERWIDTH, CYLINDERHEIGHT);
-		
+
 		// Draw the remaining amount of oxygen
 		int oxygen = player.getOxygen();
-		
+
 		p.rectMode(p.CORNERS);
 		p.noStroke();
-		
+
 		//Set the colour to red if there is little oxygen left
-		
+
 		if(oxygen < LOW_OXYGEN){
 			p.fill(255, 0, 0, 100);
 		}
 		else{
-			p.fill(0, 0, 0, 100);
+			p.fill(139, 158, 162);
 		}
-				
+
 		p.rect(CYLINDERWIDTH-oxygen, 0, CYLINDERWIDTH, CYLINDERHEIGHT);
-		
+
 		//Set our drawing values back
 		p.rectMode(p.CORNER);
 		p.fill(139, 158, 162);

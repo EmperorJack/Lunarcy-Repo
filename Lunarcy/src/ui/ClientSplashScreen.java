@@ -13,7 +13,6 @@ import javax.swing.JProgressBar;
 import javax.swing.JRootPane;
 
 import control.Client;
-import control.Server;
 
 public class ClientSplashScreen extends JFrame {
 

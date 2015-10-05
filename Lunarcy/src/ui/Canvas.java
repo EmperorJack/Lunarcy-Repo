@@ -142,7 +142,7 @@ public class Canvas extends PApplet implements KeyListener {
 		if (stateUpdated) {
 			// replace the game state with the new updated state
 			gameState = updatedState;
-			
+
 			// update player field
 			player = gameState.getPlayer(playerID);
 
@@ -233,6 +233,7 @@ public class Canvas extends PApplet implements KeyListener {
 			yOffset = 0;
 		}
 	}
+
 
 	@Override
 	public void keyPressed(KeyEvent e) {
