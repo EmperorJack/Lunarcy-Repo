@@ -22,7 +22,7 @@ public class Player implements Serializable {
 	private int oxygen;
 	private List<Item> inventory;
 
-	public Player(int uniqueID, String name, Location location, Direction orientation) {
+	public Player(int uniqueID, String name, Color colour, Location location, Direction orientation) {
 		this.id = uniqueID;
 		this.name = name;
 		this.location = location == null ? new Location(0,0) : location;
