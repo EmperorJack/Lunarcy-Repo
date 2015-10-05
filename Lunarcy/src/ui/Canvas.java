@@ -234,6 +234,7 @@ public class Canvas extends PApplet implements KeyListener {
 		}
 	}
 
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// check if the timer has been exceeded
