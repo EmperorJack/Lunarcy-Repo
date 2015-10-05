@@ -10,9 +10,9 @@ import game.GameState;
 
 public class Storage {
 
-	public static final GameState loadState(){
+	public static final GameState loadState(String fileName){
 		try {
-			FileInputStream file = new FileInputStream("state.xml");
+			FileInputStream file = new FileInputStream(fileName);
 			XStream xstream = new XStream();
 			GameState state = (GameState) xstream.fromXML(file);
 			return state;
@@ -22,9 +22,9 @@ public class Storage {
 		return null;
 	}
 
-	public static final void saveState(GameState state){
+	public static final void saveState(GameState state, String fileName){
 		try {
-			FileOutputStream file = new FileOutputStream("state.xml", false);
+			FileOutputStream file = new FileOutputStream(fileName, false);
 			XStream xstream = new XStream();
 			xstream.toXML(state, file);
 		} catch (FileNotFoundException e) {
