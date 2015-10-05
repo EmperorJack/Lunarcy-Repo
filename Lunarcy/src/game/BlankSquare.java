@@ -19,7 +19,7 @@ public class BlankSquare extends Square {
 	public void removePlayer(Player player) {
 	}
 	@Override
-	public void tickPlayerOxygen() {
+	public void tick() {
 	}
 
 }

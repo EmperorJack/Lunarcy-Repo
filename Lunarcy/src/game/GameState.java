@@ -148,4 +148,16 @@ public class GameState implements Serializable{
 	public Player[] getPlayers() {
 		return Arrays.copyOf(players, players.length);
 	}
+	
+	public Set<Rover> getRovers() {
+		return new HashSet<Rover>(rovers);
+	}
+	
+	/**
+	 * Returns the largest possible Location on the board.
+	 * Assumes the board is Square.
+	 */
+	public Location getMaxLocation(){
+		return new Location(board[0].length,board.length);
+	}
 }
