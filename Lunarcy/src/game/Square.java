@@ -17,7 +17,7 @@ public abstract class Square implements Serializable {
 	public abstract boolean canEnter(Player player, Direction direction);
 	public abstract boolean addPlayer(Player player);
 	public abstract void removePlayer(Player player);
-	public abstract void tickPlayerOxygen();
+	public abstract void tick();
 
 	public Square(){
 		walls = new HashMap<Direction, Wall>();

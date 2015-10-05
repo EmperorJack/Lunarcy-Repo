@@ -3,6 +3,8 @@ package game;
 import java.util.HashSet;
 import java.util.Set;
 
+import bots.Rover;
+
 /**
  * This class controls the interaction between input and the GameState
  *
@@ -62,7 +64,7 @@ public class GameLogic {
 	 *
 	 * @param player The Player that is picking up the Item
 	 * @param itemID The entityID of the Item to pick up
-	 * @return True if Item was picked up, false otherwise
+	 * @return True if Item was picked up, false otherwise (Invalid playerID or itemID)
 	 */
 	public boolean pickUpItem(int playerID, int itemID){
 		Player player = state.getPlayer(playerID);
@@ -103,7 +105,7 @@ public class GameLogic {
 	 * the Players current location, in the Direction the Player is facing.
 	 * @param player The Player that is dropping the item
 	 * @param itemID The entityID of the Item being dropped
-	 * @return True if the Item was dropped, false otherwise (null Player or invalid itemID)
+	 * @return True if the Item was dropped, false otherwise (Invalid playerID or itemID)
 	 */
 	public boolean dropItem(int playerID, int itemID){
 		Player player = state.getPlayer(playerID);
@@ -130,7 +132,7 @@ public class GameLogic {
 	 *
 	 * @param player The Player that is picking up the Item
 	 * @param itemID The entityID of the Item to pick up
-	 * @return True if Item was picked up, false otherwise
+	 * @return True if Item was picked up, false otherwise (Invalid playerID, containerID or itemID)
 	 */
 	public boolean putItemIntoContainer(int playerID, int containerID, int itemID){
 		Player player = state.getPlayer(playerID);
@@ -166,6 +168,7 @@ public class GameLogic {
 	 */
 	public void tickGameState(){
 		Set<Location> locations = new HashSet<Location>();
+		//Update player oxygen
 		for(Player player: state.getPlayers()){
 			if(player!=null){
 				locations.add(player.getLocation());
@@ -173,7 +176,12 @@ public class GameLogic {
 		}
 		for(Location loc: locations){
 			Square square = state.getSquare(loc);
-			square.tickPlayerOxygen();
+			square.tick();
+		}
+		
+		//Move all the rovers
+		for(Rover r: state.getRovers()){
+			r.tick();
 		}
 	}
 

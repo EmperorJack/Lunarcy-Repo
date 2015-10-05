@@ -59,7 +59,11 @@ public class WalkableSquare extends Square {
 		walls.put(Direction.WEST, west);
 	}
 
-	public void tickPlayerOxygen() {
+	/**
+	 * Tells the Square to Update itself for one game tick
+	 * Only updates the players oxygen
+	 */
+	public void tick() {
 		for(Player player: players){
 			player.modifyOxygen(inside ? 4 : -2);
 		}
