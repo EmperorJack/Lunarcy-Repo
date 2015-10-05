@@ -19,11 +19,14 @@ public class Oxygen extends DrawingComponent {
 	// Sizing of the oxygen tank
 	private final int CYLINDERWIDTH = 200;
 	private final int CYLINDERHEIGHT = 35;
-
-	private final int LOW_OXYGEN = 50;
-
 	// Size of the dial on the oxygen tank
 	private final int DIALSIZE = 10;
+	
+	private final int LOW_OXYGEN = 50;
+	
+	private int dimAmount = 0;
+	
+	
 
 	public Oxygen(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
@@ -53,6 +56,10 @@ public class Oxygen extends DrawingComponent {
 		p.noStroke();
 
 		// Set the colour to red if there is little oxygen left
+		
+		if (oxygen < LOW_OXYGEN) {
+			dimScreen();
+		}
 
 		if (oxygen < LOW_OXYGEN) {
 			p.fill(255, 0, 0, 100);
@@ -82,6 +89,16 @@ public class Oxygen extends DrawingComponent {
 		// pop matrix and style information from the stack
 		p.popStyle();
 		p.popMatrix();
+	}
+
+	/**
+	 * Darkens the screen to show the player they are low on oxygen
+	 */
+	private void dimScreen() {
+		p.fill(0, 0, 0, dimAmount);
+		p.rect(-LEFT_PADDING, -TOP_PADDING, p.width, p.height);
+		dimAmount += 2;
+		dimAmount = Math.max(0, dimAmount);
 	}
 
 }

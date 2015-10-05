@@ -54,6 +54,7 @@ class ClientMain extends JFrame {
 	private JComboBox<String> mode;
 	private JTextField nameTextbox;
 	private JTextField serverTextbox;
+	private JPanel colorPalette;
 
 	public ClientMain() {
 		super("Join Game");
@@ -213,7 +214,7 @@ class ClientMain extends JFrame {
 
 		JLabel colorLabel = new JLabel("Choose your colour:");
 
-		JPanel colorPalette = new JPanel(new GridLayout(MAXCOLORS, MAXCOLORS));
+		colorPalette = new JPanel(new GridLayout(MAXCOLORS, MAXCOLORS));
 
 		// Create labels for N colors,
 		// Use random colors to lessen the chance of two clients selecting the
@@ -372,6 +373,11 @@ class ClientMain extends JFrame {
 					// Set a red border on the serverTextbox
 					serverTextbox.setBorder(BorderFactory.createLineBorder(Color.RED));
 
+					return false;
+				}
+				
+				if(chosenColor == null){
+					colorPalette.setBorder(BorderFactory.createLineBorder(Color.RED));
 					return false;
 				}
 
