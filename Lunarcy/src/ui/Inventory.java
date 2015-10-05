@@ -29,6 +29,7 @@ public class Inventory extends DrawingComponent implements MouseListener {
 
 	private final int MENU_SIZE = 300;
 	private boolean drawMenu;
+	private Item chosenItem;
 
 	private List<Item> inventory;
 
@@ -61,12 +62,12 @@ public class Inventory extends DrawingComponent implements MouseListener {
 		if (inventory != null) {
 			for (int i = 0; i < inventory.size(); i++) {
 				// TEMP: While we discuss images for items
-				p.image(p.loadImage("/assets/items/"
-						+ inventory.get(i).imageName + ".png"), i * SIZE
-						+ SPACING, 0, SIZE, SIZE);
+				p.image(p.loadImage("/assets/items/" + inventory.get(i).imageName + ".png"), i * SIZE + SPACING, 0,
+						SIZE, SIZE);
 			}
 		}
 
+		// Display the Item options menu if an item has been clicked
 		if (drawMenu) {
 			drawMenu();
 		}
@@ -108,7 +109,9 @@ public class Inventory extends DrawingComponent implements MouseListener {
 		p.translate(-LEFT_PADDING, -TOP_PADDING); // Back to 0,0
 		p.fill(0, 0, 0, 100);
 		p.rect(p.width / 2 - MENU_SIZE / 2, p.height / 2 - MENU_SIZE / 2, MENU_SIZE, MENU_SIZE);
-
+		int TEXT_HEIGHT = 50;
+		p.text(chosenItem.toString(), p.width / 2 - MENU_SIZE / 2, p.height / 2 - MENU_SIZE / 2, MENU_SIZE,
+				TEXT_HEIGHT);
 		p.popMatrix();
 	}
 
@@ -134,27 +137,17 @@ public class Inventory extends DrawingComponent implements MouseListener {
 			Item item = getItemAt(x, y);
 
 			if (item != null) {
-				// Show display
+				chosenItem = item;
 				drawMenu = true;
 			}
 		}
 
 	}
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
+	/*Unused MouseListener classes*/
+	public void mouseEntered(MouseEvent e) { }
+	public void mouseExited(MouseEvent e) { }
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
 
 }
