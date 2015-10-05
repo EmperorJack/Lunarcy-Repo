@@ -22,13 +22,15 @@ public class Player implements Serializable {
 	private int oxygen;
 	private List<Item> inventory;
 
-	public Player(int uniqueID, String name, Color colour, Location location, Direction orientation) {
+	public Player(int uniqueID, String name, Color colour, Location location,
+			Direction orientation) {
 		this.id = uniqueID;
 		this.name = name;
-		this.location = location == null ? new Location(0,0) : location;
+		this.location = location == null ? new Location(0, 0) : location;
 		this.orientation = orientation == null ? Direction.NORTH : orientation;
 		this.oxygen = 200;
 		this.inventory = new ArrayList<Item>();
+		this.colour = colour;
 		testAddItems();
 	}
 
@@ -38,7 +40,7 @@ public class Player implements Serializable {
 					"Parameter 'direction' may not be null");
 		location = location.getAdjacent(direction);
 
-		//ADDED FOR TESTING
+		// ADDED FOR TESTING
 		modifyOxygen(-5);
 	}
 
@@ -63,27 +65,30 @@ public class Player implements Serializable {
 		return new ArrayList<Item>(inventory);
 	}
 
-	public boolean giveItem(Item item){
-		if(item==null)
+	public boolean giveItem(Item item) {
+		if (item == null)
 			return false;
 		return inventory.add(item);
 	}
 
 	/**
-	 * Searches the players inventory to find a matching item and then removes it
-	 * @param itemID The enitiyID of the item being removed
+	 * Searches the players inventory to find a matching item and then removes
+	 * it
+	 * 
+	 * @param itemID
+	 *            The enitiyID of the item being removed
 	 * @return The Item that was removed, null if no match was found
 	 */
-	public Item removeItem(int itemID){
-		if(itemID<0)
+	public Item removeItem(int itemID) {
+		if (itemID < 0)
 			return null;
 		Item item = null;
-		for(Item i: inventory){
-			if(i.entityID==itemID){
+		for (Item i : inventory) {
+			if (i.entityID == itemID) {
 				item = i;
 			}
 		}
-		if(item != null && inventory.contains(item)){
+		if (item != null && inventory.contains(item)) {
 			inventory.remove(item);
 			return item;
 		}
@@ -94,11 +99,11 @@ public class Player implements Serializable {
 		return orientation;
 	}
 
-	public void turnLeft(){
+	public void turnLeft() {
 		orientation = orientation.left();
 	}
 
-	public void turnRight(){
+	public void turnRight() {
 		orientation = orientation.right();
 	}
 
@@ -115,13 +120,13 @@ public class Player implements Serializable {
 	}
 
 	/**
-	 * FOR TESTING PURPOSES
-	 * Adds some items to the players inventory
+	 * FOR TESTING PURPOSES Adds some items to the players inventory
 	 */
-	public void testAddItems(){
-		if(inventory==null)return;
-		inventory.add(new ShipPart(id*100,0));
-		inventory.add(new Key(id*100 + 1,0));
-		inventory.add(new Key(id*100 + 2,1));
+	public void testAddItems() {
+		if (inventory == null)
+			return;
+		inventory.add(new ShipPart(id * 100, 0));
+		inventory.add(new Key(id * 100 + 1, 0));
+		inventory.add(new Key(id * 100 + 2, 1));
 	}
 }

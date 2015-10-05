@@ -1,6 +1,5 @@
 package ui;
 
-import processing.core.PApplet;
 import game.GameState;
 
 /**
@@ -14,7 +13,7 @@ import game.GameState;
 public class DrawingComponentFactory {
 
 	// PApplet to construct components with
-	private PApplet p;
+	private Canvas p;
 
 	// game state to construct components with
 	private GameState gameState;
@@ -28,7 +27,7 @@ public class DrawingComponentFactory {
 	public static final int OXYGEN = 2;
 	public static final int PERSPECTIVE3D = 3;
 
-	public DrawingComponentFactory(PApplet p, GameState gameState, int playerID) {
+	public DrawingComponentFactory(Canvas p, GameState gameState, int playerID) {
 		this.p = p;
 		this.gameState = gameState;
 		this.playerID = playerID;

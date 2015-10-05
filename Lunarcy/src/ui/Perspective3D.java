@@ -1,7 +1,5 @@
 package ui;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
-
 import game.Direction;
 import game.GameState;
 import game.Location;
@@ -23,11 +21,14 @@ public class Perspective3D extends DrawingComponent {
 	private final float MODEL_SCALE = SQUARE_SIZE / 2.5f;
 
 	// camera fields
+	private final int PLAYER_VIEW_HEIGHT = -100;
 	private PVector cameraEye;
 	private PVector cameraCenter;
 	private PVector targetCameraEye;
 	private PVector targetCameraCenter;
-	private float percent;
+	private PVector actualCameraEye;
+	private float animPercent;
+	private boolean animating;
 
 	// camera perspective fields
 	private final float FOV;
@@ -35,7 +36,7 @@ public class Perspective3D extends DrawingComponent {
 	private final float NEAR_CULLING_DISTANCE;
 	private final float FAR_CULLING_DISTANCE;
 
-	public Perspective3D(PApplet p, GameState gameState, int playerID) {
+	public Perspective3D(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
 
 		// world model setup
@@ -43,12 +44,14 @@ public class Perspective3D extends DrawingComponent {
 				SQUARE_SIZE);
 
 		// camera setup
-		cameraEye = new PVector(0, -100, 0);
+		cameraEye = new PVector(0, PLAYER_VIEW_HEIGHT, 0);
 		cameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2) - 100, 0);
-		targetCameraEye = new PVector(0, -100, 0);
+		targetCameraEye = new PVector(0, PLAYER_VIEW_HEIGHT, 0);
 		targetCameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2) - 100,
 				0);
-		percent = 1.0f;
+		actualCameraEye = new PVector(0, PLAYER_VIEW_HEIGHT, 0);
+		animPercent = 1;
+		animating = false;
 
 		// camera perspective setup
 		float cameraZ = ((p.height / 2.0f) / PApplet
@@ -72,14 +75,16 @@ public class Perspective3D extends DrawingComponent {
 		p.pushStyle();
 
 		// position the camera to the player position and orientation
-		setCamera(player.getLocation(), player.getOrientation());
+		setCamera(player.getLocation(), player.getOrientation(), delta);
 
 		// light source
 		p.pushMatrix();
 		p.ambientLight(50, 50, 50);
-		p.pointLight(200, 200, 200, player.getLocation().getX() * SQUARE_SIZE
-				+ SQUARE_SIZE / 2, -100, player.getLocation().getY()
-				* SQUARE_SIZE + SQUARE_SIZE / 2);
+		// p.pointLight(200, 200, 200, player.getLocation().getX() * SQUARE_SIZE
+		// + SQUARE_SIZE / 2, PLAYER_VIEW_HEIGHT, player.getLocation()
+		// .getY() * SQUARE_SIZE + SQUARE_SIZE / 2);
+		p.pointLight(200, 200, 200, actualCameraEye.x, PLAYER_VIEW_HEIGHT,
+				actualCameraEye.z);
 		p.popMatrix();
 
 		// draw the game world
@@ -95,7 +100,7 @@ public class Perspective3D extends DrawingComponent {
 				Player currentPlayer = players[i];
 
 				// use the player colour
-				// p.fill(player.getColour().getRGB());
+				p.fill(player.getColour().getRGB());
 
 				Location location = currentPlayer.getLocation();
 
@@ -103,7 +108,8 @@ public class Perspective3D extends DrawingComponent {
 				System.out.println("Player " + i + " is at " + location.getX()
 						+ ", " + location.getY());
 				p.translate(location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2,
-						-100, location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2);
+						PLAYER_VIEW_HEIGHT, location.getY() * SQUARE_SIZE
+								+ SQUARE_SIZE / 2);
 				p.sphere(30);
 
 				p.popStyle();
@@ -125,87 +131,103 @@ public class Perspective3D extends DrawingComponent {
 	 * @param orientation
 	 *            The direction the camera should face.
 	 */
-	private void setCamera(Location location, Direction orientation) {
-		// check if camera animation has finished
-		// if (percent == 1.0f) {
-		// // set the actual camera position to the target position
-		// cameraEye.x = targetCameraEye.x;
-		// cameraEye.z = targetCameraEye.z;
-		// } else {
-		// // update the animation percentage
-		// percent += 0.05f;
-		// }
+	private void setCamera(Location location, Direction orientation, float delta) {
 
-		// compute the camera position
-		// float newEyeX = location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2;
-		// float newEyeZ = location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2;
+		System.out.println(animPercent);
 
-		cameraEye.x = location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2;
-		cameraEye.z = location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2;
+		// compute the camera position from the given location
+		float newEyeX = location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2;
+		float newEyeZ = location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2;
 
-		// check if the camera position has changed
-		// if (newEyeX != cameraEye.x || newEyeZ != cameraEye.z) {
-		// // update the target camera position
-		// targetCameraEye.x = newEyeX;
-		// targetCameraEye.z = newEyeZ;
-		//
-		// // begin the interpolation animation between states
-		// percent = 0;
-		// }
+		// comute the camera orientation from the given direction
+		float newRotationAngle = 0;
 
-		float rotAngle = 0;
-
-		// depending on the orientation
+		// depending on the given orientation
 		switch (orientation) {
+
+		// set north rotation angle
 		case NORTH:
-			// set north rotation angle
-			rotAngle = -PApplet.PI / 2;
+			newRotationAngle = -PApplet.PI / 2;
 			break;
 
+		// set east rotation angle
 		case EAST:
-			// set east rotation angle
-			rotAngle = 0;
+			newRotationAngle = 0;
 			break;
 
+		// set south rotation angle
 		case SOUTH:
-			// set south rotation angle
-			rotAngle = PApplet.PI / 2;
+			newRotationAngle = PApplet.PI / 2;
 			break;
 
+		// set west rotation angle
 		case WEST:
-			// set west rotation angle
-			rotAngle = PApplet.PI;
+			newRotationAngle = PApplet.PI;
 			break;
 		}
+
+		float newCenterX = PApplet.cos(newRotationAngle) + newEyeX;
+		float newCenterZ = PApplet.sin(newRotationAngle) + newEyeZ;
+
+		// check if the camera position has changed
+		if (!animating && (newEyeX != cameraEye.x || newEyeZ != cameraEye.z)) {
+
+			// update the target camera position
+			targetCameraEye.x = newEyeX;
+			targetCameraEye.z = newEyeZ;
+
+			// begin the interpolation animation between states
+			animPercent = 0;
+			animating = true;
+		}
+
+		// check if the camera orientation has changed
+		if (!animating
+				&& (newCenterX != cameraCenter.x || newCenterZ != cameraCenter.z)) {
+
+			// update the target camera orientation
+			targetCameraCenter.x = newCenterX;
+			targetCameraCenter.z = newCenterZ;
+
+			// begin the interpolation animation between states
+			animPercent = 0;
+			animating = true;
+		}
+
+		// compute the interpolated camera orientaiton
+		actualCameraEye.x = PApplet.floor(PApplet.lerp(cameraEye.x,
+				targetCameraEye.x, animPercent));
+		actualCameraEye.z = PApplet.floor(PApplet.lerp(cameraEye.z,
+				targetCameraEye.z, animPercent));
+
+		// compute the interpolated camera rotation
+		float centerX = PApplet.lerp(cameraCenter.x, targetCameraCenter.x,
+				animPercent);
+		float centerZ = PApplet.lerp(cameraCenter.z, targetCameraCenter.z,
+				animPercent);
 
 		// set the perspective and render distance
 		p.perspective(FOV, ASPECT_RATIO, NEAR_CULLING_DISTANCE,
 				FAR_CULLING_DISTANCE);
 
-		// compute the interpolated camera position
-		// float eyeX = PApplet.lerp(cameraEye.x, targetCameraEye.x, percent);
-		// float eyeZ = PApplet.lerp(cameraEye.z, targetCameraEye.z, percent);
-		// float centerX = PApplet.lerp(cameraCenter.x, targetCameraCenter.x,
-		// percent);
-		// float centerZ = PApplet.lerp(cameraCenter.z, targetCameraCenter.z,
-		// percent);
+		// set the camera to the correct position and orientation
+		p.camera(actualCameraEye.x, cameraEye.y, actualCameraEye.z, centerX,
+				cameraCenter.y, centerZ, 0.0f, 1, 0);
 
-		// rotate the camera to the correct orientation
-		// cameraCenter.x = PApplet.cos(rotAngle) + eyeX;
-		// cameraCenter.z = PApplet.sin(rotAngle) + eyeZ;
-		// targetCameraCenter.x = cameraCenter.x;
-		// targetCameraCenter.z = cameraCenter.z;
+		// check if camera animation has finished
+		if (animPercent >= 1) {
+			// set the actual camera position to the target
+			cameraEye.x = targetCameraEye.x;
+			cameraEye.z = targetCameraEye.z;
 
-		cameraCenter.x = PApplet.cos(rotAngle) + cameraEye.x;
-		cameraCenter.z = PApplet.sin(rotAngle) + cameraEye.z;
+			// set the actual camera orientaiton to the target
+			cameraCenter.x = targetCameraCenter.x;
+			cameraCenter.z = targetCameraCenter.z;
 
-		// position the camera
-		// p.camera(eyeX, cameraEye.y, eyeZ, centerX, cameraCenter.y, centerZ,
-		// 0.0f, 1, 0);
-		// System.out.println(percent);
-		// System.out.println(cameraEye.x + ", " + targetCameraEye.x + " : "
-		// + eyeX);
-		p.camera(cameraEye.x, cameraEye.y, cameraEye.z, cameraCenter.x,
-				cameraCenter.y, cameraCenter.z, 0.0f, 1, 0);
+			animating = false;
+		} else {
+			// update the animation percentage
+			animPercent += (0.1 * delta);
+		}
 	}
 }

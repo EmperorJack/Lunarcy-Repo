@@ -1,6 +1,5 @@
 package ui;
 
-import processing.core.*;
 import game.GameState;
 
 /**
@@ -12,12 +11,12 @@ import game.GameState;
 public abstract class DrawingComponent {
 
 	// the parent processing canvas
-	protected PApplet p;
+	protected Canvas p;
 
 	// the id of the client
 	protected int playerID;
 
-	public DrawingComponent(PApplet p, GameState gameState, int playerID) {
+	public DrawingComponent(Canvas p, GameState gameState, int playerID) {
 		// set the parent canvas to draw onto
 		this.p = p;
 

@@ -7,7 +7,6 @@ import java.util.List;
 import game.GameState;
 import game.Item;
 import game.Player;
-import processing.core.PApplet;
 
 /**
  * Displays the oxygen bar in the bottom right corner of the canvas
@@ -33,7 +32,7 @@ public class Inventory extends DrawingComponent implements MouseListener {
 
 	private List<Item> inventory;
 
-	public Inventory(PApplet p, GameState gameState, int playerID) {
+	public Inventory(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
 		inventory = gameState.getPlayer(playerID).getInventory();
 
@@ -62,8 +61,9 @@ public class Inventory extends DrawingComponent implements MouseListener {
 		if (inventory != null) {
 			for (int i = 0; i < inventory.size(); i++) {
 				// TEMP: While we discuss images for items
-				p.image(p.loadImage("/assets/items/" + inventory.get(i).imageName + ".png"), i * SIZE + SPACING, 0,
-						SIZE, SIZE);
+				p.image(p.loadImage("/assets/items/"
+						+ inventory.get(i).imageName + ".png"), i * SIZE
+						+ SPACING, 0, SIZE, SIZE);
 			}
 		}
 

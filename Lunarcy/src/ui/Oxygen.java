@@ -2,7 +2,6 @@ package ui;
 
 import game.GameState;
 import game.Player;
-import processing.core.PApplet;
 
 /**
  * Displays the oxygen bar in the bottom right corner of the canvas
@@ -29,7 +28,7 @@ public class Oxygen extends DrawingComponent {
 	
 	
 
-	public Oxygen(PApplet p, GameState gameState, int playerID) {
+	public Oxygen(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
 	}
 
@@ -58,9 +57,11 @@ public class Oxygen extends DrawingComponent {
 
 		// Set the colour to red if there is little oxygen left
 		
-
 		if (oxygen < LOW_OXYGEN) {
 			dimScreen();
+		}
+
+		if (oxygen < LOW_OXYGEN) {
 			p.fill(255, 0, 0, 100);
 		} else {
 			p.fill(139, 158, 162);
