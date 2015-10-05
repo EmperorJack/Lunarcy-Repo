@@ -36,7 +36,7 @@ public class Minimap extends DrawingComponent {
 
 	// private final PImage UNACCESIBLE_SQUARE;
 
-	public Minimap(PApplet p, GameState gameState, int playerID) {
+	public Minimap(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
 
 		OUTDOOR_GROUND = p.loadImage("assets/minimap/outdoor.png");
@@ -103,17 +103,16 @@ public class Minimap extends DrawingComponent {
 	}
 
 	private void drawSquare(Square square) {
-		//Only draw Walkable squares
-		if(!(square instanceof WalkableSquare)){
+		// Only draw Walkable squares
+		if (!(square instanceof WalkableSquare)) {
 			return;
 		}
 
-		WalkableSquare walk = (WalkableSquare)square;
+		WalkableSquare walk = (WalkableSquare) square;
 
-		if(walk.isInside()){
+		if (walk.isInside()) {
 			p.image(INDOOR_GROUND, 0, 0, SQUARE_SIZE, SQUARE_SIZE);
-		}
-		else{
+		} else {
 			p.image(OUTDOOR_GROUND, 0, 0, SQUARE_SIZE, SQUARE_SIZE);
 		}
 

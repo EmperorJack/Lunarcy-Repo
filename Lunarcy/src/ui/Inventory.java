@@ -5,7 +5,6 @@ import java.util.List;
 import game.GameState;
 import game.Item;
 import game.Player;
-import processing.core.PApplet;
 
 /**
  * Displays the oxygen bar in the bottom right corner of the canvas
@@ -25,7 +24,7 @@ public class Inventory extends DrawingComponent {
 	// Space between each item
 	private final int SPACING = 20;
 
-	public Inventory(PApplet p, GameState gameState, int playerID) {
+	public Inventory(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
 	}
 
@@ -51,8 +50,9 @@ public class Inventory extends DrawingComponent {
 		if (inventory != null) {
 			for (int i = 0; i < inventory.size(); i++) {
 				// TEMP: While we discuss images for items
-				p.image(p.loadImage("/assets/items/" + inventory.get(i).imageName + ".png"), i * SIZE + SPACING, 0,
-						SIZE, SIZE);
+				p.image(p.loadImage("/assets/items/"
+						+ inventory.get(i).imageName + ".png"), i * SIZE
+						+ SPACING, 0, SIZE, SIZE);
 			}
 		}
 
