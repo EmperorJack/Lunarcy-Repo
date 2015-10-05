@@ -23,6 +23,9 @@ public class Perspective3D extends DrawingComponent {
 	// camera fields
 	private PVector cameraEye;
 	private PVector cameraCenter;
+	private PVector targetCameraEye;
+	private PVector targetCameraCenter;
+	private float percent;
 
 	public Perspective3D(PApplet p, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
@@ -34,6 +37,10 @@ public class Perspective3D extends DrawingComponent {
 		// camera setup
 		cameraEye = new PVector(0, -100, 0);
 		cameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2) - 100, 0);
+		targetCameraEye = new PVector(0, -100, 0);
+		targetCameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2) - 100,
+				0);
+		percent = 1.0f;
 	}
 
 	@Override
@@ -44,16 +51,12 @@ public class Perspective3D extends DrawingComponent {
 		// get the players from the current game state
 		Player[] players = gameState.getPlayers();
 
-		// update the camera to the player position and orientation
-		setCamera(player.getLocation(), player.getOrientation());
-
 		// push matrix and style information onto the stack
 		p.pushMatrix();
 		p.pushStyle();
 
-		// position the camera
-		p.camera(cameraEye.x, cameraEye.y, cameraEye.z, cameraCenter.x,
-				cameraCenter.y, cameraCenter.z, 0.0f, 1, 0);
+		// position the camera to the player position and orientation
+		setCamera(player.getLocation(), player.getOrientation());
 
 		// light source
 		p.pushMatrix();
@@ -107,9 +110,30 @@ public class Perspective3D extends DrawingComponent {
 	 *            The direction the camera should face.
 	 */
 	private void setCamera(Location location, Direction orientation) {
-		// set the camera position
-		cameraEye.x = location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2;
-		cameraEye.z = location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2;
+		// check if camera animation has finished
+		if (percent == 1.0f) {
+			// set the actual camera position to the target position
+			cameraEye.x = targetCameraEye.x;
+			cameraEye.z = targetCameraEye.z;
+		} else {
+			// update the animation percentage
+			percent += 0.05f;
+		}
+
+		// compute the camera position
+		float newEyeX = location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2;
+		float newEyeZ = location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2;
+
+		// check if the camera position has changed
+		if (newEyeX != cameraEye.x || newEyeZ != cameraEye.z) {
+			// update the target camera position
+			targetCameraEye.x = newEyeX;
+			targetCameraEye.z = newEyeZ;
+
+			// begin the interpolation animation between states
+			percent = 0;
+		}
+
 		float rotAngle = 0;
 
 		// depending on the orientation
@@ -135,8 +159,33 @@ public class Perspective3D extends DrawingComponent {
 			break;
 		}
 
+		// adjust the perspective and render distance
+		float cameraZ = ((p.height / 2.0f) / PApplet
+				.tan(PApplet.PI * 60f / 360.0f));
+		p.perspective(PApplet.PI / 3.0f, (int) p.width / p.height,
+				cameraZ / 10.0f, cameraZ * 10000.0f);
+
+		// compute the interpolated camera position
+		float eyeX = PApplet.lerp(cameraEye.x, targetCameraEye.x, percent);
+		float eyeZ = PApplet.lerp(cameraEye.z, targetCameraEye.z, percent);
+		float centerX = PApplet.lerp(cameraCenter.x, targetCameraCenter.x,
+				percent);
+		float centerZ = PApplet.lerp(cameraCenter.z, targetCameraCenter.z,
+				percent);
+
 		// rotate the camera to the correct orientation
-		cameraCenter.x = PApplet.cos(rotAngle) + cameraEye.x;
-		cameraCenter.z = PApplet.sin(rotAngle) + cameraEye.z;
+		cameraCenter.x = PApplet.cos(rotAngle) + eyeX;
+		cameraCenter.z = PApplet.sin(rotAngle) + eyeZ;
+		targetCameraCenter.x = cameraCenter.x;
+		targetCameraCenter.z = cameraCenter.z;
+
+		// position the camera
+		p.camera(eyeX, cameraEye.y, eyeZ, centerX, cameraCenter.y, centerZ,
+				0.0f, 1, 0);
+		System.out.println(percent);
+		System.out.println(cameraEye.x + ", " + targetCameraEye.x + " : "
+				+ eyeX);
+		// p.camera(cameraEye.x, cameraEye.y, cameraEye.z, cameraCenter.x,
+		// cameraCenter.y, cameraCenter.z, 0.0f, 1, 0);
 	}
 }

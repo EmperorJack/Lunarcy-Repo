@@ -175,6 +175,7 @@ public class Canvas extends PApplet implements KeyListener {
 		hint(DISABLE_DEPTH_TEST);
 		hint(ENABLE_DEPTH_TEST);
 		camera();
+		perspective();
 		noLights();
 
 		translate(xOffset, yOffset);
