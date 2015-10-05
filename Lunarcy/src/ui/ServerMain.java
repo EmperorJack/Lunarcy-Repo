@@ -15,6 +15,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -210,7 +211,14 @@ public class ServerMain extends JFrame {
 
 				//If they chose yes, then save
 				if(save == JOptionPane.YES_OPTION){
-					server.saveGamestate();
+
+					//Retrieve the file to save to
+					JFileChooser chooser = new JFileChooser();
+					chooser.showSaveDialog(null);
+					String filename = chooser.getSelectedFile().getAbsolutePath();
+
+					//Make a new server, using the saved gamestate
+					server.saveGamestate(filename);
 				}
 
 			}
@@ -236,8 +244,13 @@ public class ServerMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				//Make a new server, using the saved gamestate
-				server = new Server(playerNum.getValue(), refreshRate.getValue(), Storage.loadState());
+				//Retrieve the file to load
+				JFileChooser chooser = new JFileChooser();
+				chooser.showOpenDialog(null);
+				String filename = chooser.getSelectedFile().getAbsolutePath();
+
+				//Make a new server with the specified info
+				server = new Server(playerNum.getValue(), refreshRate.getValue(), Storage.loadState(filename));
 
 				//Make a new thread, as server.run() is non terminating
 				new Thread(new Runnable() {

@@ -22,7 +22,7 @@ public class Player implements Serializable {
 	private int oxygen;
 	private List<Item> inventory;
 
-	public Player(int uniqueID, String name, Location location, Direction orientation) {
+	public Player(int uniqueID, String name, Color colour, Location location, Direction orientation) {
 		this.id = uniqueID;
 		this.name = name;
 		this.location = location == null ? new Location(0,0) : location;
@@ -37,7 +37,7 @@ public class Player implements Serializable {
 			throw new IllegalArgumentException(
 					"Parameter 'direction' may not be null");
 		location = location.getAdjacent(direction);
-		
+
 		//ADDED FOR TESTING
 		modifyOxygen(-5);
 	}
@@ -89,17 +89,17 @@ public class Player implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public Direction getOrientation() {
 		return orientation;
 	}
 
 	public void turnLeft(){
-		orientation = Direction.left(orientation);
+		orientation = orientation.left();
 	}
 
 	public void turnRight(){
-		orientation = Direction.right(orientation);
+		orientation = orientation.right();
 	}
 
 	public int getId() {
@@ -113,7 +113,7 @@ public class Player implements Serializable {
 	public Color getColour() {
 		return colour;
 	}
-	
+
 	/**
 	 * FOR TESTING PURPOSES
 	 * Adds some items to the players inventory

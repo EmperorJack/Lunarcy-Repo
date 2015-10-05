@@ -104,14 +104,14 @@ public class GameState implements Serializable{
 	}
 
 	/**
-	 * Creates a new player object and stores them in the game 
+	 * Creates a new player object and stores them in the game
 	 * @param playerID The ID of the player
 	 * @param name The name of the Player
 	 * @param color The Colour that the player selected
 	 * @return
 	 */
-	public boolean addPlayer(int playerID, String name, Color color){
-		Player player = new Player(playerID, name, spawn, Direction.NORTH);
+	public boolean addPlayer(int playerID, String name, Color colour){
+		Player player = new Player(playerID, name, colour, spawn, Direction.NORTH);
 		if(playerID<0||playerID>players.length)return false;
 		players[playerID] = player;
 		return true;
@@ -126,11 +126,11 @@ public class GameState implements Serializable{
 		if(playerID<0||playerID>players.length)return null;
 		return players[playerID];
 	}
-	
+
 	/**
 	 * Retrieves the ID number of the player whose name matches the parameter.
 	 * @param playerName The name of the Player whose name matches
-	 * @return Player.getID() of the matching player, -1 if no player with that name exists 
+	 * @return Player.getID() of the matching player, -1 if no player with that name exists
 	 */
 	public int getPlayerID(String playerName){
 		for(Player p: players){

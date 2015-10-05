@@ -67,7 +67,7 @@ public class Server {
 			e.printStackTrace();
 		}
 
-		// add players to gamestate 
+		// add players to gamestate
 		for (ClientConnection client : clientList) {
 			gameState.addPlayer(client.clientID, client.username,Color.RED);
 		}
@@ -95,10 +95,11 @@ public class Server {
 	/**
 	 * Gracefully stop the server and close all sockets/connections
 	 */
-	public void stopAndSave(){
+	public void stopAndSave(String filename){
 		stop();
-		Storage.saveState(gameLogic.getGameState());
+		Storage.saveState(gameLogic.getGameState(), filename);
 	}
+
 	/**
 	 * Sleep the server for the given
 	 * @param time
@@ -292,8 +293,8 @@ public class Server {
 	/**
 	 * Saves the current gamestate to disc
 	 */
-	public void saveGamestate(){
-		Storage.saveState(gameLogic.getGameState());
+	public void saveGamestate(String filename){
+		Storage.saveState(gameLogic.getGameState(), filename);
 	}
 
 

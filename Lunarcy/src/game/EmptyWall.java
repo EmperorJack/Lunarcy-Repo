@@ -2,7 +2,7 @@ package game;
 
 /**
  * Represents an in-game wall that is empty
- * and so, from a gameplay perspective, it doesn't exist 
+ * and so, from a gameplay perspective, it doesn't exist
  * @author Robbie
  *
  */
