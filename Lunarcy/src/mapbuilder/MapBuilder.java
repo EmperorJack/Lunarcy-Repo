@@ -139,7 +139,8 @@ public class MapBuilder {
 			Square currentSquare = map[selected.getY()][selected.getX()];
 			currentSquare.removeWall(dir);
 			if (dir == Direction.NORTH && selected.getY() > 0) {
-				Square adjacentSquare = map[selected.getY() - 1][selected
+				Square adjacentSquare = map[selected.getY() -
+				                            1][selected
 						.getX()];
 				adjacentSquare.removeWall(Direction.SOUTH);
 			}
