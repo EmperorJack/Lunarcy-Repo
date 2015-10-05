@@ -181,7 +181,7 @@ public class WorldModel {
 		p.translate(0, -SQUARE_SIZE, 0);
 
 		for (OBJWrapper o : ceiling) {
-			o.draw();
+			//o.draw();
 		}
 		p.popMatrix();
 

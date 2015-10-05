@@ -5,6 +5,8 @@ import game.GameState;
 import game.Location;
 import game.Player;
 import processing.core.*;
+import saito.objloader.OBJModel;
+import saito.objtools.OBJTransform;
 
 /**
  * The view that displays the player perspective of the game world in 3D.
@@ -16,9 +18,10 @@ import processing.core.*;
 public class Perspective3D extends DrawingComponent {
 
 	// 3D world
-	private WorldModel world;
+	private final WorldModel WORLD;
 	private final int SQUARE_SIZE = 500;
 	private final float MODEL_SCALE = SQUARE_SIZE / 2.5f;
+	private final OBJModel SKYBOX;
 
 	// camera fields
 	private final int PLAYER_VIEW_HEIGHT = -100;
@@ -41,8 +44,14 @@ public class Perspective3D extends DrawingComponent {
 		super(p, gameState, playerID);
 
 		// world model setup
-		world = new WorldModel(p, gameState.getBoard(), MODEL_SCALE,
+		WORLD = new WorldModel(p, gameState.getBoard(), MODEL_SCALE,
 				SQUARE_SIZE);
+
+		// space skybox setup
+		SKYBOX = new OBJModel(p, "assets/models/space_skybox.obj");
+		OBJTransform objectTransformer = new OBJTransform(p);
+		objectTransformer.scaleOBJ(SKYBOX, MODEL_SCALE);
+		SKYBOX.drawMode(OBJModel.POLYGON);
 
 		// camera eye setup (position)
 		cameraEye = new PVector(0, PLAYER_VIEW_HEIGHT, 0);
@@ -68,31 +77,26 @@ public class Perspective3D extends DrawingComponent {
 
 	@Override
 	public void draw(GameState gameState, float delta) {
+		// push matrix and style information onto the stack
+		p.pushMatrix();
+		p.pushStyle();
+
 		// get the player from the current game state
 		Player player = gameState.getPlayer(playerID);
 
 		// get the players from the current game state
 		Player[] players = gameState.getPlayers();
 
-		// push matrix and style information onto the stack
-		p.pushMatrix();
-		p.pushStyle();
-
 		// position the camera to the player position and orientation
 		setCamera(player.getLocation(), player.getOrientation(), delta);
 
-		// light source
-		p.pushMatrix();
+		// render the lights
 		p.ambientLight(50, 50, 50);
-		// p.pointLight(200, 200, 200, player.getLocation().getX() * SQUARE_SIZE
-		// + SQUARE_SIZE / 2, PLAYER_VIEW_HEIGHT, player.getLocation()
-		// .getY() * SQUARE_SIZE + SQUARE_SIZE / 2);
 		p.pointLight(200, 200, 200, actualCameraEye.x, PLAYER_VIEW_HEIGHT,
 				actualCameraEye.z);
-		p.popMatrix();
 
 		// draw the game world
-		world.draw();
+		WORLD.draw();
 
 		// draw the players
 		for (int i = 0; i < players.length; i++) {
@@ -109,8 +113,6 @@ public class Perspective3D extends DrawingComponent {
 				Location location = currentPlayer.getLocation();
 
 				// draw the player
-				System.out.println("Player " + i + " is at " + location.getX()
-						+ ", " + location.getY());
 				p.translate(location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2,
 						PLAYER_VIEW_HEIGHT, location.getY() * SQUARE_SIZE
 								+ SQUARE_SIZE / 2);
@@ -120,6 +122,13 @@ public class Perspective3D extends DrawingComponent {
 				p.popMatrix();
 			}
 		}
+
+		// translate to the camera position
+		p.translate(actualCameraEye.x, PLAYER_VIEW_HEIGHT, actualCameraEye.z);
+
+		// draw the space skybox with no lighting
+		p.noLights();
+		SKYBOX.draw();
 
 		// pop matrix and style information from the stack
 		p.popStyle();
@@ -136,9 +145,6 @@ public class Perspective3D extends DrawingComponent {
 	 *            The direction the camera should face.
 	 */
 	private void setCamera(Location location, Direction orientation, float delta) {
-
-		System.out.println(animating);
-
 		// compute the camera position from the given location
 		float newEyeX = location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2;
 		float newEyeZ = location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2;
