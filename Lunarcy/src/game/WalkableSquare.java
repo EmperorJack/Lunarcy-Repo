@@ -137,6 +137,12 @@ public class WalkableSquare extends Square {
 	public boolean addEntity(Direction side, Entity entity) {
 		if (side == null||entity == null)
 			return false;
+
+		//Initialise the set if it hasnt been done yet
+		if(entities.get(side) == null){
+			entities.put(side, new HashSet<Entity>());
+		}
+
 		return entities.get(side).add(entity);
 	}
 

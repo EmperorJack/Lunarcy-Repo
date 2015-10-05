@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import control.Client;
+import control.DropAction;
 import control.MoveAction;
 import control.OrientAction;
 import ddf.minim.*;
@@ -233,6 +234,10 @@ public class Canvas extends PApplet implements KeyListener {
 			xOffset = (int) (newWidth - maxWidth * scalingAmount) / 2;
 			yOffset = 0;
 		}
+	}
+
+	public void dropItem(int itemID){
+		client.sendAction(new DropAction(playerID, itemID));
 	}
 
 	@Override
