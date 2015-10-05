@@ -2,51 +2,51 @@ package game;
 
 /**
  * Represents one of the four directions on a compass, used to denote orientation in the game world.
- * 
+ *
  * @author Robbie
  *
  */
 public enum Direction {
 	NORTH, EAST, SOUTH, WEST;
-	
+
 	/**
-	 * @return The Direction opposite from current
+	 * @return The Direction opposite from this one
 	 */
-	public static Direction opposite(Direction current){
-		if(current==NORTH){
+	public Direction opposite(){
+		if(this==NORTH){
 			return SOUTH;
-		}else if(current==EAST){
+		}else if(this==EAST){
 			return WEST;
-		}else if(current==SOUTH){
+		}else if(this==SOUTH){
 			return NORTH;
 		}else{//Else West
 			return EAST;
 		}
 	}
 	/**
-	 * @return The Direction that you would be facing if you turned left from current
+	 * @return The Direction that you would be facing if you turned left from this one
 	 */
-	public static Direction left(Direction current){
-		if(current==NORTH){
+	public Direction left(){
+		if(this==NORTH){
 			return WEST;
-		}else if(current==EAST){
+		}else if(this==EAST){
 			return NORTH;
-		}else if(current==SOUTH){
+		}else if(this==SOUTH){
 			return EAST;
 		}else{//Else West
 			return SOUTH;
 		}
 	}
-	
+
 	/**
-	 * @return The Direction that you would be facing if you turned right from current
+	 * @return The Direction that you would be facing if you turned right from this one
 	 */
-	public static Direction right(Direction current){
-		if(current==NORTH){
+	public Direction right(){
+		if(this==NORTH){
 			return EAST;
-		}else if(current==EAST){
+		}else if(this==EAST){
 			return SOUTH;
-		}else if(current==SOUTH){
+		}else if(this==SOUTH){
 			return WEST;
 		}else{//Else West
 			return NORTH;

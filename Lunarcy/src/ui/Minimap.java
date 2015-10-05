@@ -48,8 +48,6 @@ public class Minimap extends DrawingComponent {
 
 	@Override
 	public void draw(GameState gameState, float delta) {
-		// get the player from the current game state
-		Player player = gameState.getPlayer(playerID);
 
 		// push matrix and style information onto the stack
 		p.pushMatrix();
@@ -88,50 +86,60 @@ public class Minimap extends DrawingComponent {
 				// So the translation is independant each iteration
 				p.pushMatrix();
 
+				// Change 0,0 to be our squares position
 				p.translate(i * SQUARE_SIZE, j * SQUARE_SIZE);
 
-				// Walkable square
-				if (current instanceof WalkableSquare) {
-					p.image(OUTDOOR_GROUND, 0, 0, SQUARE_SIZE, SQUARE_SIZE);
-				}
-				// Dont draw blankSquares
-				if (current instanceof BlankSquare) {
-					p.popMatrix();
-					continue;
-				}
-				// Unwalkable square
-				else {
-					p.image(INDOOR_GROUND, 0, 0, SQUARE_SIZE, SQUARE_SIZE);
-				}
-
-				// Draw the four walls
-				Map<Direction, Wall> walls = current.getWalls();
-
-				p.stroke(0, 100);
-
-				// Only draw the walls if they are not an EmptyWall
-				if (!(walls.get(Direction.NORTH) instanceof EmptyWall)) {
-					p.line(0, 0, SQUARE_SIZE, 0);
-				}
-
-				if (!(walls.get(Direction.EAST) instanceof EmptyWall)) {
-					p.line(SQUARE_SIZE, 0, SQUARE_SIZE, SQUARE_SIZE);
-				}
-
-				if (!(walls.get(Direction.SOUTH) instanceof EmptyWall)) {
-					p.line(0, SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
-				}
-
-				if (!(walls.get(Direction.WEST) instanceof EmptyWall)) {
-					p.line(0, 0, 0, SQUARE_SIZE);
-				}
+				drawSquare(current);
 
 				p.popMatrix();
-
 			}
-
 		}
 
+		drawPlayer(gameState.getPlayer(playerID));
+
+		// pop matrix and style information from the stack
+		p.popStyle();
+		p.popMatrix();
+	}
+
+	private void drawSquare(Square square) {
+		//Only draw Walkable squares
+		if(!(square instanceof WalkableSquare)){
+			return;
+		}
+
+		WalkableSquare walk = (WalkableSquare)square;
+
+		if(walk.isInside()){
+			p.image(INDOOR_GROUND, 0, 0, SQUARE_SIZE, SQUARE_SIZE);
+		}
+		else{
+			p.image(OUTDOOR_GROUND, 0, 0, SQUARE_SIZE, SQUARE_SIZE);
+		}
+
+		drawWalls(square.getWalls());
+
+	}
+
+	private void drawWalls(Map<Direction, Wall> walls) {
+		p.stroke(0, 100);
+
+		// Only draw the walls if they are not an EmptyWall
+		if (!(walls.get(Direction.NORTH) instanceof EmptyWall)) {
+			p.line(0, 0, SQUARE_SIZE, 0);
+		}
+		if (!(walls.get(Direction.EAST) instanceof EmptyWall)) {
+			p.line(SQUARE_SIZE, 0, SQUARE_SIZE, SQUARE_SIZE);
+		}
+		if (!(walls.get(Direction.SOUTH) instanceof EmptyWall)) {
+			p.line(0, SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+		}
+		if (!(walls.get(Direction.WEST) instanceof EmptyWall)) {
+			p.line(0, 0, 0, SQUARE_SIZE);
+		}
+	}
+
+	private void drawPlayer(Player player) {
 		// Draw the player
 
 		// Set our colour to be red
@@ -144,16 +152,11 @@ public class Minimap extends DrawingComponent {
 		// Rotate around center point to be players direction
 		int degrees = player.getOrientation().ordinal() * 90;
 
-		p.translate(playerX+SQUARE_SIZE/2, playerY+SQUARE_SIZE/2);
+		p.translate(playerX + SQUARE_SIZE / 2, playerY + SQUARE_SIZE / 2);
 		p.rotate(p.radians(degrees));
 
 		// Draw our player as an arrow facing their direction
-		p.triangle(0, -SQUARE_SIZE/2, 
-				-SQUARE_SIZE/2, SQUARE_SIZE/2, 
-				SQUARE_SIZE/2, SQUARE_SIZE/2);
-
-		// pop matrix and style information from the stack
-		p.popStyle();
-		p.popMatrix();
+		p.triangle(0, -SQUARE_SIZE / 2, -SQUARE_SIZE / 2, SQUARE_SIZE / 2,
+				SQUARE_SIZE / 2, SQUARE_SIZE / 2);
 	}
 }
