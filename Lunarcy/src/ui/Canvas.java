@@ -175,6 +175,7 @@ public class Canvas extends PApplet implements KeyListener {
 		hint(DISABLE_DEPTH_TEST);
 		hint(ENABLE_DEPTH_TEST);
 		camera();
+		perspective();
 		noLights();
 
 		translate(xOffset, yOffset);
@@ -234,12 +235,11 @@ public class Canvas extends PApplet implements KeyListener {
 		}
 	}
 
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// check if the timer has been exceeded
 		long currentTime = System.currentTimeMillis();
-		if (currentTime - keyTimer > 250) {
+		if (currentTime - keyTimer > 200) {
 			// update the timer
 			keyTimer = currentTime;
 
@@ -247,18 +247,38 @@ public class Canvas extends PApplet implements KeyListener {
 
 			// identify which key pressed
 			switch (e.getKeyCode()) {
+
+			// move left
 			case KeyEvent.VK_W:
 				client.sendAction(new MoveAction(playerID, player
 						.getOrientation()));
 				break;
+
+			// strafe left
 			case KeyEvent.VK_A:
+				client.sendAction(new MoveAction(playerID, player
+						.getOrientation().left()));
+				break;
+
+			// move back
+			case KeyEvent.VK_S:
+				client.sendAction(new MoveAction(playerID, player
+						.getOrientation().opposite()));
+				break;
+
+			// strafe right
+			case KeyEvent.VK_D:
+				client.sendAction(new MoveAction(playerID, player
+						.getOrientation().right()));
+				break;
+
+			// turn left
+			case KeyEvent.VK_Q:
 				client.sendAction(new OrientAction(playerID, true));
 				break;
-			case KeyEvent.VK_S:
-				client.sendAction(new MoveAction(playerID, player.getOrientation()
-						.opposite()));
-				break;
-			case KeyEvent.VK_D:
+
+			// turn right
+			case KeyEvent.VK_E:
 				client.sendAction(new OrientAction(playerID, false));
 				break;
 			}
