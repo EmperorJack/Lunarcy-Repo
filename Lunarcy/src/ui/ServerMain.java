@@ -252,12 +252,7 @@ public class ServerMain extends JFrame {
 				//Make a new server with the specified info
 				server = new Server(playerNum.getValue(), refreshRate.getValue(), Storage.loadState(filename));
 
-				//Make a new thread, as server.run() is non terminating
-				new Thread(new Runnable() {
-					public void run() {
-						server.run();
-					}
-				}).start();
+				server.run();
 			}
 
 		});

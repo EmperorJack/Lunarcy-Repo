@@ -2,11 +2,13 @@ package control;
 
 import game.GameLogic;
 import game.GameState;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.awt.Color;
@@ -31,18 +33,18 @@ public class Server {
 	private int updateFreq;
 	private boolean running = true;
 
+	private int majorUpdateFreq = 100; // the number of moves before a major update
+	private int majorUpdateTick = 0;
 
 	public Server(int maxClients, int updateFreq, GameState gameState) {
 		this.maxClients = gameState.getPlayers().length;
 		this.updateFreq = updateFreq;
-
 		try {
 			serverSocket = new ServerSocket(PORT);
 			listenForClients();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		gameLogic = new GameLogic(gameState);
 	}
 
@@ -60,7 +62,7 @@ public class Server {
 
 		// add players to gamestate
 		for (ClientConnection client : clientList) {
-			gameState.addPlayer(client.clientID, client.username,Color.RED);
+			gameState.addPlayer(client.clientID, client.username, Color.RED);
 		}
 		gameLogic = new GameLogic(gameState);
 	}
@@ -70,26 +72,28 @@ public class Server {
 	 */
 	public void stop() {
 		for (ClientConnection client : clientList) {
-			client.stop(); //stop every client connection
-			System.out.println("stopped "+client.username);
+			client.stop(); // stop every client connection
+			System.out.println("stopped " + client.username);
 		}
 		System.out.println("Stopping server");
-		running = false; //stop main server
-		
-		while(clientList.size()>0){
+		running = false; // stop main server
+
+		while (clientList.size() > 0) {
 			sleep(50);
 		}
 	}
+
 	/**
 	 * Gracefully stop the server and close all sockets/connections
 	 */
-	public void stopAndSave(String filename){
+	public void stopAndSave(String filename) {
 		stop();
 		Storage.saveState(gameLogic.getGameState(), filename);
 	}
 
 	/**
 	 * Sleep the server for the given
+	 * 
 	 * @param time
 	 */
 	private void sleep(int time) {
@@ -104,6 +108,7 @@ public class Server {
 	 * @throws IOException
 	 */
 	private void listenForClients() throws IOException {
+
 		System.out.println("Listeneing for clients");
 		// wait for all clients to connect
 		while (clientList.size() < maxClients) {
@@ -121,27 +126,33 @@ public class Server {
 	 * Run the client processing client actions and sending gamestates
 	 */
 	public void run() {
-		transmitState(); // transmit initially
-		System.out.println("Server running fully");
-		long lastUpdate = System.currentTimeMillis();
-		//while (clientList.size() > 0 && running) {
-		while (running) {
-			if (System.currentTimeMillis() > lastUpdate + updateFreq) {
-				//game.tick();
-				System.out.println("tranmitting state");
-				transmitState();
-				lastUpdate = System.currentTimeMillis();
-			} else processAction();
-		}
-		System.out.println("Server shutting down");
-		
-		try {
-			serverSocket.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("All clients disconnected \n closing down server");
+		// Make a new thread, as server.run() is non terminating
+		new Thread(new Runnable() {
+			public void run() {
+				transmitState(); // transmit initially
+				System.out.println("Server running fully");
+				long lastUpdate = System.currentTimeMillis();
+				while (running) {
+					if (System.currentTimeMillis() > lastUpdate + updateFreq) {
+						// game.tick();
+						System.out.println("tranmitting state");
+						transmitState();
+						lastUpdate = System.currentTimeMillis();
+					} else{
+						processAction();
+					}
+				}
+				System.out.println("Server shutting down");
+
+				try {
+					serverSocket.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("All clients disconnected \n closing down server");
+			}
+		}).start();
 	}
 
 	/**
@@ -152,9 +163,10 @@ public class Server {
 		// transmitting
 		GameState state = gameLogic.getGameState();
 		for (ClientConnection client : clientList) {
-			//System.out.println("Transmitting gamestate to: "+ client.clientID);
-			if(client.writeObject(state)){
-				//System.out.println("Sucessfully sent gamestate");
+			// System.out.println("Transmitting gamestate to: "+
+			// client.clientID);
+			if (client.writeObject(state)) {
+				// System.out.println("Sucessfully sent gamestate");
 			}
 		}
 	}
@@ -162,10 +174,22 @@ public class Server {
 	/**
 	 * Process the next client action from the queue
 	 */
+	//TODO extend method to apply move to all clients if successful 
 	private void processAction() {
 		NetworkAction action = actionQueue.poll();
 		if (action != null)
 			action.applyAction(gameLogic);// interpreter.interpret(action);
+	}
+
+	/**
+	 * Saves the current gamestate to disc
+	 */
+	public void saveGamestate(String filename) {
+		Storage.saveState(gameLogic.getGameState(), filename);
+	}
+
+	public int getMaxClients() {
+		return maxClients;
 	}
 
 	private class ClientConnection {
@@ -199,15 +223,13 @@ public class Server {
 			System.out.println("wrote id to client" + clientID);
 
 			// Begin listening to this client
-			
+
 		}
-
-
 
 		private void sendID(int clientID) {
 			try {
 				outputToClient.reset();
-				outputToClient.writeInt(clientID); //send client their ID
+				outputToClient.writeInt(clientID); // send client their ID
 				outputToClient.flush();
 			} catch (IOException e) {
 				System.err.println("Failed to send ID");
@@ -216,7 +238,8 @@ public class Server {
 		}
 
 		/**
-		 * Listen to client and add any NetworkActions to the action queue to be processed
+		 * Listen to client and add any NetworkActions to the action queue to be
+		 * processed
 		 */
 		public void listenToClient() {
 			new Thread(new Runnable() {
@@ -226,11 +249,12 @@ public class Server {
 						try {
 							action = (NetworkAction) inputFromClient.readObject();
 						} catch (IOException | ClassNotFoundException e) {
-							//just catch
+							// just catch
 						}
-						if (action != null) actionQueue.add(action);
+						if (action != null)
+							actionQueue.add(action);
 					}
-					disconnect(); //when not running, disconnect
+					disconnect(); // when not running, disconnect
 				}
 			}).start();
 		}
@@ -244,8 +268,11 @@ public class Server {
 					outputToClient.reset();
 					outputToClient.writeObject(o);
 					outputToClient.flush();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (SocketException e) { //critical, close client connection
+					disconnect();
+					//e.printStackTrace();
+					return false;
+				}catch(IOException e){
 					return false;
 				}
 			}
@@ -272,21 +299,9 @@ public class Server {
 		/**
 		 * Gracefully close client connection
 		 */
-		private void stop(){
-			this.clientRunning  = false;
+		private void stop() {
+			this.clientRunning = false;
 		}
-	}
-
-	/**
-	 * Saves the current gamestate to disc
-	 */
-	public void saveGamestate(String filename){
-		Storage.saveState(gameLogic.getGameState(), filename);
-	}
-
-
-	public int getMaxClients(){
-		return maxClients;
 	}
 
 	public static void main(String[] args) {
