@@ -42,7 +42,7 @@ public abstract class Square implements Serializable {
 	}
 
 	public void removeDoor(Direction dir) {
-		walls.put(dir, new Door());
+		walls.put(dir, new EmptyWall());
 	}
 
 
