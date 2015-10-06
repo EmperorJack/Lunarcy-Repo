@@ -237,7 +237,6 @@ public class Server {
 				try {
 					action = (NetworkAction) inputFromClient.readObject();
 				} catch (IOException | ClassNotFoundException e) {
-					//just catch
 				}
 				if (action != null) actionQueue.add(action);
 			}

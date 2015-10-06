@@ -14,10 +14,9 @@ import java.awt.event.MouseListener;
 public abstract class Menu extends DrawingComponent implements MouseListener {
 
 	// Menu alignment and sizing
-	private final int MENU_SIZE, MENU_LEFT_PADDING, MENU_TOP_PADDING,
-			MENU_BUTTON_HEIGHT;
+	private final int MENU_SIZE, MENU_LEFT_PADDING, MENU_TOP_PADDING, MENU_BUTTON_HEIGHT;
 
-	private final String[] buttons;
+	private String[] buttons;
 
 	private final int ITEM_SPACING;
 	// Displayed at top of menu
@@ -34,6 +33,10 @@ public abstract class Menu extends DrawingComponent implements MouseListener {
 		MENU_TOP_PADDING = p.height / 2 - MENU_SIZE / 2;
 		MENU_BUTTON_HEIGHT = 50;
 		ITEM_SPACING = 20;
+	}
+	
+	protected void updateButtons(String[] buttons){
+		this.buttons = buttons;
 	}
 
 	protected void updateTitle(String title) {
@@ -63,15 +66,12 @@ public abstract class Menu extends DrawingComponent implements MouseListener {
 			p.fill(255, 255, 255, 100);
 
 			// Draw the button background
-			p.rect(0, (MENU_BUTTON_HEIGHT + ITEM_SPACING) * (i + 1), MENU_SIZE,
-					MENU_BUTTON_HEIGHT);
+			p.rect(0, (MENU_BUTTON_HEIGHT + ITEM_SPACING) * (i + 1), MENU_SIZE, MENU_BUTTON_HEIGHT);
 
 			p.fill(0, 0, 0, 100);
 
 			// Draw the button text
-			p.text(buttons[i], 0,
-					(MENU_BUTTON_HEIGHT + ITEM_SPACING) * (i + 1), MENU_SIZE,
-					MENU_BUTTON_HEIGHT);
+			p.text(buttons[i], 0, (MENU_BUTTON_HEIGHT + ITEM_SPACING) * (i + 1), MENU_SIZE, MENU_BUTTON_HEIGHT);
 		}
 
 		p.popMatrix();
@@ -88,13 +88,15 @@ public abstract class Menu extends DrawingComponent implements MouseListener {
 	 * @return
 	 */
 	protected boolean onMenu(int x, int y) {
-		return x > MENU_LEFT_PADDING && x < MENU_LEFT_PADDING + MENU_SIZE
-				&& y > MENU_TOP_PADDING && y < MENU_TOP_PADDING + MENU_SIZE;
+		return x > MENU_LEFT_PADDING && x < MENU_LEFT_PADDING + MENU_SIZE && y > MENU_TOP_PADDING
+				&& y < MENU_TOP_PADDING + MENU_SIZE;
 	}
 
 	/**
-	 * Returns the title of the clicked button,
-	 * or null if the click was not on a valid button.
+	 * Returns the title of the clicked button, or null if the click was not on
+	 * a valid button. If you need the index of a button, use
+	 * getIndexClicked(x,y) instead.
+	 * 
 	 * @param x
 	 * @param y
 	 * @return
@@ -117,6 +119,35 @@ public abstract class Menu extends DrawingComponent implements MouseListener {
 		}
 
 		return buttons[index];
+	}
+
+	/**
+	 * Returns the index of the button clicked, or -1 if it was an invalid
+	 * click. If you need the Text from a button, use getButtonClicked(x,y)
+	 * instead.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	protected int getIndexClicked(int x, int y) {
+		// Size of each button
+		int height = MENU_BUTTON_HEIGHT + ITEM_SPACING;
+		// Where the player clicked
+		int clickedY = y - MENU_TOP_PADDING;
+
+		// The index of the button in our array
+		int index = clickedY / height;
+
+		// The top index is not a button just the title, so skip it
+		index--;
+
+		// Bound check
+		if (index < 0 || index >= buttons.length) {
+			return -1;
+		}
+
+		return index;
 	}
 
 }

@@ -42,7 +42,6 @@ public class ItemMenu extends Menu {
 			if (button != null) {
 				switch (button) {
 				case "Drop item":
-					System.out.println("Dropping");
 					p.dropItem(item.entityID);
 					item = null;
 					break;
