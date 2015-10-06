@@ -19,12 +19,12 @@ public class Perspective3D extends DrawingComponent {
 
 	// 3D world
 	private final WorldModel WORLD;
-	private final int SQUARE_SIZE = 500;
+	private final int SQUARE_SIZE = 1000;
 	private final float MODEL_SCALE = SQUARE_SIZE / 2.5f;
 	private final OBJModel SKYBOX;
 
 	// camera fields
-	private final int PLAYER_VIEW_HEIGHT = -100;
+	private final int PLAYER_VIEW_HEIGHT = -200;
 	private PVector cameraEye;
 	private PVector actualCameraEye;
 	private PVector targetCameraEye;
@@ -59,9 +59,10 @@ public class Perspective3D extends DrawingComponent {
 		targetCameraEye = new PVector(0, PLAYER_VIEW_HEIGHT, 0);
 
 		// camera center setup (rotation / orientaiton)
-		cameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2) - 100, 0);
-		targetCameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2) - 100,
-				0);
+		cameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2)
+				+ PLAYER_VIEW_HEIGHT, 0);
+		targetCameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2)
+				+ PLAYER_VIEW_HEIGHT, 0);
 		targetRotationAngle = 0;
 		animPercent = 1;
 		animating = false;
@@ -69,7 +70,7 @@ public class Perspective3D extends DrawingComponent {
 		// camera perspective setup
 		float cameraZ = ((p.height / 2.0f) / PApplet
 				.tan(PApplet.PI * 60f / 360.0f));
-		FOV = PApplet.PI / 2.0f;
+		FOV = PApplet.PI / 2.5f;
 		ASPECT_RATIO = (int) p.width / p.height;
 		NEAR_CULLING_DISTANCE = cameraZ / 10.0f;
 		FAR_CULLING_DISTANCE = cameraZ * 10000.0f;
