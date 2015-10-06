@@ -200,7 +200,7 @@ public class ServerMain extends JFrame {
 				load.setEnabled(true);
 
 				//Stop the game
-				//server.stop();
+				server.stop();
 
 				//Ask if you want to save the server
 				int save = JOptionPane.showConfirmDialog(
@@ -303,7 +303,7 @@ public class ServerMain extends JFrame {
 
 		//Configure the text area to get the input from stdout
 		PrintStream printStream = new PrintStream(new ConsoleOutput(console));
-		System.setOut(printStream);
+		//System.setOut(printStream);
 
 
 		// Not directly editable by user

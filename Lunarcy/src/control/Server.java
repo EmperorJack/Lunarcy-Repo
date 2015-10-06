@@ -32,7 +32,7 @@ public class Server {
 	private boolean running = true;
 
 
-	public Server(int maxClients, int updateFreq,GameState gameState) {
+	public Server(int maxClients, int updateFreq, GameState gameState) {
 		this.maxClients = gameState.getPlayers().length;
 		this.updateFreq = updateFreq;
 
@@ -44,11 +44,6 @@ public class Server {
 		}
 
 		gameLogic = new GameLogic(gameState);
-
-		//sleep(500);
-
-		//transmitState();
-		//run(); // send to all clients
 	}
 
 	public Server(int maxClients, int updateFreq) {
@@ -67,25 +62,22 @@ public class Server {
 		for (ClientConnection client : clientList) {
 			gameState.addPlayer(client.clientID, client.username,Color.RED);
 		}
-
 		gameLogic = new GameLogic(gameState);
-
-		//interpreter = new Interpreter(gameLogic); // TODO initialise interpreter
-
-		//sleep(500);
-
-		//transmitState();
-		//run(); // send to all clients
 	}
 
 	/**
 	 * Blocking method to gracefully shutdown server
 	 */
 	public void stop() {
+		for (ClientConnection client : clientList) {
+			client.stop(); //stop every client connection
+			System.out.println("stopped "+client.username);
+		}
 		System.out.println("Stopping server");
-		running = false;
+		running = false; //stop main server
+		
 		while(clientList.size()>0){
-			sleep(100);
+			sleep(50);
 		}
 	}
 	/**
@@ -120,6 +112,7 @@ public class Server {
 
 			ClientConnection client = new ClientConnection(s, clientID);
 			clientList.add(client);
+			client.listenToClient();
 		}
 
 	}
@@ -131,17 +124,17 @@ public class Server {
 		transmitState(); // transmit initially
 		System.out.println("Server running fully");
 		long lastUpdate = System.currentTimeMillis();
-		while (clientList.size() > 0 && running) {
+		//while (clientList.size() > 0 && running) {
+		while (running) {
 			if (System.currentTimeMillis() > lastUpdate + updateFreq) {
-				// gameLogic.tick()
+				//game.tick();
+				System.out.println("tranmitting state");
 				transmitState();
 				lastUpdate = System.currentTimeMillis();
 			} else processAction();
 		}
 		System.out.println("Server shutting down");
-		for (ClientConnection client : clientList) {
-			client.stop();
-		}
+		
 		try {
 			serverSocket.close();
 		} catch (IOException e) {
@@ -201,18 +194,12 @@ public class Server {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-			System.out.println("Server: new Client: " + username + " "
-					+ clientID);
+			System.out.println("Server: new Client: " + username + " " + clientID);
 			sendID(clientID);
-
 			System.out.println("wrote id to client" + clientID);
 
 			// Begin listening to this client
-			new Thread(new Runnable() {
-				public void run() {
-					listenToClient();
-				}
-			}).start();
+			
 		}
 
 
@@ -232,16 +219,20 @@ public class Server {
 		 * Listen to client and add any NetworkActions to the action queue to be processed
 		 */
 		public void listenToClient() {
-			while (clientRunning) {
-				NetworkAction action = null;
-				try {
-					action = (NetworkAction) inputFromClient.readObject();
-				} catch (IOException | ClassNotFoundException e) {
-					//just catch
+			new Thread(new Runnable() {
+				public void run() {
+					while (clientRunning) {
+						NetworkAction action = null;
+						try {
+							action = (NetworkAction) inputFromClient.readObject();
+						} catch (IOException | ClassNotFoundException e) {
+							//just catch
+						}
+						if (action != null) actionQueue.add(action);
+					}
+					disconnect(); //when not running, disconnect
 				}
-				if (action != null) actionQueue.add(action);
-			}
-			disconnect();
+			}).start();
 		}
 
 		/**

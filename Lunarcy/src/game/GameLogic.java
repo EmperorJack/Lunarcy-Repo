@@ -80,6 +80,7 @@ public class GameLogic {
 	 *         itemID)
 	 */
 	public boolean pickUpItem(int playerID, int itemID) {
+
 		Player player = state.getPlayer(playerID);
 		if (player == null || itemID < 0)
 			return false;
@@ -87,7 +88,7 @@ public class GameLogic {
 
 		// Otherwise cannot contain players/items
 		// Shouldn't need to check as it's from Player location, but to be safe
-		if (square instanceof WalkableSquare) {
+		if (square instanceof WalkableSquare) {	
 			WalkableSquare wSquare = (WalkableSquare) square;
 
 			// Check all Items/Containers in the square to find the matching
