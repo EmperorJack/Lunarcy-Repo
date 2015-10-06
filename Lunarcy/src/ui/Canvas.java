@@ -9,7 +9,6 @@ import control.DropAction;
 import control.MoveAction;
 import control.OrientAction;
 import ddf.minim.*;
-import game.Direction;
 import game.GameState;
 import game.Player;
 import processing.core.*;
@@ -236,7 +235,7 @@ public class Canvas extends PApplet implements KeyListener {
 		}
 	}
 
-	public void dropItem(int itemID){
+	public void dropItem(int itemID) {
 		client.sendAction(new DropAction(playerID, itemID));
 	}
 

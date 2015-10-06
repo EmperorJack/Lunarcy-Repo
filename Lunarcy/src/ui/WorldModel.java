@@ -26,11 +26,12 @@ public class WorldModel {
 	private PApplet p;
 
 	// modular assets that make up 3D geometry
-	private OBJModel floorObj;
-	private OBJModel northWallObj;
-	private OBJModel eastWallObj;
-	private OBJModel southWallObj;
-	private OBJModel westWallObj;
+	private final OBJModel floorInsideObj;
+	private final OBJModel ceilingObj;
+	private final OBJModel northWallInsideObj;
+	private final OBJModel eastWallInsideObj;
+	private final OBJModel southWallInsideObj;
+	private final OBJModel westWallInsideObj;
 
 	// lists of all distinct models that make up world 3D geometry
 	private ArrayList<OBJWrapper> floor;
@@ -70,11 +71,12 @@ public class WorldModel {
 		OBJTransform transformer = new OBJTransform(p);
 
 		// setup the object model modular assets
-		floorObj = setupObjectModel("floor", transformer);
-		northWallObj = setupObjectModel("wall_north", transformer);
-		eastWallObj = setupObjectModel("wall_east", transformer);
-		southWallObj = setupObjectModel("wall_south", transformer);
-		westWallObj = setupObjectModel("wall_west", transformer);
+		floorInsideObj = setupObjectModel("floor_inside", transformer);
+		ceilingObj = setupObjectModel("ceiling", transformer);
+		northWallInsideObj = setupObjectModel("wall_inside_north", transformer);
+		eastWallInsideObj = setupObjectModel("wall_inside_east", transformer);
+		southWallInsideObj = setupObjectModel("wall_inside_south", transformer);
+		westWallInsideObj = setupObjectModel("wall_inside_west", transformer);
 
 		// initialize distinct model lists
 		floor = new ArrayList<OBJWrapper>();
@@ -95,42 +97,42 @@ public class WorldModel {
 					WalkableSquare ws = (WalkableSquare) s;
 
 					// create a floor model
-					floor.add(new OBJWrapper(floorObj, SQUARE_SIZE * x, 0,
-							SQUARE_SIZE * y));
+					floor.add(new OBJWrapper(floorInsideObj, SQUARE_SIZE * x,
+							0, SQUARE_SIZE * y));
 
 					// if the square is indoor
 					if (ws.isInside()) {
 						// create a ceiling model
-						ceiling.add(new OBJWrapper(floorObj, SQUARE_SIZE * x,
+						ceiling.add(new OBJWrapper(ceilingObj, SQUARE_SIZE * x,
 								0, SQUARE_SIZE * y));
 					}
 
 					// if the square has a north wall
 					if (ws.getWalls().get(Direction.NORTH) instanceof SolidWall) {
 						// create a north wall model
-						northWalls.add(new OBJWrapper(northWallObj, SQUARE_SIZE
-								* x, 0, SQUARE_SIZE * y));
+						northWalls.add(new OBJWrapper(northWallInsideObj,
+								SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 					}
 
 					// if the square has an east wall
 					if (ws.getWalls().get(Direction.EAST) instanceof SolidWall) {
 						// create a east wall model
-						eastWalls.add(new OBJWrapper(eastWallObj, SQUARE_SIZE
-								* x, 0, SQUARE_SIZE * y));
+						eastWalls.add(new OBJWrapper(eastWallInsideObj,
+								SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 					}
 
 					// if the square has a south wall
 					if (ws.getWalls().get(Direction.SOUTH) instanceof SolidWall) {
 						// create a a south
-						southWalls.add(new OBJWrapper(southWallObj, SQUARE_SIZE
-								* x, 0, SQUARE_SIZE * y));
+						southWalls.add(new OBJWrapper(southWallInsideObj,
+								SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 					}
 
 					// if the square has a west wall
 					if (ws.getWalls().get(Direction.WEST) instanceof SolidWall) {
 						// create a west wall
-						westWalls.add(new OBJWrapper(westWallObj, SQUARE_SIZE
-								* x, 0, SQUARE_SIZE * y));
+						westWalls.add(new OBJWrapper(westWallInsideObj,
+								SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 					}
 				}
 			}
@@ -178,10 +180,9 @@ public class WorldModel {
 
 		// draw the ceiling
 		p.pushMatrix();
-		p.translate(0, -SQUARE_SIZE, 0);
 
 		for (OBJWrapper o : ceiling) {
-			//o.draw();
+			o.draw();
 		}
 		p.popMatrix();
 

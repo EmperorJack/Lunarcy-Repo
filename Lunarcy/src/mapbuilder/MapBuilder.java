@@ -35,6 +35,7 @@ import game.*;
 public class MapBuilder {
 	public Square[][] map;
 
+	boolean insideTiles = false;
 	private Location selected = null;
 	private Set<Location> selectedTiles;
 	private boolean dragging = false;
@@ -68,18 +69,38 @@ public class MapBuilder {
 		}
 	}
 
-	public void toggleWalkable() {
+	public void setWalkable() {
 		Iterator<Location> tileIterator = selectedTiles.iterator();
 		while (tileIterator.hasNext()) {
 			Location currentLoc = tileIterator.next();
-			if (map[currentLoc.getY()][currentLoc.getX()] instanceof BlankSquare) {
+			if (insideTiles) {
 				map[currentLoc.getY()][currentLoc.getX()] = new WalkableSquare(
 						"Empty", "Empty", true, null, null, null, null);
 			} else {
-				map[currentLoc.getY()][currentLoc.getX()] = new BlankSquare();
+				map[currentLoc.getY()][currentLoc.getX()] = new WalkableSquare(
+						"Empty", "Empty", false, null, null, null, null);
 			}
 		}
+			selectedTiles.clear();
+	}
+
+	public void setBlank() {
+		Iterator<Location> tileIterator = selectedTiles.iterator();
+		while (tileIterator.hasNext()) {
+			Location currentLoc = tileIterator.next();
+			map[currentLoc.getY()][currentLoc.getX()] = new BlankSquare();
+		}
 		selectedTiles.clear();
+	}
+
+	public void insideTilesOn() {
+		insideTiles = true;
+
+	}
+
+	public void insideTilesOff() {
+		insideTiles = false;
+
 	}
 
 	public void getSelectedTiles() {
@@ -139,8 +160,7 @@ public class MapBuilder {
 			Square currentSquare = map[selected.getY()][selected.getX()];
 			currentSquare.removeWall(dir);
 			if (dir == Direction.NORTH && selected.getY() > 0) {
-				Square adjacentSquare = map[selected.getY() -
-				                            1][selected
+				Square adjacentSquare = map[selected.getY() - 1][selected
 						.getX()];
 				adjacentSquare.removeWall(Direction.SOUTH);
 			}
@@ -165,7 +185,11 @@ public class MapBuilder {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (map[i][j] instanceof WalkableSquare) {
-					g.setColor(Color.WHITE);
+					if (((WalkableSquare) map[i][j]).isInside()) {
+						g.setColor(Color.WHITE);
+					} else {
+						g.setColor(Color.GREEN);
+					}
 					g.fillRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
