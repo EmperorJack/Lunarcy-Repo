@@ -15,6 +15,7 @@ public abstract class Square implements Serializable {
 	protected Map<Direction, Wall> walls;
 
 	public abstract boolean canEnter(Player player, Direction direction);
+	public abstract boolean canExit(Player player, Direction direction);
 	public abstract boolean addPlayer(Player player);
 	public abstract void removePlayer(Player player);
 	public abstract void tick();

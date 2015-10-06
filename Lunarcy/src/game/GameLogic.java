@@ -34,11 +34,11 @@ public class GameLogic {
 		Player player = state.getPlayer(playerID);
 		if (player == null)
 			return false;
-		Square dest = state.getSquare(player.getLocation().getAdjacent(
-				direction));
 
-		if (dest != null && dest.canEnter(player, direction.opposite())) {
-			Square src = state.getSquare(player.getLocation());
+		Square src = state.getSquare(player.getLocation());
+		Square dest = state.getSquare(player.getLocation().getAdjacent(direction));
+
+		if(dest != null && src != null && src.canExit(player,direction) && dest.canEnter(player, direction.opposite())){
 			src.removePlayer(player);
 			dest.addPlayer(player);
 			player.move(direction);
@@ -204,10 +204,9 @@ public class GameLogic {
 			square.tick();
 		}
 
-		// Move all the rovers
-		for (Rover r : state.getRovers()) {
+		//Move all the rovers
+		for(Rover r: state.getRovers()){
 			r.tick();
-			System.out.println("Ticking");
 		}
 	}
 

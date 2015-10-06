@@ -71,20 +71,34 @@ public class WalkableSquare extends Square {
 
 	/**
 	 * Checks whether the specified player can enter the room *FROM* the
-	 * direction parameter
+	 * direction
 	 *
 	 * @param player
 	 *            The player that is attempting to enter
 	 * @param direction
 	 *            The direction the player is entering the room *FROM*
 	 * @return True if the player may enter, False otherwise
-	 * @throws IllegalArgumentException
-	 *             if either argument is null
 	 */
 	public boolean canEnter(Player player, Direction direction) {
 		if (player == null||direction == null)
 			return false;
-		return walls.get(direction).enter(player);
+		return walls.get(direction).pass(player);
+	}
+
+	/**
+	 * Checks whether the specified player can exit the room *IN* the
+	 * direction
+	 *
+	 * @param player
+	 *            The player that is attempting to enter
+	 * @param direction
+	 *            The direction the player is exiting the room *IN*
+	 * @return True if the player may exit, False otherwise
+	 */
+	public boolean canExit(Player player, Direction direction) {
+		if (player == null||direction == null)
+			return false;
+		return walls.get(direction).pass(player);
 	}
 
 	/**
@@ -143,6 +157,7 @@ public class WalkableSquare extends Square {
 			return false;
 
 		//Initialise the set if it hasnt been done yet
+		//This is required as the data loading does not use the constructor
 		if(entities.get(side) == null){
 			entities.put(side, new HashSet<Entity>());
 		}
@@ -168,6 +183,22 @@ public class WalkableSquare extends Square {
 			return item;
 		}
 		return null;
+	}
+
+	/**
+	 * Checks if there is a container in the Entity set in the specified direction
+	 * @param direction The direction to check
+	 * @return True if there is a Container, False otherwise
+	 */
+	public boolean hasContainer(Direction direction){
+		if(direction==null)
+			return false;
+		for(Entity e: getEntities(direction)){
+			if(e instanceof Container){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public String getName() {
