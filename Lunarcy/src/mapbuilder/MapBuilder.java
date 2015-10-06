@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
+
 import com.thoughtworks.xstream.XStream;
 
 import game.*;
@@ -36,6 +37,7 @@ public class MapBuilder {
 	public static final int GRID_TOP = 60;
 	public static final int GRID_SIZE = 30;
 	boolean addWalls = false;
+	boolean addDoors = false;
 
 
 	public MapBuilder() {
@@ -125,24 +127,24 @@ public class MapBuilder {
 		if (selected != null
 				&& map[selected.getY()][selected.getX()] instanceof WalkableSquare) {
 			Square currentSquare = map[selected.getY()][selected.getX()];
-			currentSquare.setWall(dir);
+			currentSquare.addWall(dir);
 			if (dir == Direction.NORTH && selected.getY() > 0) {
 				Square adjacentSquare = map[selected.getY() - 1][selected
 						.getX()];
-				adjacentSquare.setWall(Direction.SOUTH);
+				adjacentSquare.addWall(Direction.SOUTH);
 			}
 			if (dir == Direction.SOUTH && selected.getY() < map.length - 1) {
 				Square adjacentSquare = map[selected.getY() + 1][selected
 						.getX()];
-				adjacentSquare.setWall(Direction.NORTH);
+				adjacentSquare.addWall(Direction.NORTH);
 			}
 			if (dir == Direction.EAST && selected.getX() < map[0].length - 1) {
 				Square adjacentSquare = map[selected.getY()][selected.getX() + 1];
-				adjacentSquare.setWall(Direction.WEST);
+				adjacentSquare.addWall(Direction.WEST);
 			}
 			if (dir == Direction.WEST && selected.getX() > 0) {
 				Square adjacentSquare = map[selected.getY()][selected.getX() - 1];
-				adjacentSquare.setWall(Direction.EAST);
+				adjacentSquare.addWall(Direction.EAST);
 			}
 		}
 	}
@@ -169,6 +171,58 @@ public class MapBuilder {
 			if (dir == Direction.WEST && selected.getX() > 0) {
 				Square adjacentSquare = map[selected.getY()][selected.getX() - 1];
 				adjacentSquare.removeWall(Direction.EAST);
+			}
+		}
+	}
+
+	public void addDoor(Direction dir) {
+		if (selected != null
+				&& map[selected.getY()][selected.getX()] instanceof WalkableSquare) {
+			Square currentSquare = map[selected.getY()][selected.getX()];
+			currentSquare.addDoor(dir);
+			if (dir == Direction.NORTH && selected.getY() > 0) {
+				Square adjacentSquare = map[selected.getY() - 1][selected
+						.getX()];
+				adjacentSquare.addDoor(Direction.SOUTH);
+			}
+			if (dir == Direction.SOUTH && selected.getY() < map.length - 1) {
+				Square adjacentSquare = map[selected.getY() + 1][selected
+						.getX()];
+				adjacentSquare.addDoor(Direction.NORTH);
+			}
+			if (dir == Direction.EAST && selected.getX() < map[0].length - 1) {
+				Square adjacentSquare = map[selected.getY()][selected.getX() + 1];
+				adjacentSquare.addDoor(Direction.WEST);
+			}
+			if (dir == Direction.WEST && selected.getX() > 0) {
+				Square adjacentSquare = map[selected.getY()][selected.getX() - 1];
+				adjacentSquare.addDoor(Direction.EAST);
+			}
+		}
+	}
+
+	public void removeDoor(Direction dir) {
+		if (selected != null
+				&& map[selected.getY()][selected.getX()] instanceof WalkableSquare) {
+			Square currentSquare = map[selected.getY()][selected.getX()];
+			currentSquare.removeDoor(dir);
+			if (dir == Direction.NORTH && selected.getY() > 0) {
+				Square adjacentSquare = map[selected.getY() - 1][selected
+						.getX()];
+				adjacentSquare.removeDoor(Direction.SOUTH);
+			}
+			if (dir == Direction.SOUTH && selected.getY() < map.length - 1) {
+				Square adjacentSquare = map[selected.getY() + 1][selected
+						.getX()];
+				adjacentSquare.removeDoor(Direction.NORTH);
+			}
+			if (dir == Direction.EAST && selected.getX() < map[0].length - 1) {
+				Square adjacentSquare = map[selected.getY()][selected.getX() + 1];
+				adjacentSquare.removeDoor(Direction.WEST);
+			}
+			if (dir == Direction.WEST && selected.getX() > 0) {
+				Square adjacentSquare = map[selected.getY()][selected.getX() - 1];
+				adjacentSquare.removeDoor(Direction.EAST);
 			}
 		}
 	}
@@ -257,6 +311,21 @@ public class MapBuilder {
 		if (walls.get(Direction.WEST) instanceof SolidWall) {
 			g.fillRect(x, y, 3, GRID_SIZE);
 		}
+		g.setColor(Color.ORANGE.darker());
+		if (walls.get(Direction.NORTH) instanceof Door) {
+			g.fillRect(x, y, GRID_SIZE, 3);
+		}
+		if (walls.get(Direction.EAST) instanceof Door) {
+			g.fillRect(x + GRID_SIZE - 3, y, 3, GRID_SIZE);
+		}
+		if (walls.get(Direction.SOUTH) instanceof Door) {
+			g.fillRect(x, y + GRID_SIZE - 3, GRID_SIZE, 3);
+		}
+		if (walls.get(Direction.WEST) instanceof Door) {
+			g.fillRect(x, y, 3, GRID_SIZE);
+		}
+		g.setColor(Color.black);
+
 	}
 
 	public void doSelect(int startX, int startY, int x, int y) {
@@ -274,7 +343,19 @@ public class MapBuilder {
 		}
 	}
 
+	public void setDoor(Direction dir) {
+		if (addDoors) {
+			addDoor(dir);
+		} else {
+			removeDoor(dir);
+		}
+	}
+
 	public void toggleWalls() {
 		addWalls = !addWalls;
+	}
+
+	public void toggleDoors() {
+		addDoors = !addDoors;
 	}
 }

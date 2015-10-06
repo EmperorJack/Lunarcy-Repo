@@ -30,13 +30,21 @@ public abstract class Square implements Serializable {
 	 * @param dir
 	 * @author Kelly
 	 */
-	public void setWall(Direction dir) {
+	public void addWall(Direction dir) {
 		walls.put(dir, new SolidWall());
 	}
 
 	public void removeWall(Direction dir) {
 		walls.put(dir, new EmptyWall());
 	}
+	public void addDoor(Direction dir) {
+		walls.put(dir, new Door());
+	}
+
+	public void removeDoor(Direction dir) {
+		walls.put(dir, new Door());
+	}
+
 
 	public Map<Direction, Wall> getWalls() {
 		return walls;
