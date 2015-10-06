@@ -13,7 +13,7 @@ import saito.objtools.*;
 
 /**
  * Represents the 3D model for the game. The geometry is generated based on the
- * game state board with modular 3D components. A list holds all the distinct 3D
+ * game state board with modular 3D components. Lists holds all the distinct 3D
  * models where each have unique transformations required to be drawn correctly,
  * depending on the map layout.
  *
@@ -24,22 +24,6 @@ public class WorldModel {
 
 	// the parent processing canvas
 	private PApplet p;
-
-	// modular assets that make up 3D geometry
-	// private final OBJModel floorInsideObj;
-	// private final OBJModel ceilingObj;
-	// private final OBJModel northWallInsideObj;
-	// private final OBJModel eastWallInsideObj;
-	// private final OBJModel southWallInsideObj;
-	// private final OBJModel westWallInsideObj;
-
-	// lists of all distinct models that make up world 3D geometry
-	// private ArrayList<OBJWrapper> floor;
-	// private ArrayList<OBJWrapper> ceiling;
-	// private ArrayList<OBJWrapper> northWalls;
-	// private ArrayList<OBJWrapper> eastWalls;
-	// private ArrayList<OBJWrapper> southWalls;
-	// private ArrayList<OBJWrapper> westWalls;
 
 	// lists of all distinct models that make up world 3D geometry
 	private ArrayList<OBJWrapper> insideWorld;
@@ -83,14 +67,14 @@ public class WorldModel {
 		// setup the outside object model modular assets
 		OBJModel floorOutsideObj = setupObjectModel("floor_outside",
 				transformer, MODEL_SCALE);
-
-		// initialize distinct model lists
-		// floor = new ArrayList<OBJWrapper>();
-		// ceiling = new ArrayList<OBJWrapper>();
-		// northWalls = new ArrayList<OBJWrapper>();
-		// eastWalls = new ArrayList<OBJWrapper>();
-		// southWalls = new ArrayList<OBJWrapper>();
-		// westWalls = new ArrayList<OBJWrapper>();
+		OBJModel northWallOutsideObj = setupObjectModel("wall_outside_north",
+				transformer, MODEL_SCALE);
+		OBJModel eastWallOutsideObj = setupObjectModel("wall_outside_east",
+				transformer, MODEL_SCALE);
+		OBJModel southWallOutsideObj = setupObjectModel("wall_outside_south",
+				transformer, MODEL_SCALE);
+		OBJModel westWallOutsideObj = setupObjectModel("wall_outside_west",
+				transformer, MODEL_SCALE);
 
 		// initialize distinct model list
 		insideWorld = new ArrayList<OBJWrapper>();
@@ -131,8 +115,9 @@ public class WorldModel {
 									SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 						} else {
 							// create a north outdoor wall model
-							outsideWorld.add(new OBJWrapper(northWallInsideObj,
-									SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
+							outsideWorld.add(new OBJWrapper(
+									northWallOutsideObj, SQUARE_SIZE * x, 0,
+									SQUARE_SIZE * y));
 						}
 					}
 
@@ -146,7 +131,7 @@ public class WorldModel {
 									SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 						} else {
 							// create a east outdoor wall model
-							outsideWorld.add(new OBJWrapper(eastWallInsideObj,
+							outsideWorld.add(new OBJWrapper(eastWallOutsideObj,
 									SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 						}
 					}
@@ -161,8 +146,9 @@ public class WorldModel {
 									SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 						} else {
 							// create a south outdoor wall model
-							outsideWorld.add(new OBJWrapper(southWallInsideObj,
-									SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
+							outsideWorld.add(new OBJWrapper(
+									southWallOutsideObj, SQUARE_SIZE * x, 0,
+									SQUARE_SIZE * y));
 						}
 					}
 
@@ -176,7 +162,7 @@ public class WorldModel {
 									SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 						} else {
 							// create a west outdoor wall model
-							outsideWorld.add(new OBJWrapper(westWallInsideObj,
+							outsideWorld.add(new OBJWrapper(westWallOutsideObj,
 									SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 						}
 					}
