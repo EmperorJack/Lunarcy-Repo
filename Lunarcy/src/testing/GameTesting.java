@@ -31,7 +31,7 @@ public class GameTesting {
 		for(int i = 0; i < numPlayers; i++){
 			state.addPlayer(i, "Player"+i, Color.black);
 		}
-		
+
 		return new GameLogic(state);
 	}
 

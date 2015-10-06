@@ -115,9 +115,9 @@ public class ServerMain extends JFrame {
 		c.gridwidth = 2;
 		add(label, c);
 
-		refreshRate = new JSlider(0, 1000);
-		refreshRate.setMajorTickSpacing(250);
-		refreshRate.setMinorTickSpacing(25);
+		refreshRate = new JSlider(0, 250);
+		refreshRate.setMajorTickSpacing(50);
+		refreshRate.setMinorTickSpacing(10);
 		refreshRate.setPaintTicks(true);
 		refreshRate.setPaintLabels(true);
 

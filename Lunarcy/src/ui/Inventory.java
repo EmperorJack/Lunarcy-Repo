@@ -98,12 +98,13 @@ public class Inventory extends DrawingComponent implements MouseListener {
 
 		p.fill(0, 0, 0, 100);
 		p.rect(0, 0, MENU_SIZE, MENU_SIZE);
+		p.fill(255,255,255,100);
 		p.text(chosenItem.toString(), 0, 0, MENU_SIZE, MENU_BUTTON_HEIGHT);
 
 		p.rect(0, MENU_BUTTON_HEIGHT + ITEM_SPACING, MENU_SIZE,
 				MENU_BUTTON_HEIGHT);
 
-		p.fill(255, 255, 255, 100);
+		p.fill(0, 0, 0, 100);
 		p.text("Drop item", 0, MENU_BUTTON_HEIGHT + ITEM_SPACING, MENU_SIZE,
 				MENU_BUTTON_HEIGHT);
 

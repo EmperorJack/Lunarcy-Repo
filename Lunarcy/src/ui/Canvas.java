@@ -109,8 +109,8 @@ public class Canvas extends PApplet implements KeyListener {
 
 		// get the HUD components
 		hud = new ArrayList<DrawingComponent>();
-		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.OXYGEN));
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORY));
 
 		// audio setup

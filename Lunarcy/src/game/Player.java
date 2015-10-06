@@ -39,9 +39,6 @@ public class Player implements Serializable {
 			throw new IllegalArgumentException(
 					"Parameter 'direction' may not be null");
 		location = location.getAdjacent(direction);
-
-		// ADDED FOR TESTING
-		modifyOxygen(-5);
 	}
 
 	public void modifyOxygen(int amount) {
@@ -74,7 +71,7 @@ public class Player implements Serializable {
 	/**
 	 * Searches the players inventory to find a matching item and then removes
 	 * it
-	 * 
+	 *
 	 * @param itemID
 	 *            The enitiyID of the item being removed
 	 * @return The Item that was removed, null if no match was found
