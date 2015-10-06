@@ -57,6 +57,7 @@ public class WalkableSquare extends Square {
 			west = new EmptyWall();
 		}
 		walls.put(Direction.WEST, west);
+
 	}
 
 	/**

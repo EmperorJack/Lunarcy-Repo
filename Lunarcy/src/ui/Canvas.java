@@ -2,6 +2,8 @@ package ui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import control.Client;
@@ -9,8 +11,13 @@ import control.DropAction;
 import control.MoveAction;
 import control.OrientAction;
 import ddf.minim.*;
+import game.Direction;
+import game.Entity;
 import game.GameState;
+import game.Key;
 import game.Player;
+import game.Square;
+import game.WalkableSquare;
 import processing.core.*;
 
 /**
@@ -22,8 +29,9 @@ import processing.core.*;
  * @author Jack
  *
  */
+
 @SuppressWarnings("serial")
-public class Canvas extends PApplet implements KeyListener {
+public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 	// canvas dimensional fields
 	private final int maxWidth;
@@ -48,6 +56,7 @@ public class Canvas extends PApplet implements KeyListener {
 	// drawing components
 	private DrawingComponent perspective;
 	private ArrayList<DrawingComponent> hud;
+	private SquareMenu menu;
 
 	// player input fields
 	private long keyTimer;
@@ -204,6 +213,11 @@ public class Canvas extends PApplet implements KeyListener {
 		rect(0, maxHeight, maxWidth, 10 * maxHeight); // bottom
 		rect(0, 0, -10 * maxWidth, maxHeight); // left
 		rect(maxWidth, 0, 10 * maxWidth, maxHeight); // right
+
+		//Draw our menu
+		if(menu!=null){
+			menu.draw(gameState, delta);
+		}
 	}
 
 	/**
@@ -237,6 +251,39 @@ public class Canvas extends PApplet implements KeyListener {
 
 	public void dropItem(int itemID) {
 		client.sendAction(new DropAction(playerID, itemID));
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		//Hide the menu
+		if(menu!=null){
+			menu = null;
+			return;
+		}
+
+		makeMenu();
+
+	}
+
+	private void makeMenu(){
+		//Find all the items in front of Player
+		Player player = gameState.getPlayer(playerID);
+		WalkableSquare square = (WalkableSquare) gameState.getSquare( player.getLocation());
+		Direction dir = player.getOrientation();
+
+		//TESTCODE
+		square.addEntity(Direction.NORTH, new Key(1, 1));
+		square.addEntity(Direction.NORTH, new Key(2, 2));
+		square.addEntity(Direction.NORTH, new Key(3, 3));
+
+		//Make the buttons based on which entities there are
+		String[] buttons = new String[square.getEntities(dir).size()];
+		int i=0;
+		for(Entity entity : square.getEntities(dir)){
+			buttons[i] = entity.getImageName();
+			i++;
+		}
+		menu = new SquareMenu(this, gameState, playerID, buttons);
 	}
 
 	@Override
