@@ -8,7 +8,7 @@ package game;
  */
 public class EmptyWall implements Wall {
 	@Override
-	public boolean enter(Player player) {
+	public boolean pass(Player player) {
 		return true;
 	}
 }

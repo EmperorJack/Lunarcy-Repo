@@ -11,16 +11,16 @@ import java.util.Set;
  */
 public abstract class Container extends Entity {
 	Set<Item> items;
-	
-	public Container(int entityID, String imageName) {
-		super(entityID, imageName);
+
+	public Container(int entityID) {
+		super(entityID);
 		items = new HashSet<Item>();
 	}
-	
+
 	public boolean addItem(Item item){
 		return items.add(item);
 	}
-	
+
 	public boolean hasItem(int itemID){
 		for(Item item: items){
 			if(item.entityID==itemID){
@@ -29,7 +29,7 @@ public abstract class Container extends Entity {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Finds the item with specified ID and removes it from the container
 	 * @param itemID The ID number of the wanted item
@@ -53,14 +53,14 @@ public abstract class Container extends Entity {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Checks if a player is allowed to access the Container
-	 * @param player 
+	 * @param player
 	 * @return True if player can access, False otherwise
 	 */
 	protected abstract boolean canAccess(Player player);
-	
+
 	/**
 	 * Returns the set of all items inside this container.
 	 * Note: Modifying the returned set will not change the set inside the container,

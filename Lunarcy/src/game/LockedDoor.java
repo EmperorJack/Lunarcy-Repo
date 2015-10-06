@@ -6,7 +6,7 @@ public class LockedDoor implements Wall {
 		this.key = key;
 	}
 	@Override
-	public boolean enter(Player player) {
+	public boolean pass(Player player) {
 		return player.getInventory().contains(key);
 	}
 }
