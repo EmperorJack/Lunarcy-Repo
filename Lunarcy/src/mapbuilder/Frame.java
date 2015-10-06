@@ -7,9 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -24,7 +27,7 @@ import javax.swing.JPanel;
  *
  */
 @SuppressWarnings("serial")
-public class Frame extends JFrame implements ActionListener {
+public class Frame extends JFrame implements ActionListener{
 	Canvas canvas;
 	MapBuilder mapBuilder;
 
@@ -48,25 +51,40 @@ public class Frame extends JFrame implements ActionListener {
 		});
 
 		mapBuilder = new MapBuilder();
-		
+
 		JMenuBar menuBar;
-		JMenu menu, submenu;
+		JMenu optionMenu, submenu, toggleMenu;
 		menuBar = new JMenuBar();
-		menu = new JMenu("Options");
-		menuBar.add(menu);
+		optionMenu = new JMenu("Options");
+		toggleMenu = new JMenu("Toggles");
+		menuBar.add(optionMenu);
+		menuBar.add(toggleMenu);
 		JMenuItem saveMenuItem = new JMenuItem("Save");
 		JMenuItem loadMenuItem = new JMenuItem("Load");
-		menu.add(saveMenuItem);
-		menu.add(loadMenuItem);
+		JCheckBoxMenuItem insideToggle = new JCheckBoxMenuItem("Inside Tiles");
+		optionMenu.add(saveMenuItem);
+		optionMenu.add(loadMenuItem);
+		toggleMenu.add(insideToggle);
 		saveMenuItem.addActionListener(this);
 		loadMenuItem.addActionListener(this);
+		insideToggle.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					mapBuilder.insideTilesOn();
+				} else {
+					mapBuilder.insideTilesOff();
+				}
+
+			}
+		});
 		final JPanel panel = new JPanel(new BorderLayout());
 		canvas = new Canvas(mapBuilder);
 		canvas.setFocusable(true);
 		panel.add(canvas, BorderLayout.CENTER);
 		setJMenuBar(menuBar);
 		add(panel);
-		
+
 		setResizable(false);
 		setVisible(true);
 

@@ -98,7 +98,7 @@ public class MapBuilderController implements MouseListener,
 				builder.load();
 		}
 		if (e.getKeyChar() == 'm') {
-			builder.toggleWalkable();
+			builder.setWalkable();
 		}
 		if (e.getKeyChar() == 'g') {
 			addWalls = !addWalls;
