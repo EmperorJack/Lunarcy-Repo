@@ -1,16 +1,12 @@
 package control;
 
-import game.Direction;
 import game.GameState;
 import ui.Frame;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Scanner;
 
 
 

@@ -338,7 +338,8 @@ public class ServerMain extends JFrame {
 		@Override
 		public void write(int i) throws IOException {
 			console.append(Character.toString ((char) i));
-
+			//Scroll down to bottom
+			console.setCaretPosition(console.getDocument().getLength());
 		}
 
 	}

@@ -10,9 +10,6 @@ import java.util.Set;
 
 import bots.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.thoughtworks.xstream.XStream;
 
 /**
@@ -24,7 +21,7 @@ import com.thoughtworks.xstream.XStream;
  *
  */
 
-public class GameState implements Serializable{
+public class GameState implements Serializable {
 	//board[Y][X]
 	private Square[][] board;
 	private Location spawn;
@@ -35,6 +32,7 @@ public class GameState implements Serializable{
 		loadMap();
 		rovers = new HashSet<Rover>();
 		players = new Player[numPlayers];
+		rovers.add(new Rover(this, new RoamMovement()));
 	}
 
 
@@ -103,6 +101,7 @@ public class GameState implements Serializable{
 		}
 	}
 
+
 	/**
 	 * Creates a new player object and stores them in the game
 	 * @param playerID The ID of the player
@@ -148,11 +147,12 @@ public class GameState implements Serializable{
 	public Player[] getPlayers() {
 		return Arrays.copyOf(players, players.length);
 	}
-	
+
 	public Set<Rover> getRovers() {
 		return new HashSet<Rover>(rovers);
 	}
-	
+
+
 	/**
 	 * Returns the largest possible Location on the board.
 	 * Assumes the board is Square.

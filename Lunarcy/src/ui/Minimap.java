@@ -2,7 +2,6 @@ package ui;
 
 import java.util.Map;
 
-import game.BlankSquare;
 import game.Direction;
 import game.EmptyWall;
 import game.GameState;
@@ -28,7 +27,7 @@ public class Minimap extends DrawingComponent {
 	private final int TOP_PADDING = 25;
 
 	// Sizing for the minimap
-	private final float MINIMAP_SIZE = 300;
+	private final float MINIMAP_SIZE = 200;
 
 	// Images to preload
 	private final PImage OUTDOOR_GROUND;

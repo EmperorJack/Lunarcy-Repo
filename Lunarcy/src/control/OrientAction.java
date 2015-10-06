@@ -1,6 +1,5 @@
 package control;
 
-import game.Direction;
 import game.GameLogic;
 
 import java.io.Serializable;
