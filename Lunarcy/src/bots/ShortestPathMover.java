@@ -1,5 +1,6 @@
 package bots;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import game.Direction;
 import game.Location;
 import game.Square;
 
@@ -14,28 +16,49 @@ import game.Square;
  * A special instance of MoveStrategy, where the movement is defined by
  * following the shortest path to a given destination. You should extend
  * this class directly if the movement relies on following a path.
- * 
+ *
  * @author b
  *
  */
-abstract class ShortestPathMover implements MoveStrategy {
+abstract class ShortestPathMover implements MoveStrategy, Serializable {
 
 	/**
 	 * Returns true if path is outdated and needs to be updated, false
 	 * otherwise.
-	 * 
+	 *
 	 * @param path
 	 * @return
 	 */
 	protected abstract boolean mustUpdate(List<Location> path);
 
 	private List<Location> getNeighbours(Square[][] board, Location loc) {
-		return null;
+		List<Location> neighbours = new ArrayList<Location>();
+
+		//NOT CURRENTLY CORRECTT AS IT CAN MOVE THROUGH WALLS
+		for(Direction direction: game.Direction.values()){
+			if(validSquare(board, loc.getAdjacent(direction))){
+				neighbours.add(loc.getAdjacent(direction));
+			}
+		}
+
+		return neighbours;
+	}
+
+	private boolean validSquare(Square[][] board, Location loc){
+		if(loc.getX() < 0 || loc.getX() >  board[0].length){
+			return false;
+		}
+
+		if(loc.getY() < 0 || loc.getY() >  board.length){
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
 	 * Manhattan distance between start and end, -1 if either values are null
-	 * 
+	 *
 	 * @param start
 	 * @param end
 	 * @return
@@ -51,7 +74,7 @@ abstract class ShortestPathMover implements MoveStrategy {
 
 	/**
 	 * Uses a* search to find the shortest path from start to end.
-	 * 
+	 *
 	 * @param start
 	 * @param end
 	 * @return
@@ -121,10 +144,10 @@ abstract class ShortestPathMover implements MoveStrategy {
 
 		/**
 		 * Will return
-		 * -Positive if this is closer to the final location 
-		 * -Zero if they are equal 
+		 * -Positive if this is closer to the final location
+		 * -Zero if they are equal
 		 * -Negative if the other location is closer
-		 * 
+		 *
 		 * @return
 		 */
 

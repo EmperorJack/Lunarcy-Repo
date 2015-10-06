@@ -4,7 +4,7 @@ import game.GameState;
 
 /**
  * Represents a display component that is rendered onto the canvas.
- * 
+ *
  * @author Jack
  *
  */
@@ -16,6 +16,7 @@ public abstract class DrawingComponent {
 	// the id of the client
 	protected int playerID;
 
+
 	public DrawingComponent(Canvas p, GameState gameState, int playerID) {
 		// set the parent canvas to draw onto
 		this.p = p;
@@ -26,7 +27,7 @@ public abstract class DrawingComponent {
 
 	/**
 	 * Draw the component.
-	 * 
+	 *
 	 * @param gameState
 	 *            The current game state to draw the component in reference to.
 	 * @param delta

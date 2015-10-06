@@ -7,7 +7,7 @@ package game;
  */
 public class Door implements Wall {
 	@Override
-	public boolean enter(Player player) {
+	public boolean pass(Player player) {
 		return true;
 	}
 }

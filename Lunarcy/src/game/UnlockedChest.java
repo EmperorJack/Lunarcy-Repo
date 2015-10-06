@@ -2,11 +2,15 @@ package game;
 
 public class UnlockedChest extends Container {
 	public UnlockedChest(int entityID) {
-		super(entityID,"unlockedChest");
+		super(entityID);
 	}
 	@Override
 	protected boolean canAccess(Player player) {
 		return true;
+	}
+	@Override
+	public String getImageName() {
+		return "unlockedChest";
 	}
 
 }

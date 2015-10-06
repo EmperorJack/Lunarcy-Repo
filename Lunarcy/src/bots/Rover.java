@@ -42,10 +42,11 @@ public class Rover implements Serializable {
 	//Used to find players/locations
 	private GameState gameState;
 
-	Rover(GameState gameState, ShortestPathMover movementStrategy) {
+	public Rover(GameState gameState, ShortestPathMover movementStrategy) {
 		this.gameState = gameState;
 		this.movementStrategy = movementStrategy;
 		this.path = new ArrayList<Location>();
+		this.currentLocation = new Location(1, 1);
 	}
 
 	/**
@@ -63,6 +64,8 @@ public class Rover implements Serializable {
 		// Move along one step in the path
 		// removing the location we visit
 		currentLocation = path.remove(0);
+
+		System.out.println("Rover is at " + currentLocation.getX() +" "+ currentLocation.getY());
 
 		updateStrategy();
 

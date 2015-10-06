@@ -10,8 +10,6 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
-import javax.swing.JRootPane;
-
 import control.Client;
 
 public class ClientSplashScreen extends JFrame {

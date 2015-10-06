@@ -9,5 +9,5 @@ import java.io.Serializable;
  *
  */
 public interface Wall extends Serializable {
-	public boolean enter(Player player);
+	public boolean pass(Player player);
 }

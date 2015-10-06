@@ -2,12 +2,8 @@ package control;
 
 import game.GameLogic;
 import game.GameState;
-import game.Player;
-
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -165,7 +161,7 @@ public class Server {
 		for (ClientConnection client : clientList) {
 			//System.out.println("Transmitting gamestate to: "+ client.clientID);
 			if(client.writeObject(state)){
-				System.out.println("Sucessfully sent gamestate");
+				//System.out.println("Sucessfully sent gamestate");
 			}
 		}
 	}

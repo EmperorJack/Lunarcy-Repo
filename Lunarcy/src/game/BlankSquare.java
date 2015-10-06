@@ -7,19 +7,17 @@ package game;
  */
 public class BlankSquare extends Square {
 
-	@Override
 	public boolean canEnter(Player player, Direction direction) {
 		return false;
 	}
-	@Override
+	public boolean canExit(Player player, Direction direction) {
+		return false;
+	}
 	public boolean addPlayer(Player player) {
 		return false;
 	}
-	@Override
 	public void removePlayer(Player player) {
 	}
-	@Override
 	public void tick() {
 	}
-
 }
