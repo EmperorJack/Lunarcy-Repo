@@ -23,4 +23,24 @@ public class Key extends Item {
 	public String getDescription() {
 		return "Used to access locked doors and chests";
 	}
+
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + keyCode;
+		return result;
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Key other = (Key) obj;
+		if (keyCode != other.keyCode)
+			return false;
+		return true;
+	}
 }
