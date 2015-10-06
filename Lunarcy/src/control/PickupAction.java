@@ -8,10 +8,10 @@ public class PickupAction implements NetworkAction, Serializable {
 
 	int playerID;
 	int itemID;
-	
+
 	//int containerID;
 	//int objectID;
-	
+
 	public PickupAction(int playerID, int itemID){
 		this.playerID = playerID;
 		this.itemID = itemID;
@@ -26,7 +26,7 @@ public class PickupAction implements NetworkAction, Serializable {
 	public int getPlayerID() {
 		return playerID;
 	}
-	
+
 	public int getItemID() {
 		return itemID;
 	}
@@ -40,7 +40,7 @@ public class PickupAction implements NetworkAction, Serializable {
 	}*/
 
 	@Override
-	public void applyAction(GameLogic logic) {
-		logic.pickUpItem(playerID, itemID);
+	public boolean applyAction(GameLogic logic) {
+		return logic.pickUpItem(playerID, itemID);
 	}
 }

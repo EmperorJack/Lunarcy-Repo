@@ -16,12 +16,14 @@ public class OrientAction implements NetworkAction, Serializable{
 	}
 
 	@Override
-	public void applyAction(GameLogic logic) {
+	public boolean applyAction(GameLogic logic) {
 		if (turnLeft) {
 			logic.turnPlayerLeft(playerID);
 		} else {
 			logic.turnPlayerRight(playerID);
 		}
+		//TODO change logic return type
+		return true;
 	}
 
 }

@@ -93,7 +93,7 @@ public class Server {
 
 	/**
 	 * Sleep the server for the given
-	 * 
+	 *
 	 * @param time
 	 */
 	private void sleep(int time) {
@@ -174,11 +174,15 @@ public class Server {
 	/**
 	 * Process the next client action from the queue
 	 */
-	//TODO extend method to apply move to all clients if successful 
+	//TODO extend method to apply move to all clients if successful
 	private void processAction() {
 		NetworkAction action = actionQueue.poll();
 		if (action != null)
-			action.applyAction(gameLogic);// interpreter.interpret(action);
+			if(action.applyAction(gameLogic)){// interpreter.interpret(action);
+				for(ClientConnection client : clientList){
+					//client.writeObject(action); //TODO send valid object to represent this
+				}
+			}
 	}
 
 	/**

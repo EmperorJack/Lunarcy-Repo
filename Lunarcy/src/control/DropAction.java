@@ -21,7 +21,9 @@ public class DropAction implements NetworkAction, Serializable {
 		return itemID;
 	}
 
-	public void applyAction(GameLogic logic){
+	public boolean applyAction(GameLogic logic){
 		logic.dropItem(playerID, itemID);
+		//TODO drop item needs boolean
+		return true;
 	}
 }
