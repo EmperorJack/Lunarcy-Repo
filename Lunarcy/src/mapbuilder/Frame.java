@@ -62,11 +62,14 @@ public class Frame extends JFrame implements ActionListener{
 		JMenuItem saveMenuItem = new JMenuItem("Save");
 		JMenuItem loadMenuItem = new JMenuItem("Load");
 		JCheckBoxMenuItem insideToggle = new JCheckBoxMenuItem("Inside Tiles");
+		JCheckBoxMenuItem wallToggle = new JCheckBoxMenuItem("Walls");
 		optionMenu.add(saveMenuItem);
 		optionMenu.add(loadMenuItem);
 		toggleMenu.add(insideToggle);
+		toggleMenu.add(wallToggle);
 		saveMenuItem.addActionListener(this);
 		loadMenuItem.addActionListener(this);
+
 		insideToggle.addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -78,6 +81,15 @@ public class Frame extends JFrame implements ActionListener{
 
 			}
 		});
+
+		wallToggle.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+					mapBuilder.toggleWalls();
+			}
+		});
+
+
 		final JPanel panel = new JPanel(new BorderLayout());
 		canvas = new Canvas(mapBuilder);
 		canvas.setFocusable(true);

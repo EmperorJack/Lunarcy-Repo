@@ -44,6 +44,8 @@ public class MapBuilder {
 	public static final int GRID_LEFT = 340;
 	public static final int GRID_TOP = 60;
 	public static final int GRID_SIZE = 30;
+	boolean addWalls = false;
+
 
 	public MapBuilder() {
 		selectedTiles = new HashSet<Location>();
@@ -128,7 +130,7 @@ public class MapBuilder {
 		}
 	}
 
-	public void setWall(Direction dir) {
+	public void addWall(Direction dir) {
 		if (selected != null
 				&& map[selected.getY()][selected.getX()] instanceof WalkableSquare) {
 			Square currentSquare = map[selected.getY()][selected.getX()];
@@ -271,5 +273,17 @@ public class MapBuilder {
 		selectedArea = new Rectangle(Math.min(startX, x), Math.min(startY, y),
 				Math.abs(x - startX), Math.abs(y - startY));
 		getSelectedTiles();
+	}
+
+	public void setWall(Direction dir) {
+		if (addWalls) {
+			addWall(dir);
+		} else {
+			removeWall(dir);
+		}
+	}
+
+	public void toggleWalls() {
+		addWalls = !addWalls;
 	}
 }
