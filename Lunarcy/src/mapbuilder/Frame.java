@@ -1,15 +1,14 @@
 package mapbuilder;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -19,7 +18,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- * Swing window for the map builder. Based off the window for the main game application.
+ * Swing window for the map builder. Based off the window for the main game
+ * application.
+ *
  * @author Kelly
  *
  */
@@ -48,25 +49,78 @@ public class Frame extends JFrame implements ActionListener {
 		});
 
 		mapBuilder = new MapBuilder();
-		
+
 		JMenuBar menuBar;
-		JMenu menu, submenu;
+		JMenu optionMenu, toolMenu, toggleMenu;
 		menuBar = new JMenuBar();
-		menu = new JMenu("Options");
-		menuBar.add(menu);
+		optionMenu = new JMenu("Options");
+		toggleMenu = new JMenu("Toggles");
+		toolMenu = new JMenu("Tools");
+		menuBar.add(optionMenu);
+		menuBar.add(toggleMenu);
+		menuBar.add(toolMenu);
 		JMenuItem saveMenuItem = new JMenuItem("Save");
 		JMenuItem loadMenuItem = new JMenuItem("Load");
-		menu.add(saveMenuItem);
-		menu.add(loadMenuItem);
+		JMenuItem setWalkable = new JMenuItem("Set Walkable");
+		JMenuItem setBlank = new JMenuItem("Set Blank");
+		JCheckBoxMenuItem insideToggle = new JCheckBoxMenuItem("Inside Tiles");
+		JCheckBoxMenuItem wallToggle = new JCheckBoxMenuItem("Walls");
+		JCheckBoxMenuItem doorToggle = new JCheckBoxMenuItem("Doors");
+		optionMenu.add(saveMenuItem);
+		optionMenu.add(loadMenuItem);
+		toggleMenu.add(insideToggle);
+		toggleMenu.add(wallToggle);
+		toggleMenu.add(doorToggle);
+		toolMenu.add(setWalkable);
+		toolMenu.add(setBlank);
 		saveMenuItem.addActionListener(this);
 		loadMenuItem.addActionListener(this);
+		setWalkable.addActionListener(this);
+		setBlank.addActionListener(this);
+
+		insideToggle.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					mapBuilder.insideTilesOn();
+				} else {
+					mapBuilder.insideTilesOff();
+				}
+
+			}
+		});
+
+		wallToggle.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					doorToggle.setState(false);
+					mapBuilder.wallsOn();
+				} else {
+					mapBuilder.wallsOff();
+				}
+			}
+		});
+
+		doorToggle.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					wallToggle.setState(false);
+					mapBuilder.doorsOn();
+				} else {
+					mapBuilder.doorsOff();
+				}
+			}
+		});
+
 		final JPanel panel = new JPanel(new BorderLayout());
 		canvas = new Canvas(mapBuilder);
 		canvas.setFocusable(true);
 		panel.add(canvas, BorderLayout.CENTER);
 		setJMenuBar(menuBar);
 		add(panel);
-		
+
 		setResizable(false);
 		setVisible(true);
 
@@ -78,11 +132,17 @@ public class Frame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("Save")){
+		if (e.getActionCommand().equals("Save")) {
 			mapBuilder.save();
 		}
-		if(e.getActionCommand().equals("Load")){
+		if (e.getActionCommand().equals("Load")) {
 			mapBuilder.load();
+		}
+		if (e.getActionCommand().equals("Set Walkable")) {
+			mapBuilder.setWalkable();
+		}
+		if (e.getActionCommand().equals("Set Blank")) {
+			mapBuilder.setBlank();
 		}
 	}
 }

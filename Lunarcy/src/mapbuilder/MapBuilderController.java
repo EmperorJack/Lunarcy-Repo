@@ -7,7 +7,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.FileNotFoundException;
 
 public class MapBuilderController implements MouseListener,
 		MouseMotionListener, KeyListener {
@@ -15,8 +14,6 @@ public class MapBuilderController implements MouseListener,
 	Canvas canvas;
 	int startX;
 	int startY;
-	boolean addWalls = false;
-
 	public MapBuilderController(MapBuilder builder, Canvas canvas) {
 		this.builder = builder;
 		this.canvas = canvas;
@@ -62,34 +59,18 @@ public class MapBuilderController implements MouseListener,
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyChar() == 'w') {
-			if (addWalls) {
 				builder.setWall(Direction.NORTH);
-			} else {
-				builder.removeWall(Direction.NORTH);
-			}
 		}
 		if (e.getKeyChar() == 'a') {
-			if (addWalls) {
 				builder.setWall(Direction.WEST);
-			} else {
-				builder.removeWall(Direction.WEST);
-			}
 
 		}
 		if (e.getKeyChar() == 's') {
-			if (addWalls) {
 				builder.setWall(Direction.SOUTH);
-			} else {
-				builder.removeWall(Direction.SOUTH);
-			}
 
 		}
 		if (e.getKeyChar() == 'd') {
-			if (addWalls) {
 				builder.setWall(Direction.EAST);
-			} else {
-				builder.removeWall(Direction.EAST);
-			}
 		}
 		if (e.getKeyChar() == 'x') {
 				builder.save();
@@ -98,10 +79,7 @@ public class MapBuilderController implements MouseListener,
 				builder.load();
 		}
 		if (e.getKeyChar() == 'm') {
-			builder.toggleWalkable();
-		}
-		if (e.getKeyChar() == 'g') {
-			addWalls = !addWalls;
+			builder.setWalkable();
 		}
 		canvas.repaint();
 

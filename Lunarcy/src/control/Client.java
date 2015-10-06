@@ -1,16 +1,12 @@
 package control;
 
-import game.Direction;
 import game.GameState;
 import ui.Frame;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Scanner;
 
 
 
@@ -50,10 +46,10 @@ public class Client {
 			this.frame = new Frame(this,initialGameState, hardwareRenderer);
 
 			System.out.println("Listening for gamestate");
-			listenForGameUpdates(); //listen for gamestates from the server
+			//listenForGameUpdates(); //listen for gamestates from the server
 		}
 
-		private void listenForGameUpdates() {
+		public void listenForGameUpdates() {
 			while(true){
 				GameState state = getGameState();
 				if(state != null){

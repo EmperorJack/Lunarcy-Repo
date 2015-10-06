@@ -6,7 +6,7 @@ package game;
  */
 public class SolidWall implements Wall {
 	@Override
-	public boolean enter(Player player) {
+	public boolean pass(Player player) {
 		return false;
 	}
 }

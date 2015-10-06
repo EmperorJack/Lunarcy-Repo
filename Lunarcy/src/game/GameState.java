@@ -10,9 +10,6 @@ import java.util.Set;
 
 import bots.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.thoughtworks.xstream.XStream;
 
 /**
@@ -24,9 +21,10 @@ import com.thoughtworks.xstream.XStream;
  *
  */
 
-public class GameState implements Serializable{
+public class GameState implements Serializable {
 	//board[Y][X]
 	private Square[][] board;
+	private Location spawn;
 	private Player[] players;
 	private Set<Rover> rovers;
 
@@ -34,6 +32,7 @@ public class GameState implements Serializable{
 		loadMap();
 		rovers = new HashSet<Rover>();
 		players = new Player[numPlayers];
+		rovers.add(new Rover(this, new RoamMovement()));
 	}
 
 
@@ -95,20 +94,23 @@ public class GameState implements Serializable{
 			FileInputStream file = new FileInputStream("map.xml");
 			XStream xstream = new XStream();
 			board = (Square[][]) xstream.fromXML(file);
+			//To be read from map once File IO done with JSON
+			spawn = new Location(1,1);
 		} catch (FileNotFoundException e) {
 
 		}
 	}
 
+
 	/**
-	 * Creates a new player object and stores them in the game 
+	 * Creates a new player object and stores them in the game
 	 * @param playerID The ID of the player
 	 * @param name The name of the Player
 	 * @param color The Colour that the player selected
 	 * @return
 	 */
-	public boolean addPlayer(int playerID, String name, Color color){
-		Player player = new Player(playerID, name, null, null);
+	public boolean addPlayer(int playerID, String name, Color colour){
+		Player player = new Player(playerID, name, colour, spawn, Direction.NORTH);
 		if(playerID<0||playerID>players.length)return false;
 		players[playerID] = player;
 		return true;
@@ -123,11 +125,11 @@ public class GameState implements Serializable{
 		if(playerID<0||playerID>players.length)return null;
 		return players[playerID];
 	}
-	
+
 	/**
 	 * Retrieves the ID number of the player whose name matches the parameter.
 	 * @param playerName The name of the Player whose name matches
-	 * @return Player.getID() of the matching player, -1 if no player with that name exists 
+	 * @return Player.getID() of the matching player, -1 if no player with that name exists
 	 */
 	public int getPlayerID(String playerName){
 		for(Player p: players){
@@ -144,5 +146,18 @@ public class GameState implements Serializable{
 
 	public Player[] getPlayers() {
 		return Arrays.copyOf(players, players.length);
+	}
+
+	public Set<Rover> getRovers() {
+		return new HashSet<Rover>(rovers);
+	}
+
+
+	/**
+	 * Returns the largest possible Location on the board.
+	 * Assumes the board is Square.
+	 */
+	public Location getMaxLocation(){
+		return new Location(board[0].length,board.length);
 	}
 }

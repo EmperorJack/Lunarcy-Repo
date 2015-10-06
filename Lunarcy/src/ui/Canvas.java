@@ -2,15 +2,23 @@ package ui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import control.Client;
+import control.DropAction;
 import control.MoveAction;
 import control.OrientAction;
+import control.PickupAction;
 import ddf.minim.*;
 import game.Direction;
-import game.GameLogic;
+import game.Entity;
 import game.GameState;
+import game.Key;
 import game.Player;
+import game.Square;
+import game.WalkableSquare;
 import processing.core.*;
 
 /**
@@ -19,11 +27,12 @@ import processing.core.*;
  * components to render each frame, these include the 3D perspective and heads
  * up display components.
  *
- * @author Jack
+ * @author Jack and Ben
  *
  */
+
 @SuppressWarnings("serial")
-public class Canvas extends PApplet implements KeyListener {
+public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 	// canvas dimensional fields
 	private final int maxWidth;
@@ -42,13 +51,13 @@ public class Canvas extends PApplet implements KeyListener {
 
 	// game state fields
 	private GameState gameState;
+	private GameState updatedState;
 	private boolean stateUpdated;
 
 	// drawing components
-	private Perspective3D perspective;
-	private Minimap minimap;
-	private Oxygen oxygen;
-	private Inventory inventory;
+	private DrawingComponent perspective;
+	private ArrayList<DrawingComponent> hud;
+	private SquareMenu menu;
 
 	// player input fields
 	private long keyTimer;
@@ -67,8 +76,7 @@ public class Canvas extends PApplet implements KeyListener {
 	 * @param gameState
 	 *            The initial state of the game to be drawn.
 	 */
-	public Canvas(int w, int h, Client client, GameState gameState,
-			boolean hardwareRenderer) {
+	public Canvas(int w, int h, Client client, GameState gameState, boolean hardwareRenderer) {
 		this.maxWidth = w;
 		this.maxHeight = h;
 		this.client = client;
@@ -99,16 +107,22 @@ public class Canvas extends PApplet implements KeyListener {
 		// setup the size and use 3D renderer
 		size(maxWidth, maxHeight, renderer);
 
-		// initialize the 3D perspective component
-		perspective = new Perspective3D(this, gameState, playerID);
+		// setup the drawing component factory
+		DrawingComponentFactory factory = new DrawingComponentFactory(this, gameState, playerID);
 
-		// initialize the HUD components
-		minimap = new Minimap(playerID, this, gameState);
-		oxygen = new Oxygen(this, gameState);
-		inventory = new Inventory(playerID, this, gameState);
+		// get a 3D perspective component
+		perspective = factory.getDrawingComponent(DrawingComponentFactory.PERSPECTIVE3D);
+
+		// get the HUD components
+		hud = new ArrayList<DrawingComponent>();
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.OXYGEN));
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORY));
+
+		menu = new SquareMenu(this, gameState, playerID);
 
 		// audio setup
-		//minim = new Minim(this);
+		// minim = new Minim(this);
 		// track = minim.loadFile("assets/audio/*.mp3");
 		// track.play();
 
@@ -122,8 +136,8 @@ public class Canvas extends PApplet implements KeyListener {
 	 * @param gameState
 	 *            The new state of the game to be drawn.
 	 */
-	public synchronized void setGameState(GameState gameState) {
-		this.gameState = gameState;
+	public synchronized void setGameState(GameState updatedState) {
+		this.updatedState = updatedState;
 
 		// enable updating of drawing components next frame
 		stateUpdated = true;
@@ -135,14 +149,11 @@ public class Canvas extends PApplet implements KeyListener {
 	 */
 	public synchronized void update() {
 		if (stateUpdated) {
+			// replace the game state with the new updated state
+			gameState = updatedState;
+
 			// update player field
 			player = gameState.getPlayer(playerID);
-
-			// update each component
-			perspective.update(gameState);
-			minimap.update(gameState);
-			inventory.update(gameState);
-			oxygen.update(gameState);
 
 			// the state has now been updated
 			stateUpdated = false;
@@ -167,21 +178,22 @@ public class Canvas extends PApplet implements KeyListener {
 		scale(scalingAmount);
 
 		// draw the 3D perspective
-		perspective.draw(delta);
+		perspective.draw(gameState, delta);
 
 		// allow drawing onto the heads up display layer
 		hint(DISABLE_DEPTH_TEST);
 		hint(ENABLE_DEPTH_TEST);
 		camera();
+		perspective();
 		noLights();
 
 		translate(xOffset, yOffset);
 		scale(scalingAmount);
 
 		// draw the heads up display components
-		minimap.draw(delta);
-		oxygen.draw(delta);
-		inventory.draw(delta);
+		for (DrawingComponent component : hud) {
+			component.draw(gameState, delta);
+		}
 
 		// draw the frame rate string
 		fill(255);
@@ -191,8 +203,7 @@ public class Canvas extends PApplet implements KeyListener {
 
 		// draw player position and orientation
 		Player player = gameState.getPlayer(playerID);
-		text(player.getLocation().getX() + " : " + player.getLocation().getY(),
-				maxWidth - 200, 150);
+		text(player.getLocation().getX() + " : " + player.getLocation().getY(), maxWidth - 200, 150);
 		text(player.getOrientation().toString(), maxWidth - 200, 200);
 
 		// draw the black borders
@@ -201,6 +212,8 @@ public class Canvas extends PApplet implements KeyListener {
 		rect(0, maxHeight, maxWidth, 10 * maxHeight); // bottom
 		rect(0, 0, -10 * maxWidth, maxHeight); // left
 		rect(maxWidth, 0, 10 * maxWidth, maxHeight); // right
+
+		menu.draw(gameState, delta);
 	}
 
 	/**
@@ -232,11 +245,19 @@ public class Canvas extends PApplet implements KeyListener {
 		}
 	}
 
+	public void dropItem(int itemID) {
+		client.sendAction(new DropAction(playerID, itemID));
+	}
+
+	public void pickupItem(int itemID) {
+		client.sendAction(new PickupAction(playerID, itemID));
+	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// check if the timer has been exceeded
 		long currentTime = System.currentTimeMillis();
-		if (currentTime - keyTimer > 100) {
+		if (currentTime - keyTimer > 200) {
 			// update the timer
 			keyTimer = currentTime;
 
@@ -244,18 +265,34 @@ public class Canvas extends PApplet implements KeyListener {
 
 			// identify which key pressed
 			switch (e.getKeyCode()) {
+
+			// move left
 			case KeyEvent.VK_W:
-				client.sendAction(new MoveAction(playerID, player
-						.getOrientation()));
+				client.sendAction(new MoveAction(playerID, player.getOrientation()));
 				break;
+
+			// strafe left
 			case KeyEvent.VK_A:
+				client.sendAction(new MoveAction(playerID, player.getOrientation().left()));
+				break;
+
+			// move back
+			case KeyEvent.VK_S:
+				client.sendAction(new MoveAction(playerID, player.getOrientation().opposite()));
+				break;
+
+			// strafe right
+			case KeyEvent.VK_D:
+				client.sendAction(new MoveAction(playerID, player.getOrientation().right()));
+				break;
+
+			// turn left
+			case KeyEvent.VK_Q:
 				client.sendAction(new OrientAction(playerID, true));
 				break;
-			case KeyEvent.VK_S:
-				client.sendAction(new MoveAction(playerID, Direction
-						.opposite(player.getOrientation())));
-				break;
-			case KeyEvent.VK_D:
+
+			// turn right
+			case KeyEvent.VK_E:
 				client.sendAction(new OrientAction(playerID, false));
 				break;
 			}

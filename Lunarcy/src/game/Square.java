@@ -13,9 +13,12 @@ import java.util.HashMap;
  */
 public abstract class Square implements Serializable {
 	protected Map<Direction, Wall> walls;
+
 	public abstract boolean canEnter(Player player, Direction direction);
+	public abstract boolean canExit(Player player, Direction direction);
 	public abstract boolean addPlayer(Player player);
 	public abstract void removePlayer(Player player);
+	public abstract void tick();
 
 	public Square(){
 		walls = new HashMap<Direction, Wall>();
@@ -27,13 +30,21 @@ public abstract class Square implements Serializable {
 	 * @param dir
 	 * @author Kelly
 	 */
-	public void setWall(Direction dir) {
+	public void addWall(Direction dir) {
 		walls.put(dir, new SolidWall());
 	}
 
 	public void removeWall(Direction dir) {
 		walls.put(dir, new EmptyWall());
 	}
+	public void addDoor(Direction dir) {
+		walls.put(dir, new Door());
+	}
+
+	public void removeDoor(Direction dir) {
+		walls.put(dir, new EmptyWall());
+	}
+
 
 	public Map<Direction, Wall> getWalls() {
 		return walls;
