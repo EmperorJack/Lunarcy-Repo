@@ -125,5 +125,6 @@ public class Player implements Serializable {
 		inventory.add(new ShipPart(id * 100, 0));
 		inventory.add(new Key(id * 100 + 1, 0));
 		inventory.add(new Key(id * 100 + 2, 1));
+		inventory.add(new ShipPart(id * 100 + 3, 1));
 	}
 }

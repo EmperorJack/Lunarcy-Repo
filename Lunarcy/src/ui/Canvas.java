@@ -10,6 +10,7 @@ import control.DropAction;
 import control.MoveAction;
 import control.OrientAction;
 import control.PickupAction;
+import control.PutAction;
 import ddf.minim.*;
 import game.GameState;
 import game.Player;
@@ -256,6 +257,10 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		client.sendAction(new DropAction(playerID, itemID));
 	}
 
+	public void putItem(int itemID, int containerID) {
+		client.sendAction(new PutAction(playerID, itemID, containerID));
+	}
+
 	public void pickupItem(int itemID) {
 		client.sendAction(new PickupAction(playerID, itemID));
 	}
@@ -307,6 +312,9 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			case KeyEvent.VK_SPACE:
 				menuActive = !menuActive;
 				break;
+
+			case KeyEvent.VK_DOLLAR:
+				image(loadImage("/assets/characters/OgreMan.png"), width/2, height/2, 100, 100);
 			}
 		}
 	}
