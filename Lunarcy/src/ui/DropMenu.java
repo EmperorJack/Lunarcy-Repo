@@ -19,33 +19,13 @@ public class DropMenu extends Menu implements MouseListener {
 
 	private GameState gameState;
 
-	public DropMenu(Canvas p, GameState gameState, int playerID, Item item) {
-		super(p, gameState, playerID, item.getName(), buttons);
+	public DropMenu(Canvas p, EntityController entityController, GameState gameState, int playerID, Item item) {
+		super(p, entityController, gameState, playerID, item.getName(), buttons);
 		p.addMouseListener(this);
 		this.gameState = gameState;
 		this.item = item;
 	}
 
-
-	/**
-	 * THIS SHOULD BE ELSEWHERE.
-	 * Returns the ID of the container in the players direction,
-	 * or null if it is empty.
-	 * @return
-	 */
-	private int findContainerID(){
-		Player player = gameState.getPlayer(playerID);
-		WalkableSquare square = (WalkableSquare)gameState.getSquare(player.getLocation());
-		square.hasContainer(player.getOrientation());
-
-		for(Entity entity : square.getEntities(player.getOrientation())){
-			if (entity instanceof Container) {
-				return entity.entityID;
-			}
-		}
-
-		return -1;
-	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -60,17 +40,17 @@ public class DropMenu extends Menu implements MouseListener {
 			if (button != null) {
 				switch (button) {
 					case "Drop item":
-						p.dropItem(item.entityID);
+						entityController.dropItem(item.entityID);
 						item = null;
 						break;
 					case "Put item":
-						p.putItem(item.entityID, findContainerID());
+						//TODO: Put
 						item = null;
 						break;
 					}
 
 				//Hide the menu, as we have made a selection
-				p.setMenu(null);
+				entityController.setMenu(null);
 			}
 		}
 	}

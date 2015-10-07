@@ -50,15 +50,12 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	private boolean stateUpdated;
 
 	// drawing components
+	private EntityController entityControl;
 	private DrawingComponent perspective;
 	private ArrayList<DrawingComponent> hud;
 
-	// Displaying the menu for squares
+	// menu field
 	private Menu menu;
-	private boolean menuActive;
-
-	// player input fields
-	private long keyTimer;
 
 	// audio fields
 	private Minim minim;
@@ -94,9 +91,6 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			renderer = P3D;
 		}
 
-		// allow player key input
-		keyTimer = System.currentTimeMillis();
-		addKeyListener(this);
 	}
 
 	/**
@@ -107,7 +101,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		size(maxWidth, maxHeight, renderer);
 
 		// setup the entity controller
-		EntityController entityControl = new EntityController();
+		entityControl = new EntityController(client, gameState, player, this);
 
 		// setup the drawing component factory
 		DrawingComponentFactory factory = new DrawingComponentFactory(this,
@@ -119,9 +113,11 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 		// get the HUD components
 		hud = new ArrayList<DrawingComponent>();
+
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.OXYGEN));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORY));
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.ENTITYVIEW));
 
 		// audio setup
 		// minim = new Minim(this);
@@ -156,6 +152,9 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 			// update player field
 			player = gameState.getPlayer(playerID);
+
+			// update entity controller
+			entityControl.update(gameState, player);
 
 			// the state has now been updated
 			stateUpdated = false;
@@ -216,8 +215,8 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		rect(0, 0, -10 * maxWidth, maxHeight); // left
 		rect(maxWidth, 0, 10 * maxWidth, maxHeight); // right
 
-		if (menu != null) {
-			menu.draw(gameState, delta);
+		if (entityControl.getMenu() != null) {
+			entityControl.getMenu().draw(gameState, delta);
 		}
 	}
 
@@ -250,95 +249,5 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		}
 	}
 
-	public boolean menuActive() {
-		return menuActive;
-	}
 
-	public void menuActive(boolean menu) {
-		this.menuActive = menu;
-	}
-
-	public void dropItem(int itemID) {
-		client.sendAction(new DropAction(playerID, itemID));
-	}
-
-	public void putItem(int itemID, int containerID) {
-		client.sendAction(new PutAction(playerID, itemID, containerID));
-	}
-
-	public void pickupItem(int itemID) {
-		client.sendAction(new PickupAction(playerID, itemID));
-	}
-
-	public Menu getMenu() {
-		return menu;
-	}
-
-	public void setMenu(Menu menu){
-		this.menu = menu;
-
-		//Set the menu to visible if menu is non null
-		menuActive = menu != null;
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// check if the timer has been exceeded
-		long currentTime = System.currentTimeMillis();
-		if (currentTime - keyTimer > 200) {
-			// update the timer
-			keyTimer = currentTime;
-
-			// TODO Move UI control to a separate class
-
-			// identify which key pressed
-			switch (e.getKeyCode()) {
-
-			// move left
-			case KeyEvent.VK_W:
-				client.sendAction(new MoveAction(playerID, player
-						.getOrientation()));
-				break;
-
-			// strafe left
-			case KeyEvent.VK_A:
-				client.sendAction(new MoveAction(playerID, player
-						.getOrientation().left()));
-				break;
-
-			// move back
-			case KeyEvent.VK_S:
-				client.sendAction(new MoveAction(playerID, player
-						.getOrientation().opposite()));
-				break;
-
-			// strafe right
-			case KeyEvent.VK_D:
-				client.sendAction(new MoveAction(playerID, player
-						.getOrientation().right()));
-				break;
-
-			// turn left
-			case KeyEvent.VK_Q:
-				client.sendAction(new OrientAction(playerID, true));
-				break;
-
-			// turn right
-			case KeyEvent.VK_E:
-				client.sendAction(new OrientAction(playerID, false));
-				break;
-
-			// Hide/Show menu
-			case KeyEvent.VK_SPACE:
-				if(menu == null){
-					setMenu(new PickMenu(this, gameState, playerID));
-				}
-				else{
-					setMenu(null);
-				}
-
-				break;
-			}
-		}
-	}
 }

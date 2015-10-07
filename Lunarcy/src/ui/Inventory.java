@@ -24,9 +24,11 @@ public class Inventory extends DrawingComponent implements MouseListener {
 	private GameState gamestate;
 	private Item lastChosen;
 
+	private EntityController entityController;
+
 	private List<Item> inventory;
 
-	public Inventory(Canvas p, GameState gameState, int playerID) {
+	public Inventory(Canvas p, EntityController entityController, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
 
 		this.gamestate = gameState;
@@ -36,6 +38,8 @@ public class Inventory extends DrawingComponent implements MouseListener {
 		INVENTORY_WIDTH = (int) (p.width * 0.3);
 		ITEM_SIZE = 35;
 		ITEM_SPACING = 10;
+
+		this.entityController = entityController;
 
 		p.addMouseListener(this);
 	}
@@ -107,7 +111,7 @@ public class Inventory extends DrawingComponent implements MouseListener {
 	}
 
 	/**
-	 * Returns true if the coordinates entered are inside the inventory.
+	 * Returns true if thsetMenue coordinates entered are inside the inventory.
 	 *
 	 * @param x
 	 * @param y
@@ -130,11 +134,11 @@ public class Inventory extends DrawingComponent implements MouseListener {
 
 			//if they reclick an item, hide the menu
 			if(item!=null && item.equals(lastChosen)){
-				p.setMenu(null);
+				entityController.setMenu(null);
 				lastChosen = null;
-			}	
+			}
 			else if(item!=null){
-				p.setMenu(new DropMenu(p, gamestate, y, item));
+				entityController.setMenu(new DropMenu(p, entityController, gamestate, y, item));
 				lastChosen = item;
 			}
 		}
