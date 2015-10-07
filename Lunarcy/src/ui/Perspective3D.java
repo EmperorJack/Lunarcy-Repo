@@ -177,9 +177,9 @@ public class Perspective3D extends DrawingComponent {
 
 				// get the current player position in 3D space
 				PVector position = new PVector(currentPlayer.getLocation()
-						.getX() * SQUARE_SIZE + SQUARE_SIZE / 2, CHARACTER_Y_OFFSET,
-						currentPlayer.getLocation().getY() * SQUARE_SIZE
-								+ SQUARE_SIZE / 2);
+						.getX() * SQUARE_SIZE + SQUARE_SIZE / 2,
+						CHARACTER_Y_OFFSET, currentPlayer.getLocation().getY()
+								* SQUARE_SIZE + SQUARE_SIZE / 2);
 
 				// translate to the current player location
 				p.translate(position.x, position.y, position.z);
@@ -214,8 +214,9 @@ public class Perspective3D extends DrawingComponent {
 
 			// get the rover position in 3D space
 			PVector position = new PVector(currentRover.getLocation().getX()
-					* SQUARE_SIZE + SQUARE_SIZE / 2, CHARACTER_Y_OFFSET, currentRover
-					.getLocation().getY() * SQUARE_SIZE + SQUARE_SIZE / 2);
+					* SQUARE_SIZE + SQUARE_SIZE / 2, CHARACTER_Y_OFFSET,
+					currentRover.getLocation().getY() * SQUARE_SIZE
+							+ SQUARE_SIZE / 2);
 
 			// translate to the rover location
 			p.translate(position.x, position.y, position.z);

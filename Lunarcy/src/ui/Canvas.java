@@ -106,9 +106,12 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		// setup the size and use 3D renderer
 		size(maxWidth, maxHeight, renderer);
 
+		// setup the entity controller
+		EntityController entityControl = new EntityController();
+
 		// setup the drawing component factory
 		DrawingComponentFactory factory = new DrawingComponentFactory(this,
-				gameState, playerID);
+				gameState, playerID, entityControl);
 
 		// get a 3D perspective component
 		perspective = factory

@@ -21,16 +21,22 @@ public class DrawingComponentFactory {
 	// player ID to construct components with
 	private int playerID;
 
+	// entity controller for entity interactions across componenets
+	private EntityController entityControl;
+
 	// types of components available
 	public static final int INVENTORY = 0;
 	public static final int MINIMAP = 1;
 	public static final int OXYGEN = 2;
 	public static final int PERSPECTIVE3D = 3;
+	public static final int ENTITYVIEW = 4;
 
-	public DrawingComponentFactory(Canvas p, GameState gameState, int playerID) {
+	public DrawingComponentFactory(Canvas p, GameState gameState, int playerID,
+			EntityController entityConrol) {
 		this.p = p;
 		this.gameState = gameState;
 		this.playerID = playerID;
+		this.entityControl = entityControl;
 	}
 
 	/**
@@ -45,7 +51,9 @@ public class DrawingComponentFactory {
 		switch (type) {
 
 		case INVENTORY:
-			return new Inventory(p, gameState, playerID);
+			Inventory inventory = new Inventory(p, gameState, playerID);
+			entityControl.setInventory(inventory);
+			return inventory;
 
 		case MINIMAP:
 			return new Minimap(p, gameState, playerID);
@@ -55,6 +63,11 @@ public class DrawingComponentFactory {
 
 		case PERSPECTIVE3D:
 			return new Perspective3D(p, gameState, playerID);
+
+		case ENTITYVIEW:
+			EntityView entityView = new EntityView(p, gameState, playerID);
+			entityControl.setEntityView(entityView);
+			return entityView;
 		}
 
 		// invalid component entered
