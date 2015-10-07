@@ -28,8 +28,8 @@ public class GameState implements Serializable {
 	private Player[] players;
 	private Set<Rover> rovers;
 
-	public GameState(int numPlayers) {
-		loadMap();
+	public GameState(int numPlayers,String map) {
+		loadMap(map);
 		rovers = new HashSet<Rover>();
 		players = new Player[numPlayers];
 		rovers.add(new Rover(this, new RoamMovement()));
@@ -89,9 +89,9 @@ public class GameState implements Serializable {
 		}
 	}
 
-	public void loadMap() {
+	public void loadMap(String map) {
 		try {
-			FileInputStream file = new FileInputStream("map.xml");
+			FileInputStream file = new FileInputStream(map);
 			XStream xstream = new XStream();
 			board = (Square[][]) xstream.fromXML(file);
 			//To be read from map once File IO done with JSON

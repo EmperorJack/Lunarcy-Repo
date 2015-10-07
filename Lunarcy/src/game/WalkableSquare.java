@@ -215,4 +215,20 @@ public class WalkableSquare extends Square {
 	public boolean isInside() {
 		return inside;
 	}
+
+	/**
+	 * Returns a string[] containing all the entity names,
+	 * used when displaying menu buttons
+	 * @param dir
+	 * @return
+	 */
+	public String[] getEntityButtons(Direction dir){
+		String[] buttons = new String[entities.get(dir).size()];
+		int i = 0;
+		for (Entity entity : entities.get(dir)) {
+			buttons[i] = entity.getImageName();
+			i++;
+		}
+		return buttons;
+	}
 }

@@ -19,8 +19,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.DefaultCaret;
 
 import control.Server;
 import storage.Storage;
@@ -38,8 +41,9 @@ public class ServerMain extends JFrame {
 	private JSlider refreshRate;
 	private JSlider playerNum;
 	private JTextArea console;
-	private JButton load;
-
+	private JButton loadGame;
+	private JButton loadMap;
+	private String selectedMap = "map.xml";
 	public ServerMain() {
 		super("Start Game");
 
@@ -169,19 +173,11 @@ public class ServerMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				start.setEnabled(false);
 				stop.setEnabled(true);
-				load.setEnabled(false);
+				loadGame.setEnabled(false);
 
 				// Makes a new thread, which deals with the server
-
-				server = new Server(playerNum.getValue(), refreshRate.getValue());
-
-				new Thread(new Runnable() {
-					public void run() {
-						server.run();
-					}
-				}).start();
-
-
+				server = new Server(playerNum.getValue(), refreshRate.getValue(),selectedMap);
+				server.run();
 			}
 		});
 
@@ -197,7 +193,7 @@ public class ServerMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				start.setEnabled(true);
 				stop.setEnabled(false);
-				load.setEnabled(true);
+				loadGame.setEnabled(true);
 
 				//Stop the game
 				server.stop();
@@ -237,9 +233,33 @@ public class ServerMain extends JFrame {
 	private void addSaveLoadButtons() {
 		GridBagConstraints c = new GridBagConstraints();
 
-		load = new JButton("Load");
+		loadMap = new JButton("Load Map");
 
-		load.addActionListener(new ActionListener() {
+		loadMap.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				//Retrieve the file to load
+				JFileChooser chooser = new JFileChooser();
+				FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter("xml files (*.xml)", "xml");
+				chooser.setFileFilter(xmlfilter);
+				chooser.showOpenDialog(null);
+				if(chooser.getSelectedFile() != null){ //may have cancelled
+					selectedMap = chooser.getSelectedFile().getAbsolutePath();
+				}
+			}
+
+		});
+
+		// Load Map button is at 0,6
+		c.gridx = 0;
+		c.gridy = 6;
+		add(loadMap, c);
+
+		loadGame = new JButton("Load Game");
+
+		loadGame.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -257,11 +277,10 @@ public class ServerMain extends JFrame {
 
 		});
 
-
-		// Load button is at 0,6
-		c.gridx = 0;
+		// Load Game button is at 1,6
+		c.gridx = 1;
 		c.gridy = 6;
-		add(load, c);
+		add(loadGame, c);
 
 	}
 
@@ -298,7 +317,7 @@ public class ServerMain extends JFrame {
 
 		//Configure the text area to get the input from stdout
 		PrintStream printStream = new PrintStream(new ConsoleOutput(console));
-		System.setOut(printStream);
+		//System.setOut(printStream);
 
 
 		// Not directly editable by user
@@ -311,7 +330,7 @@ public class ServerMain extends JFrame {
 		c.gridwidth = 2;
 		c.insets = new Insets(15, 0, 0, 0);
 
-		add(console, c);
+        add(console, c);
 	}
 
 	/**
@@ -327,13 +346,13 @@ public class ServerMain extends JFrame {
 
 		public ConsoleOutput(JTextArea console){
 			this.console = console;
+			DefaultCaret caret = (DefaultCaret)console.getCaret();
+			caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		}
 
 		@Override
 		public void write(int i) throws IOException {
 			console.append(Character.toString ((char) i));
-			//Scroll down to bottom
-			console.setCaretPosition(console.getDocument().getLength());
 		}
 
 	}

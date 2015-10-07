@@ -99,7 +99,7 @@ public class MapBuilderController implements MouseListener,
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		builder.setTile(e.getX(), e.getY());
+		builder.setHighlighted(e.getX(), e.getY());
 		canvas.repaint();
 	}
 

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * This class will store an x,y coordinate corresponding to a location on the
  * game grid
- * 
+ *
  * @author b
  *
  */
@@ -18,7 +18,7 @@ public class Location implements Serializable{
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -51,7 +51,11 @@ public class Location implements Serializable{
 	public int getY() {
 		return y;
 	}
-	
+
+	public String toString(){
+		return x +" ,"+y;
+	}
+
 	/**
 	 * Returns the location adjacent to this one in the direction specified.
 	 * South is positive y and East is positive x
