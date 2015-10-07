@@ -139,7 +139,6 @@ public class Server {
 						transmitState();
 						lastUpdate = System.currentTimeMillis();
 					} else{
-
 						processAction();
 					}
 				}
