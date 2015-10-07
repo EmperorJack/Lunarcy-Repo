@@ -23,26 +23,9 @@ public class ItemMenu extends Menu implements MouseListener {
 		super(p, gameState, playerID, item.getName(), buttons);
 		p.addMouseListener(this);
 		this.gameState = gameState;
-	}
-
-	public void updateItem(Item item) {
 		this.item = item;
-		if (item != null) {
-			updateTitle(item.getName());
-		}
 	}
 
-	@Override
-	public void draw(GameState gameState, float delta) {
-		// Only draw if there is an item
-		if (item != null) {
-
-			//Hide the menu from canvas if there is one
-			p.menuActive(false);
-
-			super.draw(gameState, delta);
-		}
-	}
 
 	/**
 	 * THIS SHOULD BE ELSEWHERE.
@@ -69,10 +52,10 @@ public class ItemMenu extends Menu implements MouseListener {
 		int x = e.getX();
 		int y = e.getY();
 
-
-
-
 		if (onMenu(x, y) && item!=null) {
+			
+			System.out.println("In ");
+			
 			String button = getButtonClicked(x, y);
 			if (button != null) {
 				switch (button) {
@@ -85,7 +68,9 @@ public class ItemMenu extends Menu implements MouseListener {
 					item = null;
 					break;
 				}
-
+				
+				//Hide the menu, as we have made a selection
+				p.setMenu(null);
 			}
 		}
 	}

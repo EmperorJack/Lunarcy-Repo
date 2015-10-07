@@ -20,7 +20,7 @@ public class Inventory extends DrawingComponent implements MouseListener {
 	private int LEFT_PADDING, TOP_PADDING, INVENTORY_WIDTH;
 	private final int ITEM_SIZE;
 	private final int ITEM_SPACING;
-	private ItemMenu menu;
+	//private ItemMenu menu;
 	private GameState gamestate;
 	private Item lastChosen;
 
@@ -73,9 +73,9 @@ public class Inventory extends DrawingComponent implements MouseListener {
 		p.popStyle();
 		p.popMatrix();
 
-		if(menu != null){
+		/*if(menu != null){
 			menu.draw(gameState, delta);
-		}
+		}*/
 	}
 
 
@@ -128,19 +128,13 @@ public class Inventory extends DrawingComponent implements MouseListener {
 		if (onInventoryBar(x, y)) {
 			Item item = getItemAt(x, y);
 
-			//If its the first time clicking, make a new menu
-			if(menu==null){
-				menu = new ItemMenu(p, gamestate, y, item);
-				lastChosen = item;
-			}
-			//If they reclick an item, remove it from the menu
+			//if they reclick an item, hide the menu
 			if(item!=null && item.equals(lastChosen)){
-				menu.updateItem(null);
+				p.setMenu(null);
 				lastChosen = null;
-			}
-			//If its different to our last item, update the menu
+			}	
 			else if(item!=null){
-				menu.updateItem(item);
+				p.setMenu(new ItemMenu(p, gamestate, y, item));
 				lastChosen = item;
 			}
 		}
