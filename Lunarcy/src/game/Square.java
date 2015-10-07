@@ -1,6 +1,7 @@
 package game;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -11,17 +12,69 @@ import java.util.HashMap;
  * @author Robbie
  *
  */
+
 public abstract class Square implements Serializable {
+	private static final long serialVersionUID = 537178002390002546L;
+
 	protected Map<Direction, Wall> walls;
 
+	/**
+	 * Checks whether the specified player can enter the room *FROM* the
+	 * direction
+	 *
+	 * @param player
+	 *            The player that is attempting to enter
+	 * @param direction
+	 *            The direction the player is entering the room *FROM*
+	 * @return True if the player may enter, False otherwise
+	 */
 	public abstract boolean canEnter(Player player, Direction direction);
+
+	/**
+	 * Checks whether the specified player can exit the room *IN* the
+	 * direction
+	 *
+	 * @param player
+	 *            The player that is attempting to enter
+	 * @param direction
+	 *            The direction the player is exiting the room *IN*
+	 * @return True if the player may exit, False otherwise
+	 */
 	public abstract boolean canExit(Player player, Direction direction);
+
+	/**
+	 * Adds the Player to the set of Players in the room.
+	 *
+	 * @param player
+	 *            The player that is being added
+	 * @return True if player was added to the room, False otherwise
+	 */
 	public abstract boolean addPlayer(Player player);
+
+	/**
+	 * Removes the Player from the set of Players in the room.
+	 *
+	 * @param player
+	 *            The player that is being removed
+	 */
 	public abstract void removePlayer(Player player);
 	public abstract void tick();
 
+	/**
+	 * Get the list of entities on a certain side of the room.
+	 *
+	 * @param side
+	 *            the side of the Square the entities are on
+	 * @return List<Entity> of all the entities on that side of the room
+	 */
+	public abstract List<Entity> getEntities(Direction side);
+
 	public Square(){
 		walls = new HashMap<Direction, Wall>();
+	}
+
+	public Map<Direction, Wall> getWalls() {
+		return walls;
 	}
 
 	/**
@@ -37,16 +90,12 @@ public abstract class Square implements Serializable {
 	public void removeWall(Direction dir) {
 		walls.put(dir, new EmptyWall());
 	}
+
 	public void addDoor(Direction dir) {
 		walls.put(dir, new Door());
 	}
 
 	public void removeDoor(Direction dir) {
 		walls.put(dir, new EmptyWall());
-	}
-
-
-	public Map<Direction, Wall> getWalls() {
-		return walls;
 	}
 }

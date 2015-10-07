@@ -3,6 +3,8 @@ package game;
 import java.io.Serializable;
 
 public abstract class Entity implements Serializable{
+	private static final long serialVersionUID = -2485730383616398542L;
+
 	public final int entityID;
 	public Entity(int entityID){
 		this.entityID = entityID;

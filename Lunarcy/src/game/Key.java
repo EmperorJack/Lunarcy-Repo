@@ -6,6 +6,8 @@ package game;
  *
  */
 public class Key extends Item {
+	private static final long serialVersionUID = -143449561013171486L;
+
 	public final int keyCode;
 	public Key(int entityID, int keyCode){
 		super(entityID);

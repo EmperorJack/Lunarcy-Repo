@@ -1,6 +1,8 @@
 package game;
 
 public class LockedChest extends Container {
+	private static final long serialVersionUID = -7529638938409484797L;
+
 	private final Key key;
 	public LockedChest(int entityID, Key key) {
 		super(entityID);

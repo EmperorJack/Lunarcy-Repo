@@ -1,9 +1,11 @@
 package ui;
 
+import java.util.List;
 import java.util.Set;
 
 import bots.Rover;
 import game.Direction;
+import game.Entity;
 import game.GameState;
 import game.Location;
 import game.Player;
@@ -31,7 +33,7 @@ public class Perspective3D extends DrawingComponent {
 	private final PImage ROVER;
 
 	// camera fields
-	private final int PLAYER_VIEW_HEIGHT = -200;
+	private final int PLAYER_VIEW_HEIGHT = -150;
 	private PVector cameraEye;
 	private PVector actualCameraEye;
 	private PVector targetCameraEye;
@@ -46,6 +48,15 @@ public class Perspective3D extends DrawingComponent {
 	private final int ASPECT_RATIO;
 	private final float NEAR_CULLING_DISTANCE;
 	private final float FAR_CULLING_DISTANCE;
+
+	// charcater drawing fields
+	private final int CHARACTER_WIDTH = 200;
+	private final int CHARACTER_HEIGHT = 400;
+	private final int CHARACTER_Y_OFFSET = -200;
+
+	// entity drawing fields
+	private final int ENTITY_SIZE = 100;
+	private final int ENTITY_TOP_PADDING = 500;
 
 	public Perspective3D(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
@@ -103,7 +114,8 @@ public class Perspective3D extends DrawingComponent {
 		Set<Rover> rovers = gameState.getRovers();
 
 		// get the items in the current square for the player direction
-		//(WalkablegameState.getSquare(player.getLocation())
+		List<Entity> entities = gameState.getSquare(thisPlayer.getLocation())
+				.getEntities(thisPlayer.getOrientation());
 
 		// position the camera to the player position and orientation
 		setCamera(thisPlayer.getLocation(), thisPlayer.getOrientation(), delta);
@@ -132,7 +144,7 @@ public class Perspective3D extends DrawingComponent {
 		drawRovers(rovers);
 
 		// draw the items
-		//drawItems(items);
+		drawEntities(entities);
 
 		// pop matrix and style information from the stack
 		p.popStyle();
@@ -165,9 +177,9 @@ public class Perspective3D extends DrawingComponent {
 
 				// get the current player position in 3D space
 				PVector position = new PVector(currentPlayer.getLocation()
-						.getX() * SQUARE_SIZE + SQUARE_SIZE / 2, -300,
-						currentPlayer.getLocation().getY() * SQUARE_SIZE
-								+ SQUARE_SIZE / 2);
+						.getX() * SQUARE_SIZE + SQUARE_SIZE / 2,
+						CHARACTER_Y_OFFSET, currentPlayer.getLocation().getY()
+								* SQUARE_SIZE + SQUARE_SIZE / 2);
 
 				// translate to the current player location
 				p.translate(position.x, position.y, position.z);
@@ -177,7 +189,7 @@ public class Perspective3D extends DrawingComponent {
 
 				// draw the player astronaut image
 				p.imageMode(PApplet.CENTER);
-				p.image(ASTRONAUT, 0, 0, 300, 600);
+				p.image(ASTRONAUT, 0, 0, CHARACTER_WIDTH, CHARACTER_HEIGHT);
 
 				p.popStyle();
 				p.popMatrix();
@@ -202,8 +214,9 @@ public class Perspective3D extends DrawingComponent {
 
 			// get the rover position in 3D space
 			PVector position = new PVector(currentRover.getLocation().getX()
-					* SQUARE_SIZE + SQUARE_SIZE / 2, -300, currentRover
-					.getLocation().getY() * SQUARE_SIZE + SQUARE_SIZE / 2);
+					* SQUARE_SIZE + SQUARE_SIZE / 2, CHARACTER_Y_OFFSET,
+					currentRover.getLocation().getY() * SQUARE_SIZE
+							+ SQUARE_SIZE / 2);
 
 			// translate to the rover location
 			p.translate(position.x, position.y, position.z);
@@ -213,11 +226,18 @@ public class Perspective3D extends DrawingComponent {
 
 			// draw the player rover image
 			p.imageMode(PApplet.CENTER);
-			p.image(ROVER, 0, 0, 300, 600);
+			p.image(ROVER, 0, 0, CHARACTER_WIDTH, CHARACTER_HEIGHT);
 
 			p.popStyle();
 			p.popMatrix();
 		}
+	}
+
+	private void drawEntities(List<Entity> entities) {
+		p.pushMatrix();
+		// /p.translate(0, arg1);
+
+		p.popMatrix();
 	}
 
 	/**

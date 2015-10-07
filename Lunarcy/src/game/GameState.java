@@ -22,7 +22,8 @@ import com.thoughtworks.xstream.XStream;
  */
 
 public class GameState implements Serializable {
-	//board[Y][X]
+	private static final long serialVersionUID = -6038094749199471954L;
+
 	private Square[][] board;
 	private Location spawn;
 	private Player[] players;
