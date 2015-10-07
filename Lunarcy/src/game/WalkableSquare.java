@@ -68,7 +68,7 @@ public class WalkableSquare extends Square {
 	 */
 	public void tick() {
 		for(Player player: players){
-			player.modifyOxygen(inside ? 4 : -2);
+			player.modifyOxygen(inside ? 4 : -1);
 		}
 	}
 

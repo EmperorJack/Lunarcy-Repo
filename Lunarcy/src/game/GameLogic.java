@@ -195,7 +195,7 @@ public class GameLogic {
 	public void tickGameState() {
 		//Move all the rovers
 		for(Rover r: state.getRovers()){
-			r.tick();
+			//r.tick();
 		}
 
 		//Move all the players
