@@ -23,6 +23,9 @@ public class Perspective3D extends DrawingComponent {
 	private final float MODEL_SCALE = SQUARE_SIZE / 2.5f;
 	private final OBJModel SKYBOX;
 
+	// character images
+	private final PImage ASTRONAUT;
+
 	// camera fields
 	private final int PLAYER_VIEW_HEIGHT = -200;
 	private PVector cameraEye;
@@ -52,6 +55,9 @@ public class Perspective3D extends DrawingComponent {
 		OBJTransform objectTransformer = new OBJTransform(p);
 		objectTransformer.scaleOBJ(SKYBOX, MODEL_SCALE);
 		SKYBOX.drawMode(OBJModel.POLYGON);
+
+		// character image setup
+		ASTRONAUT = p.loadImage("assets/characters/astronaut.png");
 
 		// camera eye setup (position)
 		cameraEye = new PVector(0, PLAYER_VIEW_HEIGHT, 0);
@@ -96,28 +102,41 @@ public class Perspective3D extends DrawingComponent {
 		p.pointLight(200, 200, 200, actualCameraEye.x, PLAYER_VIEW_HEIGHT,
 				actualCameraEye.z);
 
+		// draw the space skybox with no lighting
+		SKYBOX.draw();
+
 		// draw the game world
 		WORLD.draw();
 
 		// draw the players
 		for (int i = 0; i < players.length; i++) {
-			// don't draw a sprite for this player
-			if (i != player.getId()) {
+			// don't draw a sprite for this player or a player in the same
+			// location as this player
+			if (i != player.getId()
+					&& !players[i].getLocation().equals(player.getLocation())) {
 				p.pushMatrix();
 				p.pushStyle();
 
 				Player currentPlayer = players[i];
 
-				// use the player colour
-				p.fill(player.getColour().getRGB());
+				// use the current player colour and position
+				p.tint(player.getColour().getRGB());
+				PVector position = new PVector(currentPlayer.getLocation()
+						.getX(), currentPlayer.getLocation().getY());
 
-				Location location = currentPlayer.getLocation();
+				// translate to the player location
+				p.translate(position.x * SQUARE_SIZE + SQUARE_SIZE / 2, -300,
+						position.y * SQUARE_SIZE + SQUARE_SIZE / 2);
 
-				// draw the player
-				p.translate(location.getX() * SQUARE_SIZE + SQUARE_SIZE / 2,
-						PLAYER_VIEW_HEIGHT, location.getY() * SQUARE_SIZE
-								+ SQUARE_SIZE / 2);
-				p.sphere(30);
+				// rotate the player to face this player
+				float angle = PApplet.atan2(cameraEye.z - position.y,
+						cameraEye.x - position.x);
+				angle = angle * (180 / PApplet.PI);
+				p.rotateY(-PVector.angleBetween(position, cameraEye));
+
+				// draw the player astronaut image
+				p.imageMode(p.CENTER);
+				p.image(ASTRONAUT, 0, 0, 300, 600);
 
 				p.popStyle();
 				p.popMatrix();
@@ -128,8 +147,8 @@ public class Perspective3D extends DrawingComponent {
 		p.translate(actualCameraEye.x, PLAYER_VIEW_HEIGHT, actualCameraEye.z);
 
 		// draw the space skybox with no lighting
-		p.noLights();
-		SKYBOX.draw();
+		// p.noLights();
+		// SKYBOX.draw();
 
 		// pop matrix and style information from the stack
 		p.popStyle();
