@@ -2,15 +2,23 @@ package ui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import control.Client;
 import control.DropAction;
 import control.MoveAction;
 import control.OrientAction;
+import control.PickupAction;
 import ddf.minim.*;
+import game.Direction;
+import game.Entity;
 import game.GameState;
+import game.Key;
 import game.Player;
+import game.Square;
+import game.WalkableSquare;
 import processing.core.*;
 
 /**
@@ -19,11 +27,12 @@ import processing.core.*;
  * components to render each frame, these include the 3D perspective and heads
  * up display components.
  *
- * @author Jack
+ * @author Jack and Ben
  *
  */
+
 @SuppressWarnings("serial")
-public class Canvas extends PApplet implements KeyListener {
+public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 	// canvas dimensional fields
 	private final int maxWidth;
@@ -48,6 +57,7 @@ public class Canvas extends PApplet implements KeyListener {
 	// drawing components
 	private DrawingComponent perspective;
 	private ArrayList<DrawingComponent> hud;
+	private SquareMenu menu;
 
 	// player input fields
 	private long keyTimer;
@@ -66,8 +76,7 @@ public class Canvas extends PApplet implements KeyListener {
 	 * @param gameState
 	 *            The initial state of the game to be drawn.
 	 */
-	public Canvas(int w, int h, Client client, GameState gameState,
-			boolean hardwareRenderer) {
+	public Canvas(int w, int h, Client client, GameState gameState, boolean hardwareRenderer) {
 		this.maxWidth = w;
 		this.maxHeight = h;
 		this.client = client;
@@ -99,18 +108,18 @@ public class Canvas extends PApplet implements KeyListener {
 		size(maxWidth, maxHeight, renderer);
 
 		// setup the drawing component factory
-		DrawingComponentFactory factory = new DrawingComponentFactory(this,
-				gameState, playerID);
+		DrawingComponentFactory factory = new DrawingComponentFactory(this, gameState, playerID);
 
 		// get a 3D perspective component
-		perspective = factory
-				.getDrawingComponent(DrawingComponentFactory.PERSPECTIVE3D);
+		perspective = factory.getDrawingComponent(DrawingComponentFactory.PERSPECTIVE3D);
 
 		// get the HUD components
 		hud = new ArrayList<DrawingComponent>();
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.OXYGEN));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORY));
+
+		menu = new SquareMenu(this, gameState, playerID);
 
 		// audio setup
 		// minim = new Minim(this);
@@ -194,8 +203,7 @@ public class Canvas extends PApplet implements KeyListener {
 
 		// draw player position and orientation
 		Player player = gameState.getPlayer(playerID);
-		text(player.getLocation().getX() + " : " + player.getLocation().getY(),
-				maxWidth - 200, 150);
+		text(player.getLocation().getX() + " : " + player.getLocation().getY(), maxWidth - 200, 150);
 		text(player.getOrientation().toString(), maxWidth - 200, 200);
 
 		// draw the black borders
@@ -204,6 +212,8 @@ public class Canvas extends PApplet implements KeyListener {
 		rect(0, maxHeight, maxWidth, 10 * maxHeight); // bottom
 		rect(0, 0, -10 * maxWidth, maxHeight); // left
 		rect(maxWidth, 0, 10 * maxWidth, maxHeight); // right
+
+		menu.draw(gameState, delta);
 	}
 
 	/**
@@ -239,6 +249,10 @@ public class Canvas extends PApplet implements KeyListener {
 		client.sendAction(new DropAction(playerID, itemID));
 	}
 
+	public void pickupItem(int itemID) {
+		client.sendAction(new PickupAction(playerID, itemID));
+	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// check if the timer has been exceeded
@@ -254,26 +268,22 @@ public class Canvas extends PApplet implements KeyListener {
 
 			// move left
 			case KeyEvent.VK_W:
-				client.sendAction(new MoveAction(playerID, player
-						.getOrientation()));
+				client.sendAction(new MoveAction(playerID, player.getOrientation()));
 				break;
 
 			// strafe left
 			case KeyEvent.VK_A:
-				client.sendAction(new MoveAction(playerID, player
-						.getOrientation().left()));
+				client.sendAction(new MoveAction(playerID, player.getOrientation().left()));
 				break;
 
 			// move back
 			case KeyEvent.VK_S:
-				client.sendAction(new MoveAction(playerID, player
-						.getOrientation().opposite()));
+				client.sendAction(new MoveAction(playerID, player.getOrientation().opposite()));
 				break;
 
 			// strafe right
 			case KeyEvent.VK_D:
-				client.sendAction(new MoveAction(playerID, player
-						.getOrientation().right()));
+				client.sendAction(new MoveAction(playerID, player.getOrientation().right()));
 				break;
 
 			// turn left

@@ -35,7 +35,7 @@ public class MoveAction implements NetworkAction, Serializable {
 	}
 
 	@Override
-	public void applyAction(GameLogic logic) {
-		logic.movePlayer(playerID, direction);
+	public boolean applyAction(GameLogic logic) {
+		return logic.movePlayer(playerID, direction);
 	}
 }

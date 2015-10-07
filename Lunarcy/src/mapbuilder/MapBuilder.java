@@ -338,24 +338,29 @@ public class MapBuilder {
 	public void setWall(Direction dir) {
 		if (addWalls) {
 			addWall(dir);
-		} else {
-			removeWall(dir);
-		}
-	}
-
-	public void setDoor(Direction dir) {
-		if (addDoors) {
+		} else if (addDoors) {
 			addDoor(dir);
 		} else {
 			removeDoor(dir);
 		}
 	}
 
-	public void toggleWalls() {
-		addWalls = !addWalls;
+
+	public void wallsOn() {
+		addWalls = true;
 	}
 
-	public void toggleDoors() {
-		addDoors = !addDoors;
+	public void wallsOff() {
+		addWalls = false;
 	}
+
+
+	public void doorsOn() {
+		addDoors = true;
+	}
+
+	public void doorsOff() {
+		addDoors = false;
+	}
+
 }
