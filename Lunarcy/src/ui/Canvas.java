@@ -53,7 +53,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	private DrawingComponent perspective;
 	private ArrayList<DrawingComponent> hud;
 
-	//Displaying the menu for squares
+	// Displaying the menu for squares
 	private Menu menu;
 	private boolean menuActive;
 
@@ -63,7 +63,6 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	// audio fields
 	private Minim minim;
 	private AudioPlayer track;
-
 
 	/**
 	 * Setup a new Processing Canvas.
@@ -75,7 +74,8 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	 * @param gameState
 	 *            The initial state of the game to be drawn.
 	 */
-	public Canvas(int w, int h, Client client, GameState gameState, boolean hardwareRenderer) {
+	public Canvas(int w, int h, Client client, GameState gameState,
+			boolean hardwareRenderer) {
 		this.maxWidth = w;
 		this.maxHeight = h;
 		this.client = client;
@@ -107,17 +107,18 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		size(maxWidth, maxHeight, renderer);
 
 		// setup the drawing component factory
-		DrawingComponentFactory factory = new DrawingComponentFactory(this, gameState, playerID);
+		DrawingComponentFactory factory = new DrawingComponentFactory(this,
+				gameState, playerID);
 
 		// get a 3D perspective component
-		perspective = factory.getDrawingComponent(DrawingComponentFactory.PERSPECTIVE3D);
+		perspective = factory
+				.getDrawingComponent(DrawingComponentFactory.PERSPECTIVE3D);
 
 		// get the HUD components
 		hud = new ArrayList<DrawingComponent>();
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.OXYGEN));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORY));
-
 
 		// audio setup
 		// minim = new Minim(this);
@@ -201,7 +202,8 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 		// draw player position and orientation
 		Player player = gameState.getPlayer(playerID);
-		text(player.getLocation().getX() + " : " + player.getLocation().getY(), maxWidth - 200, 150);
+		text(player.getLocation().getX() + " : " + player.getLocation().getY(),
+				maxWidth - 200, 150);
 		text(player.getOrientation().toString(), maxWidth - 200, 200);
 
 		// draw the black borders
@@ -211,7 +213,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		rect(0, 0, -10 * maxWidth, maxHeight); // left
 		rect(maxWidth, 0, 10 * maxWidth, maxHeight); // right
 
-		if(menu!=null){
+		if (menu != null) {
 			menu.draw(gameState, delta);
 		}
 	}
@@ -245,12 +247,11 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		}
 	}
 
-
-	public boolean menuActive(){
+	public boolean menuActive() {
 		return menuActive;
 	}
 
-	public void menuActive(boolean menu){
+	public void menuActive(boolean menu) {
 		this.menuActive = menu;
 	}
 
@@ -266,7 +267,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		client.sendAction(new PickupAction(playerID, itemID));
 	}
 
-	public Menu getMenu(){
+	public Menu getMenu() {
 		return menu;
 	}
 
@@ -292,22 +293,26 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 			// move left
 			case KeyEvent.VK_W:
-				client.sendAction(new MoveAction(playerID, player.getOrientation()));
+				client.sendAction(new MoveAction(playerID, player
+						.getOrientation()));
 				break;
 
 			// strafe left
 			case KeyEvent.VK_A:
-				client.sendAction(new MoveAction(playerID, player.getOrientation().left()));
+				client.sendAction(new MoveAction(playerID, player
+						.getOrientation().left()));
 				break;
 
 			// move back
 			case KeyEvent.VK_S:
-				client.sendAction(new MoveAction(playerID, player.getOrientation().opposite()));
+				client.sendAction(new MoveAction(playerID, player
+						.getOrientation().opposite()));
 				break;
 
 			// strafe right
 			case KeyEvent.VK_D:
-				client.sendAction(new MoveAction(playerID, player.getOrientation().right()));
+				client.sendAction(new MoveAction(playerID, player
+						.getOrientation().right()));
 				break;
 
 			// turn left
@@ -322,7 +327,6 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 			// Hide/Show menu
 			case KeyEvent.VK_SPACE:
-
 				if(menu == null){
 					setMenu(new PickMenu(this, gameState, playerID));
 				}
@@ -331,9 +335,6 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 				}
 
 				break;
-
-			case KeyEvent.VK_DOLLAR:
-				image(loadImage("/assets/characters/OgreMan.png"), width/2, height/2, 100, 100);
 			}
 		}
 	}

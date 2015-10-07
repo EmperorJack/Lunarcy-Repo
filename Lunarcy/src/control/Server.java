@@ -48,10 +48,10 @@ public class Server {
 		gameLogic = new GameLogic(gameState);
 	}
 
-	public Server(int maxClients, int updateFreq) {
+	public Server(int maxClients, int updateFreq, String map) {
 		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;
-		GameState gameState = new GameState(maxClients);
+		GameState gameState = new GameState(maxClients,map);
 
 		try {
 			serverSocket = new ServerSocket(PORT);
@@ -139,7 +139,6 @@ public class Server {
 						transmitState();
 						lastUpdate = System.currentTimeMillis();
 					} else{
-
 						processAction();
 					}
 				}
@@ -164,11 +163,7 @@ public class Server {
 		// transmitting
 		GameState state = gameLogic.getGameState();
 		for (ClientConnection client : clientList) {
-			 //System.out.println("Transmitting gamestate to: "+
-			// client.clientID);
-			if (client.writeObject(state)) {
-				// System.out.println("Sucessfully sent gamestate");
-			}
+			client.writeObject(state);
 		}
 	}
 
@@ -310,7 +305,7 @@ public class Server {
 	}
 
 	public static void main(String[] args) {
-		new Server(2, 1000);
+		new Server(2, 1000,"map.xml");
 	}
 
 }

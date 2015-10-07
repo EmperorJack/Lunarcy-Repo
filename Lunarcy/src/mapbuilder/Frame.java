@@ -64,8 +64,8 @@ public class Frame extends JFrame implements ActionListener {
 		JMenuItem setWalkable = new JMenuItem("Set Walkable");
 		JMenuItem setBlank = new JMenuItem("Set Blank");
 		JCheckBoxMenuItem insideToggle = new JCheckBoxMenuItem("Inside Tiles");
-		JCheckBoxMenuItem wallToggle = new JCheckBoxMenuItem("Walls");
-		JCheckBoxMenuItem doorToggle = new JCheckBoxMenuItem("Doors");
+		final JCheckBoxMenuItem wallToggle = new JCheckBoxMenuItem("Walls");
+		final JCheckBoxMenuItem doorToggle = new JCheckBoxMenuItem("Doors");
 		optionMenu.add(saveMenuItem);
 		optionMenu.add(loadMenuItem);
 		toggleMenu.add(insideToggle);
