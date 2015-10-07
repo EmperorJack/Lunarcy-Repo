@@ -113,7 +113,7 @@ public class WorldModel {
 	/**
 	 * Given a board from the inital game state, convert it into a 3D model that
 	 * can be rendered.
-	 * 
+	 *
 	 * @param board
 	 *            The board to generate 3D geometry for.
 	 * @param SQUARE_SIZE
@@ -213,7 +213,9 @@ public class WorldModel {
 	}
 
 	/**
-	 * 
+	 * Check if the walls for the given direction of the given square has wall
+	 * of the given type. If so create the wall.
+	 *
 	 * @param ws
 	 *            The walkable square in question.
 	 * @param direction
@@ -253,7 +255,7 @@ public class WorldModel {
 	 * Given a walkable square that is known to have a wall on a certain side,
 	 * check if the square is inside or outside and create the correct wall
 	 * model.
-	 * 
+	 *
 	 * @param ws
 	 *            The walkable square in question.
 	 * @param insideObjModel

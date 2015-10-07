@@ -30,7 +30,7 @@ public class Rover implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	//The current movement strategy we are following
+	// The current movement strategy we are following
 	private ShortestPathMover movementStrategy;
 
 	// Which squares the rover is set to follow
@@ -39,7 +39,7 @@ public class Rover implements Serializable {
 	// Mantains the rovers position (x,y) at any given time
 	private Location currentLocation;
 
-	//Used to find players/locations
+	// Used to find players/locations
 	private GameState gameState;
 
 	public Rover(GameState gameState, ShortestPathMover movementStrategy) {
@@ -50,9 +50,8 @@ public class Rover implements Serializable {
 	}
 
 	/**
-	 * Moves the rover one step along its currentPath,
-	 * generating a new path if necessary and also
-	 * changing the movement strategy when applicable.
+	 * Moves the rover one step along its currentPath, generating a new path if
+	 * necessary and also changing the movement strategy when applicable.
 	 */
 
 	public void tick() {
@@ -61,8 +60,8 @@ public class Rover implements Serializable {
 			path = movementStrategy.path(gameState.getBoard(), currentLocation);
 		}
 
-		//THE ROVER HAS CAUGHT A PLAYER
-		if(path.isEmpty()){
+		// THE ROVER HAS CAUGHT A PLAYER
+		if (path.isEmpty()) {
 			movementStrategy = new RoamMovement();
 			return;
 		}
@@ -77,19 +76,19 @@ public class Rover implements Serializable {
 	/**
 	 * Changes the movement strategy in one of two cases
 	 *
-	 * 1. If the Rover is roaming and spots a target, changes to
-	 * TrackMovement.
+	 * 1. If the Rover is roaming and spots a target, changes to TrackMovement.
 	 *
-	 * 2. If the Rover is tracking and has not reached the player
-	 * after a certain amount of ticks, revert to roaming.
+	 * 2. If the Rover is tracking and has not reached the player after a
+	 * certain amount of ticks, revert to roaming.
 	 *
 	 * Otherwise does not update the movement strategy.
 	 *
 	 */
-	private void updateStrategy(){
+	private void updateStrategy() {
 		// If we are roaming, see if we can track anyone
 		if (movementStrategy instanceof RoamMovement) {
-			Player target = ((RoamMovement) movementStrategy).viewTarget(gameState.getBoard());
+			Player target = ((RoamMovement) movementStrategy)
+					.viewTarget(gameState.getBoard());
 
 			// If we can see a target
 			if (target != null) {
@@ -103,10 +102,13 @@ public class Rover implements Serializable {
 		else if (movementStrategy instanceof TrackMovement) {
 			// If the tracker has been following for too long
 			if (((TrackMovement) movementStrategy).shouldGiveup()) {
-				//Change back to Roaming
+				// Change back to Roaming
 				movementStrategy = new RoamMovement();
 			}
 		}
 	}
 
+	public Location getLocation() {
+		return currentLocation;
+	}
 }
