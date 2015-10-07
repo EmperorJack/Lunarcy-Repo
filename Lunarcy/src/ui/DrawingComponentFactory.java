@@ -66,7 +66,7 @@ public class DrawingComponentFactory {
 			return new Perspective3D(p, gameState, playerID);
 
 		case ENTITYVIEW:
-			EntityView entityView = new EntityView(p, gameState, playerID);
+			EntityView entityView = new EntityView(p, gameState, playerID, null);
 			entityControl.setEntityView(entityView);
 			return entityView;
 
