@@ -81,6 +81,12 @@ public class MapBuilder {
 		}
 	}
 
+	public void setSelected(){
+		if (highlightedTile != null){
+			selectedTile = new Location(highlightedTile.getX(), highlightedTile.getY());
+		}
+	}
+
 	public void setWalkable() {
 		Iterator<Location> tileIterator = selectedTiles.iterator();
 		while (tileIterator.hasNext()) {
@@ -106,11 +112,13 @@ public class MapBuilder {
 	}
 
 	public void setShip() {
-		if (highlightedTile != null) {
-
+		if (selectedTile != null) {
+			if  (map[selectedTile.getY()][selectedTile.getX()] instanceof Ship){
+				map[selectedTile.getY()][selectedTile.getX()] = new BlankSquare();
+			}
 			for (int i = 0; i < map.length; i++) {
 				for (int j = 0; j < map[0].length; j++) {
-					if (map[highlightedTile.getY()][highlightedTile.getX()] instanceof Ship) {
+					if (map[i][j] instanceof Ship) {
 						JOptionPane.showMessageDialog(null,
 								"Ship already present!", "Error",
 								JOptionPane.ERROR_MESSAGE);
@@ -119,7 +127,7 @@ public class MapBuilder {
 				}
 			}
 
-			map[highlightedTile.getY()][highlightedTile.getX()] = new Ship(null);
+			map[selectedTile.getY()][selectedTile.getX()] = new Ship(null);
 
 		}
 	}
@@ -296,7 +304,8 @@ public class MapBuilder {
 					g.fillRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
-				} else if (map[i][j] instanceof Ship) {
+				}
+				if (map[i][j] instanceof Ship) {
 					g.setColor(Color.WHITE);
 					g.fillRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
@@ -319,7 +328,7 @@ public class MapBuilder {
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
 				}
-				if (map[i][j] instanceof WalkableSquare) {
+				if (map[i][j] instanceof WalkableSquare && !(map[i][j] instanceof Ship)) {
 					drawSquare(g, (WalkableSquare) map[i][j], GRID_LEFT + j
 							* GRID_SIZE, GRID_TOP + i * GRID_SIZE);
 				}

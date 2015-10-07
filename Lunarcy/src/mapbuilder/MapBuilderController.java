@@ -21,7 +21,7 @@ public class MapBuilderController implements MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		builder.setSelected();
 
 	}
 

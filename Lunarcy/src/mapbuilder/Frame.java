@@ -63,6 +63,7 @@ public class Frame extends JFrame implements ActionListener {
 		JMenuItem loadMenuItem = new JMenuItem("Load");
 		JMenuItem setWalkable = new JMenuItem("Set Walkable");
 		JMenuItem setBlank = new JMenuItem("Set Blank");
+		JMenuItem setShip = new JMenuItem("Set Ship");
 		JCheckBoxMenuItem insideToggle = new JCheckBoxMenuItem("Inside Tiles");
 		final JCheckBoxMenuItem wallToggle = new JCheckBoxMenuItem("Walls");
 		final JCheckBoxMenuItem doorToggle = new JCheckBoxMenuItem("Doors");
@@ -73,11 +74,12 @@ public class Frame extends JFrame implements ActionListener {
 		toggleMenu.add(doorToggle);
 		toolMenu.add(setWalkable);
 		toolMenu.add(setBlank);
+		toolMenu.add(setShip);
 		saveMenuItem.addActionListener(this);
 		loadMenuItem.addActionListener(this);
 		setWalkable.addActionListener(this);
 		setBlank.addActionListener(this);
-
+		setShip.addActionListener(this);
 		insideToggle.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -143,6 +145,9 @@ public class Frame extends JFrame implements ActionListener {
 		}
 		if (e.getActionCommand().equals("Set Blank")) {
 			mapBuilder.setBlank();
+		}
+		if (e.getActionCommand().equals("Set Ship")) {
+			mapBuilder.setShip();
 		}
 	}
 }
