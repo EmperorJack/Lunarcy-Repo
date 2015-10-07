@@ -34,7 +34,7 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 	private List<Location> getNeighbours(Square[][] board, Location loc) {
 		List<Location> neighbours = new ArrayList<Location>();
 
-		//NOT CURRENTLY CORRECTT AS IT CAN MOVE THROUGH WALLS
+		//NOT CURRENTLY CORRECT AS IT CAN MOVE THROUGH WALLS
 		for(Direction direction: game.Direction.values()){
 			if(validSquare(board, loc.getAdjacent(direction))){
 				neighbours.add(loc.getAdjacent(direction));
@@ -121,6 +121,7 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 			}
 		}
 
+		System.out.println("No path found");
 		return path;
 
 	}

@@ -10,6 +10,7 @@ import control.DropAction;
 import control.MoveAction;
 import control.OrientAction;
 import control.PickupAction;
+import control.PutAction;
 import ddf.minim.*;
 import game.GameState;
 import game.Player;
@@ -53,7 +54,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	private ArrayList<DrawingComponent> hud;
 
 	//Displaying the menu for squares
-	private SquareMenu menu;
+	private Menu menu;
 	private boolean menuActive;
 
 	// player input fields
@@ -117,7 +118,6 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORY));
 
-		menu = new SquareMenu(this, gameState, playerID);
 
 		// audio setup
 		// minim = new Minim(this);
@@ -211,7 +211,9 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		rect(0, 0, -10 * maxWidth, maxHeight); // left
 		rect(maxWidth, 0, 10 * maxWidth, maxHeight); // right
 
-		menu.draw(gameState, delta);
+		if(menu!=null){
+			menu.draw(gameState, delta);
+		}
 	}
 
 	/**
@@ -256,10 +258,25 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		client.sendAction(new DropAction(playerID, itemID));
 	}
 
+	public void putItem(int itemID, int containerID) {
+		client.sendAction(new PutAction(playerID, itemID, containerID));
+	}
+
 	public void pickupItem(int itemID) {
 		client.sendAction(new PickupAction(playerID, itemID));
 	}
 
+	public Menu getMenu(){
+		return menu;
+	}
+	
+	public void setMenu(Menu menu){
+		this.menu = menu;
+		
+		//Set the menu to visible if menu is non null
+		menuActive = menu != null;
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// check if the timer has been exceeded
@@ -305,8 +322,18 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 			// Hide/Show menu
 			case KeyEvent.VK_SPACE:
-				menuActive = !menuActive;
+
+				if(menu == null){
+					setMenu(new SquareMenu(this, gameState, playerID));
+				}
+				else{
+					setMenu(null);
+				}
+
 				break;
+
+			case KeyEvent.VK_DOLLAR:
+				image(loadImage("/assets/characters/OgreMan.png"), width/2, height/2, 100, 100);
 			}
 		}
 	}

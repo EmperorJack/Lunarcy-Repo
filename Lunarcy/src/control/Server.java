@@ -135,7 +135,7 @@ public class Server {
 				while (running) {
 					if (System.currentTimeMillis() > lastUpdate + updateFreq) {
 						gameLogic.tickGameState();
-						System.out.println("tranmitting state");
+						//System.out.println("tranmitting state");
 						transmitState();
 						lastUpdate = System.currentTimeMillis();
 					} else{
@@ -163,8 +163,8 @@ public class Server {
 		// transmitting
 		GameState state = gameLogic.getGameState();
 		for (ClientConnection client : clientList) {
-			 System.out.println("Transmitting gamestate to: "+
-			 client.clientID);
+			 //System.out.println("Transmitting gamestate to: "+
+			// client.clientID);
 			if (client.writeObject(state)) {
 				// System.out.println("Sucessfully sent gamestate");
 			}
