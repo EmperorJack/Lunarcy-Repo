@@ -1,7 +1,9 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,7 +18,7 @@ public class WalkableSquare extends Square {
 	private final String name;
 	private final String description;
 
-	private Map<Direction, Set<Entity>> entities;
+	private Map<Direction, List<Entity>> entities;
 	private Set<Player> players;
 	private boolean inside;
 
@@ -26,13 +28,13 @@ public class WalkableSquare extends Square {
 		this.description = description;
 		this.inside = inside;
 
-		entities = new HashMap<Direction, Set<Entity>>();
+		entities = new HashMap<Direction, List<Entity>>();
 
 		//populate with empty sets to avoid Null Pointers
-		entities.put(Direction.NORTH, new HashSet<Entity>());
-		entities.put(Direction.EAST, new HashSet<Entity>());
-		entities.put(Direction.SOUTH, new HashSet<Entity>());
-		entities.put(Direction.WEST, new HashSet<Entity>());
+		entities.put(Direction.NORTH, new ArrayList<Entity>());
+		entities.put(Direction.EAST, new ArrayList<Entity>());
+		entities.put(Direction.SOUTH, new ArrayList<Entity>());
+		entities.put(Direction.WEST, new ArrayList<Entity>());
 
 		players = new HashSet<Player>();
 
@@ -138,10 +140,10 @@ public class WalkableSquare extends Square {
 	 *            the side of the Square the entities are on
 	 * @return Set<Entity> of all the entities on that side of the room
 	 */
-	public Set<Entity> getEntities(Direction side) {
+	public List<Entity> getEntities(Direction side) {
 		if (side == null)
 			return null;
-		return new HashSet<Entity>(entities.get(side));
+		return new ArrayList<Entity>(entities.get(side));
 	}
 
 	/**
@@ -160,7 +162,7 @@ public class WalkableSquare extends Square {
 		//Initialise the set if it hasnt been done yet
 		//This is required as the data loading does not use the constructor
 		if(entities.get(side) == null){
-			entities.put(side, new HashSet<Entity>());
+			entities.put(side, new ArrayList<Entity>());
 		}
 
 		return entities.get(side).add(entity);
