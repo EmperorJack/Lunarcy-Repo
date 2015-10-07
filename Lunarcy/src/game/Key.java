@@ -34,13 +34,12 @@ public class Key extends Item {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || getClass() != obj.getClass())
 			return false;
 		Key other = (Key) obj;
-		if (keyCode != other.keyCode)
-			return false;
-		return true;
+		if (keyCode == other.keyCode){
+			return true;
+		}
+		return false;
 	}
 }

@@ -26,10 +26,8 @@ public abstract class Entity implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Entity other = (Entity) obj;
-		if (entityID != other.entityID)
-			return false;
-		return true;
+		if (entityID == other.entityID)
+			return true;
+		return false;
 	}
-
-
 }
