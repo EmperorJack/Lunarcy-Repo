@@ -1,6 +1,8 @@
 package ui;
 
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import game.Direction;
 import game.Entity;
@@ -19,52 +21,41 @@ import game.WalkableSquare;
  * @author evansben1
  *
  */
-public class SquareMenu extends Menu {
+public class SquareMenu extends Menu implements MouseListener  {
 
-	private boolean shouldDraw;
 	private WalkableSquare square;
+	private GameState gameState;
 
 	public SquareMenu(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID, "Pickup", null);
 		p.addMouseListener(this);
-		shouldDraw = false;
 		update(gameState);
-	}
-
-	public void shouldDraw(boolean shouldDraw) {
-		this.shouldDraw = shouldDraw;
-	}
-	
-	public boolean shouldDraw() {
-		return shouldDraw;
 	}
 
 	@Override
 	public void draw(GameState gameState, float delta) {
-		if (shouldDraw) {
+		if (p.menuActive()) {
 			update(gameState);
 			super.draw(gameState, delta);
 		}
 	}
-	
+
 	private void update(GameState gameState){
+		this.gameState = gameState;
+
 		Player player = gameState.getPlayer(playerID);
 		square = (WalkableSquare) gameState.getSquare(player.getLocation());
-		
+
 		Direction dir = player.getOrientation();
-		
-		// TESTCODE
-		square.addEntity(dir, new Key(1, 1));
-		square.addEntity(dir, new Key(2, 2));
-		square.addEntity(dir, new Key(3, 3));
-		
+
+
 		String[] buttons = new String[square.getEntities(dir).size()];
 		int i = 0;
 		for (Entity entity : square.getEntities(dir)) {
 			buttons[i] = entity.getImageName();
 			i++;
 		}
-		
+
 		updateButtons(buttons);
 	}
 
@@ -72,19 +63,21 @@ public class SquareMenu extends Menu {
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		
-		shouldDraw = !shouldDraw;
-		
-		if (onMenu(x, y)) {
-			// Gets the ID of the clicked item
-			int clickedID = getIndexClicked(x, y);
-						
-			// If it was a valid ID
-			if (clickedID >= 0) {
-				p.pickupItem(clickedID);
-				shouldDraw = false;
-			}
 
+		if (onMenu(x, y) && p.menuActive()) {
+			// Gets the ID of the clicked item
+			int clickedIndex = getIndexClicked(x, y);
+
+			// If it was a valid ID
+			if (clickedIndex >= 0) {
+				//Get the ID from the squares items
+				Player player = gameState.getPlayer(playerID);
+
+				int clickedID = square.getEntities(player.getOrientation()).get(clickedIndex).entityID;
+				p.pickupItem(clickedID);
+				p.menuActive(false);
+				return;
+			}
 		}
 	}
 

@@ -13,9 +13,11 @@ import bots.Rover;
  */
 public class GameLogic {
 	private GameState state;
+	private PlayerMove[] moves;
 
 	public GameLogic(GameState state) {
 		this.state = state;
+		moves = new PlayerMove[state.getPlayers().length];
 	}
 
 	/**
@@ -39,9 +41,7 @@ public class GameLogic {
 		Square dest = state.getSquare(player.getLocation().getAdjacent(direction));
 
 		if(dest != null && src != null && src.canExit(player,direction) && dest.canEnter(player, direction.opposite())){
-			src.removePlayer(player);
-			dest.addPlayer(player);
-			player.move(direction);
+			moves[playerID] = new PlayerMove(player,direction,src,dest);
 			return true;
 		}
 		return false;
@@ -88,7 +88,7 @@ public class GameLogic {
 
 		// Otherwise cannot contain players/items
 		// Shouldn't need to check as it's from Player location, but to be safe
-		if (square instanceof WalkableSquare) {	
+		if (square instanceof WalkableSquare) {
 			WalkableSquare wSquare = (WalkableSquare) square;
 
 			// Check all Items/Containers in the square to find the matching
@@ -193,6 +193,19 @@ public class GameLogic {
 	 * changes Player Oxygen
 	 */
 	public void tickGameState() {
+		//Move all the rovers
+		for(Rover r: state.getRovers()){
+			r.tick();
+		}
+
+		//Move all the players
+		for(int i = 0; i < moves.length; i++){
+			if(moves[i]!=null){
+				moves[i].move();
+				moves[i] = null;
+			}
+		}
+
 		Set<Location> locations = new HashSet<Location>();
 		// Update player oxygen
 		for (Player player : state.getPlayers()) {
@@ -204,14 +217,30 @@ public class GameLogic {
 			Square square = state.getSquare(loc);
 			square.tick();
 		}
-
-		//Move all the rovers
-		for(Rover r: state.getRovers()){
-			r.tick();
-		}
 	}
 
 	public GameState getGameState() {
 		return state;
+	}
+
+	private class PlayerMove{
+		private final Player player;
+		private final Direction direction;
+		private final Square source;
+		private final Square destination;
+		public PlayerMove(Player player, Direction direction, Square source, Square destination){
+			this.player = player;
+			this.direction = direction;
+			this.source = source;
+			this.destination = destination;
+		}
+		public void move(){
+			if(player==null||direction==null||source==null||destination==null){
+				return;
+			}
+			source.removePlayer(player);
+			destination.addPlayer(player);
+			player.move(direction);
+		}
 	}
 }

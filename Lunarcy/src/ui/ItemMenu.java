@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 import game.GameState;
 import game.Item;
 
-public class ItemMenu extends Menu {
+public class ItemMenu extends Menu implements MouseListener {
 
 	private Item item;
 	private final static String[] buttons = new String[] { "Drop item",
@@ -28,6 +28,10 @@ public class ItemMenu extends Menu {
 	public void draw(GameState gameState, float delta) {
 		// Only draw if there is an item
 		if (item != null) {
+
+			//Hide the menu from canvas if there is one
+			p.menuActive(false);
+
 			super.draw(gameState, delta);
 		}
 	}
@@ -37,7 +41,7 @@ public class ItemMenu extends Menu {
 		int x = e.getX();
 		int y = e.getY();
 
-		if (onMenu(x, y)) {
+		if (onMenu(x, y) && item!=null) {
 			String button = getButtonClicked(x, y);
 			if (button != null) {
 				switch (button) {

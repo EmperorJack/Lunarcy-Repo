@@ -35,7 +35,7 @@ public class Inventory extends DrawingComponent implements MouseListener {
 		TOP_PADDING = (int) (p.height * 0.8);
 		INVENTORY_WIDTH = (int) (p.width * 0.3);
 		ITEM_SIZE = 35;
-		ITEM_SPACING = 20;
+		ITEM_SPACING = 10;
 
 		p.addMouseListener(this);
 	}
@@ -64,8 +64,8 @@ public class Inventory extends DrawingComponent implements MouseListener {
 			for (int i = 0; i < inventory.size(); i++) {
 				// TEMP: While we discuss images for items
 				p.image(p.loadImage("/assets/items/"
-						+ inventory.get(i).getImageName() + ".png"), i * ITEM_SIZE
-						+ ITEM_SPACING, 0, ITEM_SIZE, ITEM_SIZE);
+						+ inventory.get(i).getImageName() + ".png"), i * (ITEM_SIZE
+						+ ITEM_SPACING), 0, ITEM_SIZE, ITEM_SIZE);
 			}
 		}
 
@@ -134,7 +134,7 @@ public class Inventory extends DrawingComponent implements MouseListener {
 				lastChosen = item;
 			}
 			//If they reclick an item, remove it from the menu
-			else if(item!=null && item.equals(lastChosen)){
+			if(item!=null && item.equals(lastChosen)){
 				menu.updateItem(null);
 				lastChosen = null;
 			}
