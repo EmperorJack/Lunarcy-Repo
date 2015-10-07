@@ -21,7 +21,7 @@ public class MapBuilderController implements MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		builder.setSelected();
 
 	}
 
@@ -99,7 +99,7 @@ public class MapBuilderController implements MouseListener,
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		builder.setTile(e.getX(), e.getY());
+		builder.setHighlighted(e.getX(), e.getY());
 		canvas.repaint();
 	}
 

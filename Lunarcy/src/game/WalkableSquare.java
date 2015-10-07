@@ -15,6 +15,8 @@ import java.util.Set;
  *
  */
 public class WalkableSquare extends Square {
+	private static final long serialVersionUID = 7008891830061539518L;
+
 	private final String name;
 	private final String description;
 
@@ -72,49 +74,18 @@ public class WalkableSquare extends Square {
 		}
 	}
 
-	/**
-	 * Checks whether the specified player can enter the room *FROM* the
-	 * direction
-	 *
-	 * @param player
-	 *            The player that is attempting to enter
-	 * @param direction
-	 *            The direction the player is entering the room *FROM*
-	 * @return True if the player may enter, False otherwise
-	 */
 	public boolean canEnter(Player player, Direction direction) {
 		if (player == null||direction == null)
 			return false;
 		return walls.get(direction).pass(player);
 	}
 
-	/**
-	 * Checks whether the specified player can exit the room *IN* the
-	 * direction
-	 *
-	 * @param player
-	 *            The player that is attempting to enter
-	 * @param direction
-	 *            The direction the player is exiting the room *IN*
-	 * @return True if the player may exit, False otherwise
-	 */
 	public boolean canExit(Player player, Direction direction) {
 		if (player == null||direction == null)
 			return false;
 		return walls.get(direction).pass(player);
 	}
 
-	/**	Direction dir = gameState.getPlayer(playerID).getOrientation();
-
-				int clickedID = square.getEntities(dir).get(clickedIndex).entityID;
-				System.out.println("Clicked the  " + clickedIndex +" button");
-				System.out.println("The ID of that item is " + clickedID);
-	 * Adds the Player to the set of Players in the room.
-	 *
-	 * @param player
-	 *            The player that is being added
-	 * @return True if player was added to the room, False otherwise
-	 */
 	public boolean addPlayer(Player player) {
 		if (player != null){
 			return players.add(player);
@@ -122,12 +93,6 @@ public class WalkableSquare extends Square {
 		return false;
 	}
 
-	/**
-	 * Removes the Player from the set of Players in the room.
-	 *
-	 * @param player
-	 *            The player that is being removed
-	 */
 	public void removePlayer(Player player) {
 		if (player != null) {
 			if (players.contains(player)) {
@@ -137,12 +102,12 @@ public class WalkableSquare extends Square {
 	}
 
 	/**
-	 * Get the set of entities on a certain side of the room. Note: Modifying the
-	 * returned set will not change the entities in the room
+	 * Get the list of entities on a certain side of the room. Note: Modifying the
+	 * returned list will not change the entities in the room
 	 *
 	 * @param side
 	 *            the side of the Square the entities are on
-	 * @return Set<Entity> of all the entities on that side of the room
+	 * @return List<Entity> of all the entities on that side of the room
 	 */
 	public List<Entity> getEntities(Direction side) {
 		if (side == null)

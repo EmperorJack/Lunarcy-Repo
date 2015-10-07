@@ -1,6 +1,8 @@
 package game;
 
 public class ShipPart extends Item {
+	private static final long serialVersionUID = 1206556005810938273L;
+
 	private PartType type;
 	public ShipPart(int entityID, int partID) {
 		super(entityID);

@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -25,6 +26,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+
+import control.Client;
 
 
 /**
@@ -335,14 +338,24 @@ class ClientMain extends JFrame {
 				}
 				//System.out.println("colour is: " + chosenColor);
 				// Show the splash screen
-				ClientSplashScreen client = new ClientSplashScreen(nameTextbox.getText(), serverTextbox.getText(),chosenColor,
-						mode.getSelectedItem().equals("Hardware"));
+				Client client = null;
+				do{
+					try{
+					 client = new Client (nameTextbox.getText(), serverTextbox.getText(),chosenColor,
+							mode.getSelectedItem().equals("Hardware"));
+					break;
+					}catch(IllegalArgumentException ex){
+						//TODO show dialog asking to re enter details
+					}
+				}while(client == null);
+
+				ClientSplashScreen clientSplash = new ClientSplashScreen(client);
 
 				// Hide this window as now the splash screen is up
 				setVisible(false);
 
 				// Start the connection
-				client.startClient();
+				clientSplash.startClient();
 
 			}
 

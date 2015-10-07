@@ -7,6 +7,8 @@ package game;
  *
  */
 public class EmptyWall implements Wall {
+	private static final long serialVersionUID = -995852244184737539L;
+
 	@Override
 	public boolean pass(Player player) {
 		return true;

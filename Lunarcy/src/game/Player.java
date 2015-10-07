@@ -13,6 +13,8 @@ import java.util.List;
  *
  */
 public class Player implements Serializable {
+	private static final long serialVersionUID = 606752819269306395L;
+
 	private final int id;
 	private final String name;
 	private Color colour;

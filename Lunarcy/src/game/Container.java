@@ -10,6 +10,8 @@ import java.util.Set;
  *
  */
 public abstract class Container extends Entity {
+	private static final long serialVersionUID = -7267673923708405364L;
+
 	Set<Item> items;
 
 	public Container(int entityID) {

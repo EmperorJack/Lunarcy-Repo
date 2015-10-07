@@ -5,6 +5,8 @@ package game;
  *
  */
 public class SolidWall implements Wall {
+	private static final long serialVersionUID = -4326090500543375072L;
+
 	@Override
 	public boolean pass(Player player) {
 		return false;

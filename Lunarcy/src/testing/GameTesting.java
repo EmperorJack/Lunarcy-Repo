@@ -27,7 +27,8 @@ public class GameTesting {
 	}
 
 	private GameLogic createNewGameLogic(int numPlayers) {
-		GameState state = new GameState(numPlayers, "map.xml");
+		GameState state = new GameState(numPlayers,"map.xml");
+
 		for(int i = 0; i < numPlayers; i++){
 			state.addPlayer(i, "Player"+i, Color.black);
 		}

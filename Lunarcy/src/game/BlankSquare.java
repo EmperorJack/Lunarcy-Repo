@@ -9,8 +9,8 @@ import java.util.List;
  * @author Robbie
  *
  */
-@SuppressWarnings("serial")
 public class BlankSquare extends Square {
+	private static final long serialVersionUID = -2721273025234939894L;
 
 	public boolean canEnter(Player player, Direction direction) {
 		return false;
