@@ -2,7 +2,6 @@ package ui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
@@ -12,13 +11,8 @@ import control.MoveAction;
 import control.OrientAction;
 import control.PickupAction;
 import ddf.minim.*;
-import game.Direction;
-import game.Entity;
 import game.GameState;
-import game.Key;
 import game.Player;
-import game.Square;
-import game.WalkableSquare;
 import processing.core.*;
 
 /**
@@ -57,7 +51,10 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	// drawing components
 	private DrawingComponent perspective;
 	private ArrayList<DrawingComponent> hud;
+
+	//Displaying the menu for squares
 	private SquareMenu menu;
+	private boolean menuActive;
 
 	// player input fields
 	private long keyTimer;
@@ -65,6 +62,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	// audio fields
 	private Minim minim;
 	private AudioPlayer track;
+
 
 	/**
 	 * Setup a new Processing Canvas.
@@ -245,6 +243,15 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		}
 	}
 
+
+	public boolean menuActive(){
+		return menuActive;
+	}
+
+	public void menuActive(boolean menu){
+		this.menuActive = menu;
+	}
+
 	public void dropItem(int itemID) {
 		client.sendAction(new DropAction(playerID, itemID));
 	}
@@ -294,6 +301,11 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			// turn right
 			case KeyEvent.VK_E:
 				client.sendAction(new OrientAction(playerID, false));
+				break;
+
+			// Hide/Show menu
+			case KeyEvent.VK_SPACE:
+				menuActive = !menuActive;
 				break;
 			}
 		}

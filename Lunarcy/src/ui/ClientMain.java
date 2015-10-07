@@ -375,7 +375,7 @@ class ClientMain extends JFrame {
 
 					return false;
 				}
-				
+
 				if(chosenColor == null){
 					colorPalette.setBorder(BorderFactory.createLineBorder(Color.RED));
 					return false;

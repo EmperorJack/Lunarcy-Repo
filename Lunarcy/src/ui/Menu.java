@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
  * @author evansben1
  *
  */
-public abstract class Menu extends DrawingComponent implements MouseListener {
+public abstract class Menu extends DrawingComponent {
 
 	// Menu alignment and sizing
 	private final int MENU_SIZE, MENU_LEFT_PADDING, MENU_TOP_PADDING, MENU_BUTTON_HEIGHT;
@@ -34,7 +34,7 @@ public abstract class Menu extends DrawingComponent implements MouseListener {
 		MENU_BUTTON_HEIGHT = 50;
 		ITEM_SPACING = 20;
 	}
-	
+
 	protected void updateButtons(String[] buttons){
 		this.buttons = buttons;
 	}
@@ -96,7 +96,7 @@ public abstract class Menu extends DrawingComponent implements MouseListener {
 	 * Returns the title of the clicked button, or null if the click was not on
 	 * a valid button. If you need the index of a button, use
 	 * getIndexClicked(x,y) instead.
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @return
@@ -125,7 +125,7 @@ public abstract class Menu extends DrawingComponent implements MouseListener {
 	 * Returns the index of the button clicked, or -1 if it was an invalid
 	 * click. If you need the Text from a button, use getButtonClicked(x,y)
 	 * instead.
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @return
