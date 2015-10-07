@@ -22,7 +22,6 @@ public class OrientAction implements NetworkAction, Serializable{
 		} else {
 			logic.turnPlayerRight(playerID);
 		}
-		//TODO change logic return type
 		return true;
 	}
 

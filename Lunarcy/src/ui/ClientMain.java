@@ -333,9 +333,9 @@ class ClientMain extends JFrame {
 				if (!validInput()) {
 					return;
 				}
-
+				//System.out.println("colour is: " + chosenColor);
 				// Show the splash screen
-				ClientSplashScreen client = new ClientSplashScreen(nameTextbox.getText(), serverTextbox.getText(),
+				ClientSplashScreen client = new ClientSplashScreen(nameTextbox.getText(), serverTextbox.getText(),chosenColor,
 						mode.getSelectedItem().equals("Hardware"));
 
 				// Hide this window as now the splash screen is up
@@ -375,7 +375,7 @@ class ClientMain extends JFrame {
 
 					return false;
 				}
-				
+
 				if(chosenColor == null){
 					colorPalette.setBorder(BorderFactory.createLineBorder(Color.RED));
 					return false;

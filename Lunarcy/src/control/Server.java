@@ -62,7 +62,7 @@ public class Server {
 
 		// add players to gamestate
 		for (ClientConnection client : clientList) {
-			gameState.addPlayer(client.clientID, client.username, Color.RED);
+			gameState.addPlayer(client.clientID, client.username, client.colour);
 		}
 		gameLogic = new GameLogic(gameState);
 	}
@@ -202,6 +202,7 @@ public class Server {
 		private ObjectOutputStream outputToClient;
 		private int clientID;
 		private String username;
+		private Color colour;
 		private boolean clientRunning = true;
 
 		ClientConnection(Socket socket, int id) throws IOException {
@@ -219,10 +220,11 @@ public class Server {
 			// Read the user name sent from the client
 			try {
 				this.username = (String) inputFromClient.readObject();
+				this.colour = Color.decode((String)inputFromClient.readObject());
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-			System.out.println("Server: new Client: " + username + " " + clientID);
+			System.out.println("Server: new Client: " + username + " " + clientID + " colour: "+ this.colour.toString());
 			sendID(clientID);
 			System.out.println("wrote id to client" + clientID);
 

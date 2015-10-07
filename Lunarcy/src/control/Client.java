@@ -3,6 +3,7 @@ package control;
 import game.GameState;
 import ui.Frame;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -22,11 +23,14 @@ public class Client {
 		private int id;
 		private String name;
 		private Frame frame;
+		private Color colour;
 
 
 
-		public Client(String serverAddr, String name, boolean hardwareRenderer){
+
+		public Client(String serverAddr, String name, Color colour, boolean hardwareRenderer){
 			this.serverAddr = serverAddr;
+			this.colour = colour;
 			try {
 				socket = new Socket(serverAddr, DEFAULT_PORT);
 				outputToServer = new ObjectOutputStream(socket.getOutputStream());
@@ -36,6 +40,10 @@ public class Client {
 				e.printStackTrace();
 			}
 			writeObject(name);
+			//Send hex colour
+			String hexColour = String.format("#%02x%02x%02x", this.colour.getRed(), this.colour.getGreen(), this.colour.getBlue());
+			System.out.println("hex colour  " + hexColour);
+			writeObject(hexColour);
 			System.out.println("Name sent to server: " + name);
 			readInt();
 			//get gamestate setup game
@@ -47,6 +55,14 @@ public class Client {
 
 			System.out.println("Listening for gamestate");
 			//listenForGameUpdates(); //listen for gamestates from the server
+		}
+
+		private void writeBytes(String str) {
+			try {
+				outputToServer.writeBytes(str);
+			} catch (IOException e) {
+				System.out.println("Failed to send: " + str);
+			}
 		}
 
 		public void listenForGameUpdates() {
@@ -105,7 +121,7 @@ public class Client {
 		}
 
 		public static void main(String[] args){
-			new Client("localhost","JP" + (int)(Math.random()*100),true);
+			new Client("localhost","JP" + (int)(Math.random()*100),Color.RED,true);
 		}
 }
 

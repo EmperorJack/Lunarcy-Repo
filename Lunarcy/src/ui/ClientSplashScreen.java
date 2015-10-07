@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -10,20 +11,22 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
+
 import control.Client;
 
 public class ClientSplashScreen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-
+	private Color color;
 	private String clientName;
 	private String serverIP;
 	private boolean hardwareRenderer;
 
-	public ClientSplashScreen(String clientName, String serverIP, Boolean hardwareRenderer) {
+	public ClientSplashScreen(String clientName, String serverIP,Color color, Boolean hardwareRenderer) {
 
 		this.clientName = clientName;
 		this.serverIP = serverIP;
+		this.color = color;
 		this.hardwareRenderer = hardwareRenderer;
 
 		setLayout(new GridBagLayout());
@@ -81,9 +84,8 @@ public class ClientSplashScreen extends JFrame {
 	public void startClient() {
 		new Thread(new Runnable() {
 			public void run() {
-
 				// Make a new client
-				Client client = new Client(serverIP, clientName, hardwareRenderer);
+				Client client = new Client(serverIP, clientName, color, hardwareRenderer);
 
 				// Once the clients been constructed we can hide this window
 				setVisible(false);
