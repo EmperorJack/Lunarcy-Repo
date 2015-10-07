@@ -10,6 +10,7 @@ import java.io.Serializable;
  *
  */
 public class Location implements Serializable{
+	private static final long serialVersionUID = 4302075926767963920L;
 
 	private int x;
 	private int y;

@@ -7,6 +7,8 @@ package game;
  *
  */
 public abstract class Item extends Entity {
+	private static final long serialVersionUID = 331700383571113540L;
+
 	public Item(int entityID) {
 		super(entityID);
 	}

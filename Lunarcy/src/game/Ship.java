@@ -3,6 +3,7 @@ package game;
 import java.util.Set;
 
 public class Ship extends WalkableSquare {
+	private static final long serialVersionUID = 8565928672749773866L;
 
 	private Set<ShipPart> requiredParts;
 
