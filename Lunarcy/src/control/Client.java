@@ -1,6 +1,7 @@
 package control;
 
 import game.GameState;
+import sun.security.x509.InvalidityDateExtension;
 import ui.Frame;
 
 import java.awt.Color;
@@ -10,9 +11,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 
-
-//import com.sun.corba.se.impl.ior.NewObjectKeyTemplateBase;
-
+/**
+ * A class for
+ * @author denforjohn
+ *
+ */
 public class Client {
 	// Network related fields
 		private String serverAddr;
@@ -25,10 +28,7 @@ public class Client {
 		private Frame frame;
 		private Color colour;
 
-
-
-
-		public Client(String serverAddr, String name, Color colour, boolean hardwareRenderer){
+		public Client(String serverAddr, String name, Color colour, boolean hardwareRenderer) throws IllegalArgumentException{
 			this.serverAddr = serverAddr;
 			this.colour = colour;
 			try {
@@ -37,7 +37,7 @@ public class Client {
 				inputFromServer = new ObjectInputStream(socket.getInputStream());
 			} catch (IOException e) {
 				System.out.println("Couldn't establish connection");
-				e.printStackTrace();
+				throw new IllegalArgumentException("Bad IP");
 			}
 			writeObject(name);
 			//Send hex colour
@@ -57,21 +57,17 @@ public class Client {
 			//listenForGameUpdates(); //listen for gamestates from the server
 		}
 
-		private void writeBytes(String str) {
-			try {
-				outputToServer.writeBytes(str);
-			} catch (IOException e) {
-				System.out.println("Failed to send: " + str);
-			}
-		}
-
 		public void listenForGameUpdates() {
-			while(true){
-				GameState state = getGameState();
-				if(state != null){
-					frame.getCanvas().setGameState(state);
+			new Thread(new Runnable() {
+				public void run() {
+					while(true){
+						GameState state = getGameState();
+						if(state != null){
+							frame.getCanvas().setGameState(state);
+						}
+					}
 				}
-			}
+			}).start();
 		}
 
 		private GameState getGameState() {

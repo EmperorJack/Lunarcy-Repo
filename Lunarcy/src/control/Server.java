@@ -162,8 +162,10 @@ public class Server {
 		// TODO This can be made more efficient by serialising once before
 		// transmitting
 		GameState state = gameLogic.getGameState();
-		for (ClientConnection client : clientList) {
-			client.writeObject(state);
+		for(int i = 0 ; i < clientList.size(); i++){
+			ClientConnection client = clientList.get(i);
+			boolean isNewObject = i == 0 ? true : false; //only reset output cache on first send
+			client.writeObject(state,isNewObject);
 		}
 	}
 
@@ -175,7 +177,6 @@ public class Server {
 		NetworkAction action = actionQueue.poll();
 		if (action != null){
 			action.applyAction(gameLogic);// interpreter.interpret(action);
-			System.out.println("applied action");
 		}
 	}
 
@@ -262,10 +263,10 @@ public class Server {
 		/**
 		 * Send a message to the client
 		 */
-		public boolean writeObject(Object o) {
+		public boolean writeObject(Object o,boolean reset) {
 			if (o != null) {
 				try {
-					outputToClient.reset();
+					if(reset) outputToClient.reset();
 					outputToClient.writeObject(o);
 					outputToClient.flush();
 				} catch (SocketException e) { //critical, close client connection

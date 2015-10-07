@@ -17,17 +17,11 @@ import control.Client;
 public class ClientSplashScreen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private Color color;
-	private String clientName;
-	private String serverIP;
-	private boolean hardwareRenderer;
+	Client client;
 
-	public ClientSplashScreen(String clientName, String serverIP,Color color, Boolean hardwareRenderer) {
+	public ClientSplashScreen(Client client) {
 
-		this.clientName = clientName;
-		this.serverIP = serverIP;
-		this.color = color;
-		this.hardwareRenderer = hardwareRenderer;
+		this.client = client;
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 200));
@@ -82,18 +76,13 @@ public class ClientSplashScreen extends JFrame {
 	}
 
 	public void startClient() {
-		new Thread(new Runnable() {
-			public void run() {
-				// Make a new client
-				Client client = new Client(serverIP, clientName, color, hardwareRenderer);
 
 				// Once the clients been constructed we can hide this window
 				setVisible(false);
 
 				// Tell the client to start listening
 				client.listenForGameUpdates();//TODO transfer new thread into client
-			}
-		}).start();
+
 
 	}
 
