@@ -21,12 +21,12 @@ import game.WalkableSquare;
  * @author evansben1
  *
  */
-public class SquareMenu extends Menu implements MouseListener  {
+public class PickMenu extends Menu implements MouseListener  {
 
 	private WalkableSquare square;
 	private GameState gameState;
 
-	public SquareMenu(Canvas p, GameState gameState, int playerID) {
+	public PickMenu(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID, "Pickup", null);
 		p.addMouseListener(this);
 		update(gameState);
@@ -45,7 +45,7 @@ public class SquareMenu extends Menu implements MouseListener  {
 
 		Player player = gameState.getPlayer(playerID);
 		square = (WalkableSquare) gameState.getSquare(player.getLocation());
-		updateButtons(square.getEntityButtons(player.getOrientation()));
+		updateButtons(square.getEntityNames(player.getOrientation()));
 	}
 
 	@Override
@@ -59,10 +59,11 @@ public class SquareMenu extends Menu implements MouseListener  {
 
 			// If it was a valid ID
 			if (clickedIndex >= 0) {
-				//Get the ID from the squares items
-				Player player = gameState.getPlayer(playerID);
 
-				int clickedID = square.getEntities(player.getOrientation()).get(clickedIndex).entityID;
+				//Get the ID from the squares items
+				Direction dir = gameState.getPlayer(playerID).getOrientation();
+
+				int clickedID = square.getEntities(dir).get(clickedIndex).entityID;
 				p.pickupItem(clickedID);
 				p.menuActive(false);
 				return;

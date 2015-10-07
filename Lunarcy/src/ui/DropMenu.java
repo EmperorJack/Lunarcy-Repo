@@ -11,7 +11,7 @@ import game.Player;
 import game.Square;
 import game.WalkableSquare;
 
-public class ItemMenu extends Menu implements MouseListener {
+public class DropMenu extends Menu implements MouseListener {
 
 	private Item item;
 	private final static String[] buttons = new String[] { "Drop item",
@@ -19,7 +19,7 @@ public class ItemMenu extends Menu implements MouseListener {
 
 	private GameState gameState;
 
-	public ItemMenu(Canvas p, GameState gameState, int playerID, Item item) {
+	public DropMenu(Canvas p, GameState gameState, int playerID, Item item) {
 		super(p, gameState, playerID, item.getName(), buttons);
 		p.addMouseListener(this);
 		this.gameState = gameState;
@@ -53,22 +53,22 @@ public class ItemMenu extends Menu implements MouseListener {
 		int y = e.getY();
 
 		if (onMenu(x, y) && item!=null) {
-			
+
 			System.out.println("In ");
-			
+
 			String button = getButtonClicked(x, y);
 			if (button != null) {
 				switch (button) {
-				case "Drop item":
-					p.dropItem(item.entityID);
-					item = null;
-					break;
-				case "Put item":
-					p.putItem(item.entityID, findContainerID());
-					item = null;
-					break;
-				}
-				
+					case "Drop item":
+						p.dropItem(item.entityID);
+						item = null;
+						break;
+					case "Put item":
+						p.putItem(item.entityID, findContainerID());
+						item = null;
+						break;
+					}
+
 				//Hide the menu, as we have made a selection
 				p.setMenu(null);
 			}

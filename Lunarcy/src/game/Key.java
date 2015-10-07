@@ -24,6 +24,7 @@ public class Key extends Item {
 		return "Used to access locked doors and chests";
 	}
 
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
@@ -31,15 +32,17 @@ public class Key extends Item {
 		return result;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj) || getClass() != obj.getClass())
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
 			return false;
 		Key other = (Key) obj;
-		if (keyCode == other.keyCode){
-			return true;
-		}
-		return false;
+		if (keyCode != other.keyCode)
+			return false;
+		return true;
 	}
 }

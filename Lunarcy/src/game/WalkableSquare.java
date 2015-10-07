@@ -104,7 +104,11 @@ public class WalkableSquare extends Square {
 		return walls.get(direction).pass(player);
 	}
 
-	/**
+	/**	Direction dir = gameState.getPlayer(playerID).getOrientation();
+
+				int clickedID = square.getEntities(dir).get(clickedIndex).entityID;
+				System.out.println("Clicked the  " + clickedIndex +" button");
+				System.out.println("The ID of that item is " + clickedID);
 	 * Adds the Player to the set of Players in the room.
 	 *
 	 * @param player
@@ -215,20 +219,22 @@ public class WalkableSquare extends Square {
 	public boolean isInside() {
 		return inside;
 	}
-	
+
 	/**
 	 * Returns a string[] containing all the entity names,
 	 * used when displaying menu buttons
 	 * @param dir
 	 * @return
 	 */
-	public String[] getEntityButtons(Direction dir){
-		String[] buttons = new String[entities.get(dir).size()];
-		int i = 0;
-		for (Entity entity : entities.get(dir)) {
+	public String[] getEntityNames(Direction dir){
+		List<Entity> entityList = entities.get(dir);
+
+		String[] buttons = new String[entityList.size()];
+		for(int i=0; i<buttons.length; i++){
+			Entity entity = entityList.get(i);
 			buttons[i] = entity.getImageName();
-			i++;
 		}
+
 		return buttons;
 	}
 }

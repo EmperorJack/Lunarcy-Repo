@@ -134,7 +134,7 @@ public class Inventory extends DrawingComponent implements MouseListener {
 				lastChosen = null;
 			}	
 			else if(item!=null){
-				p.setMenu(new ItemMenu(p, gamestate, y, item));
+				p.setMenu(new DropMenu(p, gamestate, y, item));
 				lastChosen = item;
 			}
 		}

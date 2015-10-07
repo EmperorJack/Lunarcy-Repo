@@ -83,6 +83,7 @@ public class Player implements Serializable {
 		for (Item i : inventory) {
 			if (i.entityID == itemID) {
 				item = i;
+				break;
 			}
 		}
 		if (item != null && inventory.contains(item)) {
@@ -123,8 +124,9 @@ public class Player implements Serializable {
 		if (inventory == null)
 			return;
 		inventory.add(new ShipPart(id * 100, 0));
-		inventory.add(new Key(id * 100 + 1, 0));
-		inventory.add(new Key(id * 100 + 2, 1));
+		inventory.add(new Key(id * 100 + 1, 1));
+		//inventory.add(new Key(id * 100 + 2, 2));
 		inventory.add(new ShipPart(id * 100 + 3, 1));
+		inventory.add(new ShipPart(id * 100 + 4, 1));
 	}
 }

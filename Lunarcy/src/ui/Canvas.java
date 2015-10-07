@@ -269,14 +269,14 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	public Menu getMenu(){
 		return menu;
 	}
-	
+
 	public void setMenu(Menu menu){
 		this.menu = menu;
-		
+
 		//Set the menu to visible if menu is non null
 		menuActive = menu != null;
 	}
-	
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// check if the timer has been exceeded
@@ -324,7 +324,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			case KeyEvent.VK_SPACE:
 
 				if(menu == null){
-					setMenu(new SquareMenu(this, gameState, playerID));
+					setMenu(new PickMenu(this, gameState, playerID));
 				}
 				else{
 					setMenu(null);
