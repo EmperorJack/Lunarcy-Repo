@@ -91,7 +91,7 @@ public class ClientSplashScreen extends JFrame {
 				setVisible(false);
 
 				// Tell the client to start listening
-				client.listenForGameUpdates();
+				client.listenForGameUpdates();//TODO transfer new thread into client
 			}
 		}).start();
 

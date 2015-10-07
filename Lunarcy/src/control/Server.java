@@ -134,11 +134,12 @@ public class Server {
 				long lastUpdate = System.currentTimeMillis();
 				while (running) {
 					if (System.currentTimeMillis() > lastUpdate + updateFreq) {
-						// game.tick();
+						gameLogic.tickGameState();
 						System.out.println("tranmitting state");
 						transmitState();
 						lastUpdate = System.currentTimeMillis();
 					} else{
+
 						processAction();
 					}
 				}
@@ -163,8 +164,8 @@ public class Server {
 		// transmitting
 		GameState state = gameLogic.getGameState();
 		for (ClientConnection client : clientList) {
-			// System.out.println("Transmitting gamestate to: "+
-			// client.clientID);
+			 System.out.println("Transmitting gamestate to: "+
+			 client.clientID);
 			if (client.writeObject(state)) {
 				// System.out.println("Sucessfully sent gamestate");
 			}
@@ -177,12 +178,10 @@ public class Server {
 	//TODO extend method to apply move to all clients if successful
 	private void processAction() {
 		NetworkAction action = actionQueue.poll();
-		if (action != null)
-			if(action.applyAction(gameLogic)){// interpreter.interpret(action);
-				for(ClientConnection client : clientList){
-					//client.writeObject(action); //TODO send valid object to represent this
-				}
-			}
+		if (action != null){
+			action.applyAction(gameLogic);// interpreter.interpret(action);
+			System.out.println("applied action");
+		}
 	}
 
 	/**
