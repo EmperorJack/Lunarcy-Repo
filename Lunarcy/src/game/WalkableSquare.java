@@ -215,7 +215,7 @@ public class WalkableSquare extends Square {
 	public boolean isInside() {
 		return inside;
 	}
-	
+
 	/**
 	 * Returns a string[] containing all the entity names,
 	 * used when displaying menu buttons

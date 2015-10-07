@@ -1,6 +1,7 @@
 package game;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -11,6 +12,7 @@ import java.util.HashMap;
  * @author Robbie
  *
  */
+@SuppressWarnings("serial")
 public abstract class Square implements Serializable {
 	protected Map<Direction, Wall> walls;
 
@@ -19,9 +21,14 @@ public abstract class Square implements Serializable {
 	public abstract boolean addPlayer(Player player);
 	public abstract void removePlayer(Player player);
 	public abstract void tick();
+	public abstract List<Entity> getEntities(Direction side);
 
 	public Square(){
 		walls = new HashMap<Direction, Wall>();
+	}
+
+	public Map<Direction, Wall> getWalls() {
+		return walls;
 	}
 
 	/**
@@ -37,16 +44,12 @@ public abstract class Square implements Serializable {
 	public void removeWall(Direction dir) {
 		walls.put(dir, new EmptyWall());
 	}
+
 	public void addDoor(Direction dir) {
 		walls.put(dir, new Door());
 	}
 
 	public void removeDoor(Direction dir) {
 		walls.put(dir, new EmptyWall());
-	}
-
-
-	public Map<Direction, Wall> getWalls() {
-		return walls;
 	}
 }
