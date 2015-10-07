@@ -120,19 +120,21 @@ public class Perspective3D extends DrawingComponent {
 				Player currentPlayer = players[i];
 
 				// use the current player colour and position
-				p.tint(player.getColour().getRGB());
+				p.tint(currentPlayer.getColour().getRGB());
 				PVector position = new PVector(currentPlayer.getLocation()
-						.getX(), currentPlayer.getLocation().getY());
+						.getX() * SQUARE_SIZE + SQUARE_SIZE / 2, -300,
+						currentPlayer.getLocation().getY() * SQUARE_SIZE
+								+ SQUARE_SIZE / 2);
 
 				// translate to the player location
-				p.translate(position.x * SQUARE_SIZE + SQUARE_SIZE / 2, -300,
-						position.y * SQUARE_SIZE + SQUARE_SIZE / 2);
+				p.translate(position.x, position.y, position.z);
 
 				// rotate the player to face this player
-				float angle = PApplet.atan2(cameraEye.z - position.y,
+				float angle = PApplet.atan2(cameraEye.z - position.z,
 						cameraEye.x - position.x);
 				angle = angle * (180 / PApplet.PI);
-				p.rotateY(-PVector.angleBetween(position, cameraEye));
+				p.rotateY(angle);
+				// p.rotateY(PVector.angleBetween(cameraEye, position));
 
 				// draw the player astronaut image
 				p.imageMode(p.CENTER);

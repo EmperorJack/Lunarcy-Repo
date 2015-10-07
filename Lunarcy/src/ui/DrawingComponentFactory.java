@@ -6,7 +6,7 @@ import game.GameState;
  * Factory class used to construct drawing different drawing componenets for the
  * canvas. Can create a variety of heads up display components or the 3D
  * perspective component.
- * 
+ *
  * @author Jack
  *
  */
@@ -35,7 +35,7 @@ public class DrawingComponentFactory {
 
 	/**
 	 * Returns a new drawing component of the given type.
-	 * 
+	 *
 	 * @param type
 	 *            The type of component requested.
 	 * @return The new component.
