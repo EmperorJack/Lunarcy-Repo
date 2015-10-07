@@ -45,18 +45,7 @@ public class SquareMenu extends Menu implements MouseListener  {
 
 		Player player = gameState.getPlayer(playerID);
 		square = (WalkableSquare) gameState.getSquare(player.getLocation());
-
-		Direction dir = player.getOrientation();
-
-
-		String[] buttons = new String[square.getEntities(dir).size()];
-		int i = 0;
-		for (Entity entity : square.getEntities(dir)) {
-			buttons[i] = entity.getImageName();
-			i++;
-		}
-
-		updateButtons(buttons);
+		updateButtons(square.getEntityButtons(player.getOrientation()));
 	}
 
 	@Override

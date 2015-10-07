@@ -46,7 +46,7 @@ public class Rover implements Serializable {
 		this.gameState = gameState;
 		this.movementStrategy = movementStrategy;
 		this.path = new ArrayList<Location>();
-		this.currentLocation = new Location(1, 1);
+		this.currentLocation = new Location(5, 5);
 	}
 
 	/**
@@ -61,11 +61,14 @@ public class Rover implements Serializable {
 			path = movementStrategy.path(gameState.getBoard(), currentLocation);
 		}
 
+		//THE ROVER HAS CAUGHT A PLAYER
+		if(path.isEmpty()){
+			movementStrategy = new RoamMovement();
+			return;
+		}
 		// Move along one step in the path
 		// removing the location we visit
 		currentLocation = path.remove(0);
-
-		System.out.println("Rover is at " + currentLocation.getX() +" "+ currentLocation.getY());
 
 		updateStrategy();
 
@@ -90,6 +93,7 @@ public class Rover implements Serializable {
 
 			// If we can see a target
 			if (target != null) {
+				System.out.println("Changing to track");
 				// Change to tracking this target
 				movementStrategy = new TrackMovement(target);
 			}

@@ -19,8 +19,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
+import javax.swing.text.DefaultCaret;
 
 import control.Server;
 import storage.Storage;
@@ -257,7 +259,6 @@ public class ServerMain extends JFrame {
 
 		});
 
-
 		// Load button is at 0,6
 		c.gridx = 0;
 		c.gridy = 6;
@@ -298,7 +299,7 @@ public class ServerMain extends JFrame {
 
 		//Configure the text area to get the input from stdout
 		PrintStream printStream = new PrintStream(new ConsoleOutput(console));
-		System.setOut(printStream);
+		//System.setOut(printStream);
 
 
 		// Not directly editable by user
@@ -311,7 +312,7 @@ public class ServerMain extends JFrame {
 		c.gridwidth = 2;
 		c.insets = new Insets(15, 0, 0, 0);
 
-		add(console, c);
+        add(console, c);
 	}
 
 	/**
@@ -327,13 +328,13 @@ public class ServerMain extends JFrame {
 
 		public ConsoleOutput(JTextArea console){
 			this.console = console;
+			DefaultCaret caret = (DefaultCaret)console.getCaret();
+			caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		}
 
 		@Override
 		public void write(int i) throws IOException {
 			console.append(Character.toString ((char) i));
-			//Scroll down to bottom
-			console.setCaretPosition(console.getDocument().getLength());
 		}
 
 	}
