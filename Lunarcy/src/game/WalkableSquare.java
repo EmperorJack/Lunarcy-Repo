@@ -191,13 +191,15 @@ public class WalkableSquare extends Square {
 	 * @param dir
 	 * @return
 	 */
-	public String[] getEntityButtons(Direction dir){
-		String[] buttons = new String[entities.get(dir).size()];
-		int i = 0;
-		for (Entity entity : entities.get(dir)) {
+	public String[] getEntityNames(Direction dir){
+		List<Entity> entityList = entities.get(dir);
+
+		String[] buttons = new String[entityList.size()];
+		for(int i=0; i<buttons.length; i++){
+			Entity entity = entityList.get(i);
 			buttons[i] = entity.getImageName();
-			i++;
 		}
+
 		return buttons;
 	}
 }

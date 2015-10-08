@@ -19,6 +19,7 @@ public abstract class Entity implements Serializable{
 		result = prime * result + entityID;
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -28,8 +29,8 @@ public abstract class Entity implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Entity other = (Entity) obj;
-		if (entityID == other.entityID)
-			return true;
-		return false;
+		if (entityID != other.entityID)
+			return false;
+		return true;
 	}
 }

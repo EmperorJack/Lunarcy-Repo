@@ -21,20 +21,20 @@ import game.WalkableSquare;
  * @author evansben1
  *
  */
-public class SquareMenu extends Menu implements MouseListener  {
+public class PickMenu extends Menu implements MouseListener  {
 
 	private WalkableSquare square;
 	private GameState gameState;
 
-	public SquareMenu(Canvas p, GameState gameState, int playerID) {
-		super(p, gameState, playerID, "Pickup", null);
+	public PickMenu(Canvas p, EntityController entityController, GameState gameState, int playerID) {
+		super(p, entityController, gameState, playerID, "Pickup", null);
 		p.addMouseListener(this);
 		update(gameState);
 	}
 
 	@Override
 	public void draw(GameState gameState, float delta) {
-		if (p.menuActive()) {
+		if (entityController.menuActive()) {
 			update(gameState);
 			super.draw(gameState, delta);
 		}
@@ -45,7 +45,7 @@ public class SquareMenu extends Menu implements MouseListener  {
 
 		Player player = gameState.getPlayer(playerID);
 		square = (WalkableSquare) gameState.getSquare(player.getLocation());
-		updateButtons(square.getEntityButtons(player.getOrientation()));
+		updateButtons(square.getEntityNames(player.getOrientation()));
 	}
 
 	@Override
@@ -53,18 +53,19 @@ public class SquareMenu extends Menu implements MouseListener  {
 		int x = e.getX();
 		int y = e.getY();
 
-		if (onMenu(x, y) && p.menuActive()) {
+		if (onMenu(x, y) && entityController.menuActive()) {
 			// Gets the ID of the clicked item
 			int clickedIndex = getIndexClicked(x, y);
 
 			// If it was a valid ID
 			if (clickedIndex >= 0) {
-				//Get the ID from the squares items
-				Player player = gameState.getPlayer(playerID);
 
-				int clickedID = square.getEntities(player.getOrientation()).get(clickedIndex).entityID;
-				p.pickupItem(clickedID);
-				p.menuActive(false);
+				//Get the ID from the squares items
+				Direction dir = gameState.getPlayer(playerID).getOrientation();
+
+				int clickedID = square.getEntities(dir).get(clickedIndex).entityID;
+				entityController.pickupItem(clickedID);
+				entityController.menuActive(false);
 				return;
 			}
 		}

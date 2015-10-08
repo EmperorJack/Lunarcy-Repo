@@ -32,6 +32,11 @@ public class Perspective3D extends DrawingComponent {
 	private final PImage ASTRONAUT;
 	private final PImage ROVER;
 
+	// character drawing fields
+	private final int CHARACTER_WIDTH = 200;
+	private final int CHARACTER_HEIGHT = 400;
+	private final int CHARACTER_Y_OFFSET = -200;
+
 	// camera fields
 	private final int PLAYER_VIEW_HEIGHT = -150;
 	private PVector cameraEye;
@@ -48,15 +53,6 @@ public class Perspective3D extends DrawingComponent {
 	private final int ASPECT_RATIO;
 	private final float NEAR_CULLING_DISTANCE;
 	private final float FAR_CULLING_DISTANCE;
-
-	// charcater drawing fields
-	private final int CHARACTER_WIDTH = 200;
-	private final int CHARACTER_HEIGHT = 400;
-	private final int CHARACTER_Y_OFFSET = -200;
-
-	// entity drawing fields
-	private final int ENTITY_SIZE = 100;
-	private final int ENTITY_TOP_PADDING = 500;
 
 	public Perspective3D(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
@@ -113,10 +109,6 @@ public class Perspective3D extends DrawingComponent {
 		// get the rovers from the current game state
 		Set<Rover> rovers = gameState.getRovers();
 
-		// get the items in the current square for the player direction
-		List<Entity> entities = gameState.getSquare(thisPlayer.getLocation())
-				.getEntities(thisPlayer.getOrientation());
-
 		// position the camera to the player position and orientation
 		setCamera(thisPlayer.getLocation(), thisPlayer.getOrientation(), delta);
 
@@ -142,9 +134,6 @@ public class Perspective3D extends DrawingComponent {
 
 		// draw the rovers
 		drawRovers(rovers);
-
-		// draw the items
-		drawEntities(entities);
 
 		// pop matrix and style information from the stack
 		p.popStyle();
@@ -231,13 +220,6 @@ public class Perspective3D extends DrawingComponent {
 			p.popStyle();
 			p.popMatrix();
 		}
-	}
-
-	private void drawEntities(List<Entity> entities) {
-		p.pushMatrix();
-		// /p.translate(0, arg1);
-
-		p.popMatrix();
 	}
 
 	/**

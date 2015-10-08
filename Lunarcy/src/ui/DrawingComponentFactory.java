@@ -30,9 +30,10 @@ public class DrawingComponentFactory {
 	public static final int OXYGEN = 2;
 	public static final int PERSPECTIVE3D = 3;
 	public static final int ENTITYVIEW = 4;
+	public static final int MENU = 5;
 
 	public DrawingComponentFactory(Canvas p, GameState gameState, int playerID,
-			EntityController entityConrol) {
+			EntityController entityControl) {
 		this.p = p;
 		this.gameState = gameState;
 		this.playerID = playerID;
@@ -51,7 +52,7 @@ public class DrawingComponentFactory {
 		switch (type) {
 
 		case INVENTORY:
-			Inventory inventory = new Inventory(p, gameState, playerID);
+			Inventory inventory = new Inventory(p, entityControl, gameState, playerID);
 			entityControl.setInventory(inventory);
 			return inventory;
 
@@ -65,9 +66,10 @@ public class DrawingComponentFactory {
 			return new Perspective3D(p, gameState, playerID);
 
 		case ENTITYVIEW:
-			EntityView entityView = new EntityView(p, gameState, playerID);
+			EntityView entityView = new EntityView(p, gameState, playerID, null);
 			entityControl.setEntityView(entityView);
 			return entityView;
+
 		}
 
 		// invalid component entered

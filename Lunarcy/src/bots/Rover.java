@@ -92,7 +92,6 @@ public class Rover implements Serializable {
 
 			// If we can see a target
 			if (target != null) {
-				System.out.println("Changing to track");
 				// Change to tracking this target
 				movementStrategy = new TrackMovement(target);
 			}
