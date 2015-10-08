@@ -1,5 +1,6 @@
 package ui;
 
+import processing.core.PApplet;
 import game.GameState;
 import game.Player;
 
@@ -21,12 +22,10 @@ public class Oxygen extends DrawingComponent {
 	private final int CYLINDERHEIGHT = 35;
 	// Size of the dial on the oxygen tank
 	private final int DIALSIZE = 10;
-	
+
 	private final int LOW_OXYGEN = 50;
-	
+
 	private int dimAmount = 0;
-	
-	
 
 	public Oxygen(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
@@ -60,7 +59,7 @@ public class Oxygen extends DrawingComponent {
 		} else {
 			p.fill(139, 158, 162);
 		}
-		
+
 		p.rect(0, 0, oxygen, CYLINDERHEIGHT);
 
 		// Set our drawing values back
@@ -80,9 +79,11 @@ public class Oxygen extends DrawingComponent {
 		p.fill(255, 255, 255);
 		p.ellipse(-CYLINDERHEIGHT / 2, CYLINDERHEIGHT / 2, DIALSIZE, DIALSIZE);
 
-		//Dim based on the oxygen level
-		dimScreen(oxygen);
-		
+		// Dim based on the oxygen level if there is little oxygen left
+		if (oxygen < LOW_OXYGEN) {
+			dimScreen(oxygen);
+		}
+
 		// pop matrix and style information from the stack
 		p.popStyle();
 		p.popMatrix();
@@ -92,7 +93,8 @@ public class Oxygen extends DrawingComponent {
 	 * Darkens the screen to show the player they are low on oxygen
 	 */
 	private void dimScreen(int oxygen) {
-		p.fill(0, 0, 0, 255-oxygen);
+		p.noStroke();
+		p.fill(0, 0, 0, PApplet.map(oxygen, 0, 50, 255, 0));
 		p.rect(-LEFT_PADDING, -TOP_PADDING, p.width, p.height);
 	}
 

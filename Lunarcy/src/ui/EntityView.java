@@ -52,8 +52,8 @@ public class EntityView extends DrawingComponent {
 			// translate to allow for top padding
 			p.translate(0, TOP_PADDING);
 
-			// p.fill(255, 0, 0);
-			// p.rect(0, 0, p.width, p.height);
+			p.fill(255, 0, 0);
+			p.rect(0, 0, p.width, p.height);
 		}
 
 		// pop matrix and style information from the stack
