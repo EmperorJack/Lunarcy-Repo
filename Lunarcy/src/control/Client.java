@@ -33,9 +33,12 @@ public class Client {
 			this.colour = colour;
 			try {
 				socket = new Socket(serverAddr, DEFAULT_PORT);
+				System.out.println("bound socket");
 				outputToServer = new ObjectOutputStream(socket.getOutputStream());
 				inputFromServer = new ObjectInputStream(socket.getInputStream());
+
 			} catch (IOException e) {
+				e.printStackTrace();
 				System.out.println("Couldn't establish connection");
 				throw new IllegalArgumentException("Bad IP");
 			}

@@ -341,14 +341,14 @@ class ClientMain extends JFrame {
 				Client client = null;
 				do{
 					try{
-					 client = new Client (nameTextbox.getText(), serverTextbox.getText(),chosenColor,
+					 client = new Client ( serverTextbox.getText(),nameTextbox.getText(),chosenColor,
 							mode.getSelectedItem().equals("Hardware"));
-					break;
 					}catch(IllegalArgumentException ex){
 						//TODO show dialog asking to re enter details
+						System.out.println("Re enter details");
 					}
 				}while(client == null);
-
+				
 				ClientSplashScreen clientSplash = new ClientSplashScreen(client);
 
 				// Hide this window as now the splash screen is up
