@@ -49,7 +49,7 @@ public class ServerMain extends JFrame {
 
 		setLayout(new GridBagLayout());
 
-		setPreferredSize(new Dimension(320, 600));
+		setPreferredSize(new Dimension(300, 620));
 
 		// Display a message at the top
 		addTitle();
@@ -162,6 +162,7 @@ public class ServerMain extends JFrame {
 
 	private void addStartStopButtons() {
 		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
 
 		final JButton start = new JButton("Start");
 		final JButton stop = new JButton("Stop");
@@ -235,17 +236,23 @@ public class ServerMain extends JFrame {
 
 		loadMap = new JButton("Load Map");
 
+		//When pushed start at a JFileChooser
 		loadMap.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				//Retrieve the file to load
 				JFileChooser chooser = new JFileChooser();
+
+				//Only show .XML files, as this is our map type
 				FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter("xml files (*.xml)", "xml");
 				chooser.setFileFilter(xmlfilter);
+
+				//Display the chooser
 				chooser.showOpenDialog(null);
-				if(chooser.getSelectedFile() != null){ //may have cancelled
+
+				//If they chose an item, set it
+				if(chooser.getSelectedFile() != null){
 					selectedMap = chooser.getSelectedFile().getAbsolutePath();
 				}
 			}
@@ -268,6 +275,11 @@ public class ServerMain extends JFrame {
 				JFileChooser chooser = new JFileChooser();
 				chooser.showOpenDialog(null);
 				String filename = chooser.getSelectedFile().getAbsolutePath();
+
+				//Don't do anything if they cancel the chooser
+				if(filename==null){
+					return;
+				}
 
 				//Make a new server with the specified info
 				server = new Server(playerNum.getValue(), refreshRate.getValue(), Storage.loadState(filename));
@@ -328,7 +340,7 @@ public class ServerMain extends JFrame {
 		c.gridx = 0;
 		c.gridy = 8;
 		c.gridwidth = 2;
-		c.insets = new Insets(15, 0, 0, 0);
+		c.insets = new Insets(15, 0, 10, 0);
 
         add(console, c);
 	}

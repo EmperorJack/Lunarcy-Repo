@@ -1,6 +1,5 @@
 package ui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -17,14 +16,14 @@ import control.Client;
 public class ClientSplashScreen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	Client client;
+	private Client client;
 
 	public ClientSplashScreen(Client client) {
 
-		this.client = client;
-
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(400, 200));
+		setPreferredSize(new Dimension(410, 220));
+
+		this.client = client;
 
 		// Adds the title and subtext
 		addLoadingText();
@@ -36,7 +35,8 @@ public class ClientSplashScreen extends JFrame {
 
 		// Center the window on the screen
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((size.width - getWidth()) / 2, (size.height - getHeight()) / 2, getWidth(), getHeight());
+		setBounds((size.width - getWidth()) / 2,
+				(size.height - getHeight()) / 2, getWidth(), getHeight());
 
 		setVisible(true);
 		setResizable(false);
@@ -75,15 +75,24 @@ public class ClientSplashScreen extends JFrame {
 		add(bar, c);
 	}
 
+	/**
+	 * Tells the client to gets its initialGamestate, and then to start
+	 * listening for updates.
+	 */
 	public void startClient() {
 
-				// Once the clients been constructed we can hide this window
-				setVisible(false);
+		//client.getInitialGamestate();
 
-				// Tell the client to start listening
-				client.listenForGameUpdates();//TODO transfer new thread into client
+		// Once the client has its initial gametstate we can hide this window
+		setVisible(false);
 
+		// Tell the client to start listening
+		//client.listenForGameUpdates();
 
+	}
+
+	public static void main(String[] args) {
+		new ClientSplashScreen(null);
 	}
 
 }

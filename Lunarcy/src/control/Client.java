@@ -27,6 +27,7 @@ public class Client {
 		private String name;
 		private Frame frame;
 		private Color colour;
+		private boolean hardwareRenderer;
 
 		public Client(String serverAddr, String name, Color colour, boolean hardwareRenderer) throws IllegalArgumentException{
 			this.serverAddr = serverAddr;
@@ -49,15 +50,21 @@ public class Client {
 			writeObject(hexColour);
 			System.out.println("Name sent to server: " + name);
 			readInt();
+
+			this.hardwareRenderer = hardwareRenderer;
+
+
+			System.out.println("Listening for gamestate");
+			//listenForGameUpdates(); //listen for gamestates from the server
+		}
+
+		public void getInitialGamestate(){
 			//get gamestate setup game
 			GameState initialGameState = null;
 			while(initialGameState == null){
 				initialGameState = getGameState(); //wait for the initial gamestate
 			}
 			this.frame = new Frame(this,initialGameState, hardwareRenderer);
-
-			System.out.println("Listening for gamestate");
-			//listenForGameUpdates(); //listen for gamestates from the server
 		}
 
 		public void listenForGameUpdates() {
