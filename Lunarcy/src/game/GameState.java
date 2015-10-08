@@ -33,9 +33,7 @@ public class GameState implements Serializable {
 		loadMap(map);
 		rovers = new HashSet<Rover>();
 		players = new Player[numPlayers];
-		rovers.add(new Rover(this, new RoamMovement()));
 	}
-
 
 	/**
 	 * @param location
@@ -103,7 +101,17 @@ public class GameState implements Serializable {
 		}
 	}
 
-
+	/**
+	 * Adds the rover to the Set of Rovers
+	 * @param rover The Rover to be added
+	 * @return True if the rover was added, False otherwise
+	 */
+	public boolean addRover(Rover rover){
+		if(rover==null){
+			return false;
+		}
+		return rovers.add(rover);
+	}
 	/**
 	 * Creates a new player object and stores them in the game
 	 * @param playerID The ID of the player

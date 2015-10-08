@@ -3,7 +3,7 @@ package game;
 import java.util.HashSet;
 import java.util.Set;
 
-import bots.Rover;
+import bots.*;
 
 /**
  * This class controls the interaction between input and the GameState
@@ -21,6 +21,7 @@ public class GameLogic {
 		tickCount = 0;
 		this.state = state;
 		moves = new PlayerMove[state.getPlayers().length];
+		state.addRover(new Rover(this, new RoamMovement()));
 	}
 
 	/**
