@@ -2,6 +2,7 @@ package bots;
 
 import java.util.List;
 
+import game.GameLogic;
 import game.GameState;
 import game.Location;
 import game.Player;
@@ -41,10 +42,11 @@ public class Rover implements Character, Serializable {
 	private Location currentLocation;
 
 	// Used to find players/locations
-	private GameState gameState;
+	private GameLogic gameLogic;
 
-	public Rover(GameState gameState, ShortestPathMover movementStrategy) {
-		this.gameState = gameState;
+	public Rover(GameLogic gameLogic, ShortestPathMover movementStrategy) {
+
+		this.gameLogic = gameLogic;
 		this.movementStrategy = movementStrategy;
 		this.path = new ArrayList<Location>();
 		this.currentLocation = new Location(5, 5);
@@ -58,7 +60,7 @@ public class Rover implements Character, Serializable {
 	public void tick() {
 		// If we need a new path, update the current path
 		if (movementStrategy.mustUpdate(path)) {
-			path = movementStrategy.path(gameState.getBoard(), currentLocation);
+			path = movementStrategy.path(gameLogic.getGameState().getBoard(), currentLocation);
 		}
 
 		// THE ROVER HAS CAUGHT A PLAYER
@@ -89,7 +91,7 @@ public class Rover implements Character, Serializable {
 		// If we are roaming, see if we can track anyone
 		if (movementStrategy instanceof RoamMovement) {
 			Player target = ((RoamMovement) movementStrategy)
-					.viewTarget(gameState.getBoard());
+					.viewTarget(gameLogic.getGameState().getBoard());
 
 			// If we can see a target
 			if (target != null) {
