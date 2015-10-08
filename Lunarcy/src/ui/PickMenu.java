@@ -26,7 +26,7 @@ public class PickMenu extends Menu implements MouseListener  {
 	private WalkableSquare square;
 	private GameState gameState;
 
-	public PickMenu(Canvas p, EntityController entityController, GameState gameState, int playerID) {
+	public PickMenu(Canvas p, InteractionController entityController, GameState gameState, int playerID) {
 		super(p, entityController, gameState, playerID, "Pickup", null);
 		p.addMouseListener(this);
 		update(gameState);

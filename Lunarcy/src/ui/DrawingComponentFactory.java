@@ -1,5 +1,8 @@
 package ui;
 
+import java.util.Map;
+
+import processing.core.PImage;
 import game.GameState;
 
 /**
@@ -21,8 +24,11 @@ public class DrawingComponentFactory {
 	// player ID to construct components with
 	private int playerID;
 
-	// entity controller for entity interactions across componenets
-	private EntityController entityControl;
+	// interaction controller for entity interactions across componenets
+	private InteractionController interactionControl;
+
+	// map of unique item images
+	Map<String, PImage> entityImages;
 
 	// types of components available
 	public static final int INVENTORY = 0;
@@ -33,11 +39,13 @@ public class DrawingComponentFactory {
 	public static final int MENU = 5;
 
 	public DrawingComponentFactory(Canvas p, GameState gameState, int playerID,
-			EntityController entityControl) {
+			InteractionController interactionControl,
+			Map<String, PImage> entityImages) {
 		this.p = p;
 		this.gameState = gameState;
 		this.playerID = playerID;
-		this.entityControl = entityControl;
+		this.interactionControl = interactionControl;
+		this.entityImages = entityImages;
 	}
 
 	/**
@@ -52,8 +60,9 @@ public class DrawingComponentFactory {
 		switch (type) {
 
 		case INVENTORY:
-			Inventory inventory = new Inventory(p, entityControl, gameState, playerID);
-			entityControl.setInventory(inventory);
+			Inventory inventory = new Inventory(p, interactionControl,
+					gameState, playerID, entityImages);
+			interactionControl.setInventory(inventory);
 			return inventory;
 
 		case MINIMAP:
@@ -66,10 +75,10 @@ public class DrawingComponentFactory {
 			return new Perspective3D(p, gameState, playerID);
 
 		case ENTITYVIEW:
-			EntityView entityView = new EntityView(p, gameState, playerID, null);
-			entityControl.setEntityView(entityView);
+			EntityView entityView = new EntityView(p, gameState, playerID,
+					entityImages);
+			interactionControl.setEntityView(entityView);
 			return entityView;
-
 		}
 
 		// invalid component entered

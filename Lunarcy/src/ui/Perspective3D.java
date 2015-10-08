@@ -1,11 +1,9 @@
 package ui;
 
-import java.util.List;
 import java.util.Set;
 
 import bots.Rover;
 import game.Direction;
-import game.Entity;
 import game.GameState;
 import game.Location;
 import game.Player;
