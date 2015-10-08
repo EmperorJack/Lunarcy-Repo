@@ -52,7 +52,7 @@ public class Client {
 			readInt();
 
 			this.hardwareRenderer = hardwareRenderer;
-
+			getInitialGamestate();
 
 			System.out.println("Listening for gamestate");
 			//listenForGameUpdates(); //listen for gamestates from the server

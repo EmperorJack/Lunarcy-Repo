@@ -80,19 +80,12 @@ public class ClientSplashScreen extends JFrame {
 	 * listening for updates.
 	 */
 	public void startClient() {
-
-		//client.getInitialGamestate();
-
 		// Once the client has its initial gametstate we can hide this window
 		setVisible(false);
 
 		// Tell the client to start listening
-		//client.listenForGameUpdates();
+		client.listenForGameUpdates();
 
-	}
-
-	public static void main(String[] args) {
-		new ClientSplashScreen(null);
 	}
 
 }

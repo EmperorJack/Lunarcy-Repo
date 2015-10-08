@@ -33,9 +33,8 @@ public class GameState implements Serializable {
 		loadMap(map);
 		rovers = new HashSet<Rover>();
 		players = new Player[numPlayers];
-		rovers.add(new Rover(this, new RoamMovement()));
+		addRover();
 	}
-
 
 	/**
 	 * @param location
@@ -120,6 +119,15 @@ public class GameState implements Serializable {
 	}
 
 	/**
+	 * Creates a new rover object and stores them in the gamestate
+	 * @param gamelogic
+	 * @return
+	 */
+	public boolean addRover(){
+		return rovers.add(new Rover(this, new RoamMovement()));
+	}
+
+	/**
 	 * Get the Player whose ID matches the parameter
 	 * @param playerID The ID of the player wanted
 	 * @return Player that has matching ID, null if invalid ID number
@@ -155,12 +163,4 @@ public class GameState implements Serializable {
 		return new HashSet<Rover>(rovers);
 	}
 
-
-	/**
-	 * Returns the largest possible Location on the board.
-	 * Assumes the board is Square.
-	 */
-	public Location getMaxLocation(){
-		return new Location(board[0].length,board.length);
-	}
 }
