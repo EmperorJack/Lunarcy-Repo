@@ -127,7 +127,7 @@ public class MapBuilder {
 				}
 			}
 
-			map[selectedTile.getY()][selectedTile.getX()] = new Ship(null);
+			map[selectedTile.getY()][selectedTile.getX()] = new Ship();
 
 		}
 	}
