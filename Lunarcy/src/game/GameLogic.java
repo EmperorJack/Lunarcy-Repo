@@ -21,7 +21,6 @@ public class GameLogic {
 		tickCount = 0;
 		this.state = state;
 		moves = new PlayerMove[state.getPlayers().length];
-		state.addRover(new Rover(this, new RoamMovement()));
 	}
 
 	/**
