@@ -101,6 +101,23 @@ public class GameState implements Serializable {
 
 		}
 	}
+	
+	/**
+	 * Add a location to the Set of locations where players may spawn
+	 * @param location The Location to add
+	 * @return True if the location was added as a spawn point, false otherwise (null or invalid location)
+	 */
+	public boolean addSpawn(Location location){
+		if(location==null){
+			return false;
+		}
+		int x = location.getX();
+		int y = location.getY();
+		if (x < 0 || x >= board[0].length || y < 0 || y >= board.length) {
+			return false;
+		}
+		return spawnPoints.add(location);
+	}
 
 	/**
 	 * Adds the rover to the Set of Rovers
