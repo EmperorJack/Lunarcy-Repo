@@ -74,16 +74,16 @@ public class WalkableSquare extends Square {
 		}
 	}
 
-	public boolean canEnter(Player player, Direction direction) {
-		if (player == null||direction == null)
+	public boolean canEnter(Character character, Direction direction) {
+		if (character == null||direction == null)
 			return false;
-		return walls.get(direction).pass(player);
+		return walls.get(direction).pass(character);
 	}
 
-	public boolean canExit(Player player, Direction direction) {
-		if (player == null||direction == null)
+	public boolean canExit(Character character, Direction direction) {
+		if (character == null||direction == null)
 			return false;
-		return walls.get(direction).pass(player);
+		return walls.get(direction).pass(character);
 	}
 
 	public boolean addPlayer(Player player) {

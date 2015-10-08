@@ -6,6 +6,7 @@ import game.GameLogic;
 import game.GameState;
 import game.Location;
 import game.Player;
+import game.Character;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
  * @author b
  *
  */
-public class Rover implements Serializable {
+public class Rover implements Character, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

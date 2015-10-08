@@ -25,7 +25,7 @@ public class GameState implements Serializable {
 	private static final long serialVersionUID = -6038094749199471954L;
 
 	private Square[][] board;
-	private Location spawn;
+	private Set<Location> spawnPoints;
 	private Player[] players;
 	private Set<Rover> rovers;
 
@@ -96,7 +96,8 @@ public class GameState implements Serializable {
 			XStream xstream = new XStream();
 			board = (Square[][]) xstream.fromXML(file);
 			//To be read from map once File IO done with JSON
-			spawn = new Location(1,1);
+			spawnPoints = new HashSet<Location>();
+			spawnPoints.add(new Location(1,1));
 		} catch (FileNotFoundException e) {
 
 		}
@@ -111,6 +112,7 @@ public class GameState implements Serializable {
 	 * @return
 	 */
 	public boolean addPlayer(int playerID, String name, Color colour){
+		Location spawn = spawnPoints.iterator().hasNext() ? spawnPoints.iterator().next() : null;
 		Player player = new Player(playerID, name, colour, spawn, Direction.NORTH);
 		if(playerID<0||playerID>players.length)return false;
 		players[playerID] = player;

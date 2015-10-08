@@ -15,7 +15,10 @@ public class GameLogic {
 	private GameState state;
 	private PlayerMove[] moves;
 
+	private int tickCount;
+
 	public GameLogic(GameState state) {
+		tickCount = 0;
 		this.state = state;
 		moves = new PlayerMove[state.getPlayers().length];
 	}
@@ -37,12 +40,32 @@ public class GameLogic {
 		if (player == null)
 			return false;
 
-		Square src = state.getSquare(player.getLocation());
-		Square dest = state.getSquare(player.getLocation().getAdjacent(direction));
+		if(validMove(player, direction)){
+			Square src = state.getSquare(player.getLocation());
+			Square dest = state.getSquare(player.getLocation().getAdjacent(direction));
 
-		if(dest != null && src != null && src.canExit(player,direction) && dest.canEnter(player, direction.opposite())){
 			moves[playerID] = new PlayerMove(player,direction,src,dest);
 			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if the Character may move in the direction specified
+	 * @param character The Character to move
+	 * @param direction The Direction the Character wants to move in
+	 * @return True if the Character may move, False otherwise
+	 */
+	public boolean validMove(Character character, Direction direction){
+		if(character == null && direction == null){
+			return false;
+		}
+
+		Square src = state.getSquare(character.getLocation());
+		Square dest = state.getSquare(character.getLocation().getAdjacent(direction));
+
+		if(src!=null && dest!=null){
+			return src.canExit(character,direction) && dest.canEnter(character, direction.opposite());
 		}
 		return false;
 	}
@@ -193,9 +216,12 @@ public class GameLogic {
 	 * changes Player Oxygen
 	 */
 	public void tickGameState() {
+
 		//Move all the rovers
-		for(Rover r: state.getRovers()){
-			r.tick();
+		if(tickCount % 8 == 0){
+			for(Rover r: state.getRovers()){
+				r.tick();
+			}
 		}
 
 		//Move all the players
@@ -217,6 +243,8 @@ public class GameLogic {
 			Square square = state.getSquare(loc);
 			square.tick();
 		}
+
+		tickCount++;
 	}
 
 	public GameState getGameState() {
@@ -228,12 +256,14 @@ public class GameLogic {
 		private final Direction direction;
 		private final Square source;
 		private final Square destination;
+
 		public PlayerMove(Player player, Direction direction, Square source, Square destination){
 			this.player = player;
 			this.direction = direction;
 			this.source = source;
 			this.destination = destination;
 		}
+
 		public void move(){
 			if(player==null||direction==null||source==null||destination==null){
 				return;

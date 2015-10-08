@@ -8,7 +8,11 @@ public class LockedDoor implements Wall {
 		this.key = key;
 	}
 	@Override
-	public boolean pass(Player player) {
+	public boolean pass(Character character) {
+		if(character == null || !(character instanceof Player)){
+			return false;
+		}
+		Player player = (Player)character;
 		return player.getInventory().contains(key);
 	}
 }
