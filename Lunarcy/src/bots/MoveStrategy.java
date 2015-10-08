@@ -12,5 +12,7 @@ import game.Square;
  *
  */
 public interface MoveStrategy {
-	public List<Location> path(Square[][] board, Location currentLocation);
+	
+	public Location nextStep(Rover rover, Square[][] board);
+	
 }

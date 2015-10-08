@@ -34,18 +34,17 @@ public class PickMenu extends Menu implements MouseListener  {
 
 	@Override
 	public void draw(GameState gameState, float delta) {
+		update(gameState);
 		if (entityController.menuActive()) {
-			update(gameState);
 			super.draw(gameState, delta);
 		}
 	}
 
 	private void update(GameState gameState){
 		this.gameState = gameState;
-
 		Player player = gameState.getPlayer(playerID);
 		square = (WalkableSquare) gameState.getSquare(player.getLocation());
-		updateButtons(square.getEntityNames(player.getOrientation()));
+		super.updateButtons(square.getEntityNames(player.getOrientation()));
 	}
 
 	@Override

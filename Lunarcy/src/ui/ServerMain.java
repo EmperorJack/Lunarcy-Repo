@@ -329,7 +329,7 @@ public class ServerMain extends JFrame {
 
 		//Configure the text area to get the input from stdout
 		PrintStream printStream = new PrintStream(new ConsoleOutput(console));
-		System.setOut(printStream);
+		//System.setOut(printStream);
 
 
 		// Not directly editable by user

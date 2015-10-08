@@ -22,8 +22,10 @@ public class TrackMovement extends ShortestPathMover {
 	private int tickCounter;
 
 	//How many ticks to give up after
-	private final int MAXTICKS = 10000;
+	private final int MAXTICKS = 50;
 
+	private List<Location> path;
+	
 	public TrackMovement(Player target) {
 		this.target = target;
 		this.tickCounter = 0;
@@ -38,13 +40,20 @@ public class TrackMovement extends ShortestPathMover {
 	 * Otherwise returns false
 	 */
 	@Override
-	protected boolean mustUpdate(List<Location> path) {
+	public boolean mustUpdate() {
 		if (path == null || path.isEmpty())
 			return true;
 
 		// Return true if the end location does not equal the
 		// target location, false otherwise
 		return !path.get(path.size() - 1).equals(target.getLocation());
+	}
+	
+	public Location nextStep(Rover rover, Square[][] board){
+		if(mustUpdate()){
+			path = findPath(board, rover, rover.getLocation(), target.getLocation());
+		}
+		return path.get(0);
 	}
 
 	/**
@@ -56,22 +65,6 @@ public class TrackMovement extends ShortestPathMover {
 	 */
 	public boolean shouldGiveup(){
 		return ++tickCounter > MAXTICKS;
-	}
-
-	/**
-	 * Finds the shortest path from currentLocation, to the target field.
-	 * Returns this path if one was found, or null.
-	 *
-	 * @param currentLocation:
-	 *            Where the rover is currently located
-	 * @return the path
-	 */
-	public List<Location> path(Square[][] board, Location currentLocation) {
-		if (currentLocation == null || target == null){
-			currentLocation = new Location(1, 1);
-		}
-
-		return findPath(board, currentLocation, target.getLocation());
 	}
 
 }

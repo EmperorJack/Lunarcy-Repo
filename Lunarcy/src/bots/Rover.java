@@ -17,8 +17,7 @@ import java.util.ArrayList;
  * A rover is a 'bot' in the game. Each rover can be following one of three
  * movement strategies, at a given time.
  *
- * 1. Roam: Follow a seemingly random path (prioritising popular squares),
- * change to #3 when a player is spotted
+ * 1. Roam: Follow a random path, swapped to strategy #3 when it sees a player
  *
  * 2. Protect: Move around the map on a set path, this will not differ
  * throughout the game (ie will not change to Track or Roam)
@@ -35,7 +34,7 @@ public class Rover implements Character, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// The current movement strategy we are following
-	private ShortestPathMover movementStrategy;
+	private MoveStrategy movementStrategy;
 
 	// Which squares the rover is set to follow
 	private List<Location> path;
@@ -46,27 +45,15 @@ public class Rover implements Character, Serializable {
 	// Used to find players/locations
 	private GameState gamestate;
 
-	public Rover(GameState gamestate, ShortestPathMover movementStrategy) {
+	private Direction direction;
+
+	public Rover(GameState gamestate, MoveStrategy movementStrategy) {
 		this.gamestate = gamestate;
 		this.movementStrategy = movementStrategy;
 		this.path = new ArrayList<Location>();
-		this.currentLocation = new Location(5, 5);
+		this.currentLocation = new Location(1, 1);
+		this.direction = Direction.NORTH;
 	}
-
-	public boolean validMove(Character character, Direction direction){
-		if(character == null && direction == null){
-			return false;
-		}
-
-		Square src = gamestate.getSquare(character.getLocation());
-		Square dest = gamestate.getSquare(character.getLocation().getAdjacent(direction));
-
-		if(src!=null && dest!=null){
-			return src.canExit(character,direction) && dest.canEnter(character, direction.opposite());
-		}
-		return false;
-	}
-
 
 	/**
 	 * Moves the rover one step along its currentPath, generating a new path if
@@ -74,21 +61,18 @@ public class Rover implements Character, Serializable {
 	 */
 
 	public void tick() {
-		// If we need a new path, update the current path
-		if (movementStrategy.mustUpdate(path)) {
-			path = movementStrategy.path(gamestate.getBoard(), currentLocation);
-		}
 
-		// THE ROVER HAS CAUGHT A PLAYER
-		if (path.isEmpty()) {
-			movementStrategy = new RoamMovement();
-			return;
-		}
 		// Move along one step in the path
 		// removing the location we visit
-		currentLocation = path.remove(0);
-
-		updateStrategy();
+		currentLocation = movementStrategy.nextStep(this, gamestate.getBoard());
+		
+		//Something went wrong and we are stuck
+		if(currentLocation==null){
+			
+		}
+		
+		System.out.println("Rover is at " + currentLocation);
+		//updateStrategy();
 
 	}
 
@@ -106,8 +90,7 @@ public class Rover implements Character, Serializable {
 	private void updateStrategy() {
 		// If we are roaming, see if we can track anyone
 		if (movementStrategy instanceof RoamMovement) {
-			Player target = ((RoamMovement) movementStrategy)
-					.viewTarget(gamestate.getBoard());
+			Player target = ((RoamMovement) movementStrategy).viewTarget(gamestate.getBoard(), this);
 
 			// If we can see a target
 			if (target != null) {
@@ -126,7 +109,16 @@ public class Rover implements Character, Serializable {
 		}
 	}
 
+	public void rotateRight() {
+		direction = direction.right();
+	}
+
 	public Location getLocation() {
 		return currentLocation;
+	}
+
+	@Override
+	public Direction getOrientation() {
+		return direction;
 	}
 }
