@@ -12,11 +12,11 @@ import java.util.List;
 public class BlankSquare extends Square {
 	private static final long serialVersionUID = -2721273025234939894L;
 
-	public boolean canEnter(Player player, Direction direction) {
+	public boolean canEnter(Character character, Direction direction) {
 		return false;
 	}
 
-	public boolean canExit(Player player, Direction direction) {
+	public boolean canExit(Character character, Direction direction) {
 		return false;
 	}
 

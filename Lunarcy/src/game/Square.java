@@ -28,7 +28,7 @@ public abstract class Square implements Serializable {
 	 *            The direction the player is entering the room *FROM*
 	 * @return True if the player may enter, False otherwise
 	 */
-	public abstract boolean canEnter(Player player, Direction direction);
+	public abstract boolean canEnter(Character character, Direction direction);
 
 	/**
 	 * Checks whether the specified player can exit the room *IN* the
@@ -40,7 +40,7 @@ public abstract class Square implements Serializable {
 	 *            The direction the player is exiting the room *IN*
 	 * @return True if the player may exit, False otherwise
 	 */
-	public abstract boolean canExit(Player player, Direction direction);
+	public abstract boolean canExit(Character character, Direction direction);
 
 	/**
 	 * Adds the Player to the set of Players in the room.
