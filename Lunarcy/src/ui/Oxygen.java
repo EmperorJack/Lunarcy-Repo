@@ -52,22 +52,16 @@ public class Oxygen extends DrawingComponent {
 		// Draw the remaining amount of oxygen
 		int oxygen = player.getOxygen();
 
-		p.rectMode(p.CORNERS);
 		p.noStroke();
 
 		// Set the colour to red if there is little oxygen left
-		
-		if (oxygen < LOW_OXYGEN) {
-			dimScreen();
-		}
-
 		if (oxygen < LOW_OXYGEN) {
 			p.fill(255, 0, 0, 100);
 		} else {
 			p.fill(139, 158, 162);
 		}
-
-		p.rect(CYLINDERWIDTH - oxygen, 0, CYLINDERWIDTH, CYLINDERHEIGHT);
+		
+		p.rect(0, 0, oxygen, CYLINDERHEIGHT);
 
 		// Set our drawing values back
 		p.rectMode(p.CORNER);
@@ -86,6 +80,9 @@ public class Oxygen extends DrawingComponent {
 		p.fill(255, 255, 255);
 		p.ellipse(-CYLINDERHEIGHT / 2, CYLINDERHEIGHT / 2, DIALSIZE, DIALSIZE);
 
+		//Dim based on the oxygen level
+		dimScreen(oxygen);
+		
 		// pop matrix and style information from the stack
 		p.popStyle();
 		p.popMatrix();
@@ -94,11 +91,9 @@ public class Oxygen extends DrawingComponent {
 	/**
 	 * Darkens the screen to show the player they are low on oxygen
 	 */
-	private void dimScreen() {
-		p.fill(0, 0, 0, dimAmount);
+	private void dimScreen(int oxygen) {
+		p.fill(0, 0, 0, 255-oxygen);
 		p.rect(-LEFT_PADDING, -TOP_PADDING, p.width, p.height);
-		dimAmount += 2;
-		dimAmount = Math.max(0, dimAmount);
 	}
 
 }

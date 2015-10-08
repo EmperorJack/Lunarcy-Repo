@@ -14,11 +14,15 @@ import java.awt.event.MouseListener;
 public abstract class Menu extends DrawingComponent {
 
 	// Menu alignment and sizing
-	private final int MENU_SIZE, MENU_LEFT_PADDING, MENU_TOP_PADDING, MENU_BUTTON_HEIGHT;
-
+	private final int MENU_SIZE = 300;
+	private final int MENU_LEFT_PADDING = p.width / 2 - MENU_SIZE / 2;
+	private final int MENU_TOP_PADDING = p.height / 2 - MENU_SIZE / 2;
+	private final int MENU_BUTTON_HEIGHT = 50;
+	private final int ITEM_SPACING = 20;
+	private final int BUTTON_TEXT_SIZE = 30;
+	
 	private String[] buttons;
 
-	private final int ITEM_SPACING;
 	// Displayed at top of menu
 	private String title;
 
@@ -31,11 +35,6 @@ public abstract class Menu extends DrawingComponent {
 		this.buttons = buttons;
 		this.entityController = entityController;
 
-		MENU_SIZE = 300;
-		MENU_LEFT_PADDING = p.width / 2 - MENU_SIZE / 2;
-		MENU_TOP_PADDING = p.height / 2 - MENU_SIZE / 2;
-		MENU_BUTTON_HEIGHT = 50;
-		ITEM_SPACING = 20;
 	}
 
 	protected void updateButtons(String[] buttons){
@@ -67,17 +66,19 @@ public abstract class Menu extends DrawingComponent {
 		p.fill(0, 0, 0, 200);
 		p.rect(0, 0, MENU_SIZE, MENU_SIZE);
 		p.fill(255, 255, 255, 100);
-		p.text(title, 0, 0, MENU_SIZE, MENU_BUTTON_HEIGHT);
-
+		p.textAlign(p.CENTER);
+		p.text(title, 0, 5, MENU_SIZE, MENU_BUTTON_HEIGHT);
+		
+		p.textSize(BUTTON_TEXT_SIZE);
 		// Draw all the buttons
 		for (int i = 0; i < buttons.length; i++) {
 			p.fill(255, 255, 255, 100);
 
 			// Draw the button background
-			p.rect(0, (MENU_BUTTON_HEIGHT + ITEM_SPACING) * (i + 1), MENU_SIZE, MENU_BUTTON_HEIGHT);
+			p.rect((int)(MENU_SIZE*0.1), (MENU_BUTTON_HEIGHT + ITEM_SPACING) * (i + 1), (int)(MENU_SIZE*0.8), MENU_BUTTON_HEIGHT);
 
 			p.fill(0, 0, 0, 100);
-
+			
 			// Draw the button text
 			p.text(buttons[i], 0, (MENU_BUTTON_HEIGHT + ITEM_SPACING) * (i + 1), MENU_SIZE, MENU_BUTTON_HEIGHT);
 		}
