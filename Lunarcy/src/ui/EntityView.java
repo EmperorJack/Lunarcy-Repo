@@ -22,11 +22,12 @@ public class EntityView extends DrawingComponent {
 	private final int TOP_PADDING = 500;
 
 	// all possible entity images
-	private final Map<String, PImage> IMAGES;
+	private final Map<String, PImage> ENTITY_IMAGES;
 
-	public EntityView(Canvas p, GameState gameState, int playerID, Map<String, PImage> images) {
+	public EntityView(Canvas p, GameState gameState, int playerID,
+			Map<String, PImage> ENTITY_IMAGES) {
 		super(p, gameState, playerID);
-		this.IMAGES = images;
+		this.ENTITY_IMAGES = ENTITY_IMAGES;
 	}
 
 	@Override

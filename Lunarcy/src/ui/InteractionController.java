@@ -16,18 +16,20 @@ import control.PickupAction;
 import control.PutAction;
 
 /**
- * This holds all the UI elements which are related to Entitities ie Inventory,
- * Menus and drawing entities.
+ * This holds all the UI componenets which are related to Entitities ie
+ * Inventory, Menus and drawing entities. Listens for all player input to
+ * perform interaction between UI componenets and player movement.
  *
  * @author Ben and Jack
  *
  */
-public class EntityController implements KeyListener, MouseListener {
+public class InteractionController implements KeyListener, MouseListener {
 
 	// Drawing components
 	private Inventory inventory;
 	private EntityView entityView;
 
+	// Menu fields
 	private Menu menu;
 	private boolean menuActive;
 
@@ -36,9 +38,11 @@ public class EntityController implements KeyListener, MouseListener {
 	private GameState gameState;
 	private Player player;
 
+	// Canvas field
 	private Canvas canvas;
 
-	public EntityController(Client client, GameState gamestate, Player player, Canvas canvas) {
+	public InteractionController(Client client, GameState gamestate, Player player,
+			Canvas canvas) {
 		this.client = client;
 		this.gameState = gamestate;
 		this.player = player;
@@ -46,7 +50,6 @@ public class EntityController implements KeyListener, MouseListener {
 
 		canvas.addKeyListener(this);
 	}
-
 
 	public void setInventory(Inventory inventory) {
 		this.inventory = inventory;
@@ -61,8 +64,7 @@ public class EntityController implements KeyListener, MouseListener {
 		this.player = player;
 	}
 
-
-	/**Action methods**/
+	/** Action methods **/
 
 	public void dropItem(int itemID) {
 		client.sendAction(new DropAction(player.getId(), itemID));
@@ -76,7 +78,7 @@ public class EntityController implements KeyListener, MouseListener {
 		client.sendAction(new PickupAction(player.getId(), itemID));
 	}
 
-	/**Menu methods**/
+	/** Menu methods **/
 
 	public boolean menuActive() {
 		return menuActive;

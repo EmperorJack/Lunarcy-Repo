@@ -151,7 +151,7 @@ public class Minimap extends DrawingComponent {
 		int degrees = player.getOrientation().ordinal() * 90;
 
 		p.translate(playerX + SQUARE_SIZE / 2, playerY + SQUARE_SIZE / 2);
-		p.rotate(p.radians(degrees));
+		p.rotate(PApplet.radians(degrees));
 
 		// Draw our player as an arrow facing their direction
 		p.triangle(0, -SQUARE_SIZE / 2, -SQUARE_SIZE / 2, SQUARE_SIZE / 2,

@@ -19,7 +19,7 @@ public class DropMenu extends Menu implements MouseListener {
 
 	private GameState gameState;
 
-	public DropMenu(Canvas p, EntityController entityController, GameState gameState, int playerID, Item item) {
+	public DropMenu(Canvas p, InteractionController entityController, GameState gameState, int playerID, Item item) {
 		super(p, entityController, gameState, playerID, item.getName(), buttons);
 		p.addMouseListener(this);
 		this.gameState = gameState;

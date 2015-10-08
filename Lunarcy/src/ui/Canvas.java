@@ -1,16 +1,15 @@
 package ui;
 
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 import control.Client;
-import control.DropAction;
-import control.MoveAction;
-import control.OrientAction;
-import control.PickupAction;
-import control.PutAction;
 import ddf.minim.*;
 import game.GameState;
 import game.Player;
@@ -50,12 +49,9 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	private boolean stateUpdated;
 
 	// drawing components
-	private EntityController entityControl;
+	private InteractionController interactionControl;
 	private DrawingComponent perspective;
 	private ArrayList<DrawingComponent> hud;
-
-	// menu field
-	private Menu menu;
 
 	// audio fields
 	private Minim minim;
@@ -90,7 +86,6 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			// use the software P3D renderer
 			renderer = P3D;
 		}
-
 	}
 
 	/**
@@ -100,12 +95,13 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		// setup the size and use 3D renderer
 		size(maxWidth, maxHeight, renderer);
 
-		// setup the entity controller
-		entityControl = new EntityController(client, gameState, player, this);
+		// setup the interaction controller
+		interactionControl = new InteractionController(client, gameState,
+				player, this);
 
 		// setup the drawing component factory
 		DrawingComponentFactory factory = new DrawingComponentFactory(this,
-				gameState, playerID, entityControl);
+				gameState, playerID, interactionControl, loadEntityImages());
 
 		// get a 3D perspective component
 		perspective = factory
@@ -153,8 +149,8 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			// update player field
 			player = gameState.getPlayer(playerID);
 
-			// update entity controller
-			entityControl.update(gameState, player);
+			// update interaction controller
+			interactionControl.update(gameState, player);
 
 			// the state has now been updated
 			stateUpdated = false;
@@ -208,16 +204,18 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 				maxWidth - 200, 150);
 		text(player.getOrientation().toString(), maxWidth - 200, 200);
 
+		// if the interaction controller has a menu to display
+		if (interactionControl.getMenu() != null) {
+			// draw the menu
+			interactionControl.getMenu().draw(gameState, delta);
+		}
+
 		// draw the black borders
 		fill(0);
 		rect(0, 0, maxWidth, -10 * maxHeight); // top
 		rect(0, maxHeight, maxWidth, 10 * maxHeight); // bottom
 		rect(0, 0, -10 * maxWidth, maxHeight); // left
 		rect(maxWidth, 0, 10 * maxWidth, maxHeight); // right
-
-		if (entityControl.getMenu() != null) {
-			entityControl.getMenu().draw(gameState, delta);
-		}
 	}
 
 	/**
@@ -249,5 +247,40 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		}
 	}
 
+	/**
+	 * Loads all the entity (item and container) images for each unique name in
+	 * the all_items.txt file.
+	 * 
+	 * @return Map of String (entity name) to image.
+	 */
+	private Map<String, PImage> loadEntityImages() {
+		// create a new map from strings to images
+		Map<String, PImage> entityImages = new HashMap<String, PImage>();
 
+		// create a scanner to parse in the items file
+		try {
+			Scanner scanner = new Scanner(
+					new File("assets/items/all_items.txt"));
+
+			// while the scanner has entity names left to parse
+			while (scanner.hasNextLine()) {
+				// load in the unique entity name
+				String name = scanner.nextLine();
+
+				// load in the entity image from the given name
+				entityImages.put(name, loadImage("/assets/items/" + name
+						+ ".png"));
+			}
+
+			// close the scanner
+			scanner.close();
+		} catch (FileNotFoundException e) {
+			// file load exception has occured
+			e.printStackTrace();
+		}
+
+		System.out.println(entityImages.keySet());
+
+		return entityImages;
+	}
 }

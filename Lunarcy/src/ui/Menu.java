@@ -26,9 +26,9 @@ public abstract class Menu extends DrawingComponent {
 	// Displayed at top of menu
 	private String title;
 
-	protected EntityController entityController;
+	protected InteractionController entityController;
 
-	public Menu(Canvas p, EntityController entityController, GameState gameState, int playerID, String title, String[] buttons) {
+	public Menu(Canvas p, InteractionController entityController, GameState gameState, int playerID, String title, String[] buttons) {
 		super(p, gameState, playerID);
 
 		this.title = title;
