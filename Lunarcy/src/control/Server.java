@@ -32,34 +32,31 @@ public class Server {
 	private GameLogic gameLogic;
 	private int updateFreq;
 	private boolean running = true;
+	private boolean fromSavedGame;
 
-	private int majorUpdateFreq = 100; // the number of moves before a major update
-	private int majorUpdateTick = 0;
 
 	public Server(int maxClients, int updateFreq, GameState gameState) {
 		this.maxClients = gameState.getPlayers().length;
 		this.updateFreq = updateFreq;
+		gameLogic = new GameLogic(gameState);
 		try {
 			serverSocket = new ServerSocket(PORT);
 			listenForClients();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		gameLogic = new GameLogic(gameState);
 	}
 
 	public Server(int maxClients, int updateFreq, String map) {
 		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;
 		GameState gameState = new GameState(maxClients,map);
-
 		try {
 			serverSocket = new ServerSocket(PORT);
-			listenForClients();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		listenForClients();
 		// add players to gamestate
 		for (ClientConnection client : clientList) {
 			gameState.addPlayer(client.clientID, client.username, client.colour);
@@ -107,15 +104,31 @@ public class Server {
 	 *
 	 * @throws IOException
 	 */
-	private void listenForClients() throws IOException {
-
+	private void listenForClients() {
+	    
 		System.out.println("Listeneing for clients");
 		// wait for all clients to connect
 		while (clientList.size() < maxClients) {
-			Socket s = serverSocket.accept();
+			Socket s;
+			try {
+			    s = serverSocket.accept();
+			} catch (IOException e) {
+			   continue;
+			}
 			int clientID = clientList.size();
 
-			ClientConnection client = new ClientConnection(s, clientID);
+			ClientConnection client;
+			try {
+			    client = new ClientConnection(s, clientID); 
+			} catch (IOException e) {
+			    try {
+				s.close();
+			    } catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			    }
+			    continue;
+			}
 			clientList.add(client);
 			client.listenToClient();
 		}
@@ -215,6 +228,7 @@ public class Server {
 			// Read the user name sent from the client
 			try {
 				this.username = (String) inputFromClient.readObject();
+				//TODO negotiate username
 				this.colour = Color.decode((String)inputFromClient.readObject());
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -306,7 +320,9 @@ public class Server {
 	}
 
 	public static void main(String[] args) {
-		new Server(2, 1000,"map.xml");
+		Server serv = new Server(1, 1000,"map.xml");
+		serv.run();
+		serv.stop();
 	}
 
 }
