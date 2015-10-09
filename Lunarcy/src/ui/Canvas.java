@@ -107,9 +107,10 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		perspective = factory
 				.getDrawingComponent(DrawingComponentFactory.PERSPECTIVE3D);
 
-		// get the HUD components
+		// setup the HUD components list
 		hud = new ArrayList<DrawingComponent>();
 
+		// get the HUD drawing components
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.OXYGEN));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORY));
@@ -250,7 +251,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	/**
 	 * Loads all the entity (item and container) images for each unique name in
 	 * the all_items.txt file.
-	 * 
+	 *
 	 * @return Map of String (entity name) to image.
 	 */
 	private Map<String, PImage> loadEntityImages() {
@@ -278,8 +279,6 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			// file load exception has occured
 			e.printStackTrace();
 		}
-
-		System.out.println(entityImages.keySet());
 
 		return entityImages;
 	}

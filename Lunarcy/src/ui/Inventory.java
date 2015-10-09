@@ -31,7 +31,7 @@ public class Inventory extends DrawingComponent implements MouseListener {
 	private InteractionController entityController;
 
 	private List<Item> inventory;
-	
+
 	Map<String, PImage> entityImages;
 
 	public Inventory(Canvas p, InteractionController entityController, GameState gameState, int playerID, Map<String, PImage> entityImages) {
@@ -40,13 +40,13 @@ public class Inventory extends DrawingComponent implements MouseListener {
 		this.gamestate = gameState;
 		inventory = gameState.getPlayer(playerID).getInventory();
 		LEFT_PADDING = 25;
-		TOP_PADDING = (int) (p.height * 0.8);
+		TOP_PADDING = (int) (p.height * 0.85);
 		INVENTORY_WIDTH = (int) (p.width * 0.3);
 		ITEM_SIZE = 35;
 		ITEM_SPACING = 10;
 
 		this.entityController = entityController;
-		
+
 		this.entityImages = entityImages;
 
 		p.addMouseListener(this);
@@ -74,7 +74,6 @@ public class Inventory extends DrawingComponent implements MouseListener {
 
 		if (inventory != null) {
 			for (int i = 0; i < inventory.size(); i++) {
-				//System.out.println("WANTED: " + inventory.get(i).getImageName());
 				p.image(entityImages.get(inventory.get(i).getImageName()), i * (ITEM_SIZE
 						+ ITEM_SPACING), 0, ITEM_SIZE, ITEM_SIZE);
 			}

@@ -41,13 +41,15 @@ public class InteractionController implements KeyListener, MouseListener {
 	// Canvas field
 	private Canvas canvas;
 
-	public InteractionController(Client client, GameState gamestate, Player player, Canvas canvas) {
+	public InteractionController(Client client, GameState gamestate,
+			Player player, Canvas canvas) {
 		this.client = client;
 		this.gameState = gamestate;
 		this.player = player;
 		this.canvas = canvas;
 
 		canvas.addKeyListener(this);
+		canvas.addMouseListener(this);
 	}
 
 	public void setInventory(Inventory inventory) {
@@ -160,6 +162,7 @@ public class InteractionController implements KeyListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		System.out.println(entityView.getEntityAt(e.getX(), e.getY()));
 	}
 
 	@Override
