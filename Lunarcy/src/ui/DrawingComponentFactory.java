@@ -37,10 +37,10 @@ public class DrawingComponentFactory {
 	public static final int PERSPECTIVE3D = 3;
 	public static final int ENTITYVIEW = 4;
 	public static final int MENU = 5;
+	public static final int WINNING_ITEMS = 6;
 
 	public DrawingComponentFactory(Canvas p, GameState gameState, int playerID,
-			InteractionController interactionControl,
-			Map<String, PImage> entityImages) {
+			InteractionController interactionControl, Map<String, PImage> entityImages) {
 		this.p = p;
 		this.gameState = gameState;
 		this.playerID = playerID;
@@ -60,8 +60,7 @@ public class DrawingComponentFactory {
 		switch (type) {
 
 		case INVENTORY:
-			Inventory inventory = new Inventory(p, interactionControl,
-					gameState, playerID, entityImages);
+			Inventory inventory = new Inventory(p, interactionControl, gameState, playerID, entityImages);
 			interactionControl.setInventory(inventory);
 			return inventory;
 
@@ -75,14 +74,14 @@ public class DrawingComponentFactory {
 			return new Perspective3D(p, gameState, playerID);
 
 		case ENTITYVIEW:
-			EntityView entityView = new EntityView(p, gameState, playerID,
-					entityImages);
+			EntityView entityView = new EntityView(p, gameState, playerID, entityImages);
 			interactionControl.setEntityView(entityView);
 			return entityView;
+		case WINNING_ITEMS:
+			return new WinningItems(p, gameState, type, entityImages);
 		}
 
 		// invalid component entered
-		throw new IllegalArgumentException(
-				"Invalid drawing component type entered.");
+		throw new IllegalArgumentException("Invalid drawing component type entered.");
 	}
 }

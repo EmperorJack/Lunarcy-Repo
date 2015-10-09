@@ -32,7 +32,8 @@ public class Inventory extends DrawingComponent implements MouseListener {
 
 	private List<Item> inventory;
 
-	Map<String, PImage> entityImages;
+	//So we can preload all our images based on the entitys name
+	private final Map<String, PImage> ENTITY_IMAGES;
 
 	public Inventory(Canvas p, InteractionController entityController, GameState gameState, int playerID, Map<String, PImage> entityImages) {
 		super(p, gameState, playerID);
@@ -47,7 +48,7 @@ public class Inventory extends DrawingComponent implements MouseListener {
 
 		this.entityController = entityController;
 
-		this.entityImages = entityImages;
+		this.ENTITY_IMAGES = entityImages;
 
 		p.addMouseListener(this);
 	}
@@ -74,7 +75,7 @@ public class Inventory extends DrawingComponent implements MouseListener {
 
 		if (inventory != null) {
 			for (int i = 0; i < inventory.size(); i++) {
-				p.image(entityImages.get(inventory.get(i).getImageName()), i * (ITEM_SIZE
+				p.image(ENTITY_IMAGES.get(inventory.get(i).getImageName()), i * (ITEM_SIZE
 						+ ITEM_SPACING), 0, ITEM_SIZE, ITEM_SIZE);
 			}
 		}

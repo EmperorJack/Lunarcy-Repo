@@ -20,8 +20,17 @@ public class Ship extends WalkableSquare {
 			requiredParts.add(part);
 		}
 	}
+	
+	/*TEMPORARY*/
+	public void testAddRequireditems(){
+		requiredParts.add(new ShipPart(0, 0));
+		//inventory.add(new Key(id * 100 + 2, 2));
+		requiredParts.add(new ShipPart(3, 1));
+		requiredParts.add(new ShipPart(4, 1));
+	}
 
-	/**
+	
+	/**	
 	 * Checks if the Player has all of the required parts, if they do then flag
 	 * that the game has been won otherwise add them to the Square.
 	 *
@@ -61,5 +70,10 @@ public class Ship extends WalkableSquare {
 	 */
 	public Player getPilot(){
 		return pilot;
+	}
+	
+	
+	public Set<ShipPart> getParts(){
+		return new HashSet<>(requiredParts);
 	}
 }

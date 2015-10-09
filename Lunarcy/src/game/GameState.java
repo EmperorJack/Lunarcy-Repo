@@ -33,9 +33,22 @@ public class GameState implements Serializable {
 		loadMap(map);
 		rovers = new HashSet<Rover>();
 		players = new Player[numPlayers];
-		addRover(new Rover(new RoamMovement()));
+		//addRover(new Rover(new RoamMovement()));
 	}
 
+	
+	
+	/*TEMPORARY UNTIL ROBBIE MAKES A PROPER METHOD*/
+	public Ship getShip(){
+		for(int y=0; y<board.length; y++){
+			for(int x=0; x<board[y].length; x++){
+				if(board[y][x] instanceof Ship){
+					return (Ship)board[y][x];
+				}
+			}
+		}
+		return null;
+	}
 	/**
 	 * @param location
 	 *            A location to retrieve the square from

@@ -67,8 +67,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	 * @param gameState
 	 *            The initial state of the game to be drawn.
 	 */
-	public Canvas(int w, int h, Client client, GameState gameState,
-			boolean hardwareRenderer) {
+	public Canvas(int w, int h, Client client, GameState gameState, boolean hardwareRenderer) {
 		this.maxWidth = w;
 		this.maxHeight = h;
 		this.client = client;
@@ -96,16 +95,14 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		size(maxWidth, maxHeight, renderer);
 
 		// setup the interaction controller
-		interactionControl = new InteractionController(client, gameState,
-				player, this);
+		interactionControl = new InteractionController(client, gameState, player, this);
 
 		// setup the drawing component factory
-		DrawingComponentFactory factory = new DrawingComponentFactory(this,
-				gameState, playerID, interactionControl, loadEntityImages());
+		DrawingComponentFactory factory = new DrawingComponentFactory(this, gameState, playerID, interactionControl,
+				loadEntityImages());
 
 		// get a 3D perspective component
-		perspective = factory
-				.getDrawingComponent(DrawingComponentFactory.PERSPECTIVE3D);
+		perspective = factory.getDrawingComponent(DrawingComponentFactory.PERSPECTIVE3D);
 
 		// setup the HUD components list
 		hud = new ArrayList<DrawingComponent>();
@@ -115,6 +112,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORY));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.ENTITYVIEW));
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.WINNING_ITEMS));
 
 		// audio setup
 		// minim = new Minim(this);
@@ -193,17 +191,16 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			component.draw(gameState, delta);
 		}
 
-		// draw the frame rate string
-		fill(255);
-		textSize(40);
-		text(frameRate, maxWidth - 200, 50);
-		text(delta, maxWidth - 200, 100);
-
-		// draw player position and orientation
-		Player player = gameState.getPlayer(playerID);
-		text(player.getLocation().getX() + " : " + player.getLocation().getY(),
-				maxWidth - 200, 150);
-		text(player.getOrientation().toString(), maxWidth - 200, 200);
+		/*
+		 * // draw the frame rate string fill(255); textSize(40);
+		 * text(frameRate, maxWidth - 200, 50); text(delta, maxWidth - 200,
+		 * 100);
+		 * 
+		 * // draw player position and orientation Player player =
+		 * gameState.getPlayer(playerID); text(player.getLocation().getX() +
+		 * " : " + player.getLocation().getY(), maxWidth - 200, 150);
+		 * text(player.getOrientation().toString(), maxWidth - 200, 200);
+		 */
 
 		// if the interaction controller has a menu to display
 		if (interactionControl.getMenu() != null) {
@@ -260,8 +257,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 		// create a scanner to parse in the items file
 		try {
-			Scanner scanner = new Scanner(
-					new File("assets/items/all_items.txt"));
+			Scanner scanner = new Scanner(new File("assets/items/all_items.txt"));
 
 			// while the scanner has entity names left to parse
 			while (scanner.hasNextLine()) {
@@ -269,8 +265,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 				String name = scanner.nextLine();
 
 				// load in the entity image from the given name
-				entityImages.put(name, loadImage("/assets/items/" + name
-						+ ".png"));
+				entityImages.put(name, loadImage("/assets/items/" + name + ".png"));
 			}
 
 			// close the scanner
