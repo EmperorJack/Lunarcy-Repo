@@ -27,7 +27,7 @@ public class NewServer {
  	private int updateFreq;
  	private boolean running = true;
  	private boolean fromSavedGame;
- 	
+
  	public NewServer(int maxClients, int updateFreq, GameState gameState) throws SocketException {
 		this.maxClients = gameState.getPlayers().length;
 		this.updateFreq = updateFreq;
@@ -40,7 +40,7 @@ public class NewServer {
  	 * @return if adding to a new game returns the existing id based on username, -1 if invalid
  	 *  or their id if they are added to a new game
  	 */
- 	synchronized private int addToGameState(ClientConncection client){
+ 	synchronized private int addToGameState(ClientConnection client){
  	    //if the mode is saved game
  	    if(fromSavedGame){
  		Player[] players = gameLogic.getGameState().getPlayers();
@@ -54,12 +54,12 @@ public class NewServer {
 		}
  		return -1;
  	    }else{
- 		gameLogic.getGameState().addPlayer(playerID, client.getName(), client.getColour());
+ 	    	gameLogic.getGameState().addPlayer(clientList.indexOf(client), client.getName(), client.getColour());
  	    }
  	}
- 	
+
  	private void listenForClients() {
-	    
+
 		System.out.println("Listeneing for clients");
 		// wait for all clients to connect
 		while (clientList.size() < maxClients) {
@@ -73,7 +73,7 @@ public class NewServer {
 
 			ClientConnection client;
 			try {
-			    client = new ClientConnection(s, clientID); 
+			    client = new ClientConnection(s, clientID);
 			} catch (IOException e) {
 			    try {
 				s.close();
@@ -88,19 +88,22 @@ public class NewServer {
 		}
 
 	}
- 	
+
+ 	synchronized void removeClient(ClientConnection c){
+ 		clientList.remove(c);
+ 	}
+
  	private class ClientConnection {
 		private Socket socket;
 		private ObjectInputStream inputFromClient;
 		private ObjectOutputStream outputToClient;
-		private int clientID;
+		private int clientID = -1;
 		private String username;
 		private Color colour;
 		private boolean clientRunning = true;
 
-		ClientConnection(Socket socket, int id) throws IOException {
+		ClientConnection(Socket socket) throws IOException {
 			this.socket = socket;
-			clientID = id;
 			outputToClient = new ObjectOutputStream(socket.getOutputStream());
 			inputFromClient = new ObjectInputStream(socket.getInputStream());
 			// Sleep for a bit
@@ -112,8 +115,12 @@ public class NewServer {
 
 			// Read the user name sent from the client
 			try {
-				this.username = (String) inputFromClient.readObject();
-				//TODO negotiate username
+				do{
+					this.username = (String) inputFromClient.readObject();
+					//TODO negotiate username and id
+					clientID = addToGameState(this);
+					writeObject("InvalidUn", true);
+				}while(this.clientID == -1);
 				this.colour = Color.decode((String)inputFromClient.readObject());
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -188,19 +195,33 @@ public class NewServer {
 				inputFromClient.close();
 				outputToClient.close();
 				socket.close();
-			} catch (IOException e1) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				System.out.println("Unable to close client socket descriptor");
-				e1.printStackTrace();
+				e.printStackTrace();
 			}
-			clientList.remove(this);
+			removeClient(this);
 		}
 
 		/**
-		 * Gracefully close client connection
+		 * Prepare the client to close its connection
 		 */
 		private void stop() {
 			this.clientRunning = false;
+		}
+		/**
+		 * Get the name of this client
+		 * @return
+		 */
+		public String getName() {
+			return this.username;
+		}
+		/**
+		 * Get the colour of the client
+		 * @return
+		 */
+		public Color getColour() {
+			return this.colour;
 		}
 	}
 }
