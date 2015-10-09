@@ -40,7 +40,7 @@ public class Inventory extends DrawingComponent implements MouseListener {
 		this.gamestate = gameState;
 		inventory = gameState.getPlayer(playerID).getInventory();
 		LEFT_PADDING = 25;
-		TOP_PADDING = (int) (p.height * 0.9);
+		TOP_PADDING = (int) (p.height * 0.85);
 		INVENTORY_WIDTH = (int) (p.width * 0.3);
 		ITEM_SIZE = 35;
 		ITEM_SPACING = 10;

@@ -94,7 +94,7 @@ public class EntityView extends DrawingComponent {
 			// for each entity
 			for (int i = 0; i < entities.size(); i++) {
 
-				// compute the x position of the image
+				// compute the x position of the entity
 				int xPos = (int) ((i + 1) / (float) (numberEntities + 1) * p
 						.getWidth());
 
