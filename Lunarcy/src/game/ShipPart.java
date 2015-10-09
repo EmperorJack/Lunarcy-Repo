@@ -31,17 +31,20 @@ public class ShipPart extends Item {
 	enum PartType{
 		ENGINE, FUEL_CORE, COOLANT, GPS, WARP_DRIVE
 	}
-
+	
 	@Override
 	public int hashCode() {
-		return 31 * ((type == null) ? 0 : type.hashCode());
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if(obj==null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;

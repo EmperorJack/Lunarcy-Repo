@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import bots.*;
@@ -25,7 +27,8 @@ public class GameState implements Serializable {
 	private static final long serialVersionUID = -6038094749199471954L;
 
 	private Square[][] board;
-	private Set<Location> spawnPoints;
+	private List<Location> spawnPoints;
+	private Ship ship;
 	private Player[] players;
 	private Set<Rover> rovers;
 
@@ -40,14 +43,7 @@ public class GameState implements Serializable {
 	
 	/*TEMPORARY UNTIL ROBBIE MAKES A PROPER METHOD*/
 	public Ship getShip(){
-		for(int y=0; y<board.length; y++){
-			for(int x=0; x<board[y].length; x++){
-				if(board[y][x] instanceof Ship){
-					return (Ship)board[y][x];
-				}
-			}
-		}
-		return null;
+		return ship;
 	}
 	/**
 	 * @param location
@@ -108,8 +104,19 @@ public class GameState implements Serializable {
 			XStream xstream = new XStream();
 			board = (Square[][]) xstream.fromXML(file);
 			//To be read from map once File IO done with JSON
-			spawnPoints = new HashSet<Location>();
+			spawnPoints = new ArrayList<Location>();
 			spawnPoints.add(new Location(1,1));
+			
+			//Search the board to find the ship and save it
+			//Probably need to do something if there is no ship (InvalidMapException??)
+			for(int y=0; y<board.length; y++){
+				for(int x=0; x<board[y].length; x++){
+					if(board[y][x] instanceof Ship){
+						ship = (Ship)board[y][x];
+					}
+				}
+			}
+			
 		} catch (FileNotFoundException e) {
 
 		}
@@ -151,7 +158,7 @@ public class GameState implements Serializable {
 	 * @return
 	 */
 	public boolean addPlayer(int playerID, String name, Color colour){
-		Location spawn = spawnPoints.iterator().hasNext() ? spawnPoints.iterator().next() : null;
+		Location spawn = spawnPoints.get((int)Math.random()*spawnPoints.size());
 		Player player = new Player(playerID, name, colour, spawn, Direction.NORTH);
 		if(playerID<0||playerID>players.length)return false;
 		players[playerID] = player;
