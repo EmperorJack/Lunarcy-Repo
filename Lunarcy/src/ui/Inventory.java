@@ -74,7 +74,7 @@ public class Inventory extends DrawingComponent implements MouseListener {
 
 		if (inventory != null) {
 			for (int i = 0; i < inventory.size(); i++) {
-				System.out.println("WANTED: " + inventory.get(i).getImageName());
+				//System.out.println("WANTED: " + inventory.get(i).getImageName());
 				p.image(entityImages.get(inventory.get(i).getImageName()), i * (ITEM_SIZE
 						+ ITEM_SPACING), 0, ITEM_SIZE, ITEM_SIZE);
 			}

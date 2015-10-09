@@ -33,7 +33,7 @@ public class GameState implements Serializable {
 		loadMap(map);
 		rovers = new HashSet<Rover>();
 		players = new Player[numPlayers];
-		//addRover(new Rover(this, new RoamMovement()));
+		addRover(new Rover(new RoamMovement()));
 	}
 
 	/**

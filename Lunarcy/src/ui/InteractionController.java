@@ -41,8 +41,7 @@ public class InteractionController implements KeyListener, MouseListener {
 	// Canvas field
 	private Canvas canvas;
 
-	public InteractionController(Client client, GameState gamestate, Player player,
-			Canvas canvas) {
+	public InteractionController(Client client, GameState gamestate, Player player, Canvas canvas) {
 		this.client = client;
 		this.gameState = gamestate;
 		this.player = player;
@@ -92,6 +91,11 @@ public class InteractionController implements KeyListener, MouseListener {
 		return menu;
 	}
 
+	/**
+	 * Updates the menu and sets the menu to be active if is non null.
+	 * 
+	 * @param menu
+	 */
 	public void setMenu(Menu menu) {
 		this.menu = menu;
 
@@ -109,26 +113,22 @@ public class InteractionController implements KeyListener, MouseListener {
 
 		// move forward
 		case KeyEvent.VK_W:
-			client.sendAction(new MoveAction(player.getId(), player
-					.getOrientation()));
+			client.sendAction(new MoveAction(player.getId(), player.getOrientation()));
 			break;
 
 		// strafe left
 		case KeyEvent.VK_A:
-			client.sendAction(new MoveAction(player.getId(), player
-					.getOrientation().left()));
+			client.sendAction(new MoveAction(player.getId(), player.getOrientation().left()));
 			break;
 
 		// move back
 		case KeyEvent.VK_S:
-			client.sendAction(new MoveAction(player.getId(), player
-					.getOrientation().opposite()));
+			client.sendAction(new MoveAction(player.getId(), player.getOrientation().opposite()));
 			break;
 
 		// strafe right
 		case KeyEvent.VK_D:
-			client.sendAction(new MoveAction(player.getId(), player
-					.getOrientation().right()));
+			client.sendAction(new MoveAction(player.getId(), player.getOrientation().right()));
 			break;
 
 		// turn left
@@ -151,6 +151,8 @@ public class InteractionController implements KeyListener, MouseListener {
 			break;
 		}
 	}
+
+	/* Unused listener methods */
 
 	@Override
 	public void keyReleased(KeyEvent e) {

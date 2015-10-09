@@ -42,13 +42,9 @@ public class Rover implements Character, Serializable {
 	// Mantains the rovers position (x,y) at any given time
 	private Location currentLocation;
 
-	// Used to find players/locations
-	private GameState gamestate;
-
 	private Direction direction;
 
-	public Rover(GameState gamestate, MoveStrategy movementStrategy) {
-		this.gamestate = gamestate;
+	public Rover(MoveStrategy movementStrategy) {
 		this.movementStrategy = movementStrategy;
 		this.path = new ArrayList<Location>();
 		this.currentLocation = new Location(1, 1);
@@ -60,7 +56,7 @@ public class Rover implements Character, Serializable {
 	 * necessary and also changing the movement strategy when applicable.
 	 */
 
-	public void tick() {
+	public void tick(GameState gamestate) {
 
 		// Move along one step in the path
 		// removing the location we visit
@@ -68,6 +64,10 @@ public class Rover implements Character, Serializable {
 		
 		//Something went wrong and we are stuck
 		if(currentLocation==null){
+			return;
+		}
+		
+		if(caughtPlayer(gamestate)){
 			
 		}
 		
@@ -76,6 +76,20 @@ public class Rover implements Character, Serializable {
 
 	}
 
+	/**
+	 * Returns true if the bot is at the same
+	 * location as any of the players currently in the game.
+	 * @return
+	 */
+	private boolean caughtPlayer(GameState gamestate){
+		for(Player player: gamestate.getPlayers()){
+			if(currentLocation.equals(player.getLocation())){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	/**
 	 * Changes the movement strategy in one of two cases
 	 *
@@ -87,7 +101,7 @@ public class Rover implements Character, Serializable {
 	 * Otherwise does not update the movement strategy.
 	 *
 	 */
-	private void updateStrategy() {
+	private void updateStrategy(GameState gamestate) {
 		// If we are roaming, see if we can track anyone
 		if (movementStrategy instanceof RoamMovement) {
 			Player target = ((RoamMovement) movementStrategy).viewTarget(gamestate.getBoard(), this);

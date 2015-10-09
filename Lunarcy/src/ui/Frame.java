@@ -78,7 +78,7 @@ public class Frame extends JFrame {
 		setBounds((size.width - getWidth()) / 2,
 				(size.height - getHeight()) / 2, getWidth(), getHeight());
 
-		setResizable(true);
+		setResizable(false);
 		setVisible(true);
 
 		// run the processing canvas
