@@ -3,3 +3,4 @@ shipPart_ENGINE
 shipPart_FUEL_CORE
 shipPart_GPS
 shipPart_GRAVITY_CORE
+shipPart_WARP_DRIVE
