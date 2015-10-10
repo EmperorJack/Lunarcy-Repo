@@ -119,6 +119,7 @@ public class Client {
 	private boolean writeObject(Object o) {
 		if (o != null) {
 			try {
+				outputToServer.reset();
 				outputToServer.writeObject(o);
 				outputToServer.flush();
 			} catch (IOException e) {

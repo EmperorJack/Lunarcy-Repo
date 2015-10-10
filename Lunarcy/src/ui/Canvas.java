@@ -134,9 +134,8 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 		// text setup
 		hint(ENABLE_NATIVE_FONTS);
-		PFont font36 = createFont("Arial", 32);
-		textFont(font36);
-		text("This is sharp text", 10, 40);
+		PFont font = createFont("Arial", 36);
+		textFont(font);
 		textSize(12);
 	}
 

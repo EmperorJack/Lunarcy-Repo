@@ -42,6 +42,7 @@ public class Perspective3D extends DrawingComponent {
 	private final int CHARACTER_WIDTH = 200;
 	private final int CHARACTER_HEIGHT = 400;
 	private final int CHARACTER_Y_OFFSET = -200;
+	private final int PLAYER_NAME_Y_OFFSET = -200;
 
 	// entity drawing fields
 	private final Map<String, PImage> entityImages;
@@ -195,6 +196,11 @@ public class Perspective3D extends DrawingComponent {
 				p.imageMode(PApplet.CENTER);
 				p.image(ASTRONAUT, 0, 0, CHARACTER_WIDTH, CHARACTER_HEIGHT);
 
+				// draw the player name text
+				p.fill(currentPlayer.getColour().getRGB());
+				p.textSize(36);
+				p.text(currentPlayer.getName(), 0, PLAYER_NAME_Y_OFFSET);
+
 				p.popStyle();
 				p.popMatrix();
 			}
@@ -315,7 +321,7 @@ public class Perspective3D extends DrawingComponent {
 	private void rotateRelativeTo(PVector position) {
 		float angle = PApplet.atan2(actualCameraEye.z - position.z,
 				actualCameraEye.x - position.x);
-		p.rotateY(angle - PApplet.PI / 2);
+		p.rotateY(-(angle - PApplet.PI / 2));
 	}
 
 	/**
