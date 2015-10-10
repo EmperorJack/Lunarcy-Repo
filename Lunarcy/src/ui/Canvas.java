@@ -216,16 +216,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			component.draw(gameState, delta);
 		}
 
-		// TODO remove frame rate code when not needed
-		// draw the frame rate string fill(255); textSize(40);
-		text(frameRate, TARGET_WIDTH - 200, 50);
-		text(delta, TARGET_WIDTH - 200, 100);
-
-		// draw player position and orientation Player player =
-		gameState.getPlayer(playerID);
-		text(player.getLocation().getX() + " : " + player.getLocation().getY(),
-				TARGET_WIDTH - 200, 150);
-		text(player.getOrientation().toString(), TARGET_WIDTH - 200, 200);
+		// printCanvasInfo(delta);
 
 		// if the interaction controller has a menu to display
 		if (interactionControl.getMenu() != null) {
@@ -311,5 +302,17 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		}
 
 		return entityImages;
+	}
+
+	private void printCanvasInfo(float delta) {
+		// draw the frame rate string fill(255); textSize(40);
+		text(frameRate, TARGET_WIDTH - 200, 50);
+		text(delta, TARGET_WIDTH - 200, 100);
+
+		// draw player position and orientation strings
+		gameState.getPlayer(playerID);
+		text(player.getLocation().getX() + " : " + player.getLocation().getY(),
+				TARGET_WIDTH - 200, 150);
+		text(player.getOrientation().toString(), TARGET_WIDTH - 200, 200);
 	}
 }
