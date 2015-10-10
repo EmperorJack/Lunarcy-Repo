@@ -83,7 +83,7 @@ public class InteractionController implements KeyListener, MouseListener {
 
 	/**
 	 * Updates the menu and sets the menu to be active if is non null.
-	 * 
+	 *
 	 * @param menu
 	 */
 	public void setMenu(Menu menu) {
@@ -92,7 +92,7 @@ public class InteractionController implements KeyListener, MouseListener {
 		// Set the menu to visible if menu is non null
 		menuActive = menu != null;
 	}
-	
+
 	public void setInventory(Inventory inventory) {
 		this.inventory = inventory;
 	}
@@ -105,7 +105,7 @@ public class InteractionController implements KeyListener, MouseListener {
 		this.gameState = gameState;
 		this.player = player;
 	}
-	
+
 	/** Key and Mouse Listening methods **/
 
 	@Override
@@ -116,22 +116,26 @@ public class InteractionController implements KeyListener, MouseListener {
 
 		// move forward
 		case KeyEvent.VK_W:
-			client.sendAction(new MoveAction(player.getId(), player.getOrientation()));
+			client.sendAction(new MoveAction(player.getId(), player
+					.getOrientation()));
 			break;
 
 		// strafe left
 		case KeyEvent.VK_A:
-			client.sendAction(new MoveAction(player.getId(), player.getOrientation().left()));
+			client.sendAction(new MoveAction(player.getId(), player
+					.getOrientation().left()));
 			break;
 
 		// move back
 		case KeyEvent.VK_S:
-			client.sendAction(new MoveAction(player.getId(), player.getOrientation().opposite()));
+			client.sendAction(new MoveAction(player.getId(), player
+					.getOrientation().opposite()));
 			break;
 
 		// strafe right
 		case KeyEvent.VK_D:
-			client.sendAction(new MoveAction(player.getId(), player.getOrientation().right()));
+			client.sendAction(new MoveAction(player.getId(), player
+					.getOrientation().right()));
 			break;
 
 		// turn left
@@ -154,15 +158,21 @@ public class InteractionController implements KeyListener, MouseListener {
 			break;
 		}
 	}
-	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		Entity entity = entityView.getEntityAt(e.getX(), e.getY());
-		
-		//If they click on an entity, display the menu to pick up items
-		if(entity!=null){ 
+		// adjust the x and y to the canvas scaling
+		int x = (int) (e.getX() / canvas.getScaling());
+		int y = (int) (e.getY() / canvas.getScaling());
+
+		Entity entity = entityView.getEntityAt(x, y);
+
+		// If they click on an entity, display the menu to pick up items
+		if (entity != null) {
 			setMenu(new PickMenu(canvas, this, gameState, player.getId()));
+		} else {
+			// check for click on inventory
+			inventory.inventoryClicked(x, y);
 		}
 	}
 

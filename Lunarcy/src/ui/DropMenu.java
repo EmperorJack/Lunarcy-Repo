@@ -14,36 +14,37 @@ public class DropMenu extends Menu implements MouseListener {
 
 	private GameState gameState;
 
-	public DropMenu(Canvas p, InteractionController entityController, GameState gameState, int playerID, Item item) {
+	public DropMenu(Canvas p, InteractionController entityController,
+			GameState gameState, int playerID, Item item) {
 		super(p, entityController, gameState, playerID, item.getName(), buttons);
 		p.addMouseListener(this);
 		this.gameState = gameState;
 		this.item = item;
 	}
 
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
+		int x = (int) (e.getX() / p.getScaling());
+		int y = (int) (e.getY() / p.getScaling());
 
-		//If the menu is open, clicked on, and an item has been set then proccess the click
-		if (entityController.menuActive() && onMenu(x, y) && item!=null) {
+		// If the menu is open, clicked on, and an item has been set then
+		// proccess the click
+		if (entityController.menuActive() && onMenu(x, y) && item != null) {
 
 			String button = getButtonClicked(x, y);
 			if (button != null) {
 				switch (button) {
-					case "Drop item":
-						entityController.dropItem(item.entityID);
-						item = null;
-						break;
-					case "Put item":
-						//TODO: Put
-						item = null;
-						break;
-					}
+				case "Drop item":
+					entityController.dropItem(item.entityID);
+					item = null;
+					break;
+				case "Put item":
+					// TODO: Put
+					item = null;
+					break;
+				}
 
-				//Hide the menu, as we have made a selection
+				// Hide the menu, as we have made a selection
 				entityController.setMenu(null);
 			}
 		}

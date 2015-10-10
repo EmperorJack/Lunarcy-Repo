@@ -105,7 +105,7 @@ public class Server {
 	 * @throws IOException
 	 */
 	private void listenForClients() {
-	    
+
 		System.out.println("Listeneing for clients");
 		// wait for all clients to connect
 		while (clientList.size() < maxClients) {
@@ -119,7 +119,7 @@ public class Server {
 
 			ClientConnection client;
 			try {
-			    client = new ClientConnection(s, clientID); 
+			    client = new ClientConnection(s, clientID);
 			} catch (IOException e) {
 			    try {
 				s.close();
@@ -178,6 +178,7 @@ public class Server {
 		for(int i = 0 ; i < clientList.size(); i++){
 			ClientConnection client = clientList.get(i);
 			boolean isNewObject = i == 0 ? true : false; //only reset output cache on first send
+			isNewObject = true; // only transmits new state to one player if this is false...
 			client.writeObject(state,isNewObject);
 		}
 	}

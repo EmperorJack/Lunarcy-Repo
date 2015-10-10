@@ -17,12 +17,13 @@ import game.WalkableSquare;
  * @author evansben1
  *
  */
-public class PickMenu extends Menu implements MouseListener  {
+public class PickMenu extends Menu implements MouseListener {
 
 	private WalkableSquare square;
 	private GameState gameState;
 
-	public PickMenu(Canvas p, InteractionController entityController, GameState gameState, int playerID) {
+	public PickMenu(Canvas p, InteractionController entityController,
+			GameState gameState, int playerID) {
 		super(p, entityController, gameState, playerID, "Pickup", null);
 		p.addMouseListener(this);
 		update(gameState);
@@ -36,7 +37,7 @@ public class PickMenu extends Menu implements MouseListener  {
 		}
 	}
 
-	private void update(GameState gameState){
+	private void update(GameState gameState) {
 		this.gameState = gameState;
 		Player player = gameState.getPlayer(playerID);
 		square = (WalkableSquare) gameState.getSquare(player.getLocation());
@@ -45,8 +46,8 @@ public class PickMenu extends Menu implements MouseListener  {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
+		int x = (int) (e.getX() / p.getScaling());
+		int y = (int) (e.getY() / p.getScaling());
 
 		if (onMenu(x, y) && entityController.menuActive()) {
 			// Gets the ID of the clicked item
@@ -55,7 +56,7 @@ public class PickMenu extends Menu implements MouseListener  {
 			// If it was a valid ID
 			if (clickedIndex >= 0) {
 
-				//Get the ID from the squares items
+				// Get the ID from the squares items
 				Direction dir = gameState.getPlayer(playerID).getOrientation();
 				int clickedID = square.getEntities(dir).get(clickedIndex).entityID;
 

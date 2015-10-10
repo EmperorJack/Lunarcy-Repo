@@ -265,7 +265,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	 *
 	 * @return The float to scale by.
 	 */
-	public float getScalingAmount() {
+	public float getScaling() {
 		return scalingAmount;
 	}
 
@@ -304,8 +304,21 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		return entityImages;
 	}
 
+	/**
+	 * Prints out some useful information. Current framerate, delta time, player
+	 * position and orientation.
+	 *
+	 * @param delta
+	 */
+	@SuppressWarnings("unused")
 	private void printCanvasInfo(float delta) {
-		// draw the frame rate string fill(255); textSize(40);
+		pushMatrix();
+		pushStyle();
+
+		fill(255);
+		textSize(40);
+
+		// draw the frame rate string
 		text(frameRate, TARGET_WIDTH - 200, 50);
 		text(delta, TARGET_WIDTH - 200, 100);
 
@@ -314,5 +327,8 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		text(player.getLocation().getX() + " : " + player.getLocation().getY(),
 				TARGET_WIDTH - 200, 150);
 		text(player.getOrientation().toString(), TARGET_WIDTH - 200, 200);
+
+		popStyle();
+		popMatrix();
 	}
 }
