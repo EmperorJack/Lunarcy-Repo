@@ -1,15 +1,23 @@
 package ui;
 
-import java.util.Set;
-
-import bots.Rover;
 import game.Direction;
+import game.Entity;
 import game.GameState;
 import game.Location;
 import game.Player;
-import processing.core.*;
+import game.Square;
+import game.WalkableSquare;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import processing.core.PApplet;
+import processing.core.PImage;
+import processing.core.PVector;
 import saito.objloader.OBJModel;
 import saito.objtools.OBJTransform;
+import bots.Rover;
 
 /**
  * The view that displays the player perspective of the game world in 3D.
@@ -35,6 +43,11 @@ public class Perspective3D extends DrawingComponent {
 	private final int CHARACTER_HEIGHT = 400;
 	private final int CHARACTER_Y_OFFSET = -200;
 
+	// entity drawing fields
+	private final Map<String, PImage> entityImages;
+	private final int ENTITY_SIZE = 150;
+	private final int ENTITY_Y_OFFSET = 100;
+
 	// camera fields
 	private final int PLAYER_VIEW_HEIGHT = -150;
 	private PVector cameraEye;
@@ -52,7 +65,8 @@ public class Perspective3D extends DrawingComponent {
 	private final float NEAR_CULLING_DISTANCE;
 	private final float FAR_CULLING_DISTANCE;
 
-	public Perspective3D(Canvas p, GameState gameState, int playerID) {
+	public Perspective3D(Canvas p, GameState gameState, int playerID,
+			Map<String, PImage> entityImages) {
 		super(p, gameState, playerID);
 
 		// world model setup
@@ -68,6 +82,9 @@ public class Perspective3D extends DrawingComponent {
 		// character image setup
 		ASTRONAUT = p.loadImage("assets/characters/astronaut.png");
 		ROVER = p.loadImage("assets/characters/OgreMan.png");
+
+		// entity image setup
+		this.entityImages = entityImages;
 
 		// camera eye setup (position)
 		cameraEye = new PVector(0, PLAYER_VIEW_HEIGHT, 0);
@@ -131,7 +148,10 @@ public class Perspective3D extends DrawingComponent {
 		drawPlayers(thisPlayer, players);
 
 		// draw the rovers
-		drawRovers(rovers);
+		drawRovers(thisPlayer, rovers);
+
+		// draw the entities
+		drawEntites(thisPlayer, gameState.getBoard());
 
 		// pop matrix and style information from the stack
 		p.popStyle();
@@ -149,11 +169,8 @@ public class Perspective3D extends DrawingComponent {
 	 */
 	private void drawPlayers(Player thisPlayer, Player[] players) {
 		for (int i = 0; i < players.length; i++) {
-			// don't draw a sprite for this player or a player in the same
-			// location as this player
-			if (i != thisPlayer.getId()
-					&& !players[i].getLocation().equals(
-							thisPlayer.getLocation())) {
+			// don't draw a player in the same location as this player
+			if (!players[i].getLocation().equals(thisPlayer.getLocation())) {
 				p.pushMatrix();
 				p.pushStyle();
 
@@ -191,33 +208,101 @@ public class Perspective3D extends DrawingComponent {
 	 * @param rovers
 	 *            List of rovers in the game.
 	 */
-	private void drawRovers(Set<Rover> rovers) {
+	private void drawRovers(Player thisPlayer, Set<Rover> rovers) {
 		for (Rover currentRover : rovers) {
-			p.pushMatrix();
-			p.pushStyle();
 
-			// tint the image with the rover colour
-			// p.tint(0, 0, 0);
+			// if the rover is not in this player's location
+			if (!currentRover.getLocation().equals(thisPlayer.getLocation())) {
+				p.pushMatrix();
+				p.pushStyle();
 
-			// get the rover position in 3D space
-			PVector position = new PVector(currentRover.getLocation().getX()
-					* SQUARE_SIZE + SQUARE_SIZE / 2, CHARACTER_Y_OFFSET,
-					currentRover.getLocation().getY() * SQUARE_SIZE
-							+ SQUARE_SIZE / 2);
+				// get the rover position in 3D space
+				PVector position = new PVector(currentRover.getLocation()
+						.getX() * SQUARE_SIZE + SQUARE_SIZE / 2,
+						CHARACTER_Y_OFFSET, currentRover.getLocation().getY()
+								* SQUARE_SIZE + SQUARE_SIZE / 2);
 
-			// translate to the rover location
-			p.translate(position.x, position.y, position.z);
+				// translate to the rover location
+				p.translate(position.x, position.y, position.z);
 
-			// rotate the current rover sprite to face this player
-			rotateRelativeTo(position);
+				// rotate the current rover sprite to face this player
+				rotateRelativeTo(position);
 
-			// draw the player rover image
-			p.imageMode(PApplet.CENTER);
-			p.image(ROVER, 0, 0, CHARACTER_WIDTH, CHARACTER_HEIGHT);
+				// draw the player rover image
+				p.imageMode(PApplet.CENTER);
+				p.image(ROVER, 0, 0, CHARACTER_WIDTH, CHARACTER_HEIGHT);
 
-			p.popStyle();
-			p.popMatrix();
+				p.popStyle();
+				p.popMatrix();
+			}
 		}
+	}
+
+	/**
+	 * Draw all the entities in their relative positions for the current game
+	 * state.
+	 *
+	 * @param board
+	 *            The game board that contains all the entities.
+	 */
+	private void drawEntites(Player thisPlayer, Square[][] board) {
+		p.pushMatrix();
+
+		// translate to the item height
+		p.translate(0, CHARACTER_Y_OFFSET, 0);
+
+		// for each square in the game state board
+		for (int y = 0; y < board.length; y++) {
+			for (int x = 0; x < board[0].length; x++) {
+
+				// if the location is not in this player's location
+				if (!new Location(x, y).equals(thisPlayer.getLocation())) {
+
+					// get the square at x, y
+					Square s = board[y][x];
+
+					// if the square is not walkable then there must be no items
+					if (!(s instanceof WalkableSquare)) {
+						continue;
+					}
+
+					// for each direction
+					for (Direction dir : Direction.values()) {
+						p.pushMatrix();
+
+						// get the entities for the current direction
+						List<Entity> entities = s.getEntities(dir);
+
+						// for each entity
+						for (int i = 0; i < entities.size(); i++) {
+							// compute the x position to place the image
+							int xPos = (int) ((i + 1)
+									/ (float) (entities.size() + 1) * SQUARE_SIZE);
+
+							// get the current entity position in 3D space
+							PVector position = new PVector(x * SQUARE_SIZE
+									+ SQUARE_SIZE / 2, ENTITY_Y_OFFSET, y
+									* SQUARE_SIZE + SQUARE_SIZE / 2);
+
+							// translate to the current entity location
+							p.translate(position.x, position.y, position.z);
+
+							// rotate the current entity to face this player
+							rotateRelativeTo(position);
+
+							// draw the entity image
+							p.imageMode(PApplet.CENTER);
+							p.image(entityImages.get(entities.get(i)
+									.getImageName()), 0, 0, ENTITY_SIZE,
+									ENTITY_SIZE);
+						}
+						p.popMatrix();
+					}
+				}
+			}
+		}
+
+		p.popMatrix();
 	}
 
 	/**

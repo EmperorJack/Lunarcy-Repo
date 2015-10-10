@@ -27,7 +27,6 @@ public class EntityView extends DrawingComponent {
 
 	// currently held entites
 	private List<Entity> entities;
-	private int numberEntities;
 
 	public EntityView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {
@@ -48,11 +47,8 @@ public class EntityView extends DrawingComponent {
 		entities = gameState.getSquare(thisPlayer.getLocation()).getEntities(
 				thisPlayer.getOrientation());
 
-		// get the number of entities in this list
-		numberEntities = entities.size();
-
 		// check there is at least one entity to draw
-		if (numberEntities >= 1) {
+		if (entities.size() >= 1) {
 
 			// translate to allow for top padding
 			p.translate(0, TOP_PADDING);
@@ -62,7 +58,7 @@ public class EntityView extends DrawingComponent {
 			// for each entity
 			for (int i = 0; i < entities.size(); i++) {
 				// compute the x position to place the image
-				int xPos = (int) ((i + 1) / (float) (numberEntities + 1) * Canvas.TARGET_WIDTH);
+				int xPos = (int) ((i + 1) / (float) (entities.size() + 1) * Canvas.TARGET_WIDTH);
 
 				// draw the entity image
 				p.image(entityImages.get(entities.get(i).getImageName()), xPos,
@@ -93,7 +89,7 @@ public class EntityView extends DrawingComponent {
 			for (int i = 0; i < entities.size(); i++) {
 
 				// compute the x position of the entity
-				int xPos = (int) ((i + 1) / (float) (numberEntities + 1) * Canvas.TARGET_WIDTH);
+				int xPos = (int) ((i + 1) / (float) (entities.size() + 1) * Canvas.TARGET_WIDTH);
 
 				// check if the mouse position is within bounds of the entity
 				if ((xPos - ENTITY_SIZE / 2) <= x
