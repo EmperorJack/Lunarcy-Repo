@@ -1,5 +1,6 @@
 package game;
 
+import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,15 +21,15 @@ public class Ship extends WalkableSquare {
 			requiredParts.add(part);
 		}
 	}
-	
+
 	/*TEMPORARY*/
 	public void testAddRequireditems(){
 		requiredParts.add(new ShipPart(10, 0));
 		requiredParts.add(new ShipPart(11, 1));
 	}
 
-	
-	/**	
+
+	/**
 	 * Checks if the Player has all of the required parts, if they do then flag
 	 * that the game has been won otherwise add them to the Square.
 	 *
@@ -44,14 +45,26 @@ public class Ship extends WalkableSquare {
 
 		//Check if the player has all the required parts
 		boolean hasParts = true;
-		for(ShipPart part: requiredParts){
-			if(!player.getInventory().contains(part)){
+		List<ShipPart> playerParts = player.getShipParts();
+
+		for(ShipPart reqPart: requiredParts){
+			boolean hasPart = false;
+			for(ShipPart part: playerParts){
+				//Cannot use equals() method as that checks EntityID
+				if(part.getTypeID() == reqPart.getTypeID()){
+					hasPart = true;
+				}
+			}
+			if(hasPart==false){
+				//Player is missing a part, no need to keep checking
 				hasParts = false;
+				break;
 			}
 		}
 		if(hasParts){
 			hasLaunched = true;
-			pilot = player;
+			//Make sure we dont overwrite the first player to win
+			pilot = pilot == null ? player: pilot;
 		}
 		return super.addPlayer(player);
 	}
@@ -69,8 +82,8 @@ public class Ship extends WalkableSquare {
 	public Player getPilot(){
 		return pilot;
 	}
-	
-	
+
+
 	public Set<ShipPart> getParts(){
 		return new HashSet<>(requiredParts);
 	}

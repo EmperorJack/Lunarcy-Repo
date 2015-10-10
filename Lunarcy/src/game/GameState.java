@@ -39,12 +39,6 @@ public class GameState implements Serializable {
 		//addRover(new Rover(new RoamMovement()));
 	}
 
-	
-	
-	/*TEMPORARY UNTIL ROBBIE MAKES A PROPER METHOD*/
-	public Ship getShip(){
-		return ship;
-	}
 	/**
 	 * @param location
 	 *            A location to retrieve the square from
@@ -106,7 +100,7 @@ public class GameState implements Serializable {
 			//To be read from map once File IO done with JSON
 			spawnPoints = new ArrayList<Location>();
 			spawnPoints.add(new Location(1,1));
-			
+
 			//Search the board to find the ship and save it
 			//Probably need to do something if there is no ship (InvalidMapException??)
 			for(int y=0; y<board.length; y++){
@@ -116,12 +110,12 @@ public class GameState implements Serializable {
 					}
 				}
 			}
-			
+
 		} catch (FileNotFoundException e) {
 
 		}
 	}
-	
+
 	/**
 	 * Add a location to the Set of locations where players may spawn
 	 * @param location The Location to add
@@ -192,6 +186,10 @@ public class GameState implements Serializable {
 
 	public Square[][] getBoard() {
 		return board;
+	}
+
+	public Ship getShip(){
+		return ship;
 	}
 
 	public Player[] getPlayers() {

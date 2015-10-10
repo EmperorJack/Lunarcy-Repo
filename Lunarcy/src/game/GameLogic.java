@@ -245,6 +245,11 @@ public class GameLogic {
 			square.tick();
 		}
 
+		Ship ship = state.getShip();
+		if(ship.hasLaunched()){
+			System.out.println(ship.getPilot().getName() + " has won the game!!");
+		}
+
 		tickCount++;
 	}
 
