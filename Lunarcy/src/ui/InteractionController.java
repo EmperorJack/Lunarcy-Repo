@@ -158,8 +158,6 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 			return;
 		}
 
-		// perform check for click on inventory
-		//inventory.inventoryClicked(x, y);
 	}
 
 	@Override
