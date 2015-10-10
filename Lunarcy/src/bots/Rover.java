@@ -54,22 +54,17 @@ public class Rover implements Character, Serializable {
 	
 		if(nextStep==null){
 			System.out.println("ROVER STUCK");
+			movementStrategy = new RoamMovement();
 			return;
 		}
-		
-		//At this point the nextStep must be valid so move the rover
-		currentLocation = nextStep;
 
 		//Face the direction the next square is in
 		orientation = currentLocation.getDirection(nextStep);
 		
-		System.out.println("Facing " + orientation);
+		//At this point the nextStep must be valid so move the rover
+		currentLocation = nextStep;
 
-		// Move along one step in the path
-		// removing the location we visit
-		
-
-		//updateStrategy();
+		updateStrategy(gameState);
 
 	}
 

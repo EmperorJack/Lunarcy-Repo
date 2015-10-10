@@ -11,7 +11,7 @@ import game.Player;
  * Track Movement: Follow a Player around the map, computing the shortest path
  * to them and trying to reach them. Will give up after a set amount of time.
  *
- * @author b
+ * @author Ben
  *
  */
 
@@ -75,7 +75,16 @@ public class TrackMovement extends ShortestPathMover {
 			return null;
 		
 		if(mustUpdate()){
-			path = findPath(rover, gamestate.getBoard(), rover.getLocation(), target.getLocation());
+			path = findPath(rover, gamestate, rover.getLocation(), target.getLocation());
+		}
+		
+		if(path == null){
+			return null;
+		}
+		
+		//if the path is empty, we are already at the player so do not need to move
+		if(path.isEmpty()){
+			return rover.getLocation();
 		}
 
 		return path.remove(0);
