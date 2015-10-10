@@ -43,8 +43,8 @@ public class Key extends Item {
 		if (getClass() != obj.getClass())
 			return false;
 		Key other = (Key) obj;
-		if (keyCode != other.keyCode)
-			return false;
-		return true;
+		if (keyCode == other.keyCode)
+			return true;
+		return false;
 	}
 }

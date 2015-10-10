@@ -52,18 +52,6 @@ public class Player implements Character, Serializable {
 		}
 	}
 
-	public int getOxygen() {
-		return oxygen;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public List<Item> getInventory() {
-		return new ArrayList<Item>(inventory);
-	}
-
 	public boolean giveItem(Item item) {
 		if (item == null)
 			return false;
@@ -93,6 +81,28 @@ public class Player implements Character, Serializable {
 			return item;
 		}
 		return null;
+	}
+
+	public int getOxygen() {
+		return oxygen;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public List<Item> getInventory() {
+		return new ArrayList<Item>(inventory);
+	}
+
+	public List<ShipPart> getShipParts(){
+		List<ShipPart> temp = new ArrayList<ShipPart>();
+		for(Item i: inventory){
+			if(i instanceof ShipPart){
+				temp.add((ShipPart)i);
+			}
+		}
+		return temp;
 	}
 
 	public Direction getOrientation() {
@@ -127,7 +137,7 @@ public class Player implements Character, Serializable {
 			return;
 		inventory.add(new ShipPart(id * 100, 0));
 		inventory.add(new Key(id * 100 + 1, 1));
-		//inventory.add(new Key(id * 100 + 2, 2));
+		inventory.add(new Key(id * 100 + 2, 2));
 		inventory.add(new ShipPart(id * 100 + 3, 1));
 		inventory.add(new ShipPart(id * 100 + 4, 1));
 	}

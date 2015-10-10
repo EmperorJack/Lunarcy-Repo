@@ -1,12 +1,16 @@
 package ui;
 
+import game.Entity;
+import game.GameState;
+import game.Item;
+import game.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import game.Entity;
-import game.GameState;
-import processing.core.*;
+import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * This overlay appears in the top right corner of the canvas, showing which
@@ -20,6 +24,7 @@ public class WinningItems extends DrawingComponent {
 
 	// How far in from the left (x axis)
 	private final int LEFT_PADDING = (int) (Canvas.TARGET_WIDTH * 0.8);
+
 	// How far down from the top (y axis)
 	private final int TOP_PADDING = 25;
 
@@ -33,6 +38,7 @@ public class WinningItems extends DrawingComponent {
 	private final float WIDTH;
 	private final float HEIGHT;
 
+	// Preload our images for drawing
 	private final Map<String, PImage> ENTITY_IMAGES;
 
 	public WinningItems(Canvas p, GameState gameState, int playerID,
@@ -41,6 +47,7 @@ public class WinningItems extends DrawingComponent {
 
 		gameState.getShip().testAddRequireditems();
 
+		// The needed items are all the ships missing parts
 		NEEDED_ITEMS = new ArrayList<>(gameState.getShip().getParts());
 
 		// Height is based on amount of items needed, + room for the heading
@@ -55,6 +62,16 @@ public class WinningItems extends DrawingComponent {
 
 	@Override
 	public void draw(GameState gameState, float delta) {
+
+		// Retrieve the player inventory to cross check their items to the
+		// needed items
+
+		Player player = gameState.getPlayer(playerID);
+		List<Item> inventory = null;
+
+		if (player != null) {
+			inventory = player.getInventory();
+		}
 
 		// push matrix and style information onto the stack
 		p.pushMatrix();
@@ -82,16 +99,13 @@ public class WinningItems extends DrawingComponent {
 
 			String name = entity.getImageName();
 
-			// if the current player has the item, tint it
-			if (gameState.getPlayer(playerID) != null
-					&& gameState.getPlayer(playerID).getInventory()
-							.contains(entity)) {
-				p.tint(0, 126);
+			// if the current player has the item, grey it out
+			if (inventory != null && inventory.contains(entity)) {
+				p.tint(100, 126);
 			}
 
 			p.image(ENTITY_IMAGES.get(name), 0, ITEM_SIZE * i, ITEM_SIZE,
 					ITEM_SIZE);
-
 			p.text(name, ITEM_SIZE, ITEM_SIZE * i + (ITEM_SIZE / 2));
 
 			i++;
