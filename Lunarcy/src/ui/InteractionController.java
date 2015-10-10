@@ -73,10 +73,6 @@ public class InteractionController implements KeyListener, MouseListener {
 		return menuActive;
 	}
 
-	public void menuActive(boolean menu) {
-		this.menuActive = menu;
-	}
-
 	public Menu getMenu() {
 		return menu;
 	}

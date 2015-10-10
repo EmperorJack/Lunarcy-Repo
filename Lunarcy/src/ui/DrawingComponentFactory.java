@@ -78,7 +78,7 @@ public class DrawingComponentFactory {
 			interactionControl.setEntityView(entityView);
 			return entityView;
 		case WINNING_ITEMS:
-			return new WinningItems(p, gameState, type, entityImages);
+			return new WinningItems(p, gameState, playerID, entityImages);
 		}
 
 		// invalid component entered

@@ -87,7 +87,8 @@ public abstract class Menu extends DrawingComponent {
 	}
 
 	/**
-	 * Returns true the specified x,y is on the menu, false if not.
+	 * Returns true the specified x,y is on the menu,
+	 * and the menu is currently open false if not.
 	 *
 	 * @param x
 	 *            : The clicked x location
@@ -96,7 +97,7 @@ public abstract class Menu extends DrawingComponent {
 	 * @return
 	 */
 	protected boolean onMenu(int x, int y) {
-		return x > MENU_LEFT_PADDING && x < MENU_LEFT_PADDING + MENU_SIZE && y > MENU_TOP_PADDING
+		return  entityController.menuActive() && x > MENU_LEFT_PADDING && x < MENU_LEFT_PADDING + MENU_SIZE && y > MENU_TOP_PADDING
 				&& y < MENU_TOP_PADDING + MENU_SIZE;
 	}
 

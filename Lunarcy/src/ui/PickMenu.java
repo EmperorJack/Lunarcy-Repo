@@ -31,8 +31,8 @@ public class PickMenu extends Menu implements MouseListener {
 
 	@Override
 	public void draw(GameState gameState, float delta) {
-		update(gameState);
 		if (entityController.menuActive()) {
+			update(gameState);
 			super.draw(gameState, delta);
 		}
 	}
@@ -49,7 +49,7 @@ public class PickMenu extends Menu implements MouseListener {
 		int x = (int) (e.getX() / p.getScaling());
 		int y = (int) (e.getY() / p.getScaling());
 
-		if (onMenu(x, y) && entityController.menuActive()) {
+		if (onMenu(x, y) && entityController.getMenu().getClass().equals(getClass())) {
 			// Gets the ID of the clicked item
 			int clickedIndex = getIndexClicked(x, y);
 
@@ -60,8 +60,10 @@ public class PickMenu extends Menu implements MouseListener {
 				Direction dir = gameState.getPlayer(playerID).getOrientation();
 				int clickedID = square.getEntities(dir).get(clickedIndex).entityID;
 
+				System.out.println("Picking up " + clickedID+ " which is a " + square.getEntities(dir).get(clickedIndex).getImageName());
 				entityController.pickupItem(clickedID);
-				entityController.menuActive(false);
+
+				entityController.setMenu(null);
 				return;
 			}
 		}

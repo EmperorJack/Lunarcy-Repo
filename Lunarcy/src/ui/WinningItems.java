@@ -4,14 +4,15 @@ import game.Entity;
 import game.GameState;
 import game.Item;
 import game.Player;
+import game.ShipPart;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-
 
 /**
  * This overlay appears in the top right corner of the canvas, showing which
@@ -67,12 +68,11 @@ public class WinningItems extends DrawingComponent {
 		// Retrieve the player inventory to cross check their items to the
 		// needed items
 		Player player = gameState.getPlayer(playerID);
-		List<ShipPart> inventory;
+		List<ShipPart> shipParts = new ArrayList<ShipPart>();
 
-		if(player!=null){
-			inventory = player.getShipParts();
+		if (player != null) {
+			shipParts = player.getShipParts();
 		}
-
 
 		// push matrix and style information onto the stack
 		p.pushMatrix();
@@ -95,16 +95,29 @@ public class WinningItems extends DrawingComponent {
 		p.textAlign(PApplet.LEFT, PApplet.CENTER);
 
 		int i = 1;
-		for (ShipPart part : NEEDED_ITEMS) {
+		for (ShipPart neededPart : NEEDED_ITEMS) {
 			p.noTint();
 
-			String name = part.getImageName();
+			boolean hasPart = false;
 
-			//SHOW STUFF
+			// if the player has an item, gray it out
+			for (ShipPart shipPart : shipParts) {
+				if (shipPart.getTypeID() == neededPart.getTypeID()) {
+					hasPart = true;
+					break;
+				}
+			}
 
-			p.image(ENTITY_IMAGES.get(name), 0, ITEM_SIZE * i, ITEM_SIZE,
+			//If they do not have the part, gray it out
+			if(!hasPart){
+				p.tint(127, 200);
+			}
+
+
+			p.image(ENTITY_IMAGES.get(neededPart.getImageName()), 0, ITEM_SIZE * i, ITEM_SIZE,
 					ITEM_SIZE);
-			p.text(name, ITEM_SIZE, ITEM_SIZE * i + (ITEM_SIZE / 2));
+
+			p.text(neededPart.getName(), ITEM_SIZE, ITEM_SIZE * i + (ITEM_SIZE / 2));
 
 			i++;
 		}

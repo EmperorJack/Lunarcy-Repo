@@ -5,6 +5,8 @@ import java.awt.event.MouseListener;
 
 import game.GameState;
 import game.Item;
+import game.Player;
+import game.WalkableSquare;
 
 public class DropMenu extends Menu implements MouseListener {
 
@@ -29,12 +31,14 @@ public class DropMenu extends Menu implements MouseListener {
 
 		// If the menu is open, clicked on, and an item has been set then
 		// proccess the click
-		if (entityController.menuActive() && onMenu(x, y) && item != null) {
+		if (onMenu(x, y) && item != null &&  entityController.getMenu().getClass().equals(getClass())) {
 
 			String button = getButtonClicked(x, y);
+
 			if (button != null) {
 				switch (button) {
 				case "Drop item":
+					System.out.println("Dropping " + item.entityID);
 					entityController.dropItem(item.entityID);
 					item = null;
 					break;
