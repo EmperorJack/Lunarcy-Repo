@@ -11,6 +11,8 @@ public abstract class Entity implements Serializable{
 	}
 
 	public abstract String getImageName();
+	public abstract String getName();
+
 
 	@Override
 	public int hashCode() {

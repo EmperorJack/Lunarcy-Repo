@@ -14,5 +14,9 @@ public class UnlockedChest extends Container {
 	public String getImageName() {
 		return "unlockedChest";
 	}
+	@Override
+	public String getName() {
+		return "Chest";
+	}
 
 }

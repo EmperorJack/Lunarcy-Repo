@@ -136,9 +136,10 @@ public class Player implements Character, Serializable {
 		if (inventory == null)
 			return;
 		inventory.add(new ShipPart(id * 100, 0));
-		inventory.add(new Key(id * 100 + 1, 1));
-		inventory.add(new Key(id * 100 + 2, 2));
-		inventory.add(new ShipPart(id * 100 + 3, 1));
-		inventory.add(new ShipPart(id * 100 + 4, 1));
+		inventory.add(new ShipPart(id * 100 + 1, 1));
+		inventory.add(new ShipPart(id * 100 + 2, 2));
+		inventory.add(new ShipPart(id * 100 + 3, 3));
+		inventory.add(new ShipPart(id * 100 + 4, 4));
+		inventory.add(new Key(id * 100 + 5, 2));
 	}
 }

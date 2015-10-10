@@ -29,7 +29,7 @@ public class ShipPart extends Item {
 	}
 
 	enum PartType{
-		ENGINE, FUEL_CORE, COOLANT, GPS, WARP_DRIVE
+		ENGINE, FUEL_CORE, GRAVITY_CORE, GPS, WARP_DRIVE
 	}
 
 	@Override

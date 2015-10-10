@@ -17,4 +17,9 @@ public class LockedChest extends Container {
 		return "lockedChest";
 	}
 
+	@Override
+	public String getName() {
+		return "Locked Chest";
+	}
+
 }
