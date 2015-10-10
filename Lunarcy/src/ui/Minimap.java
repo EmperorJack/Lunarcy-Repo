@@ -47,7 +47,6 @@ public class Minimap extends DrawingComponent {
 
 	@Override
 	public void draw(GameState gameState, float delta) {
-
 		// push matrix and style information onto the stack
 		p.pushMatrix();
 		p.pushStyle();

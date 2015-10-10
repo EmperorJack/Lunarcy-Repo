@@ -13,9 +13,9 @@ import game.Player;
 public class Oxygen extends DrawingComponent {
 
 	// Where the oxygen bar starts (x)
-	private final int LEFT_PADDING = (int) (p.width * 0.8);
+	private final int LEFT_PADDING = (int) (Canvas.TARGET_WIDTH * 0.8);
 	// Where the oxygen bar starts (y)
-	private final int TOP_PADDING = (int) (p.height * 0.8);
+	private final int TOP_PADDING = (int) (Canvas.TARGET_HEIGHT * 0.8);
 
 	// Sizing of the oxygen tank
 	private final int CYLINDERWIDTH = 200;
@@ -24,8 +24,6 @@ public class Oxygen extends DrawingComponent {
 	private final int DIALSIZE = 10;
 
 	private final int LOW_OXYGEN = 50;
-
-	private int dimAmount = 0;
 
 	public Oxygen(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
@@ -63,7 +61,7 @@ public class Oxygen extends DrawingComponent {
 		p.rect(0, 0, oxygen, CYLINDERHEIGHT);
 
 		// Set our drawing values back
-		p.rectMode(p.CORNER);
+		p.rectMode(PApplet.CORNER);
 		p.fill(139, 158, 162);
 
 		// Draw the knob
@@ -95,7 +93,7 @@ public class Oxygen extends DrawingComponent {
 	private void dimScreen(int oxygen) {
 		p.noStroke();
 		p.fill(0, 0, 0, PApplet.map(oxygen, 0, 50, 255, 0));
-		p.rect(-LEFT_PADDING, -TOP_PADDING, p.width, p.height);
+		p.rect(-LEFT_PADDING, -TOP_PADDING, Canvas.TARGET_WIDTH, Canvas.TARGET_HEIGHT);
 	}
 
 }

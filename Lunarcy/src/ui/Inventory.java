@@ -1,14 +1,12 @@
 package ui;
 
 import java.awt.event.MouseEvent;
-
 import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.Map;
 
 import game.GameState;
 import game.Item;
-
 import processing.core.PImage;
 
 /**
@@ -41,8 +39,8 @@ public class Inventory extends DrawingComponent implements MouseListener {
 		this.gamestate = gameState;
 		inventory = gameState.getPlayer(playerID).getInventory();
 		LEFT_PADDING = 25;
-		TOP_PADDING = (int) (p.height * 0.85);
-		INVENTORY_WIDTH = (int) (p.width * 0.3);
+		TOP_PADDING = (int) (Canvas.TARGET_HEIGHT * 0.85);
+		INVENTORY_WIDTH = (int) (Canvas.TARGET_WIDTH * 0.3);
 		ITEM_SIZE = 35;
 		ITEM_SPACING = 10;
 

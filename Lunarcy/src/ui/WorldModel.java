@@ -294,33 +294,29 @@ public class WorldModel {
 	 * separately.
 	 */
 	public void draw() {
+		p.pushMatrix();
 		p.pushStyle();
 		p.fill(150);
 
 		// draw the inside models
-		p.pushMatrix();
 		for (OBJWrapper objModel : insideModels) {
 			objModel.draw();
 		}
-		p.popMatrix();
 
 		// draw the door models
-		p.pushMatrix();
 		for (OBJWrapper objModel : doorModels) {
 			objModel.draw();
 		}
-		p.popMatrix();
 
 		p.fill(108, 99, 92);
 
 		// draw the outside models
-		p.pushMatrix();
 		for (OBJWrapper objModel : outsideModels) {
 			objModel.draw();
 		}
-		p.popMatrix();
 
 		p.popStyle();
+		p.popMatrix();
 	}
 
 	/**

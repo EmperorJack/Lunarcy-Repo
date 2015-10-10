@@ -87,7 +87,7 @@ public class Perspective3D extends DrawingComponent {
 		float cameraZ = ((p.height / 2.0f) / PApplet
 				.tan(PApplet.PI * 60f / 360.0f));
 		FOV = PApplet.PI / 2.5f;
-		ASPECT_RATIO = (int) p.width / p.height;
+		ASPECT_RATIO = (int) Canvas.TARGET_WIDTH / Canvas.TARGET_HEIGHT;
 		NEAR_CULLING_DISTANCE = cameraZ / 10.0f;
 		FAR_CULLING_DISTANCE = cameraZ * 10000.0f;
 	}

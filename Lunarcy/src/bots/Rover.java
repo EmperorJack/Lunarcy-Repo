@@ -3,13 +3,10 @@ package bots;
 import java.util.List;
 
 import game.Direction;
-import game.GameLogic;
 import game.GameState;
 import game.Location;
 import game.Player;
 import game.Character;
-import game.Square;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
