@@ -24,6 +24,7 @@ public class PickupAction implements NetworkAction, Serializable {
 
 	@Override
 	public boolean applyAction(GameLogic logic) {
+		System.out.println(playerID + " picked up item: " + itemID);
 		return logic.pickUpItem(playerID, itemID);
 	}
 }

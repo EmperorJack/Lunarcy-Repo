@@ -1,7 +1,9 @@
 package ui;
 
+import game.Container;
 import game.Entity;
 import game.GameState;
+import game.Item;
 import game.Player;
 
 import java.awt.event.KeyEvent;
@@ -36,7 +38,6 @@ public class InteractionController implements KeyListener, MouseListener {
 
 	// Client related field
 	private Client client;
-	private GameState gameState;
 	private Player player;
 
 	// Canvas field
@@ -45,7 +46,6 @@ public class InteractionController implements KeyListener, MouseListener {
 	public InteractionController(Client client, GameState gamestate,
 			Player player, Canvas canvas) {
 		this.client = client;
-		this.gameState = gamestate;
 		this.player = player;
 		this.canvas = canvas;
 
@@ -98,7 +98,6 @@ public class InteractionController implements KeyListener, MouseListener {
 	}
 
 	public void update(GameState gameState, Player player) {
-		this.gameState = gameState;
 		this.player = player;
 	}
 
@@ -143,15 +142,6 @@ public class InteractionController implements KeyListener, MouseListener {
 		case KeyEvent.VK_E:
 			client.sendAction(new OrientAction(player.getId(), false));
 			break;
-
-		// Hide/Show menu
-		case KeyEvent.VK_SPACE:
-			if (menu == null) {
-				setMenu(new PickMenu(canvas, this, gameState, player.getId()));
-			} else {
-				setMenu(null);
-			}
-			break;
 		}
 	}
 
@@ -161,15 +151,22 @@ public class InteractionController implements KeyListener, MouseListener {
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
+		// attempt to get an entity from entity view
 		Entity entity = entityView.getEntityAt(x, y);
 
-		// If they click on an entity, display the menu to pick up items
+		// if an entity was clicked on
 		if (entity != null) {
-			setMenu(new PickMenu(canvas, this, gameState, player.getId()));
-		} else {
-			// check for click on inventory
-			inventory.inventoryClicked(x, y);
+			if (entity instanceof Item) {
+				// attempt to pickup the item
+				pickupItem(entity.entityID);
+			} else if (entity instanceof Container) {
+				// attempt to access container
+			}
+			return;
 		}
+
+		// perform check for click on inventory
+		inventory.inventoryClicked(x, y);
 	}
 
 	/* Unused listener methods */
