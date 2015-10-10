@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import game.Direction;
 import game.EmptyWall;
@@ -11,6 +12,7 @@ import game.Entity;
 import game.GameState;
 import game.Item;
 import game.Player;
+import game.ShipPart;
 import game.Square;
 import game.WalkableSquare;
 import game.Wall;
@@ -35,7 +37,7 @@ public class WinningItems extends DrawingComponent {
 	private final int ITEM_SIZE = 50;
 
 	// All the items which the player must collect to win
-	private final List<Entity> NEEDED_ITEMS;
+	private final Set<ShipPart> NEEDED_ITEMS;
 
 	// Sizing for this panel
 	private final float WIDTH;
@@ -50,7 +52,7 @@ public class WinningItems extends DrawingComponent {
 		gameState.getShip().testAddRequireditems();
 
 		// The needed items are all the ships missing parts
-		NEEDED_ITEMS = new ArrayList<>(gameState.getShip().getParts());
+		NEEDED_ITEMS = gameState.getShip().getParts();
 
 		// Height is based on amount of items needed, + room for the heading
 		HEIGHT = ITEM_SIZE * (NEEDED_ITEMS.size() + 1);
@@ -67,13 +69,13 @@ public class WinningItems extends DrawingComponent {
 
 		// Retrieve the player inventory to cross check their items to the
 		// needed items
-		
 		Player player = gameState.getPlayer(playerID);
-		List<Item> inventory = null;
+		List<ShipPart> inventory;
 
-		if (player != null) {
-			inventory = player.getInventory();
+		if(player!=null){
+			inventory = player.getShipParts();
 		}
+
 
 		// push matrix and style information onto the stack
 		p.pushMatrix();
@@ -96,15 +98,12 @@ public class WinningItems extends DrawingComponent {
 		p.textAlign(p.LEFT, p.CENTER);
 
 		int i = 1;
-		for (Entity entity : NEEDED_ITEMS) {
+		for (ShipPart part : NEEDED_ITEMS) {
 			p.noTint();
 
-			String name = entity.getImageName();
+			String name = part.getImageName();
 
-			// if the current player has the item, grey it out
-			if (inventory != null && inventory.contains(entity)) {
-				p.tint(100, 126);
-			}
+			//SHOW STUFF
 
 			p.image(ENTITY_IMAGES.get(name), 0, ITEM_SIZE * i, ITEM_SIZE, ITEM_SIZE);
 			p.text(name, ITEM_SIZE, ITEM_SIZE * i + (ITEM_SIZE / 2));

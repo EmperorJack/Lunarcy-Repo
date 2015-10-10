@@ -75,6 +75,24 @@ public class Location implements Serializable{
 		}
 	}
 
+	public Direction getDirection(Location loc){
+
+		if(loc.getX() > x){
+			return Direction.EAST;
+		}
+		else if(loc.getX() <  x){
+			return Direction.WEST;
+		}
+		else if(loc.getY() > y){
+			return Direction.SOUTH;
+		}
+		else{
+			return Direction.NORTH;
+		}
+
+
+	}
+
 }
 
 

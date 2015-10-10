@@ -36,7 +36,7 @@ public class GameState implements Serializable {
 		loadMap(map);
 		rovers = new HashSet<Rover>();
 		players = new Player[numPlayers];
-		//addRover(new Rover(new RoamMovement()));
+
 	}
 
 	/**
@@ -156,6 +156,9 @@ public class GameState implements Serializable {
 		Player player = new Player(playerID, name, colour, spawn, Direction.NORTH);
 		if(playerID<0||playerID>players.length)return false;
 		players[playerID] = player;
+		if(playerID==0){
+			addRover(new Rover(this));
+		}
 		return true;
 	}
 
@@ -198,6 +201,15 @@ public class GameState implements Serializable {
 
 	public Set<Rover> getRovers() {
 		return new HashSet<Rover>(rovers);
+	}
+
+	public boolean isOutside(Location location){
+		Square square = getSquare(location);
+		if(!(square instanceof WalkableSquare)){
+			return false;
+		}
+		WalkableSquare walk = (WalkableSquare)square;
+		return !walk.isInside();
 	}
 
 }
