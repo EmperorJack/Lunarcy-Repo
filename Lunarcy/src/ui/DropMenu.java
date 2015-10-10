@@ -3,13 +3,8 @@ package ui;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import game.Container;
-import game.Entity;
 import game.GameState;
 import game.Item;
-import game.Player;
-import game.Square;
-import game.WalkableSquare;
 
 public class DropMenu extends Menu implements MouseListener {
 

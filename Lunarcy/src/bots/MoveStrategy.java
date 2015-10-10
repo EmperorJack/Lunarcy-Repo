@@ -1,7 +1,5 @@
 package bots;
 
-import java.util.List;
-
 import game.Location;
 import game.Square;
 

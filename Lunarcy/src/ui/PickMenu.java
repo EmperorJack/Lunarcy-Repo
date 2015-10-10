@@ -1,16 +1,12 @@
 package ui;
 
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import game.Direction;
 import game.Entity;
 import game.GameState;
-import game.Item;
-import game.Key;
 import game.Player;
-import game.Square;
 import game.WalkableSquare;
 
 /**

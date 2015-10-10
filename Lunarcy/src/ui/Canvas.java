@@ -29,9 +29,11 @@ import processing.core.*;
 public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 	// canvas dimensional fields
-	private final int maxWidth;
-	private final int maxHeight;
-	private float scalingAmount = 1;
+	public static final int TARGET_WIDTH = 1280;
+	public static final int TARGET_HEIGHT = 720;
+	private final int WIDTH;
+	private final int HEIGHT;
+	private final float scalingAmount;
 	private int xOffset, yOffset = 0;
 
 	// renderer fields
@@ -67,11 +69,15 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	 * @param gameState
 	 *            The initial state of the game to be drawn.
 	 */
-	public Canvas(int w, int h, Client client, GameState gameState, boolean hardwareRenderer) {
-		this.maxWidth = w;
-		this.maxHeight = h;
+	public Canvas(int width, int height, Client client, GameState gameState,
+			boolean hardwareRenderer) {
+		this.WIDTH = width;
+		this.HEIGHT = height;
 		this.client = client;
 		this.gameState = gameState;
+
+		// determine the scaling amount
+		scalingAmount = computeScaling(WIDTH, HEIGHT);
 
 		// get the player id from the client entity
 		playerID = client.getPlayerID();
@@ -92,17 +98,20 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	 */
 	public void setup() {
 		// setup the size and use 3D renderer
-		size(maxWidth, maxHeight, renderer);
+		size(WIDTH, HEIGHT, renderer);
+		System.out.println(scalingAmount + " : " + xOffset + ", " + yOffset);
 
 		// setup the interaction controller
-		interactionControl = new InteractionController(client, gameState, player, this);
+		interactionControl = new InteractionController(client, gameState,
+				player, this);
 
 		// setup the drawing component factory
-		DrawingComponentFactory factory = new DrawingComponentFactory(this, gameState, playerID, interactionControl,
-				loadEntityImages());
+		DrawingComponentFactory factory = new DrawingComponentFactory(this,
+				gameState, playerID, interactionControl, loadEntityImages());
 
 		// get a 3D perspective component
-		perspective = factory.getDrawingComponent(DrawingComponentFactory.PERSPECTIVE3D);
+		perspective = factory
+				.getDrawingComponent(DrawingComponentFactory.PERSPECTIVE3D);
 
 		// setup the HUD components list
 		hud = new ArrayList<DrawingComponent>();
@@ -112,7 +121,8 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORY));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.ENTITYVIEW));
-		hud.add(factory.getDrawingComponent(DrawingComponentFactory.WINNING_ITEMS));
+		hud.add(factory
+				.getDrawingComponent(DrawingComponentFactory.WINNING_ITEMS));
 
 		// audio setup
 		// minim = new Minim(this);
@@ -160,6 +170,10 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	 * Renders the game state each frame.
 	 */
 	public void draw() {
+		// push matrix and style information onto the stack
+		pushMatrix();
+		pushStyle();
+
 		// compute the delta time this frame tick
 		float delta = TARGET_FPS / frameRate;
 
@@ -176,6 +190,10 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		// draw the 3D perspective
 		perspective.draw(gameState, delta);
 
+		// pop matrix and style information onto the stack
+		popMatrix();
+		popStyle();
+
 		// allow drawing onto the heads up display layer
 		hint(DISABLE_DEPTH_TEST);
 		hint(ENABLE_DEPTH_TEST);
@@ -183,7 +201,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		perspective();
 		noLights();
 
-		translate(xOffset, yOffset);
+		// scale in reference to the canvas scaling amount
 		scale(scalingAmount);
 
 		// draw the heads up display components
@@ -195,39 +213,35 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		 * // draw the frame rate string fill(255); textSize(40);
 		 * text(frameRate, maxWidth - 200, 50); text(delta, maxWidth - 200,
 		 * 100);
-		 * 
+		 *
 		 * // draw player position and orientation Player player =
 		 * gameState.getPlayer(playerID); text(player.getLocation().getX() +
 		 * " : " + player.getLocation().getY(), maxWidth - 200, 150);
 		 * text(player.getOrientation().toString(), maxWidth - 200, 200);
-		 */
+		 */// TODO remove frame rate code when not needed
 
 		// if the interaction controller has a menu to display
 		if (interactionControl.getMenu() != null) {
 			// draw the menu
 			interactionControl.getMenu().draw(gameState, delta);
 		}
-
-		// draw the black borders
-		fill(0);
-		rect(0, 0, maxWidth, -10 * maxHeight); // top
-		rect(0, maxHeight, maxWidth, 10 * maxHeight); // bottom
-		rect(0, 0, -10 * maxWidth, maxHeight); // left
-		rect(maxWidth, 0, 10 * maxWidth, maxHeight); // right
 	}
 
 	/**
-	 * Update the scaling amount when the parent frame is resized.
+	 * Update the scaling amount given a width and height different to the
+	 * target width and height.
 	 *
 	 * @param newWidth
 	 *            The new parent frame width.
 	 * @param newHeight
 	 *            The new parent frame height.
 	 */
-	public void adjustScaling(int newWidth, int newHeight) {
+	private float computeScaling(int newWidth, int newHeight) {
+		float scalingAmount;
+
 		// compute the scaling per axis
-		float xScale = (float) newWidth / maxWidth;
-		float yScale = (float) newHeight / maxHeight;
+		float xScale = (float) newWidth / TARGET_WIDTH;
+		float yScale = (float) newHeight / TARGET_HEIGHT;
 
 		// use the smallest scaling value so content fits on screen
 		if (xScale < yScale) {
@@ -235,14 +249,16 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			xOffset = 0;
 
 			// offset the canvas halfway down the y axis
-			yOffset = (int) (newHeight - maxHeight * scalingAmount) / 2;
+			yOffset = (int) (newHeight - TARGET_HEIGHT * scalingAmount) / 2;
 		} else {
 			scalingAmount = yScale;
 
 			// offset the canvas halfway along the x axis
-			xOffset = (int) (newWidth - maxWidth * scalingAmount) / 2;
+			xOffset = (int) (newWidth - TARGET_WIDTH * scalingAmount) / 2;
 			yOffset = 0;
 		}
+
+		return scalingAmount;
 	}
 
 	/**
@@ -257,7 +273,8 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 		// create a scanner to parse in the items file
 		try {
-			Scanner scanner = new Scanner(new File("assets/items/all_items.txt"));
+			Scanner scanner = new Scanner(
+					new File("assets/items/all_items.txt"));
 
 			// while the scanner has entity names left to parse
 			while (scanner.hasNextLine()) {
@@ -265,7 +282,8 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 				String name = scanner.nextLine();
 
 				// load in the entity image from the given name
-				entityImages.put(name, loadImage("/assets/items/" + name + ".png"));
+				entityImages.put(name, loadImage("/assets/items/" + name
+						+ ".png"));
 			}
 
 			// close the scanner

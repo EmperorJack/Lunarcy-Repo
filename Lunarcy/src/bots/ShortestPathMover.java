@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-import game.Character;
 import game.Direction;
 import game.Location;
 import game.Square;

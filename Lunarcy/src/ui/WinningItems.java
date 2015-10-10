@@ -1,20 +1,16 @@
 package ui;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import game.Direction;
-import game.EmptyWall;
 import game.Entity;
 import game.GameState;
 import game.Item;
 import game.Player;
-import game.Square;
-import game.WalkableSquare;
-import game.Wall;
-import processing.core.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * This overlay appears in the top right corner of the canvas, showing which
@@ -27,7 +23,8 @@ import processing.core.*;
 public class WinningItems extends DrawingComponent {
 
 	// How far in from the left (x axis)
-	private final int LEFT_PADDING = (int) (p.width * 0.8);
+	private final int LEFT_PADDING = (int) (Canvas.TARGET_WIDTH * 0.8);
+
 	// How far down from the top (y axis)
 	private final int TOP_PADDING = 25;
 
@@ -44,7 +41,8 @@ public class WinningItems extends DrawingComponent {
 	// Preload our images for drawing
 	private final Map<String, PImage> ENTITY_IMAGES;
 
-	public WinningItems(Canvas p, GameState gameState, int playerID, Map<String, PImage> entityImages) {
+	public WinningItems(Canvas p, GameState gameState, int playerID,
+			Map<String, PImage> entityImages) {
 		super(p, gameState, playerID);
 
 		gameState.getShip().testAddRequireditems();
@@ -67,7 +65,7 @@ public class WinningItems extends DrawingComponent {
 
 		// Retrieve the player inventory to cross check their items to the
 		// needed items
-		
+
 		Player player = gameState.getPlayer(playerID);
 		List<Item> inventory = null;
 
@@ -89,11 +87,11 @@ public class WinningItems extends DrawingComponent {
 		// Draw the title
 		p.fill(255, 255, 255, 200);
 		p.textSize(15);
-		p.textAlign(p.CENTER);
+		p.textAlign(PApplet.CENTER);
 		p.text("Parts needed", 0, 0, WIDTH, ITEM_SIZE);
 
 		p.textSize(15);
-		p.textAlign(p.LEFT, p.CENTER);
+		p.textAlign(PApplet.LEFT, PApplet.CENTER);
 
 		int i = 1;
 		for (Entity entity : NEEDED_ITEMS) {
@@ -106,7 +104,8 @@ public class WinningItems extends DrawingComponent {
 				p.tint(100, 126);
 			}
 
-			p.image(ENTITY_IMAGES.get(name), 0, ITEM_SIZE * i, ITEM_SIZE, ITEM_SIZE);
+			p.image(ENTITY_IMAGES.get(name), 0, ITEM_SIZE * i, ITEM_SIZE,
+					ITEM_SIZE);
 			p.text(name, ITEM_SIZE, ITEM_SIZE * i + (ITEM_SIZE / 2));
 
 			i++;
