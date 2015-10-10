@@ -20,21 +20,19 @@ import control.PickupAction;
 import control.PutAction;
 
 /**
- * This holds all the UI componenets which are related to Entitities ie
- * Inventory, Menus and drawing entities. Listens for all player input to
- * perform interaction between UI componenets and player movement.
+ * This class listens for player input to allow interaction between the UI
+ * componenets and player movement/actions.
  *
  * @author Ben and Jack
  *
  */
-public class InteractionController implements KeyListener, MouseListener,
-		MouseMotionListener {
+public class InteractionController implements KeyListener, MouseListener, MouseMotionListener {
 
 	// Drawing components
 	private Inventory inventory;
 	private EntityView entityView;
 
-	// For dragging/dropping items
+	// Dragging/dropping items
 
 	// Dragging out of inventory
 	private Item draggedFromItem;
@@ -42,25 +40,28 @@ public class InteractionController implements KeyListener, MouseListener,
 	// Dragging into inventory
 	private Item draggedToItem;
 
+	// The coordinates of the item currently being dragged
 	private int draggedX;
 	private int draggedY;
 
+	// The coordinates for dragging if none are specified
 	private final int DEFAULT_X = -1000;
 	private final int DEFAULT_Y = -1000;
 
-	// Client related field
+	// Client related fields
 	private Client client;
 	private Player player;
 
 	// Canvas field
 	private Canvas canvas;
 
-	public InteractionController(Client client, GameState gamestate,
-			Player player, Canvas canvas) {
+	public InteractionController(Client client, GameState gamestate, Player player, Canvas canvas) {
+
 		this.client = client;
 		this.player = player;
 		this.canvas = canvas;
 
+		// Initialize the values for dragging/dropping items
 		resetDragValues();
 
 		canvas.addKeyListener(this);
@@ -98,13 +99,14 @@ public class InteractionController implements KeyListener, MouseListener,
 	/**
 	 * If either the item being dragged from the inventory, or the item being
 	 * dragged to the inventory is non null, returns this item (only one can be
-	 * set at a time).
+	 * non null at a time).
 	 *
-	 * If both are null returns null.
+	 * If both are null, returns null.
 	 *
 	 * @return
 	 */
 	public Item getDraggedItem() {
+		
 		if (draggedFromItem != null) {
 			return draggedFromItem;
 		}
@@ -134,26 +136,22 @@ public class InteractionController implements KeyListener, MouseListener,
 
 		// move forward
 		case KeyEvent.VK_W:
-			client.sendAction(new MoveAction(player.getId(), player
-					.getOrientation()));
+			client.sendAction(new MoveAction(player.getId(), player.getOrientation()));
 			break;
 
 		// strafe left
 		case KeyEvent.VK_A:
-			client.sendAction(new MoveAction(player.getId(), player
-					.getOrientation().left()));
+			client.sendAction(new MoveAction(player.getId(), player.getOrientation().left()));
 			break;
 
 		// move back
 		case KeyEvent.VK_S:
-			client.sendAction(new MoveAction(player.getId(), player
-					.getOrientation().opposite()));
+			client.sendAction(new MoveAction(player.getId(), player.getOrientation().opposite()));
 			break;
 
 		// strafe right
 		case KeyEvent.VK_D:
-			client.sendAction(new MoveAction(player.getId(), player
-					.getOrientation().right()));
+			client.sendAction(new MoveAction(player.getId(), player.getOrientation().right()));
 			break;
 
 		// turn left
@@ -182,10 +180,6 @@ public class InteractionController implements KeyListener, MouseListener,
 
 		}
 
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
 	}
 
 	@Override
@@ -230,17 +224,20 @@ public class InteractionController implements KeyListener, MouseListener,
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
-		// If the item was not released on the inventory bar, drop it
+		// If the item was not released on the inventory bar, and there was an
+		// item currently being dragged, drop it
 		if (!inventory.onInventoryBar(x, y) && draggedFromItem != null) {
 
 			// Drop the dragged from item
 			dropItem(draggedFromItem.entityID);
+
 		}
 
-		// If it was on the inventory bar, check if theres a dragged to item
+		// If it was released on the inventory bar, check if theres a dragged to
+		// item
 		else if (inventory.onInventoryBar(x, y) && draggedToItem != null) {
 
-			// Pickup the dragged to item
+			// Pickup the item which was dragged onto the inventory
 			pickupItem(draggedToItem.entityID);
 		}
 
@@ -248,6 +245,9 @@ public class InteractionController implements KeyListener, MouseListener,
 
 	}
 
+	/**
+	 * Set all the fields related to dragging back to their default.
+	 */
 	private void resetDragValues() {
 		draggedToItem = null;
 		draggedFromItem = null;
@@ -255,6 +255,7 @@ public class InteractionController implements KeyListener, MouseListener,
 		draggedY = DEFAULT_Y;
 	}
 
+	/* Unused listener methods */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
@@ -264,12 +265,15 @@ public class InteractionController implements KeyListener, MouseListener,
 	}
 
 	@Override
+	public void mouseMoved(MouseEvent e) {
+	}
+
+	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent e) {
-
+	public void keyReleased(KeyEvent e) {
 	}
 
 }

@@ -1,8 +1,6 @@
 package ui;
 
-import game.Entity;
 import game.GameState;
-import game.Item;
 import game.Player;
 import game.ShipPart;
 

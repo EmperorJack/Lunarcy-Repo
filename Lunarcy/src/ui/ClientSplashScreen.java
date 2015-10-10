@@ -13,6 +13,13 @@ import javax.swing.JProgressBar;
 
 import control.Client;
 
+/**
+ * An intermediary between ClientMain and Client starting, to show the user a
+ * loading screen.
+ * 
+ * @author b
+ *
+ */
 public class ClientSplashScreen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -35,8 +42,7 @@ public class ClientSplashScreen extends JFrame {
 
 		// Center the window on the screen
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((size.width - getWidth()) / 2,
-				(size.height - getHeight()) / 2, getWidth(), getHeight());
+		setBounds((size.width - getWidth()) / 2, (size.height - getHeight()) / 2, getWidth(), getHeight());
 
 		setVisible(true);
 		setResizable(false);

@@ -21,16 +21,9 @@ import game.WalkableSquare;
  * @author b
  *
  */
+@SuppressWarnings("serial")
 abstract class ShortestPathMover implements MoveStrategy, Serializable {
 
-	/**
-	 * Returns true if path is outdated and needs to be updated, false
-	 * otherwise.
-	 *
-	 * @param path
-	 * @return
-	 */
-	public abstract boolean mustUpdate(List<Location> path);
 
 	private List<Location> getNeighbours(Rover rover, Square[][] board, Location loc) {
 		List<Location> neighbours = new ArrayList<Location>();
@@ -51,8 +44,9 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 	 * @param direction The Direction the Rover wants to move in
 	 * @return True if the Rover may move, False otherwise
 	 */
-	public boolean validMove(Rover rover, Square[][] board, Direction direction){
-		if(rover == null && direction == null){
+	private boolean validMove(Rover rover, Square[][] board, Direction direction){
+		
+		if(rover == null || direction == null){
 			return false;
 		}
 

@@ -34,9 +34,11 @@ public class Frame extends JFrame {
 
 	public Frame(Client client, GameState gameState, int width, int height,
 			boolean hardwareRenderer) {
-		setTitle("Lunarcy");
+		
 		this.WIDTH = width;
 		this.HEIGHT = height;
+		
+		setTitle("Lunarcy");
 		setSize(WIDTH, HEIGHT);
 
 		// Catch exit with confirmation dialog

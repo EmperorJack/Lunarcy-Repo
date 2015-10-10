@@ -1,11 +1,11 @@
 package bots;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import game.GameState;
 import game.Location;
 import game.Player;
-import game.Square;
 
 /**
  * Track Movement: Follow a Player around the map, computing the shortest path
@@ -14,13 +14,19 @@ import game.Square;
  * @author b
  *
  */
+
+@SuppressWarnings("serial")
 public class TrackMovement extends ShortestPathMover {
 
 	// The player we are chasing
 	private Player target;
-
+	
+	//The path we are currently following
+	private List<Location> path;
+	
 	public TrackMovement(Player target) {
 		this.target = target;
+		this.path = new ArrayList<Location>();
 	}
 
 	/**
@@ -31,8 +37,8 @@ public class TrackMovement extends ShortestPathMover {
 	 *
 	 * Otherwise returns false
 	 */
-	@Override
-	public boolean mustUpdate(List<Location> path) {
+
+	private boolean mustUpdate() {
 		if (path == null || path.isEmpty())
 			return true;
 
@@ -46,10 +52,10 @@ public class TrackMovement extends ShortestPathMover {
 	 *
 	 * @return
 	 */
-	public boolean shouldGiveup(GameState gamestate){
+	public boolean shouldGiveup(GameState gamestate) {
 
-		//If the players inside give up
-		if(!gamestate.isOutside(target.getLocation())){
+		// If the players inside give up
+		if (!gamestate.isOutside(target.getLocation())) {
 			return true;
 		}
 
@@ -64,11 +70,16 @@ public class TrackMovement extends ShortestPathMover {
 	 *            Where the rover is currently located
 	 * @return the path
 	 */
-	public List<Location> path(Rover rover, GameState gamestate, Location currentLocation) {
+	public Location nextStep(Rover rover, GameState gamestate) {
+		if (shouldGiveup(gamestate))
+			return null;
+		
+		if(mustUpdate()){
+			path = findPath(rover, gamestate.getBoard(), rover.getLocation(), target.getLocation());
+		}
 
-		if(shouldGiveup(gamestate)) return null;
-
-		return findPath(rover, gamestate.getBoard(), currentLocation, target.getLocation());
+		return path.remove(0);
+		
 	}
 
 }

@@ -156,6 +156,7 @@ public class GameState implements Serializable {
 		Player player = new Player(playerID, name, colour, spawn, Direction.NORTH);
 		if(playerID<0||playerID>players.length)return false;
 		players[playerID] = player;
+		if(playerID==0) addRover(new Rover());
 		return true;
 	}
 
