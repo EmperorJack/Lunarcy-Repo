@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import control.Client;
 import control.DropAction;
@@ -26,7 +27,7 @@ import control.PutAction;
  * @author Ben and Jack
  *
  */
-public class InteractionController implements KeyListener, MouseListener {
+public class InteractionController implements KeyListener, MouseListener, MouseMotionListener{
 
 	// Drawing components
 	private Inventory inventory;
@@ -35,6 +36,10 @@ public class InteractionController implements KeyListener, MouseListener {
 	// Menu fields
 	private Menu menu;
 	private boolean menuActive;
+
+	private Item draggedItem;
+	private int draggedX;
+	private int draggedY;
 
 	// Client related field
 	private Client client;
@@ -51,6 +56,7 @@ public class InteractionController implements KeyListener, MouseListener {
 
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
+		canvas.addMouseMotionListener(this);
 	}
 
 	/** Action methods **/
@@ -99,6 +105,18 @@ public class InteractionController implements KeyListener, MouseListener {
 
 	public void update(GameState gameState, Player player) {
 		this.player = player;
+	}
+
+	public Item getDraggedItem(){
+		return draggedItem;
+	}
+
+	public int getDraggedItemX(){
+		return draggedX;
+	}
+
+	public int getDraggedItemY(){
+		return draggedY;
 	}
 
 	/** Key and Mouse Listening methods **/
@@ -177,10 +195,34 @@ public class InteractionController implements KeyListener, MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+
+		//If the inventory was clicked
+		if(inventory.onInventoryBar(x, y)){
+			draggedItem = inventory.getItemAt(x,y);
+		}
+	}
+
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		if(draggedItem!=null){
+			draggedX = e.getX();
+			draggedY = e.getY();
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+
+		//If the item was not reeleased on the inventory bar, drop it
+		if(!inventory.onInventoryBar(draggedX, draggedY) && draggedItem !=null){
+			dropItem(draggedItem.entityID);
+			draggedItem = null;
+		}
+
+
 	}
 
 	@Override
@@ -193,6 +235,12 @@ public class InteractionController implements KeyListener, MouseListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

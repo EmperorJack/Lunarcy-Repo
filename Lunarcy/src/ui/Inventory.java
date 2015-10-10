@@ -94,7 +94,7 @@ public class Inventory extends DrawingComponent {
 	 *            : The clicked y location
 	 * @return
 	 */
-	private Item getItemAt(int x, int y) {
+	public Item getItemAt(int x, int y) {
 		// Width of each item
 		int width = ITEM_SIZE + ITEM_SPACING;
 		// Where the player clicked
@@ -117,7 +117,7 @@ public class Inventory extends DrawingComponent {
 	 * @param y
 	 * @return True if the given position on the inventory bar.
 	 */
-	private boolean onInventoryBar(int x, int y) {
+	public boolean onInventoryBar(int x, int y) {
 		return x > LEFT_PADDING && x < LEFT_PADDING + INVENTORY_WIDTH
 				&& y > TOP_PADDING && y < TOP_PADDING + ITEM_SIZE;
 	}

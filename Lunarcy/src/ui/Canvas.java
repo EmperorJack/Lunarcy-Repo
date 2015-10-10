@@ -12,6 +12,7 @@ import java.util.Scanner;
 import control.Client;
 import ddf.minim.*;
 import game.GameState;
+import game.Item;
 import game.Player;
 import processing.core.*;
 
@@ -54,6 +55,10 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	private InteractionController interactionControl;
 	private DrawingComponent perspective;
 	private ArrayList<DrawingComponent> hud;
+
+	// entity images
+	private Map<String, PImage> entityImages;
+	private final int ENTITY_SIZE = 100;
 
 	// audio fields
 	private Minim minim;
@@ -105,9 +110,12 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		interactionControl = new InteractionController(client, gameState,
 				player, this);
 
+		// load the entity images
+		entityImages = loadEntityImages();
+
 		// setup the drawing component factory
 		DrawingComponentFactory factory = new DrawingComponentFactory(this,
-				gameState, playerID, interactionControl, loadEntityImages());
+				gameState, playerID, interactionControl, entityImages);
 
 		// get a 3D perspective component
 		perspective = factory
@@ -215,13 +223,31 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			component.draw(gameState, delta);
 		}
 
-		// printCanvasInfo(delta);
-
 		// if the interaction controller has a menu to display
 		if (interactionControl.getMenu() != null) {
 			// draw the menu
 			interactionControl.getMenu().draw(gameState, delta);
 		}
+
+		// if the interaction controller has an item being dragged
+		Item draggedItem = interactionControl.getDraggedItem();
+		if (draggedItem != null) {
+			pushMatrix();
+			pushStyle();
+
+			int x = interactionControl.getDraggedItemX();
+			int y = interactionControl.getDraggedItemY();
+
+			// draw the dragged item
+			imageMode(PApplet.CENTER);
+			image(entityImages.get(draggedItem.getImageName()), x, y,
+					ENTITY_SIZE, ENTITY_SIZE);
+
+			popMatrix();
+			popStyle();
+		}
+
+		// printCanvasInfo(delta);
 	}
 
 	/**
