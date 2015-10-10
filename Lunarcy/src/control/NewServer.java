@@ -2,7 +2,6 @@ package control;
 
 import game.GameLogic;
 import game.GameState;
-import game.Player;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -10,218 +9,215 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import control.Server.ClientConnection;
+import com.sun.jmx.remote.internal.ClientListenerInfo;
+import com.sun.xml.internal.ws.api.policy.PolicyResolver.ClientContext;
+
+
 
 public class NewServer {
-    	// Network related fields
- 	private ServerSocket serverSocket;
- 	private int maxClients;
- 	private static final int PORT = 58627;
- 	private ArrayList<ClientConnection> clientList = new ArrayList<ClientConnection>();
- 	private LinkedBlockingQueue<NetworkAction> actionQueue = new LinkedBlockingQueue<NetworkAction>();
- 	private GameLogic gameLogic;
- 	private int updateFreq;
- 	private boolean running = true;
- 	private boolean fromSavedGame;
+	private ServerSocket serverSocket;
+	private static final int DEFAULT_PORT = 58627;
 
- 	public NewServer(int maxClients, int updateFreq, GameState gameState) throws SocketException {
-		this.maxClients = gameState.getPlayers().length;
+	private LinkedBlockingQueue<NetworkAction> actionQueue = new LinkedBlockingQueue<NetworkAction>();//actions to be processed by the server
+	private volatile ArrayList<ClientConnection> clientList = new ArrayList<ClientConnection>();//connnected clients
+	private volatile boolean running = true;//used to stop server
+	private int updateFreq; //how many milliseconds between transmitting the gamestate
+	private int maxClients;
+
+	private GameLogic gameLogic; //the server version of gamestate
+	private volatile boolean fromSavedGame;
+
+	/**
+	 * @param maxClients How many clients the server will wait for
+	 * @param updateFreq how many milliseconds between transmitting the gamestate
+	 * @param gameState game state to initialise into, null if new game to be created
+	 * @throws IOException Likely port is already in use
+	 */
+	public NewServer(int maxClients, int updateFreq, GameState gameState) throws IOException{
+		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;
-		gameLogic = new GameLogic(gameState);
-		serverSocket = new ServerSocket(PORT); //throws SocketException
-		listenForClients();
-	}
- 	/**
- 	 * Adds a given client to the gamestate
- 	 * @return if adding to a new game returns the existing id based on username, -1 if invalid
- 	 *  or their id if they are added to a new game
- 	 */
- 	synchronized private int addToGameState(ClientConnection client){
- 	    //if the mode is saved game
- 	    if(fromSavedGame){
- 		Player[] players = gameLogic.getGameState().getPlayers();
- 		for (int i = 0; i < players.length; i++) {
-		    Player p = players[i];
-		    if(p != null){
-			if(p.getName().equals(client.getName())){
-			    return p.getId();
-			}
-		    }
-		}
- 		return -1;
- 	    }else{
- 	    	gameLogic.getGameState().addPlayer(clientList.indexOf(client), client.getName(), client.getColour());
- 	    }
- 	}
+		this.gameLogic = new GameLogic(gameState);
 
- 	private void listenForClients() {
-
-		System.out.println("Listeneing for clients");
-		// wait for all clients to connect
-		while (clientList.size() < maxClients) {
-			Socket s;
-			try {
-			    s = serverSocket.accept();
-			} catch (IOException e) {
-			   continue; //try again
-			}
-			int clientID = clientList.size();
-
-			ClientConnection client;
-			try {
-			    client = new ClientConnection(s, clientID);
-			} catch (IOException e) {
-			    try {
-				s.close();
-			    } catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			    }
-			    continue;
-			}
-			clientList.add(client);
-			client.listenToClient();
-		}
-
+		this.serverSocket = new ServerSocket(DEFAULT_PORT);
 	}
 
- 	synchronized void removeClient(ClientConnection c){
- 		clientList.remove(c);
- 	}
+	private void listenForClients(){
+		while(clientList.size() < maxClients){
+			Socket socket;
+			try {
+				socket = serverSocket.accept();
+			} catch (IOException e) {
+				continue; //try again
+			}
 
- 	private class ClientConnection {
+			ClientConnection cc;
+			try {
+				cc = new ClientConnection(socket);
+			} catch (IOException e) {
+				try {
+					socket.close();
+				} catch (IOException e1) {
+					//ignore
+				}
+				continue; //ignore and try again
+			}
+			addClientConnection(cc);
+			cc.start(); //start the negotiation with the client
+		}
+		waitForAllClients();
+	}
+	/**
+	 * A method which blocks until all clients have negotiated their ids and are ready
+	 */
+	private void waitForAllClients() {
+		//keep checking up the clientlist until all clients are ready
+		for(int i = 0; i< clientList.size();){ //TODO clientList should have synchronized size() method
+			if(!getClientConnection(i).isReady()){
+				sleep(50); //wait for a bit
+				continue;
+			}
+			i++;
+		}
+	}
+
+	private void stop(){
+		this.running = false;
+	}
+
+	private void transmitState(){
+		for(ClientConnection cc : clientList){
+			cc.sendObject(gameLogic.getGameState());
+		}
+	}
+
+	private void sleep(int millis){
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			//ignore
+		}
+	}
+
+	//methods for working with clientlist
+
+	synchronized private void addClientConnection(ClientConnection cc){
+		this.clientList.add(cc);
+	}
+
+	synchronized private boolean removeClientConnection(ClientConnection cc){
+		return this.clientList.remove(cc);
+	}
+
+	synchronized private ClientConnection getClientConnection(int index){
+		return this.clientList.get(index);
+	}
+
+	private class ClientConnection extends Thread{
 		private Socket socket;
 		private ObjectInputStream inputFromClient;
 		private ObjectOutputStream outputToClient;
-		private int clientID = -1;
+		private volatile boolean clientIsRunning = true;
+		private boolean ready = false; //true when client has negotiated id and username
+
+		private int clientId = -1;
 		private String username;
 		private Color colour;
-		private boolean clientRunning = true;
 
 		ClientConnection(Socket socket) throws IOException {
 			this.socket = socket;
-			outputToClient = new ObjectOutputStream(socket.getOutputStream());
 			inputFromClient = new ObjectInputStream(socket.getInputStream());
-			// Sleep for a bit
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException ex) {
-				Thread.currentThread().interrupt();
-			}
-
-			// Read the user name sent from the client
-			try {
-				do{
-					this.username = (String) inputFromClient.readObject();
-					//TODO negotiate username and id
-					clientID = addToGameState(this);
-					writeObject("InvalidUn", true);
-				}while(this.clientID == -1);
-				this.colour = Color.decode((String)inputFromClient.readObject());
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-			System.out.println("Server: new Client: " + username + " " + clientID + " colour: "+ this.colour.toString());
-			sendID(clientID);
-			System.out.println("wrote id to client" + clientID);
-
-			// Begin listening to this client
-
+			outputToClient = new ObjectOutputStream(socket.getOutputStream());
 		}
 
-		private void sendID(int clientID) {
+		public boolean isReady() {
+			return this.ready;
+		}
+
+		private void setId(int id){
+			this.clientId = id;
+		}
+
+		private void sendObject(Object o){
 			try {
-				outputToClient.reset();
-				outputToClient.writeInt(clientID); // send client their ID
-				outputToClient.flush();
+				outputToClient.writeObject(o);
 			} catch (IOException e) {
-				System.err.println("Failed to send ID");
-				e.printStackTrace();
+				disconnect(); //connection is broken
 			}
 		}
+		private void negotiateId() {
+			// TODO Auto-generated method stub
 
-		/**
-		 * Listen to client and add any NetworkActions to the action queue to be
-		 * processed
-		 */
-		public void listenToClient() {
-			new Thread(new Runnable() {
-				public void run() {
-					while (clientRunning) {
-						NetworkAction action = null;
-						try {
-							action = (NetworkAction) inputFromClient.readObject();
-						} catch (IOException | ClassNotFoundException e) {
-							// just catch
-						}
-						if (action != null)
-							actionQueue.add(action);
-					}
-					disconnect(); // when not running, disconnect
-				}
-			}).start();
+
+			ready = true;
 		}
 
-		/**
-		 * Send a message to the client
-		 */
-		public boolean writeObject(Object o,boolean reset) {
-			if (o != null) {
+		private void listenToClient(){
+			while (clientIsRunning) {
+				NetworkAction action = null;
 				try {
-					if(reset) outputToClient.reset();
-					outputToClient.writeObject(o);
-					outputToClient.flush();
-				} catch (SocketException e) { //critical, close client connection
-					disconnect();
-					//e.printStackTrace();
-					return false;
-				}catch(IOException e){
-					return false;
+					action = (NetworkAction) inputFromClient.readObject();
+				} catch (IOException | ClassNotFoundException e) {
+					//ignore //TODO maybe need to close client if failed here
 				}
+				if (action != null)
+					actionQueue.add(action);
 			}
-			return true;
 		}
 
-		/**
-		 * Remove Client from active client list and attempt to close socket
-		 */
-		private void disconnect() {
-			System.out.println("Client " + clientID + "Disconnected");
+		private void disconnect(){
+			//TODO close connections etc
+			System.out.println("Client " + clientId + " has disconnected.");
 			try {
 				inputFromClient.close();
 				outputToClient.close();
+				socket.getInputStream().close();
+				socket.getOutputStream().close();
 				socket.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				System.out.println("Unable to close client socket descriptor");
-				e.printStackTrace();
+				System.out.println("Couldn't close client connection");
 			}
-			removeClient(this);
+			//TODO remove player from gamestate
+			removeClientConnection(this);
 		}
 
-		/**
-		 * Prepare the client to close its connection
-		 */
-		private void stop() {
-			this.clientRunning = false;
+		public void run(){
+			negotiateId();
+			listenToClient();
+			disconnect();
 		}
-		/**
-		 * Get the name of this client
-		 * @return
-		 */
-		public String getName() {
-			return this.username;
-		}
-		/**
-		 * Get the colour of the client
-		 * @return
-		 */
-		public Color getColour() {
-			return this.colour;
+
+		private void stopClient(){
+			this.clientIsRunning = false;
 		}
 	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
