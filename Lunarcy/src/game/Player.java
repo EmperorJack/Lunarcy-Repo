@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class Player implements Character, Serializable {
 	private static final long serialVersionUID = 606752819269306395L;
+	private static final int maxOxygen = 200;
 
 	private final int id;
 	private final String name;
@@ -52,6 +53,10 @@ public class Player implements Character, Serializable {
 		}
 	}
 
+	public void resetOxygen(){
+		oxygen = getMaxOxygen();
+	}
+
 	public boolean giveItem(Item item) {
 		if (item == null)
 			return false;
@@ -87,8 +92,19 @@ public class Player implements Character, Serializable {
 		return oxygen;
 	}
 
+	public int getMaxOxygen(){
+		return maxOxygen;
+	}
+
 	public Location getLocation() {
 		return location;
+	}
+
+	public void setLocation(Location location){
+		if(location==null || location.getX() < 0 || location.getY() < 0){
+			return;
+		}
+		this.location = location;
 	}
 
 	public List<Item> getInventory() {
