@@ -27,16 +27,26 @@ import control.PutAction;
  * @author Ben and Jack
  *
  */
-public class InteractionController implements KeyListener, MouseListener, MouseMotionListener{
+public class InteractionController implements KeyListener, MouseListener,
+		MouseMotionListener {
 
 	// Drawing components
 	private Inventory inventory;
 	private EntityView entityView;
 
 	// For dragging/dropping items
+
+	// Dragging out of inventory
 	private Item draggedFromItem;
-	private int draggedFromX;
-	private int draggedFromY;
+
+	// Dragging into inventory
+	private Item draggedToItem;
+
+	private int draggedX;
+	private int draggedY;
+
+	private final int DEFAULT_X = -1000;
+	private final int DEFAULT_Y = -1000;
 
 	// Client related field
 	private Client client;
@@ -51,9 +61,12 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		this.player = player;
 		this.canvas = canvas;
 
+		resetDragValues();
+
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
+
 	}
 
 	/** Action methods **/
@@ -82,16 +95,33 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		this.player = player;
 	}
 
-	public Item getDraggedItem(){
-		return draggedFromItem;
+	/**
+	 * If either the item being dragged from the inventory, or the item being
+	 * dragged to the inventory is non null, returns this item (only one can be
+	 * set at a time).
+	 *
+	 * If both are null returns null.
+	 *
+	 * @return
+	 */
+	public Item getDraggedItem() {
+		if (draggedFromItem != null) {
+			return draggedFromItem;
+		}
+
+		if (draggedToItem != null) {
+			return draggedToItem;
+		}
+
+		return null;
 	}
 
-	public int getDraggedItemX(){
-		return draggedFromX;
+	public int getDraggedItemX() {
+		return draggedX;
 	}
 
-	public int getDraggedItemY(){
-		return draggedFromY;
+	public int getDraggedItemY() {
+		return draggedY;
 	}
 
 	/** Key and Mouse Listening methods **/
@@ -147,15 +177,9 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		// attempt to get an entity from entity view
 		Entity entity = entityView.getEntityAt(x, y);
 
-		// if an entity was clicked on
-		if (entity != null) {
-			if (entity instanceof Item) {
-				// attempt to pickup the item
-				pickupItem(entity.entityID);
-			} else if (entity instanceof Container) {
-				// attempt to access container
-			}
-			return;
+		// Do something with containers
+		if (entity != null && entity instanceof Container) {
+
 		}
 
 	}
@@ -169,39 +193,66 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
-		//If the inventory was clicked
-		if(inventory.onInventoryBar(x, y)){
-			//Get the item which was clicked
-			draggedFromItem = inventory.getItemAt(x,y);
+		// If the inventory was clicked
+		if (inventory.onInventoryBar(x, y)) {
+			// Get the item which was clicked
+			draggedFromItem = inventory.getItemAt(x, y);
+			draggedToItem = null;
+
+			draggedX = x;
+			draggedY = y;
+			return;
+		}
+
+		Entity entity = entityView.getEntityAt(x, y);
+		if (entity != null && entity instanceof Item) {
+			// Set the item to be picked up
+			draggedToItem = (Item) entity;
+			draggedFromItem = null;
 		}
 	}
-
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
-		//Set the coordinates of the current item being dragged
-		if(draggedFromItem!=null){
-			draggedFromX = x;
-			draggedFromY = y;
+		// Set the coordinates of the current item being dragged
+		if (draggedFromItem != null || draggedToItem != null) {
+			draggedX = x;
+			draggedY = y;
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		//If the item was not released on the inventory bar, drop it
-		if(!inventory.onInventoryBar(draggedFromX, draggedFromY) && draggedFromItem !=null){
 
-			//Drop the dragged item
+		int x = (int) (e.getX() / canvas.getScaling());
+		int y = (int) (e.getY() / canvas.getScaling());
+
+		// If the item was not released on the inventory bar, drop it
+		if (!inventory.onInventoryBar(x, y) && draggedFromItem != null) {
+
+			// Drop the dragged from item
 			dropItem(draggedFromItem.entityID);
-			draggedFromItem = null;
-
-			//Reset our dragged values
-			draggedFromX = -1000;
-			draggedFromY = -1000;
 		}
+
+		// If it was on the inventory bar, check if theres a dragged to item
+		else if (inventory.onInventoryBar(x, y) && draggedToItem != null) {
+
+			// Pickup the dragged to item
+			pickupItem(draggedToItem.entityID);
+		}
+
+		resetDragValues();
+
+	}
+
+	private void resetDragValues() {
+		draggedToItem = null;
+		draggedFromItem = null;
+		draggedX = DEFAULT_X;
+		draggedY = DEFAULT_Y;
 	}
 
 	@Override
