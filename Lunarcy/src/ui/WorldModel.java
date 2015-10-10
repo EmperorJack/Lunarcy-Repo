@@ -123,6 +123,7 @@ public class WorldModel {
 		// for each square in the game state board
 		for (int y = 0; y < board.length; y++) {
 			for (int x = 0; x < board[0].length; x++) {
+
 				// get the square at x, y
 				Square s = board[y][x];
 
