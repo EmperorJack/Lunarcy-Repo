@@ -5,7 +5,6 @@ import java.util.Map;
 
 import game.Entity;
 import game.GameState;
-import game.Item;
 import game.Player;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -63,8 +62,7 @@ public class EntityView extends DrawingComponent {
 			// for each entity
 			for (int i = 0; i < entities.size(); i++) {
 				// compute the x position to place the image
-				int xPos = (int) ((i + 1) / (float) (numberEntities + 1) * p
-						.getWidth());
+				int xPos = (int) ((i + 1) / (float) (numberEntities + 1) * Canvas.TARGET_WIDTH);
 
 				// draw the entity image
 				p.image(entityImages.get(entities.get(i).getImageName()), xPos,
@@ -79,27 +77,27 @@ public class EntityView extends DrawingComponent {
 
 	/**
 	 * Returns the entity at the clicked position, or null if the click was not
-	 * on a valid item.
+	 * on a valid entity.
 	 *
 	 * @param x
 	 *            The clicked x location.
 	 * @param y
 	 *            The clicked y location.
-	 * @return
+	 * @return The entity clicked on or null if no entity.
 	 */
 	public Entity getEntityAt(int x, int y) {
 		// first check the y position is within the bounds of the entity view
-		if (TOP_PADDING <= y && y <= p.getHeight()) {
+		if (TOP_PADDING <= y && y <= (Canvas.TARGET_HEIGHT * p.getScaling())) {
 
 			// for each entity
 			for (int i = 0; i < entities.size(); i++) {
 
 				// compute the x position of the entity
-				int xPos = (int) ((i + 1) / (float) (numberEntities + 1) * p
-						.getWidth());
+				int xPos = (int) ((i + 1) / (float) (numberEntities + 1) * Canvas.TARGET_WIDTH);
 
 				// check if the mouse position is within bounds of the entity
-				if (xPos - ENTITY_SIZE / 2 <= x && x <= xPos + ENTITY_SIZE / 2) {
+				if ((xPos - ENTITY_SIZE / 2) <= x
+						&& x <= (xPos + ENTITY_SIZE / 2)) {
 					return entities.get(i);
 				}
 			}

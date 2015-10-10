@@ -1,9 +1,8 @@
 package ui;
 
 import game.GameState;
-import game.Item;
 
-import java.awt.event.MouseListener;
+import processing.core.PApplet;
 
 /**
  * Displays a menu in the middle pof the screen. This should not be instantiated
@@ -15,12 +14,12 @@ public abstract class Menu extends DrawingComponent {
 
 	// Menu alignment and sizing
 	private final int MENU_SIZE = 300;
-	private final int MENU_LEFT_PADDING = p.width / 2 - MENU_SIZE / 2;
-	private final int MENU_TOP_PADDING = p.height / 2 - MENU_SIZE / 2;
+	private final int MENU_LEFT_PADDING = Canvas.TARGET_WIDTH / 2 - MENU_SIZE / 2;
+	private final int MENU_TOP_PADDING = Canvas.TARGET_HEIGHT / 2 - MENU_SIZE / 2;
 	private final int MENU_BUTTON_HEIGHT = 50;
 	private final int ITEM_SPACING = 20;
 	private final int BUTTON_TEXT_SIZE = 30;
-	
+
 	private String[] buttons;
 
 	// Displayed at top of menu
@@ -66,9 +65,9 @@ public abstract class Menu extends DrawingComponent {
 		p.fill(0, 0, 0, 200);
 		p.rect(0, 0, MENU_SIZE, MENU_SIZE);
 		p.fill(255, 255, 255, 100);
-		p.textAlign(p.CENTER);
+		p.textAlign(PApplet.CENTER);
 		p.text(title, 0, 5, MENU_SIZE, MENU_BUTTON_HEIGHT);
-		
+
 		p.textSize(BUTTON_TEXT_SIZE);
 		// Draw all the buttons
 		for (int i = 0; i < buttons.length; i++) {
@@ -78,7 +77,7 @@ public abstract class Menu extends DrawingComponent {
 			p.rect((int)(MENU_SIZE*0.1), (MENU_BUTTON_HEIGHT + ITEM_SPACING) * (i + 1), (int)(MENU_SIZE*0.8), MENU_BUTTON_HEIGHT);
 
 			p.fill(0, 0, 0, 100);
-			
+
 			// Draw the button text
 			p.text(buttons[i], 0, (MENU_BUTTON_HEIGHT + ITEM_SPACING) * (i + 1), MENU_SIZE, MENU_BUTTON_HEIGHT);
 		}

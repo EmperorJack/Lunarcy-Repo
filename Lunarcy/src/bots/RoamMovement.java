@@ -1,8 +1,6 @@
 package bots;
 
 import java.util.Iterator;
-import java.util.List;
-
 import game.Direction;
 import game.GameState;
 import game.Location;

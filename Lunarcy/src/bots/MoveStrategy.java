@@ -1,8 +1,5 @@
 package bots;
 
-import java.util.List;
-
-import game.GameState;
 import game.Location;
 import game.Square;
 
