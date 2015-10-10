@@ -152,7 +152,7 @@ public class GameState implements Serializable {
 	 * @return
 	 */
 	public boolean addPlayer(int playerID, String name, Color colour){
-		Location spawn = spawnPoints.get((int)Math.random()*spawnPoints.size());
+		Location spawn = spawnPoints.get((int)(Math.random()*spawnPoints.size()));
 		Player player = new Player(playerID, name, colour, spawn, Direction.NORTH);
 		if(playerID<0||playerID>players.length)return false;
 		players[playerID] = player;
@@ -190,6 +190,10 @@ public class GameState implements Serializable {
 
 	public Ship getShip(){
 		return ship;
+	}
+
+	public List<Location> getSpawnPoints(){
+		return new ArrayList<Location>(spawnPoints);
 	}
 
 	public Player[] getPlayers() {

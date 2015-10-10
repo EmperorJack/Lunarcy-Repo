@@ -21,7 +21,7 @@ public class ShipPart extends Item {
 	}
 
 	public String getName(){
-		return type + " #" + entityID;
+		return type.toString().replace('_', ' ') + " #" + entityID;
 	}
 
 	public String getDescription(){
@@ -31,7 +31,7 @@ public class ShipPart extends Item {
 	enum PartType{
 		ENGINE, FUEL_CORE, COOLANT, GPS, WARP_DRIVE
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

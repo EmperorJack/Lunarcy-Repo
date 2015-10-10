@@ -257,6 +257,13 @@ public class GameLogic {
 		return state;
 	}
 
+	public Player getwinner(){
+		if(state.getShip().hasLaunched()){
+			return state.getShip().getPilot();
+		}
+		return null;
+	}
+
 	private class PlayerMove{
 		private final Player player;
 		private final Direction direction;
