@@ -131,6 +131,13 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 		// drawing setup
 		noStroke();
+
+		// text setup
+		hint(ENABLE_NATIVE_FONTS);
+		PFont font36 = createFont("Arial", 32);
+		textFont(font36);
+		text("This is sharp text", 10, 40);
+		textSize(12);
 	}
 
 	/**
@@ -209,16 +216,16 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			component.draw(gameState, delta);
 		}
 
-		/*
-		 * // draw the frame rate string fill(255); textSize(40);
-		 * text(frameRate, maxWidth - 200, 50); text(delta, maxWidth - 200,
-		 * 100);
-		 *
-		 * // draw player position and orientation Player player =
-		 * gameState.getPlayer(playerID); text(player.getLocation().getX() +
-		 * " : " + player.getLocation().getY(), maxWidth - 200, 150);
-		 * text(player.getOrientation().toString(), maxWidth - 200, 200);
-		 */// TODO remove frame rate code when not needed
+		// TODO remove frame rate code when not needed
+		// draw the frame rate string fill(255); textSize(40);
+		text(frameRate, TARGET_WIDTH - 200, 50);
+		text(delta, TARGET_WIDTH - 200, 100);
+
+		// draw player position and orientation Player player =
+		gameState.getPlayer(playerID);
+		text(player.getLocation().getX() + " : " + player.getLocation().getY(),
+				TARGET_WIDTH - 200, 150);
+		text(player.getOrientation().toString(), TARGET_WIDTH - 200, 200);
 
 		// if the interaction controller has a menu to display
 		if (interactionControl.getMenu() != null) {
@@ -258,6 +265,16 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			yOffset = 0;
 		}
 
+		return scalingAmount;
+	}
+
+	/**
+	 * Returns the scaling amount required to scale the canvas to draw in
+	 * reference to the target width and target height.
+	 *
+	 * @return The float to scale by.
+	 */
+	public float getScalingAmount() {
 		return scalingAmount;
 	}
 
