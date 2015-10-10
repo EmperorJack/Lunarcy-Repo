@@ -1,6 +1,7 @@
 package game;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import bots.*;
@@ -88,6 +89,23 @@ public class GameLogic {
 	 */
 	public void turnPlayerRight(int playerID) {
 		state.getPlayer(playerID).turnRight();
+	}
+
+	private void killPlayer(Player player){
+		if(player==null)return;
+		List<Item> inventory = player.getInventory();
+
+		if(inventory.size() > 0){
+			int i = (int)(inventory.size() * Math.random());
+			dropItem(player.getId(), inventory.get(i).entityID);
+		}
+
+		List<Location> spawns = state.getSpawnPoints();
+		Location loc = spawns.get((int)(spawns.size() * Math.random()));
+
+		((WalkableSquare)state.getSquare(player.getLocation())).removePlayer(player);
+		((WalkableSquare)state.getSquare(loc)).addPlayer(player);
+		player.setLocation(loc);
 	}
 
 	/**
@@ -215,7 +233,7 @@ public class GameLogic {
 	 * Updates all the characters inside the GameState e.g Moves the Rovers and
 	 * changes Player Oxygen
 	 */
-	public void tickGameState() {
+	public synchronized void tickGameState() {
 
 
 		//Move all the rovers
@@ -237,6 +255,9 @@ public class GameLogic {
 		// Update player oxygen
 		for (Player player : state.getPlayers()) {
 			if (player != null) {
+				if(player.getOxygen()==0){
+					killPlayer(player);
+				}
 				locations.add(player.getLocation());
 			}
 		}

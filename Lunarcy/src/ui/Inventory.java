@@ -70,7 +70,6 @@ public class Inventory extends DrawingComponent {
 
 		if (inventory != null) {
 			for (int i = 0; i < inventory.size(); i++) {
-				System.out.println(inventory.get(i).getName());
 				p.image(ENTITY_IMAGES.get(inventory.get(i).getImageName()), i
 						* (ITEM_SIZE + ITEM_SPACING), 0, ITEM_SIZE, ITEM_SIZE);
 			}
