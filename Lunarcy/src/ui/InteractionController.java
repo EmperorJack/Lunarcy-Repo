@@ -56,6 +56,7 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
+		canvas.addMouseMotionListener(this);
 	}
 
 	/** Action methods **/
