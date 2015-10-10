@@ -33,13 +33,10 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 	private Inventory inventory;
 	private EntityView entityView;
 
-	// Menu fields
-	private Menu menu;
-	private boolean menuActive;
-
-	private Item draggedItem;
-	private int draggedX;
-	private int draggedY;
+	// For dragging/dropping items
+	private Item draggedFromItem;
+	private int draggedFromX;
+	private int draggedFromY;
 
 	// Client related field
 	private Client client;
@@ -56,6 +53,7 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
+		canvas.addMouseMotionListener(this);
 	}
 
 	/** Action methods **/
@@ -72,28 +70,6 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		client.sendAction(new PickupAction(player.getId(), itemID));
 	}
 
-	/** Menu methods **/
-
-	public boolean menuActive() {
-		return menuActive;
-	}
-
-	public Menu getMenu() {
-		return menu;
-	}
-
-	/**
-	 * Updates the menu and sets the menu to be active if is non null.
-	 *
-	 * @param menu
-	 */
-	public void setMenu(Menu menu) {
-		this.menu = menu;
-
-		// Set the menu to visible if menu is non null
-		menuActive = menu != null;
-	}
-
 	public void setInventory(Inventory inventory) {
 		this.inventory = inventory;
 	}
@@ -107,15 +83,15 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 	}
 
 	public Item getDraggedItem(){
-		return draggedItem;
+		return draggedFromItem;
 	}
 
 	public int getDraggedItemX(){
-		return draggedX;
+		return draggedFromX;
 	}
 
 	public int getDraggedItemY(){
-		return draggedY;
+		return draggedFromY;
 	}
 
 	/** Key and Mouse Listening methods **/
@@ -183,10 +159,8 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		}
 
 		// perform check for click on inventory
-		inventory.inventoryClicked(x, y);
+		//inventory.inventoryClicked(x, y);
 	}
-
-	/* Unused listener methods */
 
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -194,34 +168,42 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
+		int x = (int) (e.getX() / canvas.getScaling());
+		int y = (int) (e.getY() / canvas.getScaling());
 
 		//If the inventory was clicked
 		if(inventory.onInventoryBar(x, y)){
-			draggedItem = inventory.getItemAt(x,y);
+			//Get the item which was clicked
+			draggedFromItem = inventory.getItemAt(x,y);
 		}
 	}
 
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(draggedItem!=null){
-			draggedX = e.getX();
-			draggedY = e.getY();
+		int x = (int) (e.getX() / canvas.getScaling());
+		int y = (int) (e.getY() / canvas.getScaling());
+
+		//Set the coordinates of the current item being dragged
+		if(draggedFromItem!=null){
+			draggedFromX = x;
+			draggedFromY = y;
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		//If the item was not released on the inventory bar, drop it
+		if(!inventory.onInventoryBar(draggedFromX, draggedFromY) && draggedFromItem !=null){
 
-		//If the item was not reeleased on the inventory bar, drop it
-		if(!inventory.onInventoryBar(draggedX, draggedY) && draggedItem !=null){
-			dropItem(draggedItem.entityID);
-			draggedItem = null;
+			//Drop the dragged item
+			dropItem(draggedFromItem.entityID);
+			draggedFromItem = null;
+
+			//Reset our dragged values
+			draggedFromX = -1000;
+			draggedFromY = -1000;
 		}
-
-
 	}
 
 	@Override
@@ -238,7 +220,6 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -216,12 +216,6 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		}
 
 		// printCanvasInfo(delta);
-
-		// if the interaction controller has a menu to display
-		if (interactionControl.getMenu() != null) {
-			// draw the menu
-			interactionControl.getMenu().draw(gameState, delta);
-		}
 	}
 
 	/**

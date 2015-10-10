@@ -20,6 +20,7 @@ public class Inventory extends DrawingComponent {
 	private int LEFT_PADDING, TOP_PADDING, INVENTORY_WIDTH;
 	private final int ITEM_SIZE;
 	private final int ITEM_SPACING;
+
 	// private ItemMenu menu;
 	private GameState gamestate;
 	private Item lastChosen;
@@ -79,9 +80,6 @@ public class Inventory extends DrawingComponent {
 		p.popStyle();
 		p.popMatrix();
 
-		/*
-		 * if(menu != null){ menu.draw(gameState, delta); }
-		 */
 	}
 
 	/**
@@ -122,30 +120,4 @@ public class Inventory extends DrawingComponent {
 				&& y > TOP_PADDING && y < TOP_PADDING + ITEM_SIZE;
 	}
 
-	/**
-	 * Returns the item at the clicked position, or null if the click was not on
-	 * a valid item.
-	 *
-	 * @param x
-	 *            The clicked x location.
-	 * @param y
-	 *            The clicked y location.
-	 */
-	public void inventoryClicked(int x, int y) {
-		// Only find the item if the click was on the inventory
-		if (onInventoryBar(x, y)) {
-			Item item = getItemAt(x, y);
-
-			// if they reclick an item, hide the menu
-			if (item != null && item.equals(lastChosen)) {
-				entityController.setMenu(null);
-				lastChosen = null;
-			} else if (item != null) {
-				entityController.setMenu(new DropMenu(p, entityController,
-						gamestate, y, item));
-				lastChosen = item;
-			}
-		}
-
-	}
 }

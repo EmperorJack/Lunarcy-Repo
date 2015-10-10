@@ -51,10 +51,6 @@ public abstract class Menu extends DrawingComponent {
 	@Override
 	public void draw(GameState gameState, float delta) {
 
-		//If the menu is not open, exit out
-		if(!interactionController.menuActive()){
-			return;
-		}
 
 		// Display the Item options menu if an item has been clicked
 		p.pushMatrix();
@@ -97,7 +93,7 @@ public abstract class Menu extends DrawingComponent {
 	 * @return
 	 */
 	protected boolean onMenu(int x, int y) {
-		return  interactionController.menuActive() && x > MENU_LEFT_PADDING && x < MENU_LEFT_PADDING + MENU_SIZE && y > MENU_TOP_PADDING
+		return x > MENU_LEFT_PADDING && x < MENU_LEFT_PADDING + MENU_SIZE && y > MENU_TOP_PADDING
 				&& y < MENU_TOP_PADDING + MENU_SIZE;
 	}
 
