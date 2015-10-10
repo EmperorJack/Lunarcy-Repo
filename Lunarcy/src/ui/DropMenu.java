@@ -31,7 +31,7 @@ public class DropMenu extends Menu implements MouseListener {
 
 		// If the menu is open, clicked on, and an item has been set then
 		// proccess the click
-		if (onMenu(x, y) && item != null &&  entityController.getMenu().getClass().equals(getClass())) {
+		if (onMenu(x, y) && item != null &&  interactionController.getMenu().getClass().equals(getClass())) {
 
 			String button = getButtonClicked(x, y);
 
@@ -39,7 +39,7 @@ public class DropMenu extends Menu implements MouseListener {
 				switch (button) {
 				case "Drop item":
 					System.out.println("Dropping " + item.entityID);
-					entityController.dropItem(item.entityID);
+					interactionController.dropItem(item.entityID);
 					item = null;
 					break;
 				case "Put item":
@@ -49,7 +49,7 @@ public class DropMenu extends Menu implements MouseListener {
 				}
 
 				// Hide the menu, as we have made a selection
-				entityController.setMenu(null);
+				interactionController.setMenu(null);
 			}
 		}
 	}

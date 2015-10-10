@@ -25,14 +25,14 @@ public abstract class Menu extends DrawingComponent {
 	// Displayed at top of menu
 	private String title;
 
-	protected InteractionController entityController;
+	protected InteractionController interactionController;
 
 	public Menu(Canvas p, InteractionController entityController, GameState gameState, int playerID, String title, String[] buttons) {
 		super(p, gameState, playerID);
 
 		this.title = title;
 		this.buttons = buttons;
-		this.entityController = entityController;
+		this.interactionController = entityController;
 
 	}
 
@@ -52,7 +52,7 @@ public abstract class Menu extends DrawingComponent {
 	public void draw(GameState gameState, float delta) {
 
 		//If the menu is not open, exit out
-		if(!entityController.menuActive()){
+		if(!interactionController.menuActive()){
 			return;
 		}
 
@@ -97,7 +97,7 @@ public abstract class Menu extends DrawingComponent {
 	 * @return
 	 */
 	protected boolean onMenu(int x, int y) {
-		return  entityController.menuActive() && x > MENU_LEFT_PADDING && x < MENU_LEFT_PADDING + MENU_SIZE && y > MENU_TOP_PADDING
+		return  interactionController.menuActive() && x > MENU_LEFT_PADDING && x < MENU_LEFT_PADDING + MENU_SIZE && y > MENU_TOP_PADDING
 				&& y < MENU_TOP_PADDING + MENU_SIZE;
 	}
 
