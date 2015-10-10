@@ -63,14 +63,6 @@ public class PickMenu extends Menu implements MouseListener  {
 				Direction dir = gameState.getPlayer(playerID).getOrientation();
 				int clickedID = square.getEntities(dir).get(clickedIndex).entityID;
 
-				System.out.println("The items in this square are");
-
-				for(Entity ent: square.getEntities(dir)){
-					System.out.println(ent.getImageName() +" " + ent.entityID);
-				}
-				System.out.println("-----------");
-				System.out.println("You have selected " + clickedID + " which is at " + clickedIndex);
-
 				entityController.pickupItem(clickedID);
 				entityController.menuActive(false);
 				return;

@@ -1,5 +1,6 @@
 package ui;
 
+import game.Entity;
 import game.GameState;
 import game.Player;
 
@@ -52,19 +53,6 @@ public class InteractionController implements KeyListener, MouseListener {
 		canvas.addMouseListener(this);
 	}
 
-	public void setInventory(Inventory inventory) {
-		this.inventory = inventory;
-	}
-
-	public void setEntityView(EntityView entityView) {
-		this.entityView = entityView;
-	}
-
-	public void update(GameState gameState, Player player) {
-		this.gameState = gameState;
-		this.player = player;
-	}
-
 	/** Action methods **/
 
 	public void dropItem(int itemID) {
@@ -104,7 +92,20 @@ public class InteractionController implements KeyListener, MouseListener {
 		// Set the menu to visible if menu is non null
 		menuActive = menu != null;
 	}
+	
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
+	}
 
+	public void setEntityView(EntityView entityView) {
+		this.entityView = entityView;
+	}
+
+	public void update(GameState gameState, Player player) {
+		this.gameState = gameState;
+		this.player = player;
+	}
+	
 	/** Key and Mouse Listening methods **/
 
 	@Override
@@ -153,16 +154,22 @@ public class InteractionController implements KeyListener, MouseListener {
 			break;
 		}
 	}
+	
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		Entity entity = entityView.getEntityAt(e.getX(), e.getY());
+		
+		//If they click on an entity, display the menu to pick up items
+		if(entity!=null){ 
+			setMenu(new PickMenu(canvas, this, gameState, player.getId()));
+		}
+	}
 
 	/* Unused listener methods */
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		System.out.println(entityView.getEntityAt(e.getX(), e.getY()));
 	}
 
 	@Override

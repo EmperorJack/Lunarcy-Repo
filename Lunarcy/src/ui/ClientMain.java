@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -366,7 +367,8 @@ class ClientMain extends JFrame {
 				// if an exception is thrown entered details must have been
 				// invalid
 				catch (IllegalArgumentException ex) {
-					System.out.println("Re enter details");
+					
+					JOptionPane.showMessageDialog(null, "Your details were invalid. Please try again");
 					return;
 				}
 

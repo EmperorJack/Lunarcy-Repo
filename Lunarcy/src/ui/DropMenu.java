@@ -32,9 +32,8 @@ public class DropMenu extends Menu implements MouseListener {
 		int x = e.getX();
 		int y = e.getY();
 
-		if (onMenu(x, y) && item!=null) {
-
-			System.out.println("In ");
+		//If the menu is open, clicked on, and an item has been set then proccess the click
+		if (entityController.menuActive() && onMenu(x, y) && item!=null) {
 
 			String button = getButtonClicked(x, y);
 			if (button != null) {
