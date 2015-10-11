@@ -26,6 +26,9 @@ public class Ship extends WalkableSquare {
 	public void testAddRequireditems(){
 		requiredParts.add(new ShipPart(10, 0));
 		requiredParts.add(new ShipPart(11, 1));
+		requiredParts.add(new ShipPart(12, 2));
+		requiredParts.add(new ShipPart(13, 3));
+		requiredParts.add(new ShipPart(14, 4));
 	}
 
 

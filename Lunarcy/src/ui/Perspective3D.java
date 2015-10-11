@@ -47,7 +47,8 @@ public class Perspective3D extends DrawingComponent {
 	// entity drawing fields
 	private final Map<String, PImage> entityImages;
 	private final int ENTITY_SIZE = 150;
-	private final int ENTITY_Y_OFFSET = 100;
+	private final int ENTITY_Y_OFFSET = -75;
+	private final int ENTITY_INNER_PADDING = -400;
 
 	// camera fields
 	private final int PLAYER_VIEW_HEIGHT = -150;
@@ -93,9 +94,9 @@ public class Perspective3D extends DrawingComponent {
 		targetCameraEye = new PVector(0, PLAYER_VIEW_HEIGHT, 0);
 
 		// camera center setup (rotation / orientaiton)
-		cameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2)
+		cameraCenter = new PVector(0, -PApplet.cos(PApplet.HALF_PI)
 				+ PLAYER_VIEW_HEIGHT, 0);
-		targetCameraCenter = new PVector(0, -PApplet.cos(PApplet.PI / 2)
+		targetCameraCenter = new PVector(0, -PApplet.cos(PApplet.HALF_PI)
 				+ PLAYER_VIEW_HEIGHT, 0);
 		targetRotationAngle = 0;
 		animPercent = 1;
@@ -254,44 +255,77 @@ public class Perspective3D extends DrawingComponent {
 	private void drawEntites(Player thisPlayer, Square[][] board) {
 		p.pushMatrix();
 
-		// translate to the item height
-		p.translate(0, CHARACTER_Y_OFFSET, 0);
-
 		// for each square in the game state board
-		for (int y = 0; y < board.length; y++) {
-			for (int x = 0; x < board[0].length; x++) {
+		for (int row = 0; row < board.length; row++) {
+			for (int col = 0; col < board[0].length; col++) {
 
 				// if the location is not in this player's location
-				if (!new Location(x, y).equals(thisPlayer.getLocation())) {
+				if (!new Location(col, row).equals(thisPlayer.getLocation())) {
 
-					// get the square at x, y
-					Square s = board[y][x];
+					// get the square at row, col
+					Square s = board[row][col];
 
 					// if the square is not walkable then there must be no items
 					if (!(s instanceof WalkableSquare)) {
 						continue;
 					}
 
+					p.pushMatrix();
+
+					// compute the square position
+					int x = col * SQUARE_SIZE + SQUARE_SIZE / 2;
+					int z = row * SQUARE_SIZE + SQUARE_SIZE / 2;
+
+					// get the position vector in 3D space
+					PVector position = new PVector(x, ENTITY_Y_OFFSET, z);
+
+					// translate to the current square location
+					p.translate(x, ENTITY_Y_OFFSET, z);
+
 					// for each direction
 					for (Direction dir : Direction.values()) {
-						p.pushMatrix();
 
 						// get the entities for the current direction
 						List<Entity> entities = s.getEntities(dir);
 
 						// for each entity
 						for (int i = 0; i < entities.size(); i++) {
-							// compute the x position to place the image
-							int xPos = (int) ((i + 1)
-									/ (float) (entities.size() + 1) * SQUARE_SIZE);
+							p.pushMatrix();
 
-							// get the current entity position in 3D space
-							PVector position = new PVector(x * SQUARE_SIZE
-									+ SQUARE_SIZE / 2, ENTITY_Y_OFFSET, y
-									* SQUARE_SIZE + SQUARE_SIZE / 2);
+							// compute the offset for the current entity image
+							int offset = (int) ((i + 1)
+									/ (float) (entities.size() + 1) * SQUARE_SIZE)
+									- SQUARE_SIZE / 2;
 
-							// translate to the current entity location
-							p.translate(position.x, position.y, position.z);
+							// setup the x and z offsets
+							int xOffset = 0;
+							int zOffset = 0;
+
+							// set the offsets based on the current direction
+							switch (dir) {
+							case NORTH:
+								xOffset = offset;
+								zOffset = ENTITY_INNER_PADDING;
+								break;
+
+							case EAST:
+								xOffset = -ENTITY_INNER_PADDING;
+								zOffset = offset;
+								break;
+
+							case SOUTH:
+								xOffset = -offset;
+								zOffset = -ENTITY_INNER_PADDING;
+								break;
+
+							case WEST:
+								xOffset = ENTITY_INNER_PADDING;
+								zOffset = -offset;
+								break;
+							}
+
+							// translate to the current entity offsets
+							p.translate(xOffset, 0, zOffset);
 
 							// rotate the current entity to face this player
 							rotateRelativeTo(position);
@@ -301,9 +335,11 @@ public class Perspective3D extends DrawingComponent {
 							p.image(entityImages.get(entities.get(i)
 									.getImageName()), 0, 0, ENTITY_SIZE,
 									ENTITY_SIZE);
+
+							p.popMatrix();
 						}
-						p.popMatrix();
 					}
+					p.popMatrix();
 				}
 			}
 		}
@@ -321,7 +357,7 @@ public class Perspective3D extends DrawingComponent {
 	private void rotateRelativeTo(PVector position) {
 		float angle = PApplet.atan2(actualCameraEye.z - position.z,
 				actualCameraEye.x - position.x);
-		p.rotateY(-(angle - PApplet.PI / 2));
+		p.rotateY(-(angle - PApplet.HALF_PI));
 	}
 
 	/**
@@ -339,31 +375,8 @@ public class Perspective3D extends DrawingComponent {
 		float newEyeZ = location.getY() * SQUARE_SIZE + SQUARE_SIZE / 2;
 
 		// comute the camera orientation from the given direction
-		float newRotationAngle = 0;
-
-		// depending on the given orientation
-		switch (orientation) {
-
-		// set north rotation angle
-		case NORTH:
-			newRotationAngle = -PApplet.PI / 2;
-			break;
-
-		// set east rotation angle
-		case EAST:
-			newRotationAngle = 0;
-			break;
-
-		// set south rotation angle
-		case SOUTH:
-			newRotationAngle = PApplet.PI / 2;
-			break;
-
-		// set west rotation angle
-		case WEST:
-			newRotationAngle = PApplet.PI;
-			break;
-		}
+		float newRotationAngle = orientation.ordinal() * PApplet.HALF_PI
+				- PApplet.HALF_PI;
 
 		float newCenterX = PApplet.cos(newRotationAngle);
 		float newCenterZ = PApplet.sin(newRotationAngle);

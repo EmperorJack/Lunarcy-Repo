@@ -121,11 +121,11 @@ public class WorldModel {
 	 */
 	private void parseGameWorld(Square[][] board, int SQUARE_SIZE) {
 		// for each square in the game state board
-		for (int y = 0; y < board.length; y++) {
-			for (int x = 0; x < board[0].length; x++) {
+		for (int row = 0; row < board.length; row++) {
+			for (int col = 0; col < board[0].length; col++) {
 
-				// get the square at x, y
-				Square s = board[y][x];
+				// get the square at row, col
+				Square s = board[row][col];
 
 				// if the square is walkable
 				if (s instanceof WalkableSquare) {
@@ -135,55 +135,55 @@ public class WorldModel {
 					if (ws.isInside()) {
 						// create an indoor floor model
 						insideModels.add(new OBJWrapper(floorInsideObj,
-								SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
+								SQUARE_SIZE * col, 0, SQUARE_SIZE * row));
 
 						// create a ceiling model
 						insideModels.add(new OBJWrapper(ceilingObj, SQUARE_SIZE
-								* x, 0, SQUARE_SIZE * y));
+								* col, 0, SQUARE_SIZE * row));
 					} else {
 						// create an outdoor floor model
 						outsideModels.add(new OBJWrapper(floorOutsideObj,
-								SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
+								SQUARE_SIZE * col, 0, SQUARE_SIZE * row));
 					}
 
 					// check if the square has a north wall
 					checkWalls(ws, Direction.NORTH, SolidWall.class,
 							northWallInsideObj, northWallOutsideObj,
-							SQUARE_SIZE, x, y, insideModels, outsideModels);
+							SQUARE_SIZE, col, row, insideModels, outsideModels);
 
 					// check if the square has a north door
 					checkWalls(ws, Direction.NORTH, Door.class, doorNorthObj,
-							doorNorthObj, SQUARE_SIZE, x, y, doorModels,
+							doorNorthObj, SQUARE_SIZE, col, row, doorModels,
 							doorModels);
 
 					// check if the square has an east wall
 					checkWalls(ws, Direction.EAST, SolidWall.class,
 							eastWallInsideObj, eastWallOutsideObj, SQUARE_SIZE,
-							x, y, insideModels, outsideModels);
+							col, row, insideModels, outsideModels);
 
 					// check if the square has an east door
 					checkWalls(ws, Direction.EAST, Door.class, doorEastObj,
-							doorEastObj, SQUARE_SIZE, x, y, doorModels,
+							doorEastObj, SQUARE_SIZE, col, row, doorModels,
 							doorModels);
 
 					// check if the square has a south wall
 					checkWalls(ws, Direction.SOUTH, SolidWall.class,
 							southWallInsideObj, southWallOutsideObj,
-							SQUARE_SIZE, x, y, insideModels, outsideModels);
+							SQUARE_SIZE, col, row, insideModels, outsideModels);
 
 					// check if the square has a south door
 					checkWalls(ws, Direction.SOUTH, Door.class, doorSouthObj,
-							doorSouthObj, SQUARE_SIZE, x, y, doorModels,
+							doorSouthObj, SQUARE_SIZE, col, row, doorModels,
 							doorModels);
 
 					// check if the square has a west wall
 					checkWalls(ws, Direction.WEST, SolidWall.class,
 							westWallInsideObj, westWallOutsideObj, SQUARE_SIZE,
-							x, y, insideModels, outsideModels);
+							col, row, insideModels, outsideModels);
 
 					// check if the square has a west door
 					checkWalls(ws, Direction.WEST, Door.class, doorWestObj,
-							doorWestObj, SQUARE_SIZE, x, y, doorModels,
+							doorWestObj, SQUARE_SIZE, col, row, doorModels,
 							doorModels);
 				}
 			}
