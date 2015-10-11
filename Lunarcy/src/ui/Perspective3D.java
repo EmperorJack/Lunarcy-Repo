@@ -82,8 +82,8 @@ public class Perspective3D extends DrawingComponent {
 		SKYBOX.drawMode(OBJModel.POLYGON);
 
 		// character image setup
-		ASTRONAUT = p.loadImage("assets/characters/astronaut.png");
-		ROVER = p.loadImage("assets/characters/OgreMan.png");
+		ASTRONAUT = p.loadImage("assets/characters/Player.png");
+		ROVER = p.loadImage("assets/characters/Rover.png");
 
 		// entity image setup
 		this.entityImages = entityImages;

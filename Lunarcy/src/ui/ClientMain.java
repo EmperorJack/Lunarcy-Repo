@@ -66,7 +66,7 @@ class ClientMain extends JFrame {
 		super("Join Game");
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(370, 420));
+		setPreferredSize(new Dimension(370, 480));
 
 		// Pre load our spacesuit image
 		loadImage();
