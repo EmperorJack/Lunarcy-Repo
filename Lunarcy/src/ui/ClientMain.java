@@ -48,6 +48,8 @@ class ClientMain extends JFrame {
 	// Width of the textboxes
 	private final int WIDTH = 200;
 
+	private final int MAX_USERNAME_LENGTH = 20;
+
 	// To dynamically update from colorChooser
 	private JPanel spacesuitPanel;
 	private Color chosenColor;
@@ -392,7 +394,7 @@ class ClientMain extends JFrame {
 				// if an exception is thrown entered details must have been
 				// invalid
 				catch (IllegalArgumentException ex) {
-					
+
 					JOptionPane.showMessageDialog(null, "Your details were invalid. Please try again");
 					return;
 				}
@@ -417,7 +419,7 @@ class ClientMain extends JFrame {
 						+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
 				// If no name was entered (or just spaces were used)
-				if (nameTextbox.getText().trim().isEmpty()) {
+				if (nameTextbox.getText().trim().isEmpty() || nameTextbox.getText().length() > MAX_USERNAME_LENGTH) {
 
 					// Set a red border on the nameTextbox
 					nameTextbox.setBorder(BorderFactory

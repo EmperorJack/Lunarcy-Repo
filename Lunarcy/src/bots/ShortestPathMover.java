@@ -9,35 +9,28 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 import game.Direction;
+import game.GameState;
 import game.Location;
 import game.Square;
 import game.WalkableSquare;
 
 /**
  * A special instance of MoveStrategy, where the movement is defined by
- * following the shortest path to a given destination. You should extend
- * this class directly if the movement relies on following a path.
+ * following the shortest path to a given destination. You should extend this
+ * class directly if the movement relies on following a path.
  *
  * @author b
  *
  */
+@SuppressWarnings("serial")
 abstract class ShortestPathMover implements MoveStrategy, Serializable {
 
-	/**
-	 * Returns true if path is outdated and needs to be updated, false
-	 * otherwise.
-	 *
-	 * @param path
-	 * @return
-	 */
-	public abstract boolean mustUpdate(List<Location> path);
-
-	private List<Location> getNeighbours(Rover rover, Square[][] board, Location loc) {
+	private List<Location> getNeighbours(Rover rover, GameState gamestate, Location loc) {
 		List<Location> neighbours = new ArrayList<Location>();
 
-		//NOT CURRENTLY CORRECT AS IT CAN MOVE THROUGH WALLS
-		for(Direction direction: game.Direction.values()){
-			if(validMove(rover, board, direction)){
+		// NOT CURRENTLY CORRECT AS IT CAN MOVE THROUGH WALLS
+		for (Direction direction : game.Direction.values()) {
+			if (validMove(gamestate, rover, direction)) {
 				neighbours.add(loc.getAdjacent(direction));
 			}
 		}
@@ -45,53 +38,15 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 		return neighbours;
 	}
 
-	/**
-	 * Checks if the rover may move in the direction specified
-	 * @param rover The rover to move
-	 * @param direction The Direction the Rover wants to move in
-	 * @return True if the Rover may move, False otherwise
-	 */
-	public boolean validMove(Rover rover, Square[][] board, Direction direction){
-		if(rover == null && direction == null){
-			return false;
+	private boolean validMove(GameState state, Rover rover, Direction direction) {
+		Square src = state.getSquare(rover.getLocation());
+		Square dest = state.getSquare(rover.getLocation().getAdjacent(direction));
+
+		if (src != null && dest != null) {
+			return src.canExit(rover, direction) && dest.canEnter(rover, direction.opposite());
 		}
 
-		Location currentLocation = rover.getLocation();
-
-		//We can assume this is a valid square since the rover is in it already
-		Square src = board[currentLocation.getY()][currentLocation.getY()];
-
-		//Make sure the next location is valid
-		Location nextLocation = currentLocation.getAdjacent(direction);
-
-		//Make sure the nextLocation will be a valid square
-		if(!validSquare(board, nextLocation)){
-			return false;
-		}
-
-		Square dest = board[nextLocation.getY()][nextLocation.getX()];
-
-		if(src!=null && dest!=null){
-			if(dest instanceof WalkableSquare){
-				WalkableSquare square = (WalkableSquare) dest;
-				return !square.isInside();
-			}
-			//return src.canExit(rover,direction) && dest.canEnter(rover, direction.opposite());
-		}
 		return false;
-	}
-
-
-	private boolean validSquare(Square[][] board, Location loc){
-		if(loc.getX() < 0 || loc.getX() >=  board[0].length){
-			return false;
-		}
-
-		if(loc.getY() < 0 || loc.getY() >=  board.length){
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -102,7 +57,7 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 	 * @return
 	 */
 	private int estimate(Location start, Location end) {
-		if (start == null || end == null){
+		if (start == null || end == null) {
 			return -1;
 		}
 
@@ -117,7 +72,7 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 	 * @param end
 	 * @return
 	 */
-	protected List<Location> findPath(Rover rover, Square[][] board, Location start, Location end) {
+	protected List<Location> findPath(Rover rover, GameState gamestate, Location start, Location end) {
 
 		List<Location> path = new ArrayList<Location>();
 		PriorityQueue<LocationWrapper> fringe = new PriorityQueue<>();
@@ -129,6 +84,12 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 		fringe.offer(new LocationWrapper(start, null, 0, estimate(start, end)));
 
 		while (!fringe.isEmpty()) {
+			
+			//We are stuck
+			if(fringe.size() > 100){
+				return null;
+			}
+			
 			// Get the first item off the queue
 			LocationWrapper item = fringe.poll();
 			Location current = item.getLocation();
@@ -149,11 +110,24 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 				}
 
 				// Add all of this nodes valid neighbours onto the queue
-				for (Location neighbour : getNeighbours(rover, board, current)) {
+				for (Location neighbour : getNeighbours(rover, gamestate, current)) {
+
 					// The cost to a neighbouring node, will be the cost to here
-					// + 1
+					// + 1 since it is a grid where you can only move
+					// horizontally/vertically
+
 					int costToNeigh = item.getCostToHere() + 1;
-					int estTotal = costToNeigh + estimate(neighbour, end);
+
+					int estimate = estimate(neighbour, end);
+
+					// If the estimates invalid, one of the squares must have
+					// been invalid so skip over this neighbour
+					if (estimate < 0) {
+						continue;
+					}
+
+					int estTotal = costToNeigh + estimate;
+
 					fringe.offer(new LocationWrapper(neighbour, item, costToNeigh, estTotal));
 				}
 			}
@@ -165,7 +139,7 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 	}
 
 	/**
-	 * A wrapper class for a location, necessary for findPath() to function
+	 * A wrapper class for location, necessary for findPath() to function
 	 *
 	 */
 	private class LocationWrapper implements Comparable<LocationWrapper> {
@@ -182,9 +156,10 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 		}
 
 		/**
-		 * Will return
-		 * -Positive if this is closer to the final location
-		 * -Zero if they are equal
+		 * Will return -Positive if this is closer to the final location
+		 * 
+		 * -Zero  if they are equal
+		 *  
 		 * -Negative if the other location is closer
 		 *
 		 * @return
@@ -192,7 +167,6 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 
 		@Override
 		public int compareTo(LocationWrapper other) {
-
 			return totalCostToGoal - other.totalCostToGoal;
 		}
 

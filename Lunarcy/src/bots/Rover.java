@@ -1,7 +1,5 @@
 package bots;
 
-import java.util.List;
-
 import game.Direction;
 import game.GameState;
 import game.Location;
@@ -9,23 +7,18 @@ import game.Player;
 import game.Character;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * A rover is a 'bot' in the game. Each rover can be following one of three
  * movement strategies, at a given time.
  *
- * 1. Roam: Follow a seemingly random path (prioritising popular squares),
- * change to #3 when a player is spotted
+ * 1. Roam: Follow a random path, change to #2 when a player is spotted
  *
- * 2. Protect: Move around the map on a set path, this will not differ
- * throughout the game (ie will not change to Track or Roam)
- *
- * 3. Track: Track and follow a specific Player, using shortest path to attempt
- * to capture them. Gives up after a set number of ticks, and reverts to the
+ * 2. Track: Track and follow a specific Player, using shortest path to attempt
+ * to capture them. Gives up after the player gets too far away, and reverts to the
  * Roam Strategy.
  *
- * @author b
+ * @author Ben
  *
  */
 public class Rover implements Character, Serializable {
@@ -35,21 +28,16 @@ public class Rover implements Character, Serializable {
 	//The current movement strategy we are following
 	private MoveStrategy movementStrategy;
 
-	// Which squares the rover is set to follow
-	private List<Location> path;
+	// The next location which the rover is set to follow
+	private Location nextStep;
 
 	// Mantains the rovers position (x,y) at any given time
 	private Location currentLocation;
 	private Direction orientation;
 
-	//Used to find players/locations
-	private GameState gameState;
-
-	public Rover(GameState gameState) {
-		this.gameState = gameState;
+	public Rover() {
 		this.movementStrategy = new RoamMovement();
-		this.path = new ArrayList<Location>();
-		this.currentLocation = new Location(0, 0);
+		this.currentLocation = new Location(17, 5);
 		this.orientation = Direction.NORTH;
 	}
 
@@ -59,32 +47,24 @@ public class Rover implements Character, Serializable {
 	 * changing the movement strategy when applicable.
 	 */
 
-	public void tick() {
-		// If we need a new path, update the current path
-		if (movementStrategy.mustUpdate(path)) {
-			path = movementStrategy.path(this, gameState, currentLocation);
-		}
-
-		//THE ROVER HAS CAUGHT A PLAYER
-		if(path.isEmpty()){
-			currentLocation = new Location(0, 0);
+	public void tick(GameState gameState) {
+		
+		//Set our nextStep to based on the strategys next step
+		nextStep = movementStrategy.nextStep(this, gameState);
+	
+		if(nextStep==null){
+			System.out.println("ROVER STUCK");
 			movementStrategy = new RoamMovement();
 			return;
 		}
 
-		//The next square we are going to enter
-		Location nextLocation = path.remove(0);
-
 		//Face the direction the next square is in
-		orientation = currentLocation.getDirection(nextLocation);
+		orientation = currentLocation.getDirection(nextStep);
+		
+		//At this point the nextStep must be valid so move the rover
+		currentLocation = nextStep;
 
-		// Move along one step in the path
-		// removing the location we visit
-		currentLocation = nextLocation;
-
-		System.out.println("Rover is at " + currentLocation);
-
-		//updateStrategy();
+		updateStrategy(gameState);
 
 	}
 
@@ -100,7 +80,7 @@ public class Rover implements Character, Serializable {
 	 * Otherwise does not update the movement strategy.
 	 *
 	 */
-	private void updateStrategy(){
+	private void updateStrategy(GameState gameState){
 		// If we are roaming, see if we can track anyone
 		if (movementStrategy instanceof RoamMovement) {
 			Player target = ((RoamMovement) movementStrategy).viewTarget(gameState.getBoard());
@@ -122,11 +102,22 @@ public class Rover implements Character, Serializable {
 			}
 		}
 	}
+	
+	/**
+	 * Rotate the rover to the right of there current direction.
+	 */
+	public void rotate(){
+		orientation = orientation.right();
+	}
 
 	public Location getLocation(){
 		return currentLocation;
 	}
-
+	
+	public void setOrientation(Direction orientation) {
+		this.orientation = orientation;
+	}
+	
 	@Override
 	public Direction getOrientation() {
 		return orientation;

@@ -61,8 +61,7 @@ public class DrawingComponentFactory {
 		switch (type) {
 
 		case INVENTORY:
-			Inventory inventory = new Inventory(p, interactionControl,
-					gameState, playerID, entityImages);
+			Inventory inventory = new Inventory(p, gameState, playerID, entityImages);
 			interactionControl.setInventory(inventory);
 			return inventory;
 
@@ -80,6 +79,7 @@ public class DrawingComponentFactory {
 					entityImages);
 			interactionControl.setEntityView(entityView);
 			return entityView;
+			
 		case WINNING_ITEMS:
 			return new WinningItems(p, gameState, playerID, entityImages);
 		}

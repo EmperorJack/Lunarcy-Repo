@@ -1,11 +1,8 @@
 package bots;
 
 import java.io.Serializable;
-import java.util.List;
-
 import game.GameState;
 import game.Location;
-import game.Square;
 
 /**
  * Base class for movement. Various implementations of Movement should implement
@@ -14,6 +11,5 @@ import game.Square;
  *
  */
 public interface MoveStrategy extends Serializable {
-	public List<Location> path(Rover rover, GameState gamestate, Location currentLocation);
-	public boolean mustUpdate(List<Location> path);
+	public Location nextStep(Rover rover, GameState gamestate);
 }

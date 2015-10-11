@@ -21,22 +21,14 @@ public class Inventory extends DrawingComponent {
 	private final int ITEM_SIZE;
 	private final int ITEM_SPACING;
 
-	// private ItemMenu menu;
-	private GameState gamestate;
-	private Item lastChosen;
-
-	private InteractionController entityController;
-
 	private List<Item> inventory;
 
 	// So we can preload all our images based on the entitys name
 	private final Map<String, PImage> ENTITY_IMAGES;
 
-	public Inventory(Canvas p, InteractionController entityController,
-			GameState gameState, int playerID, Map<String, PImage> entityImages) {
+	public Inventory(Canvas p, GameState gameState, int playerID, Map<String, PImage> entityImages) {
 		super(p, gameState, playerID);
 
-		this.gamestate = gameState;
 		inventory = gameState.getPlayer(playerID).getInventory();
 		LEFT_PADDING = 25;
 		TOP_PADDING = (int) (Canvas.TARGET_HEIGHT * 0.85);
@@ -44,15 +36,12 @@ public class Inventory extends DrawingComponent {
 		ITEM_SIZE = 35;
 		ITEM_SPACING = 10;
 
-		this.entityController = entityController;
-
 		this.ENTITY_IMAGES = entityImages;
 	}
 
 	@Override
 	public void draw(GameState gameState, float delta) {
 		// Get all the players items
-		this.gamestate = gameState;
 		inventory = gameState.getPlayer(playerID).getInventory();
 
 		p.pushMatrix();
@@ -93,10 +82,13 @@ public class Inventory extends DrawingComponent {
 	 * @return
 	 */
 	public Item getItemAt(int x, int y) {
+		
 		// Width of each item
 		int width = ITEM_SIZE + ITEM_SPACING;
+		
 		// Where the player clicked
 		int clickedX = x - LEFT_PADDING;
+		
 		// Which item this corresponds to in our Set
 		int index = clickedX / width;
 
@@ -105,11 +97,13 @@ public class Inventory extends DrawingComponent {
 			return null;
 		}
 
+		//If it was within bounds, return the value at the corresponding index
 		return inventory.get(index);
 	}
 
 	/**
-	 * Returns true if thsetMenue coordinates entered are inside the inventory.
+	 * Returns true if the coordinates entered are inside the
+	 * inventory bar. 
 	 *
 	 * @param x
 	 * @param y

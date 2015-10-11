@@ -52,4 +52,14 @@ public enum Direction {
 			return NORTH;
 		}
 	}
+	
+	/**
+	 * Returns a random direction
+	 * @return
+	 */
+	
+	public static Direction randomDirection(){
+		Direction[] dirs = values();
+		return dirs[(int)(Math.random()*dirs.length)];
+	}
 }
