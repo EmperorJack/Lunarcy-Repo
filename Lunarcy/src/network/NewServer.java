@@ -61,7 +61,7 @@ public class NewServer {
 				}
 				continue; //ignore and try again
 			}
-			addClientConnection(cc);
+			cc.clientId = addClientConnection(cc);
 			cc.start(); //start the negotiation with the client
 		}
 		waitForAllClients();
@@ -100,13 +100,15 @@ public class NewServer {
 
 	//methods for working with clientlist
 
-	synchronized private void addClientConnection(ClientConnection cc){
+	synchronized private int addClientConnection(ClientConnection cc){
 		this.clientList.add(cc);
+		return this.clientList.indexOf(cc);
 	}
 
 	synchronized private boolean removeClientConnection(ClientConnection cc){
 		return this.clientList.remove(cc);
 	}
+
 
 	synchronized private ClientConnection getClientConnection(int index){
 		return this.clientList.get(index);
@@ -146,17 +148,21 @@ public class NewServer {
 		}
 		private void negotiateId() {
 			// TODO Auto-generated method stub
+			String name = "";
 			do {
-				String name = readString();
-				int id = addPlayerToGamestate();
+				name = readStringFromClient();
+				clientId = addPlayerToGamestate(name);
+				if(clientId == -1){
+					sendIntToClient(-1);
+				}
 			} while (clientId == -1);
-			sendInt(clientId);
-			readColour();
-
+			username = name;
+			sendIntToClient(clientId);
+			readColourFromClient();
 			ready = true;
 		}
 
-		private Color readColour() {
+		private Color readColourFromClient() {
 			Color colour = null;
 			try {
 				colour = (Color)inputFromClient.readObject();
@@ -167,7 +173,7 @@ public class NewServer {
 			return colour;
 		}
 
-		private void sendInt(int val) {
+		private void sendIntToClient(int val) {
 			try {
 				outputToClient.write(val);
 			} catch (IOException e) {
@@ -175,7 +181,7 @@ public class NewServer {
 			}
 		}
 
-		private String readString() {
+		private String readStringFromClient() {
 			String val = null;
 			try {
 				val = (String) inputFromClient.readObject();
@@ -189,11 +195,18 @@ public class NewServer {
 
 		/**
 		 * Add a player to the gamestate
+		 * If they are already present based on their username then returns their ID
 		 *
 		 * @return the id of the player or -1 if the name conflicts or is invalid
 		 */
-		private int addPlayerToGamestate() {
+		private int addPlayerToGamestate(String name) {
 			// TODO Auto-generated method stub
+			if(fromSavedGame){
+				return gameLogic.getGameState().getPlayerID(name);
+			}else{
+				gameLogic.getGameState().addPlayer(clientId, name, colour);
+				return clientId;
+			}
 			//if from saved game
 				//if player name already exists
 					//return id of player
@@ -201,9 +214,9 @@ public class NewServer {
 			//else
 				//add player to game
 				//return id
-
-			return 0;
 		}
+
+
 
 		private void listenToClient(){
 			while (clientIsRunning) {
