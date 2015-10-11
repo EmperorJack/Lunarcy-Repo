@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import control.Client;
+import network.Client;
 import ddf.minim.*;
 import game.GameState;
 import game.Item;

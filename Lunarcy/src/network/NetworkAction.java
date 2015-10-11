@@ -1,4 +1,4 @@
-package control;
+package network;
 
 import java.io.Serializable;
 

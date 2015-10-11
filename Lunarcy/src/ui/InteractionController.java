@@ -12,12 +12,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import control.Client;
-import control.DropAction;
-import control.MoveAction;
-import control.OrientAction;
-import control.PickupAction;
-import control.PutAction;
+import network.Client;
+import network.DropAction;
+import network.MoveAction;
+import network.OrientAction;
+import network.PickupAction;
+import network.PutAction;
 
 /**
  * This class listens for player input to allow interaction between the UI

@@ -1,4 +1,4 @@
-package control;
+package network;
 
 import game.GameState;
 import ui.Frame;
