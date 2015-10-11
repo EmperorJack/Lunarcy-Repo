@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import control.Client;
+import network.Client;
 
 /**
  * Maintains the Swing window for the Lunarcy game. Handles the confirmation

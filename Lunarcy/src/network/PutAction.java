@@ -1,4 +1,4 @@
-package control;
+package network;
 
 import game.GameLogic;
 import java.io.Serializable;

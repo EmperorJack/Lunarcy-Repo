@@ -1,15 +1,14 @@
-package control;
+package network;
 
 import game.GameLogic;
-
 import java.io.Serializable;
 
-public class PickupAction implements NetworkAction, Serializable {
+public class DropAction implements NetworkAction, Serializable {
 
 	int playerID;
 	int itemID;
 
-	public PickupAction(int playerID, int itemID){
+	public DropAction(int playerID, int itemID) {
 		this.playerID = playerID;
 		this.itemID = itemID;
 	}
@@ -22,8 +21,7 @@ public class PickupAction implements NetworkAction, Serializable {
 		return itemID;
 	}
 
-	@Override
 	public boolean applyAction(GameLogic logic) {
-		return logic.pickUpItem(playerID, itemID);
+		return logic.dropItem(playerID, itemID);
 	}
 }

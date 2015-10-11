@@ -24,7 +24,7 @@ import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DefaultCaret;
 
-import control.Server;
+import network.Server;
 import storage.Storage;
 
 /**

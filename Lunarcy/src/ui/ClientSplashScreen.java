@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
-import control.Client;
+import network.Client;
 
 /**
  * An intermediary between ClientMain and Client starting, to show the user a

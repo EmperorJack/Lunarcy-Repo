@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
-import control.Client;
+import network.Client;
 
 /**
  * A GUI Window for starting a new Client.
