@@ -159,6 +159,19 @@ public class GameState implements Serializable {
 		if(playerID==0) addRover(new Rover());
 		return true;
 	}
+	
+	/**
+	 * Removes the Player with playerID of the parameter, 
+	 * @param playerID
+	 * @return
+	 */
+	public boolean removePlayer(int playerID){
+		if(playerID<0||playerID>players.length){
+			return false;
+		}
+		players[playerID] = null;
+		return true;
+	}
 
 
 	/**
@@ -195,7 +208,7 @@ public class GameState implements Serializable {
 	 */
 	public Player caughtPlayer(Rover rover){
 		for(Player player: players){
-			if(player.getLocation().equals(rover.getLocation())){
+			if(player!=null && player.getLocation().equals(rover.getLocation())){
 				return player;
 			}
 		}

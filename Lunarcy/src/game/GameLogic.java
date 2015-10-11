@@ -78,7 +78,10 @@ public class GameLogic {
 	 *            the ID of the player to be turned
 	 */
 	public void turnPlayerLeft(int playerID) {
-		state.getPlayer(playerID).turnLeft();
+		Player player = state.getPlayer(playerID);
+		if(player!=null){
+			player.turnLeft();
+		}
 	}
 
 	/**
@@ -88,7 +91,10 @@ public class GameLogic {
 	 *            the ID of the player to be turned
 	 */
 	public void turnPlayerRight(int playerID) {
-		state.getPlayer(playerID).turnRight();
+		Player player = state.getPlayer(playerID);
+		if(player!=null){
+			player.turnRight();
+		}
 	}
 
 	private void killPlayer(Player player){
