@@ -83,14 +83,13 @@ public class EntityView extends DrawingComponent {
 	 */
 	public Entity getEntityAt(int x, int y) {
 		// first check the y position is within the bounds of the entity view
-		if (TOP_PADDING <= y && y <= (Canvas.TARGET_HEIGHT * p.getScaling())) {
+		if (TOP_PADDING <= y && y <= (Canvas.TARGET_HEIGHT)) {
 
 			// for each entity
 			for (int i = 0; i < entities.size(); i++) {
 
 				// compute the x position of the entity
 				int xPos = (int) ((i + 1) / (float) (entities.size() + 1) * Canvas.TARGET_WIDTH);
-
 
 				// check if the mouse position is within bounds of the entity
 				if ((xPos - ENTITY_SIZE / 2) <= x

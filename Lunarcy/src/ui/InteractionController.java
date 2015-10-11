@@ -146,6 +146,7 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 
 		// attempt to get an entity from entity view
 		Entity entity = entityView.getEntityAt(x, y);
+		System.out.println(entity);
 
 		// if an entity was clicked on
 		if (entity != null) {
