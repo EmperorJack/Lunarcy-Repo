@@ -146,9 +146,63 @@ public class NewServer {
 		}
 		private void negotiateId() {
 			// TODO Auto-generated method stub
-
+			do {
+				String name = readString();
+				int id = addPlayerToGamestate();
+			} while (clientId == -1);
+			sendInt(clientId);
+			readColour();
 
 			ready = true;
+		}
+
+		private Color readColour() {
+			Color colour = null;
+			try {
+				colour = (Color)inputFromClient.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				stopClient();
+				disconnect();
+			}
+			return colour;
+		}
+
+		private void sendInt(int val) {
+			try {
+				outputToClient.write(val);
+			} catch (IOException e) {
+				disconnect();
+			}
+		}
+
+		private String readString() {
+			String val = null;
+			try {
+				val = (String) inputFromClient.readObject();
+			} catch (IOException e) {
+				disconnect();
+			}catch(ClassNotFoundException e){
+				//ignore
+			}
+			return val;
+		}
+
+		/**
+		 * Add a player to the gamestate
+		 *
+		 * @return the id of the player or -1 if the name conflicts or is invalid
+		 */
+		private int addPlayerToGamestate() {
+			// TODO Auto-generated method stub
+			//if from saved game
+				//if player name already exists
+					//return id of player
+				//else return -1
+			//else
+				//add player to game
+				//return id
+
+			return 0;
 		}
 
 		private void listenToClient(){
