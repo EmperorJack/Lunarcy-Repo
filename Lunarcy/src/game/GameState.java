@@ -156,6 +156,7 @@ public class GameState implements Serializable {
 		Player player = new Player(playerID, name, colour, spawn, Direction.NORTH);
 		if(playerID<0||playerID>players.length)return false;
 		players[playerID] = player;
+		//TESTCODE
 		if(playerID==0) addRover(new Rover());
 		return true;
 	}
@@ -207,6 +208,10 @@ public class GameState implements Serializable {
 	 * @return
 	 */
 	public Player caughtPlayer(Rover rover){
+		if(rover==null){
+			return null;
+		}
+		
 		for(Player player: players){
 			if(player!=null && player.getLocation().equals(rover.getLocation())){
 				return player;
