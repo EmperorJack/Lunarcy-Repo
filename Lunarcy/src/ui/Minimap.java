@@ -6,6 +6,7 @@ import game.Direction;
 import game.EmptyWall;
 import game.GameState;
 import game.Player;
+import game.Ship;
 import game.Square;
 import game.WalkableSquare;
 import game.Wall;
@@ -81,14 +82,16 @@ public class Minimap extends DrawingComponent {
 			for (int j = 0; j < board[0].length; j++) {
 				Square current = board[j][i];
 
-				// So the translation is independant each iteration
+				// So the translation is independent each iteration
 				p.pushMatrix();
+				p.pushStyle();
 
 				// Change 0,0 to be our squares position
 				p.translate(i * SQUARE_SIZE, j * SQUARE_SIZE);
 
 				drawSquare(current);
 
+				p.popStyle();
 				p.popMatrix();
 			}
 		}
@@ -107,6 +110,12 @@ public class Minimap extends DrawingComponent {
 		}
 
 		WalkableSquare walk = (WalkableSquare) square;
+
+		// if the square is the ship
+		if (walk instanceof Ship) {
+			// tint the square red
+			p.tint(0, 255, 0, 100);
+		}
 
 		if (walk.isInside()) {
 			p.image(INDOOR_GROUND, 0, 0, SQUARE_SIZE, SQUARE_SIZE);

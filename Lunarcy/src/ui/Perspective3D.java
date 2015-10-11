@@ -51,7 +51,7 @@ public class Perspective3D extends DrawingComponent {
 	private final int ENTITY_INNER_PADDING = -400;
 
 	// camera fields
-	private final int PLAYER_VIEW_HEIGHT = -150;
+	private final int PLAYER_VIEW_HEIGHT = -180;
 	private PVector cameraEye;
 	private PVector actualCameraEye;
 	private PVector targetCameraEye;

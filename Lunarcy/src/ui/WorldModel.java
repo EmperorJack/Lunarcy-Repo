@@ -2,6 +2,7 @@ package ui;
 
 import game.Direction;
 import game.Door;
+import game.Ship;
 import game.SolidWall;
 import game.Square;
 import game.WalkableSquare;
@@ -43,11 +44,15 @@ public class WorldModel {
 	private final OBJModel doorEastObj;
 	private final OBJModel doorSouthObj;
 	private final OBJModel doorWestObj;
+	private final OBJModel shipObj;
 
 	// lists of all distinct models that make up world 3D geometry
 	private ArrayList<OBJWrapper> insideModels;
 	private ArrayList<OBJWrapper> outsideModels;
 	private ArrayList<OBJWrapper> doorModels;
+
+	// ship obj wrapper
+	private OBJWrapper ship;
 
 	/**
 	 * Setup a new world model with the given board. Each square will be
@@ -101,6 +106,9 @@ public class WorldModel {
 		doorSouthObj = setupObjectModel("door_south", transformer, MODEL_SCALE);
 		doorWestObj = setupObjectModel("door_west", transformer, MODEL_SCALE);
 
+		// setup the ship object model
+		shipObj = setupObjectModel("ship", transformer, MODEL_SCALE);
+
 		// initialize distinct model list
 		insideModels = new ArrayList<OBJWrapper>();
 		outsideModels = new ArrayList<OBJWrapper>();
@@ -130,6 +138,13 @@ public class WorldModel {
 				// if the square is walkable
 				if (s instanceof WalkableSquare) {
 					WalkableSquare ws = (WalkableSquare) s;
+
+					// if the square is the ship tile
+					if (s instanceof Ship) {
+						ship = new OBJWrapper(shipObj, SQUARE_SIZE * col, 0,
+								SQUARE_SIZE * row);
+						continue;
+					}
 
 					// if the square is indoor
 					if (ws.isInside()) {
@@ -315,6 +330,12 @@ public class WorldModel {
 		for (OBJWrapper objModel : outsideModels) {
 			objModel.draw();
 		}
+
+		p.fill(120);
+		p.stroke(0);
+
+		// draw the ship model
+		ship.draw();
 
 		p.popStyle();
 		p.popMatrix();
