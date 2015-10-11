@@ -54,6 +54,7 @@ public class Rover implements Character, Serializable {
 	
 		if(nextStep==null){
 			System.out.println("ROVER STUCK");
+			//Restart
 			movementStrategy = new RoamMovement();
 			return;
 		}
@@ -64,6 +65,15 @@ public class Rover implements Character, Serializable {
 		//At this point the nextStep must be valid so move the rover
 		currentLocation = nextStep;
 
+		Player caughtPlayer = gameState.caughtPlayer(this);
+		
+		//If this rovers caught a player
+		if(caughtPlayer!=null){
+			//Take all there oxygen
+			caughtPlayer.depleteOxygen();
+		}
+		
+		
 		updateStrategy(gameState);
 
 	}
@@ -83,6 +93,8 @@ public class Rover implements Character, Serializable {
 	private void updateStrategy(GameState gameState){
 		// If we are roaming, see if we can track anyone
 		if (movementStrategy instanceof RoamMovement) {
+			
+			//Check if we can see any players
 			Player target = ((RoamMovement) movementStrategy).viewTarget(gameState.getBoard());
 
 			// If we can see a target, and they're outside chase them

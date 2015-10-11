@@ -10,6 +10,6 @@ public class Door implements Wall {
 
 	@Override
 	public boolean pass(Character character) {
-		return true;
+		return character instanceof Player;
 	}
 }

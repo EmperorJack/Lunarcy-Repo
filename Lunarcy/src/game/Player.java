@@ -144,6 +144,11 @@ public class Player implements Character, Serializable {
 	public Color getColour() {
 		return colour;
 	}
+	
+	
+	public void depleteOxygen(){
+		this.oxygen = 0;
+	}
 
 	/**
 	 * FOR TESTING PURPOSES Adds some items to the players inventory

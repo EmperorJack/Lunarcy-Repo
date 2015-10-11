@@ -184,6 +184,24 @@ public class GameState implements Serializable {
 		}
 		return -1;
 	}
+	
+	/**
+	 * If any of the players locations match 
+	 * the rovers, returns the first layer which matches.
+	 * 
+	 * If none are found returns null
+	 * @param rover
+	 * @return
+	 */
+	public Player caughtPlayer(Rover rover){
+		for(Player player: players){
+			if(player.getLocation().equals(rover.getLocation())){
+				return player;
+			}
+		}
+		
+		return null;
+	}
 
 	public Square[][] getBoard() {
 		return board;

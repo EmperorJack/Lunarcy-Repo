@@ -54,12 +54,9 @@ public class TrackMovement extends ShortestPathMover {
 	 */
 	public boolean shouldGiveup(GameState gamestate) {
 
-		// If the players inside give up
-		if (!gamestate.isOutside(target.getLocation())) {
-			return true;
-		}
-
-		return false;
+		// If the players inside give up chasing them
+		return !gamestate.isOutside(target.getLocation());
+		
 	}
 
 	/**
