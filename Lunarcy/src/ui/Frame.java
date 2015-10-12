@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import ui.renderer.Canvas;
 import network.Client;
 
 /**
@@ -19,7 +20,7 @@ import network.Client;
  * dialog that appears when a user attempts to close their client. Contains the
  * Processing canvas component that handles all rendering of the game state.
  *
- * @author Jack & Ben
+ * @author Jack & evansben1
  *
  */
 @SuppressWarnings("serial")
@@ -34,10 +35,10 @@ public class Frame extends JFrame {
 
 	public Frame(Client client, GameState gameState, int width, int height,
 			boolean hardwareRenderer) {
-		
+
 		this.WIDTH = width;
 		this.HEIGHT = height;
-		
+
 		setTitle("Lunarcy");
 		setSize(WIDTH, HEIGHT);
 

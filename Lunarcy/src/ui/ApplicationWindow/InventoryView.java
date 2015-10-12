@@ -1,16 +1,17 @@
-package ui;
+package ui.ApplicationWindow;
 
 import java.util.Map;
 
 import game.GameState;
 import processing.core.PImage;
+import ui.renderer.Canvas;
 
 /**
  * Displays an Inventory bar in the Bottom left corner
- * holding all the items which the current player has in their
- * inventory.
+ * holding all the items which the current player has in
+ * their inventory.
  *
- * @author Ben
+ * @author evansben1
  *
  */
 public class InventoryView extends Bar {
@@ -24,9 +25,10 @@ public class InventoryView extends Bar {
 
 	@Override
 	public void draw(GameState gameState, float delta) {
-		// Get all the players items
+		// Get the current players inventory
 		items = gameState.getPlayer(playerID).getInventory();
 
+		//Draw the bar with the updated items
 		super.draw(gameState, delta);
 
 	}

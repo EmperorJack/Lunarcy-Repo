@@ -325,14 +325,6 @@ public class GameLogic {
 		return null;
 	}
 
-	/**
-	 * Returns the time as a percentage of the day
-	 * @return 0-100% of how much the day night cycle has gone through
-	 */
-	public int getTime(){
-		return (int)((tickCount % dayLength) / (dayLength/100f));
-	}
-
 	private class PlayerMove{
 		private final Player player;
 		private final Direction direction;

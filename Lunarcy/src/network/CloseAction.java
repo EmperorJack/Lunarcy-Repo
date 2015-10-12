@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 public class CloseAction implements NetworkAction, Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	int playerID;
 
 	public CloseAction(int playerID) {

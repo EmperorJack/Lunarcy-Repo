@@ -3,10 +3,18 @@ package ui;
 import java.util.Map;
 
 import processing.core.PImage;
+import ui.ApplicationWindow.ContainerView;
+import ui.ApplicationWindow.InventoryView;
+import ui.ApplicationWindow.Minimap;
+import ui.ApplicationWindow.ObjectiveView;
+import ui.ApplicationWindow.Oxygen;
+import ui.renderer.Canvas;
+import ui.renderer.EntityView;
+import ui.renderer.Perspective3D;
 import game.GameState;
 
 /**
- * Factory class used to construct drawing different drawing componenets for the
+ * Factory class used to construct drawing different drawing components for the
  * canvas. Can create a variety of heads up display components or the 3D
  * perspective component.
  *

@@ -1,15 +1,19 @@
-package ui;
+package ui.ApplicationWindow;
 
 import java.util.List;
 import java.util.Map;
 
 import processing.core.PImage;
+import ui.DrawingComponent;
+import ui.renderer.Canvas;
 import game.GameState;
 import game.Item;
 
 /**
  * Represents a component which is drawn as a "bar", ie the Inventory Bar and
  * Container bar.
+ *
+ * Every bar contains a List<Items> to be drawn within the bar.
  *
  * @author evansben1
  *
@@ -19,18 +23,19 @@ public abstract class Bar extends DrawingComponent {
 	// The bars alignment and sizing
 	private final int LEFT_PADDING, TOP_PADDING, BAR_WIDTH;
 
-	// Sizing of the items inside the bar
-	private final int ITEM_SIZE;
-	private final int ITEM_SPACING;
+	// Sizing of the individual items within the bar
+	protected final int ITEM_SIZE;
+	protected final int ITEM_SPACING;
 
-	// Which items the bar contains
+	// Which items the bar currently contains
 	protected List<Item> items;
 
-	// So we can preload all our images
-	private final Map<String, PImage> ENTITY_IMAGES;
+	// So we can preload all our images of the items to draw
+	protected final Map<String, PImage> ENTITY_IMAGES;
 
 	public Bar(int leftPadding, int topPadding, List<Item> items, Canvas p,
 			GameState gameState, int playerID, Map<String, PImage> entityImages) {
+
 		super(p, gameState, playerID);
 
 		LEFT_PADDING = leftPadding;
@@ -45,8 +50,8 @@ public abstract class Bar extends DrawingComponent {
 	}
 
 	/**
-	 * Draws the bar at LEFT_PADDING
-	 * TOP_PADDING with the specified items.
+	 * Draws the bar at LEFT_PADDING, TOP_PADDING, BAR_WIDTH, ITEM_SIZE (x,y,width,height)
+	 * with the specified items.
 	 */
 	@Override
 	public void draw(GameState gameState, float delta) {
@@ -81,8 +86,8 @@ public abstract class Bar extends DrawingComponent {
 	}
 
 	/**
-	 * Returns the item at the clicked position, or null if the click was not on
-	 * a valid item.
+	 * Returns the item at the clicked position, or null if the click
+	 * was not on a valid item.
 	 *
 	 * @param x
 	 *            : The clicked x location
@@ -95,10 +100,10 @@ public abstract class Bar extends DrawingComponent {
 		// Width of each item
 		int width = ITEM_SIZE + ITEM_SPACING;
 
-		// Where the player clicked
+		// Where the player clicked on the bar
 		int clickedX = x - LEFT_PADDING;
 
-		// Which item this corresponds to in our Set
+		// Which item this corresponds to in our List
 		int index = clickedX / width;
 
 		// Make sure our index is within bounds
@@ -111,11 +116,12 @@ public abstract class Bar extends DrawingComponent {
 	}
 
 	/**
-	 * Returns true if the coordinates entered are inside the bar.
+	 * Returns whether the coordinates entered are inside
+	 * the bar.
 	 *
 	 * @param x
 	 * @param y
-	 * @return True if the given position is on the inventory bar.
+	 * @return True if the given position is on the inventory bar, otherwise false.
 	 */
 	public boolean onBar(int x, int y) {
 		return x > LEFT_PADDING && x < LEFT_PADDING + BAR_WIDTH

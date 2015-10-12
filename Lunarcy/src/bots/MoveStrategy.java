@@ -9,7 +9,16 @@ import game.Location;
  * this interface, or alternatively if they rely on a shortest path algorithm
  * when moving they should extend ShortestPathMover.
  *
+ * @author evansben1
  */
 public interface MoveStrategy extends Serializable {
+
+	/**
+	 * Moves the rover by one step
+	 *
+	 * @param rover
+	 * @param gamestate
+	 * @return
+	 */
 	public Location nextStep(Rover rover, GameState gamestate);
 }

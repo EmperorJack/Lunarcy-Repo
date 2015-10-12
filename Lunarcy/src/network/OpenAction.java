@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 public class OpenAction implements NetworkAction, Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	int playerID;
 
 	public OpenAction(int playerID) {
