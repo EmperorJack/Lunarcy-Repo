@@ -4,6 +4,7 @@ import game.Container;
 import game.Entity;
 import game.GameState;
 import game.Item;
+import game.Location;
 import game.Player;
 
 import java.awt.event.KeyEvent;
@@ -14,6 +15,7 @@ import java.awt.event.MouseMotionListener;
 
 import ui.ApplicationWindow.ContainerView;
 import ui.ApplicationWindow.InventoryView;
+import ui.ApplicationWindow.PopupDisplay;
 import ui.renderer.Canvas;
 import ui.renderer.EntityView;
 import network.Client;
@@ -39,6 +41,7 @@ public class InteractionController implements KeyListener, MouseListener,
 	private InventoryView inventoryView;
 	private EntityView entityView;
 	private ContainerView containerView;
+	private PopupDisplay popupDisplay;
 
 	// Dragging/dropping items
 
@@ -62,7 +65,6 @@ public class InteractionController implements KeyListener, MouseListener,
 
 	// Canvas field
 	private Canvas canvas;
-
 
 	public InteractionController(Client client, GameState gamestate,
 			Player player, Canvas canvas) {
@@ -103,6 +105,10 @@ public class InteractionController implements KeyListener, MouseListener,
 
 	public void setInventory(InventoryView inventory) {
 		this.inventoryView = inventory;
+	}
+
+	public void setPopup(PopupDisplay popup) {
+		this.popupDisplay = popup;
 	}
 
 	/** Update methods */
@@ -189,6 +195,19 @@ public class InteractionController implements KeyListener, MouseListener,
 		// turn right
 		case KeyEvent.VK_E:
 			client.sendAction(new OrientAction(player.getId(), false));
+			break;
+
+		// Hide/show a popup of current squares info
+		case KeyEvent.VK_SPACE:
+			// If the menu is open, close it
+			if (popupDisplay.isSet()) {
+				popupDisplay.update(null, null);
+			}
+			// If its closed, open it and set the fields
+			else {
+				Location location = player.getLocation();
+				popupDisplay.update(location.toString(), "This is a square");
+			}
 			break;
 		}
 	}

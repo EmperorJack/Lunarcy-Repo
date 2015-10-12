@@ -8,6 +8,7 @@ import ui.ApplicationWindow.InventoryView;
 import ui.ApplicationWindow.Minimap;
 import ui.ApplicationWindow.ObjectiveView;
 import ui.ApplicationWindow.Oxygen;
+import ui.ApplicationWindow.PopupDisplay;
 import ui.renderer.Canvas;
 import ui.renderer.EntityView;
 import ui.renderer.Perspective3D;
@@ -47,6 +48,7 @@ public class DrawingComponentFactory {
 	public static final int MENU = 5;
 	public static final int OBJECTIVEVIEW = 6;
 	public static final int CONTAINERVIEW = 7;
+	public static final int POPUP = 8;
 
 	public DrawingComponentFactory(Canvas p, GameState gameState, int playerID,
 			InteractionController interactionControl,
@@ -97,6 +99,11 @@ public class DrawingComponentFactory {
 
 		case PERSPECTIVE3D:
 			return new Perspective3D(p, gameState, playerID, entityImages);
+
+		case POPUP:
+			PopupDisplay popup = new PopupDisplay(null, null, p, gameState, playerID);
+			interactionControl.setPopup(popup);
+			return popup;
 
 		}
 
