@@ -3,10 +3,12 @@ package ui;
 import java.util.List;
 import java.util.Map;
 
+import game.Container;
 import game.Entity;
 import game.GameState;
 import game.Player;
 import game.Item;
+import game.Square;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -20,14 +22,17 @@ import processing.core.PImage;
 public class EntityView extends DrawingComponent {
 
 	// entity drawing fields
-	private final int ENTITY_SIZE = 200;
+	private final int ITEM_SIZE = 200;
 	private final int TOP_PADDING = 400;
 
 	// all possible entity images
 	private final Map<String, PImage> entityImages;
 
-	// currently held entites
+	// currently held items
 	private List<Item> items;
+
+	// currently held container
+	private Container container;
 
 	public EntityView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {
@@ -44,11 +49,19 @@ public class EntityView extends DrawingComponent {
 		// get the player from the current game state
 		Player thisPlayer = gameState.getPlayer(playerID);
 
-		// get the entities in the current square for the player direction
-		items = gameState.getSquare(thisPlayer.getLocation()).getItems(
-				thisPlayer.getOrientation());
+		// get the square the player is currently in
+		Square square = gameState.getSquare(thisPlayer.getLocation());
 
-		// check there is at least one entity to draw
+		// get the container in the current square for this player direction
+		container = square.getContainer(thisPlayer.getOrientation());
+
+		// if the container is existing
+		// TODO DRAW CONTAINER
+
+		// get the items in the current square for the player direction
+		items = square.getItems(thisPlayer.getOrientation());
+
+		// check there is at least one item to draw
 		if (items.size() >= 1) {
 
 			// translate to allow for top padding
@@ -56,14 +69,14 @@ public class EntityView extends DrawingComponent {
 
 			p.imageMode(PApplet.CENTER);
 
-			// for each entity
+			// for each item
 			for (int i = 0; i < items.size(); i++) {
 				// compute the x position to place the image
 				int xPos = (int) ((i + 1) / (float) (items.size() + 1) * Canvas.TARGET_WIDTH);
 
-				// draw the entity image
+				// draw the item image
 				p.image(entityImages.get(items.get(i).getImageName()), xPos,
-						ENTITY_SIZE / 2, ENTITY_SIZE, ENTITY_SIZE);
+						ITEM_SIZE / 2, ITEM_SIZE, ITEM_SIZE);
 			}
 		}
 
@@ -73,34 +86,33 @@ public class EntityView extends DrawingComponent {
 	}
 
 	/**
-	 * Returns the entity at the clicked position, or null if the click was not
-	 * on a valid entity.
+	 * Returns the item at the clicked position, or null if the click was not on
+	 * a valid item.
 	 *
 	 * @param x
 	 *            The clicked x location.
 	 * @param y
 	 *            The clicked y location.
-	 * @return The entity clicked on or null if no entity.
+	 * @return The item clicked on or null if no item.
 	 */
-	public Entity getEntityAt(int x, int y) {
+	public Entity getItemAt(int x, int y) {
 		// first check the y position is within the bounds of the entity view
 		if (TOP_PADDING <= y && y <= (Canvas.TARGET_HEIGHT)) {
 
-			// for each entity
+			// for each item
 			for (int i = 0; i < items.size(); i++) {
 
-				// compute the x position of the entity
+				// compute the x position of the item
 				int xPos = (int) ((i + 1) / (float) (items.size() + 1) * Canvas.TARGET_WIDTH);
 
-				// check if the mouse position is within bounds of the entity
-				if ((xPos - ENTITY_SIZE / 2) <= x
-						&& x <= (xPos + ENTITY_SIZE / 2)) {
+				// check if the mouse position is within bounds of the item
+				if ((xPos - ITEM_SIZE / 2) <= x && x <= (xPos + ITEM_SIZE / 2)) {
 					return items.get(i);
 				}
 			}
 		}
 
-		// no entity found at given position
+		// no item found at given position
 		return null;
 	}
 }
