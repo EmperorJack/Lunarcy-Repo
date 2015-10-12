@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
@@ -10,6 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import mapbuilder.GameMap;
+import storage.Storage;
 import bots.*;
 
 import com.thoughtworks.xstream.XStream;
@@ -32,7 +35,7 @@ public class GameState implements Serializable {
 	private Player[] players;
 	private Set<Rover> rovers;
 
-	public GameState(int numPlayers,String map) {
+	public GameState(int numPlayers, String map) {
 		loadMap(map);
 		rovers = new HashSet<Rover>();
 		players = new Player[numPlayers];
@@ -93,36 +96,33 @@ public class GameState implements Serializable {
 	}
 
 	public void loadMap(String map) {
-		try {
-			FileInputStream file = new FileInputStream(map);
-			XStream xstream = new XStream();
-			board = (Square[][]) xstream.fromXML(file);
-			//To be read from map once File IO done with JSON
-			spawnPoints = new ArrayList<Location>();
-			spawnPoints.add(new Location(1,1));
+		GameMap gameMap = Storage.loadGameMap(new File(map));
+		board = gameMap.getSquares();
+		spawnPoints = new ArrayList<Location>();
+		spawnPoints.add(new Location(1, 1));
 
-			//Search the board to find the ship and save it
-			//Probably need to do something if there is no ship (InvalidMapException??)
-			for(int y=0; y<board.length; y++){
-				for(int x=0; x<board[y].length; x++){
-					if(board[y][x] instanceof Ship){
-						ship = (Ship)board[y][x];
-					}
+		// Search the board to find the ship and save it
+		// Probably need to do something if there is no ship
+		// (InvalidMapException??)
+		for (int y = 0; y < board.length; y++) {
+			for (int x = 0; x < board[y].length; x++) {
+				if (board[y][x] instanceof Ship) {
+					ship = (Ship) board[y][x];
 				}
 			}
-
-		} catch (FileNotFoundException e) {
-
 		}
 	}
 
 	/**
 	 * Add a location to the Set of locations where players may spawn
-	 * @param location The Location to add
-	 * @return True if the location was added as a spawn point, false otherwise (null or invalid location)
+	 *
+	 * @param location
+	 *            The Location to add
+	 * @return True if the location was added as a spawn point, false otherwise
+	 *         (null or invalid location)
 	 */
-	public boolean addSpawn(Location location){
-		if(location==null){
+	public boolean addSpawn(Location location) {
+		if (location == null) {
 			return false;
 		}
 		int x = location.getX();
@@ -135,64 +135,82 @@ public class GameState implements Serializable {
 
 	/**
 	 * Adds the rover to the Set of Rovers
-	 * @param rover The Rover to be added
+	 *
+	 * @param rover
+	 *            The Rover to be added
 	 * @return True if the rover was added, False otherwise
 	 */
-	public boolean addRover(Rover rover){
-		if(rover==null){
+	public boolean addRover(Rover rover) {
+		if (rover == null) {
 			return false;
 		}
 		return rovers.add(rover);
 	}
+
 	/**
 	 * Creates a new player object and stores them in the game
-	 * @param playerID The ID of the player
-	 * @param name The name of the Player
-	 * @param color The Colour that the player selected
+	 *
+	 * @param playerID
+	 *            The ID of the player
+	 * @param name
+	 *            The name of the Player
+	 * @param color
+	 *            The Colour that the player selected
 	 * @return
 	 */
-	public boolean addPlayer(int playerID, String name, Color colour){
-		Location spawn = spawnPoints.get((int)(Math.random()*spawnPoints.size()));
-		Player player = new Player(playerID, name, colour, spawn, Direction.NORTH);
-		if(playerID<0||playerID>players.length)return false;
+	public boolean addPlayer(int playerID, String name, Color colour) {
+		Location spawn = spawnPoints.get((int) (Math.random() * spawnPoints
+				.size()));
+		Player player = new Player(playerID, name, colour, spawn,
+				Direction.NORTH);
+		if (playerID < 0 || playerID > players.length)
+			return false;
 		players[playerID] = player;
-		//TESTCODE
-		if(playerID==0) addRover(new Rover());
+		// TESTCODE
+		if (playerID == 0)
+			addRover(new Rover());
 		return true;
 	}
 
 	/**
 	 * Removes the Player with playerID of the parameter,
+	 *
 	 * @param playerID
 	 * @return
 	 */
-	public boolean removePlayer(int playerID){
-		if(playerID<0||playerID>players.length){
+	public boolean removePlayer(int playerID) {
+		if (playerID < 0 || playerID > players.length) {
 			return false;
 		}
 		players[playerID] = null;
 		return true;
 	}
 
-
 	/**
 	 * Get the Player whose ID matches the parameter
-	 * @param playerID The ID of the player wanted
+	 *
+	 * @param playerID
+	 *            The ID of the player wanted
 	 * @return Player that has matching ID, null if invalid ID number
 	 */
-	public Player getPlayer(int playerID){
-		if(playerID<0||playerID>players.length)return null;
+	public Player getPlayer(int playerID) {
+		if (playerID < 0 || playerID > players.length)
+			return null;
 		return players[playerID];
 	}
 
 	/**
-	 * Retrieves the ID number of the player whose name matches the parameter.
-	 * @param playerName The name of the Player whose name matches
-	 * @return Player.getID() of the matching player, -1 if no player with that name exists
+	 * HashMap Retrieves the ID number of the player whose name matches the
+	 * parameter.
+	 *
+	 * @param playerName
+	 *            The name of the Player whose name matches
+	 * @return Player.getID() of the matching player, -1 if no player with that
+	 *         name exists
 	 */
-	public int getPlayerID(String playerName){
-		for(Player p: players){
-			if(p!=null && p.getName().equals(playerName)){
+	public int getPlayerID(String playerName) {
+		for (Player p : players) {
+			if (p != null && p.getName().equals(playerName)) {
 				return p.getId();
 			}
 		}
@@ -200,20 +218,22 @@ public class GameState implements Serializable {
 	}
 
 	/**
-	 * If any of the players locations match
-	 * the rovers, returns the first layer which matches.
+	 * If any of the players locations match the rovers, returns the first layer
+	 * which matches.
 	 *
 	 * If none are found returns null
+	 *
 	 * @param rover
 	 * @return
 	 */
-	public Player caughtPlayer(Rover rover){
-		if(rover==null){
+	public Player caughtPlayer(Rover rover) {
+		if (rover == null) {
 			return null;
 		}
 
-		for(Player player: players){
-			if(player!=null && player.getLocation().equals(rover.getLocation())){
+		for (Player player : players) {
+			if (player != null
+					&& player.getLocation().equals(rover.getLocation())) {
 				return player;
 			}
 		}
@@ -225,11 +245,11 @@ public class GameState implements Serializable {
 		return board;
 	}
 
-	public Ship getShip(){
+	public Ship getShip() {
 		return ship;
 	}
 
-	public List<Location> getSpawnPoints(){
+	public List<Location> getSpawnPoints() {
 		return new ArrayList<Location>(spawnPoints);
 	}
 
@@ -241,12 +261,12 @@ public class GameState implements Serializable {
 		return new HashSet<Rover>(rovers);
 	}
 
-	public boolean isOutside(Location location){
+	public boolean isOutside(Location location) {
 		Square square = getSquare(location);
-		if(!(square instanceof WalkableSquare)){
+		if (!(square instanceof WalkableSquare)) {
 			return false;
 		}
-		WalkableSquare walk = (WalkableSquare)square;
+		WalkableSquare walk = (WalkableSquare) square;
 		return !walk.isInside();
 	}
 

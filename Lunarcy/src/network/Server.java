@@ -321,7 +321,7 @@ public class Server {
 	}
 
 	public static void main(String[] args) {
-		Server serv = new Server(1, 1000,"map.xml");
+		Server serv = new Server(1, 1000,"gamemap.xml");
 		serv.run();
 		serv.stop();
 	}
