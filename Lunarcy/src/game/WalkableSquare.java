@@ -184,7 +184,7 @@ public class WalkableSquare extends Square {
 
 		Item item = null;
 		for(Item i: items.get(side)){
-			if(i.entityID == itemID){
+			if(i.getEntityID() == itemID){
 				item = i;
 			}
 		}

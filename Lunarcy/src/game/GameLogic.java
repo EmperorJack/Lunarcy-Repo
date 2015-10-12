@@ -143,7 +143,7 @@ public class GameLogic {
 
 		if(inventory.size() > 0){
 			int i = (int)(inventory.size() * Math.random());
-			dropItem(player.getId(), inventory.get(i).entityID);
+			dropItem(player.getId(), inventory.get(i).getEntityID());
 		}
 
 		List<Location> spawns = state.getSpawnPoints();
@@ -180,7 +180,7 @@ public class GameLogic {
 
 			// Check all Items in the square to find a matching item
 			for (Item i : wSquare.getItems(player.getOrientation())) {
-				if (i.entityID == itemID) {
+				if (i.getEntityID() == itemID) {
 					// Found the matching item
 					Item item = wSquare.takeItem(player.getOrientation(),itemID);
 					return player.giveItem(item);

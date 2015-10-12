@@ -242,7 +242,7 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		// item currently being dragged, drop it
 		if (!inventoryView.onBar(x, y) && draggedFromItem != null) {
 			// Drop the dragged from item
-			dropItem(draggedFromItem.entityID);
+			dropItem(draggedFromItem.getEntityID());
 		}
 
 		// If it was released on the inventory bar, check if theres a dragged to
@@ -250,7 +250,7 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		else if (inventoryView.onBar(x, y) && draggedToItem != null) {
 
 			// Pickup the item which was dragged onto the inventory
-			pickupItem(draggedToItem.entityID);
+			pickupItem(draggedToItem.getEntityID());
 		}
 
 		resetDragValues();

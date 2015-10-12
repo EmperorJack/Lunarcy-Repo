@@ -5,13 +5,18 @@ package game;
  * @author Robbie
  *
  */
-public class Key extends Item {
+public class Key implements Item {
 	private static final long serialVersionUID = -143449561013171486L;
 
+	public final int entityID;
 	public final int keyCode;
 	public Key(int entityID, int keyCode){
-		super(entityID);
+		this.entityID = entityID;
 		this.keyCode = keyCode;
+	}
+
+	public int getEntityID() {
+		return entityID;
 	}
 
 	public String getImageName() {

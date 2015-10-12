@@ -76,7 +76,7 @@ public class Player implements Character, Serializable {
 			return null;
 		Item item = null;
 		for (Item i : inventory) {
-			if (i.entityID == itemID) {
+			if (i.getEntityID() == itemID) {
 				item = i;
 				break;
 			}

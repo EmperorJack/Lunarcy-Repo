@@ -10,14 +10,15 @@ import java.util.List;
  * @author Robbie
  *
  */
-public abstract class Container extends Entity {
+public abstract class Container implements Entity {
 	private static final long serialVersionUID = -7267673923708405364L;
 
+	private final int entityID;
 	private boolean isOpen;
 	List<Item> items;
 
 	public Container(int entityID) {
-		super(entityID);
+		this.entityID = entityID;
 		items = new ArrayList<Item>();
 		isOpen = false;
 	}
@@ -35,7 +36,7 @@ public abstract class Container extends Entity {
 	 */
 	public boolean hasItem(int itemID){
 		for(Item item: items){
-			if(item.entityID==itemID){
+			if(item.getEntityID()==itemID){
 				return true;
 			}
 		}
@@ -68,7 +69,7 @@ public abstract class Container extends Entity {
 		}
 		Item item = null;
 		for(Item i : items){
-			if(i.entityID == itemID){
+			if(i.getEntityID() == itemID){
 				item = i;
 			}
 		}

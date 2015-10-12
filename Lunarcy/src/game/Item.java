@@ -6,11 +6,8 @@ package game;
  * @author Robbie
  *
  */
-public abstract class Item extends Entity {
-	private static final long serialVersionUID = 331700383571113540L;
-
-	public Item(int entityID) {
-		super(entityID);
-	}
+public interface Item extends Entity {
+	public abstract String getImageName();
+	public abstract String getName();
 	public abstract String getDescription();
 }

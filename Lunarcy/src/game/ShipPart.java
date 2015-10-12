@@ -1,27 +1,33 @@
 package game;
 
-public class ShipPart extends Item {
+public class ShipPart implements Item {
 	private static final long serialVersionUID = 1206556005810938273L;
 
+	private final int entityID;
 	private PartType type;
 	public ShipPart(int entityID, int partID) {
-		super(entityID);
+		this.entityID = entityID;
 		if(partID < 0 || partID > PartType.values().length){
 			partID = 0;
 		}
 		type = PartType.values()[partID];
 	}
 
+	public int getEntityID() {
+		return entityID;
+	}
+
 	public int getTypeID(){
 		return type.ordinal();
 	}
+
 
 	public String getImageName() {
 		return "shipPart_"+type;
 	}
 
 	public String getName(){
-		return type.toString().replace('_', ' ') + " #" + entityID;
+		return type.toString().replace('_', ' ') + " #" + this.getEntityID();
 	}
 
 	public String getDescription(){
