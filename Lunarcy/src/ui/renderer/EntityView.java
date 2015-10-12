@@ -1,4 +1,4 @@
-package ui;
+package ui.renderer;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +10,7 @@ import game.Item;
 import game.Square;
 import processing.core.PApplet;
 import processing.core.PImage;
+import ui.DrawingComponent;
 
 /**
  * Displays the entities (containers and items) that can be interacted with from

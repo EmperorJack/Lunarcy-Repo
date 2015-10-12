@@ -1,4 +1,4 @@
-package ui;
+package ui.renderer;
 
 import saito.objloader.OBJModel;
 import saito.objtools.OBJTransform;

@@ -5,10 +5,11 @@ import game.GameLogic;
 import java.io.Serializable;
 
 public class OrientAction implements NetworkAction, Serializable{
+
+	private static final long serialVersionUID = 1L;
+
 	int playerID;
 	private boolean turnLeft;
-
-
 
 	public OrientAction(int playerID, boolean turnLeft) {
 		this.playerID = playerID;

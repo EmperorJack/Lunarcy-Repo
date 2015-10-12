@@ -1,23 +1,21 @@
-package ui;
+package ui.ApplicationWindow;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import game.Container;
 import game.GameState;
 import game.Item;
 import game.Player;
-import game.Square;
 import game.WalkableSquare;
-import processing.core.PApplet;
 import processing.core.PImage;
+import ui.renderer.Canvas;
 
 /**
- * Displays all the items in the selected container, in the top centre of the
- * screen.
+ * Displays all the items in the selected container,
+ * in a bar which draws inside the container.
  *
- * @author Ben
+ * @author evansben1
  *
  */
 public class ContainerView extends Bar {
@@ -43,7 +41,7 @@ public class ContainerView extends Bar {
 				.getLocation());
 		container = square.getContainer(player.getOrientation());
 
-		// Dont draw if there is no container, or if the container shut
+		// Dont draw if there is no container, or if the container is shut
 		if (container == null || !container.isOpen()) {
 			return;
 		}

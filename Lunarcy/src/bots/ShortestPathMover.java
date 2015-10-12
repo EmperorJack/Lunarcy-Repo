@@ -12,7 +12,6 @@ import game.Direction;
 import game.GameState;
 import game.Location;
 import game.Square;
-import game.WalkableSquare;
 
 /**
  * A special instance of MoveStrategy, where the movement is defined by

@@ -1,4 +1,4 @@
-package ui;
+package ui.renderer;
 
 import game.Container;
 import game.Direction;
@@ -17,6 +17,7 @@ import java.util.Set;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
+import ui.DrawingComponent;
 import bots.Rover;
 
 /**

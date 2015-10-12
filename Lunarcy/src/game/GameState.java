@@ -2,8 +2,6 @@ package game;
 
 import java.awt.Color;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,8 +14,6 @@ import java.util.Set;
 import mapbuilder.GameMap;
 import storage.Storage;
 import bots.*;
-
-import com.thoughtworks.xstream.XStream;
 
 /**
  * This class contains all the information about the game state, it does not

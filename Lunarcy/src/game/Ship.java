@@ -22,16 +22,6 @@ public class Ship extends WalkableSquare {
 		}
 	}
 
-	/*TEMPORARY*/
-	public void testAddRequireditems(){
-		requiredParts.add(new ShipPart(10, 0));
-		requiredParts.add(new ShipPart(11, 1));
-		requiredParts.add(new ShipPart(12, 2));
-		requiredParts.add(new ShipPart(13, 3));
-		requiredParts.add(new ShipPart(14, 4));
-	}
-
-
 	/**
 	 * Checks if the Player has all of the required parts, if they do then flag
 	 * that the game has been won otherwise add them to the Square.

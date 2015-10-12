@@ -1,4 +1,4 @@
-package ui;
+package ui.ApplicationWindow;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,10 +14,10 @@ import javax.swing.JProgressBar;
 import network.Client;
 
 /**
- * An intermediary between ClientMain and Client starting, to show the user a
- * loading screen.
+ * An intermediary between ClientMain and the Client starting,
+ * to show the user a loading screen.
  *
- * @author b
+ * @author evansben1
  *
  */
 public class ClientSplashScreen extends JFrame {

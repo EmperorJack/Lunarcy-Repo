@@ -1,6 +1,5 @@
 package bots;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import game.GameState;

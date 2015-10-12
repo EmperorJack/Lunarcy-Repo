@@ -1,4 +1,4 @@
-package ui;
+package ui.ApplicationWindow;
 
 import game.GameState;
 import game.Player;
@@ -11,13 +11,15 @@ import java.util.Set;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import ui.DrawingComponent;
+import ui.renderer.Canvas;
 
 /**
  * This overlay appears in the top right corner of the canvas, showing which
  * items are necessary to fix the ship. Highlighting the ones you must still
  * collect, and graying out the ones you have already collected.
  *
- * @author Ben
+ * @author evansben1
  *
  */
 public class ObjectiveView extends DrawingComponent {
@@ -43,9 +45,8 @@ public class ObjectiveView extends DrawingComponent {
 
 	public ObjectiveView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {
-		super(p, gameState, playerID);
 
-		gameState.getShip().testAddRequireditems();
+		super(p, gameState, playerID);
 
 		// The needed items are all the ships missing parts
 		NEEDED_ITEMS = gameState.getShip().getParts();
@@ -56,6 +57,7 @@ public class ObjectiveView extends DrawingComponent {
 		// Width is fixed
 		WIDTH = 200;
 
+		//Save the preloaded images
 		ENTITY_IMAGES = entityImages;
 
 	}
@@ -66,10 +68,10 @@ public class ObjectiveView extends DrawingComponent {
 		// Retrieve the player inventory to cross check their items to the
 		// needed items
 		Player player = gameState.getPlayer(playerID);
-		List<ShipPart> shipParts = new ArrayList<ShipPart>();
+		List<ShipPart> playerShipParts = new ArrayList<ShipPart>();
 
 		if (player != null) {
-			shipParts = player.getShipParts();
+			playerShipParts = player.getShipParts();
 		}
 
 		// push matrix and style information onto the stack
@@ -92,14 +94,17 @@ public class ObjectiveView extends DrawingComponent {
 		p.textSize(15);
 		p.textAlign(PApplet.LEFT, PApplet.CENTER);
 
-		int i = 1;
+		//Draw each part
+
+		int i = 1; //Start at 1 to skip over the heading
+
 		for (ShipPart neededPart : NEEDED_ITEMS) {
 			p.noTint();
 
 			boolean hasPart = false;
 
-			// if the player has an item, gray it out
-			for (ShipPart shipPart : shipParts) {
+			//Check if the player has the needed part
+			for (ShipPart shipPart : playerShipParts) {
 				if (shipPart.getTypeID() == neededPart.getTypeID()) {
 					hasPart = true;
 					break;
@@ -111,10 +116,11 @@ public class ObjectiveView extends DrawingComponent {
 				p.tint(127, 200);
 			}
 
-
+			//Draw the ship parts image
 			p.image(ENTITY_IMAGES.get(neededPart.getImageName()), 0, ITEM_SIZE * i, ITEM_SIZE,
 					ITEM_SIZE);
 
+			//Draw the ship parts text
 			p.text(neededPart.getName(), ITEM_SIZE, ITEM_SIZE * i + (ITEM_SIZE / 2));
 
 			i++;

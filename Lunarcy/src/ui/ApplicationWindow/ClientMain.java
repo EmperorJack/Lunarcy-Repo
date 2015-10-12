@@ -1,4 +1,4 @@
-package ui;
+package ui.ApplicationWindow;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -34,7 +33,7 @@ import network.Client;
 /**
  * A GUI Window for starting a new Client.
  *
- * @author Ben
+ * @author evansben1
  *
  */
 class ClientMain extends JFrame {
@@ -118,10 +117,11 @@ class ClientMain extends JFrame {
 	}
 
 	/**
-	 * Adds a horizontal seperator at the specified
+	 * Adds a horizontal separator at the specified
 	 * x,y coordinates
-	 * @param x
-	 * @param y
+	 *
+	 * @param x the column
+	 * @param y the row
 	 */
 	private void addSeperator(int x, int y) {
 		// Setup layout
@@ -271,6 +271,9 @@ class ClientMain extends JFrame {
 
 		// Make a new JPanel, which will display our preview image
 		spacesuitPanel = new JPanel() {
+
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -511,7 +514,6 @@ class ClientMain extends JFrame {
 
 	private void loadImage() {
 		try {
-			// TODO: Replace with creative commons image
 			spacesuitImage = ImageIO.read(new File(
 					"assets/clientmain/Player.png"));
 		} catch (IOException e) {
