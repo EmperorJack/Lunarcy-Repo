@@ -1,6 +1,6 @@
 package game;
 
-public class Chest extends Container {
+public class Chest extends Container implements Furniture {
 	private static final long serialVersionUID = -1401298737961190449L;
 
 	public Chest(int entityID) {
@@ -15,12 +15,7 @@ public class Chest extends Container {
 		return "chest" + (isOpen() ? "_open" : "");
 	}
 	@Override
-	public String getName() {
-		return "Chest";
-	}
-	@Override
 	public int getAccessLevel() {
 		return 0;
 	}
-
 }

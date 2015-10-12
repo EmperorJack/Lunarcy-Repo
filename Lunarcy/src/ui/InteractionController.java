@@ -272,7 +272,7 @@ public class InteractionController implements KeyListener, MouseListener,
 
 		if (draggedFromItem != null && container != null) {
 			// Put the item in the container
-			putItem(draggedFromItem.entityID);
+			putItem(draggedFromItem.getEntityID());
 		}
 		// If the item was not released on the inventory bar, and there was an
 		// item currently being dragged, drop it

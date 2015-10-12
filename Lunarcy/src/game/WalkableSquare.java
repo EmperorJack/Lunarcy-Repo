@@ -21,7 +21,7 @@ public class WalkableSquare extends Square {
 	private final String description;
 
 	private Map<Direction, List<Item>> items;
-	private Map<Direction, Container> containers;
+	private Map<Direction, Furniture> furnitureMap;
 	private Set<Player> players;
 	private boolean inside;
 
@@ -32,12 +32,12 @@ public class WalkableSquare extends Square {
 		this.inside = inside;
 
 		items = new HashMap<Direction, List<Item>>();
-		containers = new HashMap<Direction, Container>();
+		furnitureMap = new HashMap<Direction, Furniture>();
 
 		//populate with empty sets to avoid Null Pointers
 		for(Direction dir: Direction.values()){
 			items.put(dir, new ArrayList<Item>());
-			containers.put(dir, null);
+			furnitureMap.put(dir, null);
 		}
 		players = new HashSet<Player>();
 
@@ -75,6 +75,8 @@ public class WalkableSquare extends Square {
 		}
 	}
 
+/* --------Methods For Player Interaction-------- */
+
 	public boolean canEnter(Character character, Direction direction) {
 		if (character == null||direction == null)
 			return false;
@@ -102,6 +104,8 @@ public class WalkableSquare extends Square {
 		}
 	}
 
+/* --------Methods for Item Interaction-------- */
+
 	public List<Item> getItems(Direction side) {
 		if (side == null)
 			return null;
@@ -109,9 +113,15 @@ public class WalkableSquare extends Square {
 	}
 
 	public Container getContainer(Direction side){
-		if(side==null)
+		if(side==null || !hasContainer(side))
 			return null;
-		return containers.get(side);
+		return (Container)furnitureMap.get(side);
+	}
+
+	public Furniture getFurniture(Direction side) {
+		if(side==null || !hasFurniture(side))
+			return null;
+		return furnitureMap.get(side);
 	}
 
 	/**
@@ -136,48 +146,6 @@ public class WalkableSquare extends Square {
 		return items.get(side).add(item);
 	}
 
-	/**
-	 * Adds the container to the specified side of the room.
-	 *
-	 * @param side
-	 *            the side of the Square to add the container to
-	 * @param container
-	 *            the container to add
-	 * @return True if container could be added, False otherwise
-	 */
-	public boolean setContainer(Direction side, Container container) {
-		if (side == null)
-			return false;
-		containers.put(side,container);
-		return true;
-	}
-
-	/**
-	 * Adds the container to the specified side of the room.
-	 *
-	 * @param side
-	 *            the side of the Square to add the container to
-	 * @param container
-	 *            the container to add
-	 * @return True if container could be added, False otherwise
-	 */
-	public boolean removeContainer(Direction side) {
-		if (side == null)
-			return false;
-		containers.remove(side);
-		return true;
-	}
-
-	/**
-	 * Get the set of all the players in the room Note: Modifying the returned
-	 * set will not change the players in the room
-	 *
-	 * @return Set<Player> of all players inside the room
-	 */
-	public Set<Player> getPlayers() {
-		return new HashSet<Player>(players);
-	}
-
 	public Item takeItem(Direction side, int itemID){
 		if (side == null||itemID < 0)
 			return null;
@@ -192,15 +160,72 @@ public class WalkableSquare extends Square {
 		return item;
 	}
 
+/* --------Methods For Furniture/Container Interaction-------- */
+
+
 	/**
-	 * Checks if there is a container in the Entity set in the specified direction
+	 * Adds the Furniture to the specified side of the room.
+	 *
+	 * @param side
+	 *            the side of the Square to add the Furniture to
+	 * @param container
+	 *            the Furniture to add
+	 * @return True if Furniture could be added, False otherwise
+	 */
+	public boolean setFurniture(Direction side, Furniture furniture) {
+		if (side == null)
+			return false;
+		furnitureMap.put(side,furniture);
+		return true;
+	}
+
+	/**
+	 * Removes the Furniture on the specified side of the room.
+	 *
+	 * @param side
+	 *            the side of the Square to remove from
+	 * @return True if furniture was removed, False otherwise
+	 */
+	public boolean removeFurniture(Direction side) {
+		if (side == null)
+			return false;
+		furnitureMap.remove(side);
+		return true;
+	}
+
+	/**
+	 * Checks if there is a Container in the specified direction
 	 * @param direction The direction to check
 	 * @return True if there is a Container, False otherwise
 	 */
 	public boolean hasContainer(Direction direction){
-		if(direction==null)
+		if(direction==null || !furnitureMap.containsKey(direction))
 			return false;
-		return containers.containsKey(direction) && containers.get(direction) != null;
+		Furniture f = furnitureMap.get(direction);
+		return f != null && f instanceof Container;
+	}
+
+	/**
+	 * Checks if there is a Furniture Object in the specified direction
+	 * @param direction The direction to check
+	 * @return True if there is a Furniture Object, False otherwise
+	 */
+	public boolean hasFurniture(Direction direction){
+		if(direction==null || !furnitureMap.containsKey(direction) )
+			return false;
+		return furnitureMap.get(direction) != null;
+	}
+
+/* --------Other Getters/Setters-------- */
+
+	/**
+	 * Get the set of all the players in the room Note: Modifying the returned
+	 * set will not change the players in the room
+	 *
+	 * @return Set<Player> of all players inside the room
+	 */
+	public Set<Player> getPlayers() {
+		return new HashSet<Player>(players);
 	}
 
 	public String getName() {

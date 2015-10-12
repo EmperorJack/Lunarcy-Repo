@@ -1,6 +1,6 @@
 package game;
 
-public class LockedChest extends Container {
+public class LockedChest extends Container implements Furniture {
 	private static final long serialVersionUID = -7529638938409484797L;
 
 	private final int keyID;
@@ -21,14 +21,8 @@ public class LockedChest extends Container {
 	public String getImageName() {
 		return "lockedChest" + (isOpen() ? "_open" : "");
 	}
-
-	@Override
-	public String getName() {
-		return "Locked Chest";
-	}
 	@Override
 	public int getAccessLevel() {
 		return keyID;
 	}
-
 }

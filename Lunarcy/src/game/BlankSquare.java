@@ -39,4 +39,9 @@ public class BlankSquare extends Square {
 	public Container getContainer(Direction side) {
 		return null;
 	}
+
+	@Override
+	public Furniture getFurniture(Direction side) {
+		return null;
+	}
 }

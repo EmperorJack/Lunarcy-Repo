@@ -89,6 +89,9 @@ public abstract class Container implements Entity {
 
 	public abstract int getAccessLevel();
 
+	public int getEntityID(){
+		return entityID;
+	}
 	/**
 	 * Returns the set of all items inside this container.
 	 * Note: Modifying the returned set will not change the set inside the container,

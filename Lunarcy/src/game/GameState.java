@@ -42,7 +42,7 @@ public class GameState implements Serializable {
 		rovers = new HashSet<Rover>();
 		players = new Player[numPlayers];
 		addRover(new Rover());
-		((WalkableSquare) getSquare(new Location(1, 1))).setContainer(
+		((WalkableSquare) getSquare(new Location(1, 1))).setFurniture(
 				Direction.NORTH, new Chest(69));
 	}
 
