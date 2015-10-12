@@ -1,10 +1,8 @@
 package ui;
 
-import java.util.List;
 import java.util.Map;
 
 import game.GameState;
-import game.Item;
 import processing.core.PImage;
 
 /**

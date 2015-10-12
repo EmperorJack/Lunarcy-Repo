@@ -91,7 +91,6 @@ public class GameTesting {
 	@Test
 	public void ValidSetSquare_1() {
 		GameState gameState = new GameState(1, "map.xml");
-		Square[][] board = gameState.getBoard();
 		Square square = gameState.setSquare(new Location(0, 0), new BlankSquare());
 		assertNotNull("Shouldn't be null", square);
 	}

@@ -12,6 +12,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.SwingUtilities;
+
 import network.Client;
 import network.CloseAction;
 import network.DropAction;
@@ -58,18 +60,10 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 	// Canvas field
 	private Canvas canvas;
 
-
-	// Game state field
-	private GameState gameState;
-
-	// Currently selected container
-	private Container selectedContainer;
-
 	public InteractionController(Client client, GameState gamestate, Player player, Canvas canvas) {
 		this.client = client;
 		this.player = player;
 		this.canvas = canvas;
-		this.gameState = gamestate;
 
 		// Initialize the values for dragging/dropping items
 		resetDragValues();
@@ -81,23 +75,23 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 	}
 	/** Action methods **/
 
-	public void dropItem(int itemID) {
+	private void dropItem(int itemID) {
 		client.sendAction(new DropAction(player.getId(), itemID));
 	}
 
-	public void putItem(int itemID) {
+	private void putItem(int itemID) {
 		client.sendAction(new PutAction(player.getId(), itemID));
 	}
 
-	public void pickupItem(int itemID) {
+	private void pickupItem(int itemID) {
 		client.sendAction(new PickupAction(player.getId(), itemID));
 	}
 
-	public void openContainer() {
+	private void openContainer() {
 		client.sendAction(new OpenAction(player.getId()));
 	}
 
-	public void closeContainer() {
+	private void closeContainer() {
 		client.sendAction(new CloseAction(player.getId()));
 	}
 
@@ -116,9 +110,8 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 	}
 
 
-	public void update(Player player, GameState gameState) {
+	public void update(Player player) {
 		this.player = player;
-		this.gameState = gameState;
 	}
 
 	/**
@@ -208,6 +201,18 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		else if (clickedContainer != null && clickedContainer.isOpen()) {
 			closeContainer();
 		}
+		
+		//On a right click, show item  descriptions
+		if(SwingUtilities.isRightMouseButton(e)){
+			
+			Item item = entityView.getItemAt(x, y);
+			
+			if(item!=null){
+				
+			}
+			
+		}
+		
 
 	}
 

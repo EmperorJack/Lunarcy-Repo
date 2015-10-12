@@ -12,7 +12,6 @@ import game.Square;
 import game.WalkableSquare;
 import game.Wall;
 import processing.core.*;
-import sun.security.jca.GetInstance.Instance;
 
 /**
  * The minimap overlay that displays a 2D top down view of the game world.

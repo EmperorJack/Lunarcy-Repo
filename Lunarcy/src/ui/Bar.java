@@ -6,8 +6,6 @@ import java.util.Map;
 import processing.core.PImage;
 import game.GameState;
 import game.Item;
-import game.Player;
-import game.WalkableSquare;
 
 /**
  * Represents a component which is drawn as a "bar", ie the Inventory Bar and
@@ -19,17 +17,17 @@ import game.WalkableSquare;
 public abstract class Bar extends DrawingComponent {
 
 	// The bars alignment and sizing
-	protected int LEFT_PADDING, TOP_PADDING, BAR_WIDTH;
+	private final int LEFT_PADDING, TOP_PADDING, BAR_WIDTH;
 
 	// Sizing of the items inside the bar
-	protected final int ITEM_SIZE;
-	protected final int ITEM_SPACING;
+	private final int ITEM_SIZE;
+	private final int ITEM_SPACING;
 
 	// Which items the bar contains
 	protected List<Item> items;
 
 	// So we can preload all our images
-	protected final Map<String, PImage> ENTITY_IMAGES;
+	private final Map<String, PImage> ENTITY_IMAGES;
 
 	public Bar(int leftPadding, int topPadding, List<Item> items, Canvas p,
 			GameState gameState, int playerID, Map<String, PImage> entityImages) {

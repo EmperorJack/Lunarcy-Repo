@@ -174,7 +174,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			player = gameState.getPlayer(playerID);
 
 			// update interaction controller
-			interactionControl.update(player, gameState);
+			interactionControl.update(player);
 
 			// the state has now been updated
 			stateUpdated = false;
