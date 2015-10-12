@@ -17,8 +17,6 @@ import java.util.Set;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
-import saito.objloader.OBJModel;
-import saito.objtools.OBJTransform;
 import bots.Rover;
 
 /**
@@ -32,9 +30,9 @@ public class Perspective3D extends DrawingComponent {
 
 	// 3D world
 	private final WorldModel WORLD;
+	private final Skybox SKYBOX;
 	private final int SQUARE_SIZE = 1000;
 	private final float MODEL_SCALE = SQUARE_SIZE / 2.5f;
-	private final OBJModel SKYBOX;
 
 	// character images
 	private final PImage ASTRONAUT;
@@ -81,10 +79,7 @@ public class Perspective3D extends DrawingComponent {
 				SQUARE_SIZE);
 
 		// space skybox setup
-		SKYBOX = new OBJModel(p, "assets/models/space_skybox.obj");
-		OBJTransform objectTransformer = new OBJTransform(p);
-		objectTransformer.scaleOBJ(SKYBOX, MODEL_SCALE);
-		SKYBOX.drawMode(OBJModel.POLYGON);
+		SKYBOX = new Skybox(p, MODEL_SCALE);
 
 		// character image setup
 		ASTRONAUT = p.loadImage("assets/characters/Player.png");
@@ -144,8 +139,8 @@ public class Perspective3D extends DrawingComponent {
 		// translate to the camera position
 		p.translate(actualCameraEye.x, PLAYER_VIEW_HEIGHT, actualCameraEye.z);
 
-		// draw the space skybox with no lighting
-		SKYBOX.draw();
+		// draw the space skybox
+		SKYBOX.draw(gameState);
 		p.popMatrix();
 
 		// draw the game world
@@ -391,8 +386,17 @@ public class Perspective3D extends DrawingComponent {
 		// translate to the current entity offsets
 		p.translate(xOffset, yOffset, zOffset);
 
+		float factor = 1.0f;
+
+		// if the entity is a container
+		if (entity instanceof Container) {
+
+			// change the rotation factor
+			factor = 0.1f;
+		}
+
 		// rotate the current entity to face this player
-		rotateRelativeTo(position, 1);
+		rotateRelativeTo(position, factor);
 
 		// draw the entity image
 		p.image(entityImages.get(entity.getImageName()), 0, 0, size, size);
@@ -413,10 +417,10 @@ public class Perspective3D extends DrawingComponent {
 				actualCameraEye.x - position.x);
 
 		// apply the factor to the rotation angle
-		angle *= factor;
+		// angle *= factor;
 
 		// rotate the matrix by the computed angle
-		p.rotateY(-(angle - PApplet.HALF_PI));
+		p.rotateY(-(angle - PApplet.HALF_PI) * factor);
 	}
 
 	/**

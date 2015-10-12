@@ -162,8 +162,7 @@ public class GameState implements Serializable {
 	public void loadMap(String map) {
 		GameMap gameMap = Storage.loadGameMap(new File(map));
 		board = gameMap.getSquares();
-		spawnPoints = new ArrayList<Location>();
-		spawnPoints.add(new Location(1, 1));
+		spawnPoints = gameMap.getSpawnPoints();
 			// Search the board to find the ship and save it
 			// Probably need to do something if there is no ship
 			// (InvalidMapException??)

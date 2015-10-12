@@ -10,7 +10,6 @@ import game.Wall;
 
 import java.util.ArrayList;
 
-import processing.core.*;
 import saito.objloader.*;
 import saito.objtools.*;
 
@@ -26,7 +25,7 @@ import saito.objtools.*;
 public class WorldModel {
 
 	// the parent processing canvas
-	private PApplet p;
+	private Canvas p;
 
 	// the unique model assets
 	private final OBJModel floorInsideObj;
@@ -68,7 +67,7 @@ public class WorldModel {
 	 * @param SQUARE_SIZE
 	 *            The size each square is in game units.
 	 */
-	public WorldModel(PApplet p, Square[][] board, float MODEL_SCALE,
+	public WorldModel(Canvas p, Square[][] board, float MODEL_SCALE,
 			int SQUARE_SIZE) {
 		this.p = p;
 
