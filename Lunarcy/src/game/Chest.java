@@ -12,7 +12,7 @@ public class Chest extends Container {
 	}
 	@Override
 	public String getImageName() {
-		return "unlockedChest";
+		return "chest";
 	}
 	@Override
 	public String getName() {
