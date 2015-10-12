@@ -446,15 +446,12 @@ public class MapBuilder {
 				&& squares[highlightedTile.getY()][highlightedTile.getX()] instanceof WalkableSquare) {
 			WalkableSquare currentSquare = (WalkableSquare) squares[highlightedTile
 					.getY()][highlightedTile.getX()];
-			if (currentSquare.getContainer(dir) != null) {
-				currentSquare
-						.setContainer(dir, new Chest(map.getEntityCount()));
-				map.increaseEntityCount();
-			}
+			currentSquare.setContainer(dir, new Chest(map.getEntityCount()));
+			map.increaseEntityCount();
 		}
 	}
 
-	private void removeContainer(Direction dir){
+	private void removeContainer(Direction dir) {
 		if (highlightedTile != null
 				&& squares[highlightedTile.getY()][highlightedTile.getX()] instanceof WalkableSquare) {
 			WalkableSquare currentSquare = (WalkableSquare) squares[highlightedTile
