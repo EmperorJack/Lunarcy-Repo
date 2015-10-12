@@ -13,6 +13,7 @@ import bots.*;
  *
  */
 public class GameLogic {
+	private static final int dayLength = 300;
 	private GameState state;
 	private PlayerMove[] moves;
 
@@ -250,7 +251,7 @@ public class GameLogic {
 			WalkableSquare wSquare = (WalkableSquare) square;
 
 			Container container = wSquare.getContainer(player.getOrientation());
-			if(container !=null){
+			if(container != null){
 				Item item = player.removeItem(itemID);
 				if (item != null) {
 					container.addItem(item);
@@ -258,6 +259,56 @@ public class GameLogic {
 				} else {
 					return false;
 				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if the player with the matching playerID can open a container and if they can then opens it
+	 * @param playerID The ID of the player who is opening the container
+	 * @return
+	 */
+	public boolean openContainer(int playerID){
+		Player player = state.getPlayer(playerID);
+		if (player == null)
+			return false;
+		Square square = state.getSquare(player.getLocation());
+
+		// Otherwise cannot contain players/items
+		// Shouldn't need to check as it's from Player location, but to be safe
+		if (square instanceof WalkableSquare) {
+			WalkableSquare wSquare = (WalkableSquare) square;
+
+			Container container = wSquare.getContainer(player.getOrientation());
+			if(container != null){
+				container.open(player);
+				return container.isOpen();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if the player with the matching playerID can open a container and if they can then opens it
+	 * @param playerID The ID of the player who is opening the container
+	 * @return
+	 */
+	public boolean closeContainer(int playerID){
+		Player player = state.getPlayer(playerID);
+		if (player == null)
+			return false;
+		Square square = state.getSquare(player.getLocation());
+
+		// Otherwise cannot contain players/items
+		// Shouldn't need to check as it's from Player location, but to be safe
+		if (square instanceof WalkableSquare) {
+			WalkableSquare wSquare = (WalkableSquare) square;
+
+			Container container = wSquare.getContainer(player.getOrientation());
+			if(container != null){
+				container.close();
+				return true;
 			}
 		}
 		return false;
@@ -279,7 +330,7 @@ public class GameLogic {
 	 * @return 0-100% of how much the day night cycle has gone through
 	 */
 	public int getTime(){
-		return tickCount % 300;
+		return (int)((tickCount % dayLength) / (dayLength/100f));
 	}
 
 	private class PlayerMove{

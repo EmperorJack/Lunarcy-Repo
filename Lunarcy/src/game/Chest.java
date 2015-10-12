@@ -12,7 +12,7 @@ public class Chest extends Container {
 	}
 	@Override
 	public String getImageName() {
-		return "chest";
+		return "chest" + (isOpen() ? "_open" : "");
 	}
 	@Override
 	public String getName() {
