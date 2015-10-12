@@ -104,7 +104,7 @@ public class EntityView extends DrawingComponent {
 	}
 
 	/**
-	 * Set the container opened state to the given state.
+	 * Set the container opened or closed dependent on the given state.
 	 *
 	 * @param setOpen
 	 *            True for open, false for closed.
@@ -156,8 +156,8 @@ public class EntityView extends DrawingComponent {
 			if (TOP_PADDING_ITEMS <= y && y <= (TOP_PADDING_ITEMS + ITEM_SIZE)) {
 
 				// check the x position is within the bounds
-				if (Canvas.TARGET_WIDTH / 2 - CONTAINER_SIZE <= x
-						&& x <= Canvas.TARGET_WIDTH / 2 + CONTAINER_SIZE) {
+				if (Canvas.TARGET_WIDTH / 2 - CONTAINER_SIZE / 2 <= x
+						&& x <= Canvas.TARGET_WIDTH / 2 + CONTAINER_SIZE / 2) {
 					return container;
 				}
 			}

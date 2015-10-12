@@ -60,6 +60,8 @@ public abstract class Container extends Entity {
 	 */
 	public abstract boolean canAccess(Player player);
 
+	public abstract int getAccessLevel();
+
 	/**
 	 * Returns the set of all items inside this container.
 	 * Note: Modifying the returned set will not change the set inside the container,

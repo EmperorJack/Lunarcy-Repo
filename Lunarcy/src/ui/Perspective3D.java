@@ -1,6 +1,8 @@
 package ui;
 
+import game.Container;
 import game.Direction;
+import game.Entity;
 import game.GameState;
 import game.Item;
 import game.Location;
@@ -47,8 +49,11 @@ public class Perspective3D extends DrawingComponent {
 	// entity drawing fields
 	private final Map<String, PImage> entityImages;
 	private final int ITEM_SIZE = 150;
-	private final int ITEM_Y_OFFSET = -75;
 	private final int ITEM_INNER_PADDING = -250;
+	private final int ITEM_Y_OFFSET = -75;
+	private final int CONTAINER_SIZE = 450;
+	private final int CONTAINER_INNER_PADDING = -280;
+	private final int CONTAINER_Y_OFFSET = -200;
 
 	// camera fields
 	private final int PLAYER_VIEW_HEIGHT = -180;
@@ -268,85 +273,130 @@ public class Perspective3D extends DrawingComponent {
 					// get the square at row, col
 					Square s = board[row][col];
 
-					// if the square is not walkable then there must be no items
-					if (!(s instanceof WalkableSquare)) {
-						continue;
+					// if the square is walkable
+					if (s instanceof WalkableSquare) {
+						drawEntitiesAt((WalkableSquare) s, col, row);
 					}
-
-					p.pushMatrix();
-
-					// compute the square position
-					int x = col * SQUARE_SIZE + SQUARE_SIZE / 2;
-					int z = row * SQUARE_SIZE + SQUARE_SIZE / 2;
-
-					// get the position vector in 3D space
-					PVector position = new PVector(x, ITEM_Y_OFFSET, z);
-
-					// translate to the current square location
-					p.translate(x, ITEM_Y_OFFSET, z);
-
-					// for each direction
-					for (Direction dir : Direction.values()) {
-
-						// get the entities for the current direction
-						List<Item> items = s.getItems(dir);
-
-						// for each entity
-						for (int i = 0; i < items.size(); i++) {
-							p.pushMatrix();
-
-							// compute the offset for the current entity image
-							int offset = (int) ((i + 1)
-									/ (float) (items.size() + 1) * SQUARE_SIZE)
-									- SQUARE_SIZE / 2;
-
-							// setup the x and z offsets
-							int xOffset = 0;
-							int zOffset = 0;
-
-							// set the offsets based on the current direction
-							switch (dir) {
-							case NORTH:
-								xOffset = offset;
-								zOffset = ITEM_INNER_PADDING;
-								break;
-
-							case EAST:
-								xOffset = -ITEM_INNER_PADDING;
-								zOffset = offset;
-								break;
-
-							case SOUTH:
-								xOffset = -offset;
-								zOffset = -ITEM_INNER_PADDING;
-								break;
-
-							case WEST:
-								xOffset = ITEM_INNER_PADDING;
-								zOffset = -offset;
-								break;
-							}
-
-							// translate to the current entity offsets
-							p.translate(xOffset, 0, zOffset);
-
-							// rotate the current entity to face this player
-							rotateRelativeTo(position);
-
-							// draw the entity image
-							p.image(entityImages.get(items.get(i)
-									.getImageName()), 0, 0, ITEM_SIZE,
-									ITEM_SIZE);
-
-							p.popMatrix();
-						}
-					}
-					p.popMatrix();
 				}
 			}
 		}
 
 		p.popStyle();
+		p.popMatrix();
+	}
+
+	/**
+	 * Draw all the entities for the given square at given location row, col.
+	 *
+	 * @param s
+	 *            The square to draw entities of.
+	 * @param col
+	 *            The column position of the square.
+	 * @param row
+	 *            The row position of the square.
+	 */
+	private void drawEntitiesAt(WalkableSquare s, int col, int row) {
+		p.pushMatrix();
+
+		// compute the square position
+		int x = col * SQUARE_SIZE + SQUARE_SIZE / 2;
+		int z = row * SQUARE_SIZE + SQUARE_SIZE / 2;
+
+		// get the position vector in 3D space
+		PVector position = new PVector(x, PLAYER_VIEW_HEIGHT, z);
+
+		// translate to the square position
+		p.translate(x, 0, z);
+
+		// for each direction
+		for (Direction dir : Direction.values()) {
+
+			// get the container for the current direction
+			Container container = s.getContainer(dir);
+
+			// if there is a container for the given direction
+			if (container != null) {
+				// draw the container
+				drawEntity(dir, container, position, 0, CONTAINER_SIZE,
+						CONTAINER_INNER_PADDING, CONTAINER_Y_OFFSET);
+			}
+
+			// get the items for the current direction
+			List<Item> items = s.getItems(dir);
+
+			// for each item
+			for (int i = 0; i < items.size(); i++) {
+				// compute the offset for the current item
+				int offset = (int) ((i + 1) / (float) (items.size() + 1) * SQUARE_SIZE)
+						- SQUARE_SIZE / 2;
+
+				// draw the item
+				drawEntity(dir, items.get(i), position, offset, ITEM_SIZE,
+						ITEM_INNER_PADDING, ITEM_Y_OFFSET);
+			}
+		}
+		p.popMatrix();
+	}
+
+	/**
+	 * Draw the given entity for the current square position in the given
+	 * direction and with the given offset.
+	 *
+	 * @param dir
+	 *            The orientation to draw the entity with regard to.
+	 * @param entity
+	 *            The entity to be drawn.
+	 * @param position
+	 *            The relative position of all entities in this square.
+	 * @param offset
+	 *            The offset to draw this entities along side other entities.
+	 * @param size
+	 *            The size of the entity to draw.
+	 * @param padding
+	 *            The padding of the entity to draw.
+	 * @param yOffset
+	 *            The y offset of the entity to draw.
+	 */
+	private void drawEntity(Direction dir, Entity entity, PVector position,
+			int offset, int size, int padding, int yOffset) {
+		p.pushMatrix();
+
+		// setup the x and z offsets
+		int xOffset = 0;
+		int zOffset = 0;
+
+		// set the offsets based on the current direction
+		switch (dir) {
+		case NORTH:
+			xOffset = offset;
+			zOffset = padding;
+			break;
+
+		case EAST:
+			xOffset = -padding;
+			zOffset = offset;
+			break;
+
+		case SOUTH:
+			xOffset = -offset;
+			zOffset = -padding;
+			break;
+
+		case WEST:
+			xOffset = padding;
+			zOffset = -offset;
+			break;
+		}
+
+		// translate to the current entity offsets
+		p.translate(xOffset, yOffset, zOffset);
+
+		// rotate the current entity to face this player
+		rotateRelativeTo(position);
+
+		// draw the entity image
+		p.image(entityImages.get(entity.getImageName()), 0, 0, size, size);
+
 		p.popMatrix();
 	}
 
@@ -358,8 +408,11 @@ public class Perspective3D extends DrawingComponent {
 	 *            The position vector to rotate in reference to.
 	 */
 	private void rotateRelativeTo(PVector position) {
+		// compute the angle between the camera and the given position vector
 		float angle = PApplet.atan2(actualCameraEye.z - position.z,
 				actualCameraEye.x - position.x);
+
+		// rotate the matrix by the computed angle
 		p.rotateY(-(angle - PApplet.HALF_PI));
 	}
 
@@ -422,7 +475,7 @@ public class Perspective3D extends DrawingComponent {
 			cameraEye.x = targetCameraEye.x;
 			cameraEye.z = targetCameraEye.z;
 
-			// set the actual camera orientaiton to the target
+			// set the actual camera orientation to the target
 			cameraCenter.x = targetCameraCenter.x;
 			cameraCenter.z = targetCameraCenter.z;
 

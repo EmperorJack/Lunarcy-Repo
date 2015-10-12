@@ -1,8 +1,11 @@
 package storage;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+
+import mapbuilder.GameMap;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -28,10 +31,31 @@ public class Storage {
 			XStream xstream = new XStream();
 			xstream.toXML(state, file);
 		} catch (FileNotFoundException e) {
+			System.out.println("FILE WRITE ERROR.");
+		}
+	}
+
+	public static final void saveGameMap(GameMap map, File fileToWrite){
+		try {
+			FileOutputStream file = new FileOutputStream(fileToWrite, false);
+			XStream xstream = new XStream();
+			xstream.toXML(map, file);
+		} catch (FileNotFoundException e) {
 
 		}
 	}
 
+	public static final GameMap loadGameMap(File fileName){
+		try {
+			FileInputStream file = new FileInputStream(fileName);
+			XStream xstream = new XStream();
+			GameMap gameMap = (GameMap) xstream.fromXML(file);
+			return gameMap;
+		} catch (FileNotFoundException e) {
+
+		}
+		return null;
+	}
 
 
 }

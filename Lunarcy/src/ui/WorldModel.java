@@ -206,29 +206,6 @@ public class WorldModel {
 	}
 
 	/**
-	 * Load a new object model from file.
-	 *
-	 * @param objName
-	 *            The name of the object model to load.
-	 * @param objectTransformer
-	 *            The transformer used to transform the new model.
-	 * @return The newly setup object model.
-	 */
-	private OBJModel setupObjectModel(String objName,
-			OBJTransform objectTransformer, float MODEL_SCALE) {
-		// load the object model from path
-		OBJModel objectModel = new OBJModel(p, "assets/models/" + objName
-				+ ".obj");
-
-		// setup the model
-		objectTransformer.scaleOBJ(objectModel, MODEL_SCALE);
-		objectModel.disableMaterial();
-		objectModel.drawMode(OBJModel.POLYGON);
-
-		return objectModel;
-	}
-
-	/**
 	 * Check if the walls for the given direction of the given square has wall
 	 * of the given type. If so create the wall.
 	 *
@@ -303,6 +280,29 @@ public class WorldModel {
 			outsideTarget.add(new OBJWrapper(outsideObjModel, SQUARE_SIZE * x,
 					0, SQUARE_SIZE * y));
 		}
+	}
+
+	/**
+	 * Load a new object model from file.
+	 *
+	 * @param objName
+	 *            The name of the object model to load.
+	 * @param objectTransformer
+	 *            The transformer used to transform the new model.
+	 * @return The newly setup object model.
+	 */
+	private OBJModel setupObjectModel(String objName,
+			OBJTransform objectTransformer, float MODEL_SCALE) {
+		// load the object model from path
+		OBJModel objectModel = new OBJModel(p, "assets/models/" + objName
+				+ ".obj");
+
+		// setup the model
+		objectTransformer.scaleOBJ(objectModel, MODEL_SCALE);
+		objectModel.disableMaterial();
+		objectModel.drawMode(OBJModel.POLYGON);
+
+		return objectModel;
 	}
 
 	/**
