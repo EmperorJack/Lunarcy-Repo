@@ -13,17 +13,26 @@ import java.util.List;
 public abstract class Container extends Entity {
 	private static final long serialVersionUID = -7267673923708405364L;
 
+	private boolean isOpen;
 	List<Item> items;
 
 	public Container(int entityID) {
 		super(entityID);
 		items = new ArrayList<Item>();
+		isOpen = false;
 	}
 
 	public boolean addItem(Item item){
+		if(!isOpen()){
+			return false;
+		}
 		return items.add(item);
 	}
 
+	/**
+	 * Checks if a container has an item that matches the specified ID
+	 * @param itemID
+	 */
 	public boolean hasItem(int itemID){
 		for(Item item: items){
 			if(item.entityID==itemID){
@@ -33,6 +42,20 @@ public abstract class Container extends Entity {
 		return false;
 	}
 
+	public boolean isOpen(){
+		return isOpen;
+	}
+
+	public void open(Player player){
+		if(canAccess(player)){
+			isOpen = true;
+		}
+	}
+
+	public void close(){
+		isOpen = false;
+	}
+
 	/**
 	 * Finds the item with specified ID and removes it from the container
 	 * @param itemID The ID number of the wanted item
@@ -40,6 +63,9 @@ public abstract class Container extends Entity {
 	 * @throws IllegalArgumentException if itemID was not found
 	 */
 	public Item takeItem(int itemID){
+		if(!isOpen){
+			return null;
+		}
 		Item item = null;
 		for(Item i : items){
 			if(i.entityID == itemID){

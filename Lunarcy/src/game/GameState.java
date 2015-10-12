@@ -52,10 +52,22 @@ public class GameState implements Serializable {
 	 * @param items A map from the access level an item should be stored in
 	 * to a list of all the items in that access level
 	 */
-	public void distributeItems(Map<Integer, List<Item>> items){
+	public void distributeItems(Map<Item, Integer> itemsToAccess){
+
+		Map<Integer, List<Item>> itemMap = new HashMap<Integer, List<Item>>();
+
+		//First have to change so we can find items by access level
+		for(Item item: itemsToAccess.keySet()){
+			Integer access = itemsToAccess.get(item);
+			if(!itemMap.containsKey(access)){
+				itemMap.put(access, new ArrayList<Item>());
+			}
+			itemMap.get(access).add(item);
+		}
+
 		Map<Integer, Set<Container>> containers = new HashMap<Integer, Set<Container>>();
 
-		//First we need to map all containers to their access level
+		//Then we need to map all containers to their access level
 		for(int y = 0; y < board.length; y++){
 			for(int x = 0; x < board[y].length; x++){
 				//Find any WalkableSquare as only they have containers
@@ -79,6 +91,16 @@ public class GameState implements Serializable {
 				}
 			}
 		}
+
+		//Now we can begin to distribute the items between all the containers
+		for(Integer access: containers.keySet()){
+			List<Item> items = itemMap.get(access);
+
+			while(!items.isEmpty()){
+
+			}
+		}
+
 	}
 
 	/**

@@ -14,7 +14,7 @@ public class LockedChest extends Container {
 	}
 	@Override
 	public String getImageName() {
-		return "lockedChest";
+		return "lockedChest" + (isOpen() ? "_open" : "");
 	}
 
 	@Override
