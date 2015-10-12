@@ -160,9 +160,9 @@ public class GameState implements Serializable {
 		if(playerID==0) addRover(new Rover());
 		return true;
 	}
-	
+
 	/**
-	 * Removes the Player with playerID of the parameter, 
+	 * Removes the Player with playerID of the parameter,
 	 * @param playerID
 	 * @return
 	 */
@@ -198,11 +198,11 @@ public class GameState implements Serializable {
 		}
 		return -1;
 	}
-	
+
 	/**
-	 * If any of the players locations match 
+	 * If any of the players locations match
 	 * the rovers, returns the first layer which matches.
-	 * 
+	 *
 	 * If none are found returns null
 	 * @param rover
 	 * @return
@@ -211,13 +211,13 @@ public class GameState implements Serializable {
 		if(rover==null){
 			return null;
 		}
-		
+
 		for(Player player: players){
 			if(player!=null && player.getLocation().equals(rover.getLocation())){
 				return player;
 			}
 		}
-		
+
 		return null;
 	}
 

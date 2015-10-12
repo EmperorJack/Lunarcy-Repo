@@ -16,7 +16,7 @@ import network.Client;
 /**
  * An intermediary between ClientMain and Client starting, to show the user a
  * loading screen.
- * 
+ *
  * @author b
  *
  */

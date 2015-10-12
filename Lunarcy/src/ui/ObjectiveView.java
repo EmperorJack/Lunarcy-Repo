@@ -20,7 +20,7 @@ import processing.core.PImage;
  * @author Ben
  *
  */
-public class WinningItems extends DrawingComponent {
+public class ObjectiveView extends DrawingComponent {
 
 	// How far in from the left (x axis)
 	private final int LEFT_PADDING = (int) (Canvas.TARGET_WIDTH * 0.8);
@@ -41,7 +41,7 @@ public class WinningItems extends DrawingComponent {
 	// Preload our images for drawing
 	private final Map<String, PImage> ENTITY_IMAGES;
 
-	public WinningItems(Canvas p, GameState gameState, int playerID,
+	public ObjectiveView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {
 		super(p, gameState, playerID);
 

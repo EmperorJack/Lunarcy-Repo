@@ -26,32 +26,32 @@ public class RoamMovement implements MoveStrategy {
 	 */
 
 	public Location nextStep(Rover rover, GameState gamestate) {
-		
+
 		//Randomly rotate the rover
 		if(Math.random() > 0.8){
 			rover.setOrientation(Direction.randomDirection());
 		}
-		
+
 		int rotated = 0;
-		
+
 		//Keep rotating until you are facing a valid direction
 		while(!validMove(gamestate, rover, rover.getOrientation())){
-			
+
 			rover.rotate();
-			
+
 			rotated++;
-			
+
 			//Once you have rotated more than four times, you're stuck so return
 			if(rotated > 4){
 				return null;
 			}
 		}
-		
+
 		//At this point the rover must be facing a direction which they can move in
 		return rover.getLocation().getAdjacent(rover.getOrientation());
-		
+
 	}
-	
+
 	private boolean validMove(GameState state, Rover rover, Direction direction){
 		Square src = state.getSquare(rover.getLocation());
 		Square dest = state.getSquare(rover.getLocation().getAdjacent(direction));

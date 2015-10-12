@@ -25,12 +25,14 @@ import game.WalkableSquare;
 @SuppressWarnings("serial")
 abstract class ShortestPathMover implements MoveStrategy, Serializable {
 
-	private List<Location> getNeighbours(Rover rover, GameState gamestate, Location loc) {
+	private List<Location> getNeighbours(Rover rover, GameState gamestate,
+			Location loc) {
+
 		List<Location> neighbours = new ArrayList<Location>();
 
-		// NOT CURRENTLY CORRECT AS IT CAN MOVE THROUGH WALLS
 		for (Direction direction : game.Direction.values()) {
-			if (validMove(gamestate, rover, direction)) {
+			if (validMove(gamestate, rover, loc, direction)) {
+
 				neighbours.add(loc.getAdjacent(direction));
 			}
 		}
@@ -38,12 +40,13 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 		return neighbours;
 	}
 
-	private boolean validMove(GameState state, Rover rover, Direction direction) {
-		Square src = state.getSquare(rover.getLocation());
-		Square dest = state.getSquare(rover.getLocation().getAdjacent(direction));
+	private boolean validMove(GameState state, Rover rover, Location loc, Direction direction) {
+		Square src = state.getSquare(loc);
+		Square dest = state.getSquare(loc.getAdjacent(direction));
 
 		if (src != null && dest != null) {
-			return src.canExit(rover, direction) && dest.canEnter(rover, direction.opposite());
+			return src.canExit(rover, direction)
+					&& dest.canEnter(rover, direction.opposite());
 		}
 
 		return false;
@@ -72,7 +75,8 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 	 * @param end
 	 * @return
 	 */
-	protected List<Location> findPath(Rover rover, GameState gamestate, Location start, Location end) {
+	protected List<Location> findPath(Rover rover, GameState gamestate,
+			Location start, Location end) {
 
 		List<Location> path = new ArrayList<Location>();
 		PriorityQueue<LocationWrapper> fringe = new PriorityQueue<>();
@@ -84,12 +88,12 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 		fringe.offer(new LocationWrapper(start, null, 0, estimate(start, end)));
 
 		while (!fringe.isEmpty()) {
-			
-			//We are stuck
-			if(fringe.size() > 100){
+
+			// We are stuck
+			if (fringe.size() > 100) {
 				return null;
 			}
-			
+
 			// Get the first item off the queue
 			LocationWrapper item = fringe.poll();
 			Location current = item.getLocation();
@@ -110,7 +114,8 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 				}
 
 				// Add all of this nodes valid neighbours onto the queue
-				for (Location neighbour : getNeighbours(rover, gamestate, current)) {
+				for (Location neighbour : getNeighbours(rover, gamestate,
+						current)) {
 
 					// The cost to a neighbouring node, will be the cost to here
 					// + 1 since it is a grid where you can only move
@@ -128,12 +133,12 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 
 					int estTotal = costToNeigh + estimate;
 
-					fringe.offer(new LocationWrapper(neighbour, item, costToNeigh, estTotal));
+					fringe.offer(new LocationWrapper(neighbour, item,
+							costToNeigh, estTotal));
 				}
 			}
 		}
 
-		System.out.println("No path found");
 		return path;
 
 	}
@@ -148,7 +153,8 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 		private final int costToHere;
 		private final int totalCostToGoal;
 
-		LocationWrapper(Location location, LocationWrapper from, int costToHere, int totalCostToGoal) {
+		LocationWrapper(Location location, LocationWrapper from,
+				int costToHere, int totalCostToGoal) {
 			this.location = location;
 			this.from = from;
 			this.costToHere = costToHere;
@@ -157,9 +163,9 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 
 		/**
 		 * Will return -Positive if this is closer to the final location
-		 * 
-		 * -Zero  if they are equal
-		 *  
+		 *
+		 * -Zero if they are equal
+		 *
 		 * -Negative if the other location is closer
 		 *
 		 * @return

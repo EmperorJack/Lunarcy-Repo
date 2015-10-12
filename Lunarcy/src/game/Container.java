@@ -1,6 +1,8 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,11 +14,11 @@ import java.util.Set;
 public abstract class Container extends Entity {
 	private static final long serialVersionUID = -7267673923708405364L;
 
-	Set<Item> items;
+	List<Item> items;
 
 	public Container(int entityID) {
 		super(entityID);
-		items = new HashSet<Item>();
+		items = new ArrayList<Item>();
 	}
 
 	public boolean addItem(Item item){
@@ -68,7 +70,7 @@ public abstract class Container extends Entity {
 	 * Note: Modifying the returned set will not change the set inside the container,
 	 * @return
 	 */
-	public Set<Item> getItems(){
-		return new HashSet<Item>(items);
+	public List<Item> getItems(){
+		return new ArrayList<Item>(items);
 	}
 }
