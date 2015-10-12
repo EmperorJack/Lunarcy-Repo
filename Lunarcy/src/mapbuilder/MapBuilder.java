@@ -55,6 +55,9 @@ public class MapBuilder {
 		selectedTiles = new HashSet<Location>();
 		squares = new Square[20][20];
 		map = new GameMap();
+
+		fc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/assets/maps"));
+
 		for (int i = 0; i < squares.length; i++) {
 			for (int j = 0; j < squares[0].length; j++) {
 				squares[i][j] = new BlankSquare();

@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -210,6 +211,7 @@ public class ServerMain extends JFrame {
 
 					//Retrieve the file to save to
 					JFileChooser chooser = new JFileChooser();
+					chooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "/savedgames"));
 					chooser.showSaveDialog(null);
 					String filename = chooser.getSelectedFile().getAbsolutePath();
 
@@ -242,6 +244,7 @@ public class ServerMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "/assets/maps"));
 
 				//Only show .XML files, as this is our map type
 				FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter("xml files (*.xml)", "xml");
@@ -272,6 +275,7 @@ public class ServerMain extends JFrame {
 
 				//Retrieve the file to load
 				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "/savedgames"));
 				chooser.showOpenDialog(null);
 				String filename = chooser.getSelectedFile().getAbsolutePath();
 
