@@ -10,8 +10,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,6 +41,7 @@ public class MapBuilder {
 	private Location highlightedTile = null;
 	private Location selectedTile = null;
 	private Set<Location> selectedTiles;
+	private List<Location> spawnPoints;
 	private boolean dragging = false;
 	private Rectangle selectedArea = null;
 	private Rectangle gridArea;
@@ -54,6 +57,7 @@ public class MapBuilder {
 
 	public MapBuilder() {
 		selectedTiles = new HashSet<Location>();
+		spawnPoints = new ArrayList<Location>();
 		squares = new Square[20][20];
 		map = new GameMap();
 
@@ -316,17 +320,14 @@ public class MapBuilder {
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
 				}
-				if (squares[i][j] instanceof Ship) {
-					g.setColor(Color.WHITE);
+				if (selectedTiles.contains(new Location(j, i))) {
+					g.setColor(Color.PINK);
 					g.fillRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
-					g.drawImage(rocketImage, GRID_LEFT + j * GRID_SIZE,
-							GRID_TOP + i * GRID_SIZE, GRID_SIZE, GRID_SIZE,
-							null);
 				}
-				if (selectedTiles.contains(new Location(j, i))) {
-					g.setColor(Color.PINK);
+				if (spawnPoints.contains(new Location(j, i))) {
+					g.setColor(Color.RED);
 					g.fillRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
@@ -338,6 +339,20 @@ public class MapBuilder {
 					g.fillRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
+				}
+				if (selectedTile != null
+						&& (j == selectedTile.getX() && i == selectedTile
+								.getY())) {
+					g.setColor(Color.BLUE.darker());
+					g.fillRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i
+							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
+					g.setColor(Color.BLACK);
+				}
+				if (squares[i][j] instanceof Ship) {
+					g.setColor(Color.BLACK);
+					g.drawImage(rocketImage, GRID_LEFT + j * GRID_SIZE,
+							GRID_TOP + i * GRID_SIZE, GRID_SIZE, GRID_SIZE,
+							null);
 				}
 				if (squares[i][j] instanceof WalkableSquare
 						&& !(squares[i][j] instanceof Ship)) {
@@ -362,6 +377,7 @@ public class MapBuilder {
 			int returnValue = fc.showSaveDialog(null);
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
 				map.setSquares(squares);
+				map.setSpawnPoints(spawnPoints);
 				Storage.saveGameMap(map, fc.getSelectedFile());
 			}
 		}
@@ -375,6 +391,8 @@ public class MapBuilder {
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
 				map = Storage.loadGameMap(fc.getSelectedFile());
 				squares = map.getSquares();
+				spawnPoints = map.getSpawnPoints();
+				if (spawnPoints == null) spawnPoints = new ArrayList<Location>();
 			}
 		}
 	}
@@ -473,6 +491,8 @@ public class MapBuilder {
 		}
 	}
 
+	// TODO Auto-generated method stub
+
 	public void wallsOn() {
 		addWalls = true;
 	}
@@ -503,5 +523,17 @@ public class MapBuilder {
 
 	public void removeContainersOff() {
 		removeContainers = false;
+	}
+
+	public void addSpawnPoint() {
+		if (selectedTile != null && !spawnPoints.contains(selectedTile)){
+			spawnPoints.add(selectedTile);
+		}
+	}
+
+	public void removeSpawnPoint() {
+		if (selectedTile != null && spawnPoints.contains(selectedTile)){
+			spawnPoints.remove(selectedTile);
+		}
 	}
 }

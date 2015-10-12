@@ -64,6 +64,8 @@ public class Frame extends JFrame implements ActionListener {
 		JMenuItem setWalkable = new JMenuItem("Set Walkable");
 		JMenuItem setBlank = new JMenuItem("Set Blank");
 		JMenuItem setShip = new JMenuItem("Set Ship");
+		JMenuItem addSpawn = new JMenuItem("Add Spawn Point");
+		JMenuItem removeSpawn = new JMenuItem("Remove Spawn Point");
 		JCheckBoxMenuItem insideToggle = new JCheckBoxMenuItem("Inside Tiles");
 		final JCheckBoxMenuItem wallToggle = new JCheckBoxMenuItem("Walls");
 		final JCheckBoxMenuItem doorToggle = new JCheckBoxMenuItem("Doors");
@@ -79,11 +81,16 @@ public class Frame extends JFrame implements ActionListener {
 		toolMenu.add(setWalkable);
 		toolMenu.add(setBlank);
 		toolMenu.add(setShip);
+		toolMenu.add(addSpawn);
+		toolMenu.add(removeSpawn);
 		saveMenuItem.addActionListener(this);
 		loadMenuItem.addActionListener(this);
 		setWalkable.addActionListener(this);
 		setBlank.addActionListener(this);
 		setShip.addActionListener(this);
+		addSpawn.addActionListener(this);
+		removeSpawn.addActionListener(this);
+
 		insideToggle.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -153,6 +160,7 @@ public class Frame extends JFrame implements ActionListener {
 		});
 
 
+
 		final JPanel panel = new JPanel(new BorderLayout());
 		canvas = new Canvas(mapBuilder);
 		canvas.setFocusable(true);
@@ -185,6 +193,12 @@ public class Frame extends JFrame implements ActionListener {
 		}
 		if (e.getActionCommand().equals("Set Ship")) {
 			mapBuilder.setShip();
+		}
+		if (e.getActionCommand().equals("Add Spawn Point")) {
+			mapBuilder.addSpawnPoint();
+		}
+		if (e.getActionCommand().equals("Remove Spawn Point")) {
+			mapBuilder.removeSpawnPoint();
 		}
 	}
 }
