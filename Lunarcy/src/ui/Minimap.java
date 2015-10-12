@@ -3,6 +3,7 @@ package ui;
 import java.util.Map;
 
 import game.Direction;
+import game.Door;
 import game.EmptyWall;
 import game.GameState;
 import game.Player;
@@ -11,6 +12,7 @@ import game.Square;
 import game.WalkableSquare;
 import game.Wall;
 import processing.core.*;
+import sun.security.jca.GetInstance.Instance;
 
 /**
  * The minimap overlay that displays a 2D top down view of the game world.
@@ -130,17 +132,23 @@ public class Minimap extends DrawingComponent {
 	private void drawWalls(Map<Direction, Wall> walls) {
 		p.stroke(0, 100);
 
-		// Only draw the walls if they are not an EmptyWall
-		if (!(walls.get(Direction.NORTH) instanceof EmptyWall)) {
+		Wall north = walls.get(Direction.NORTH);
+		Wall south = walls.get(Direction.SOUTH);
+		Wall east = walls.get(Direction.EAST);
+		Wall west = walls.get(Direction.WEST);
+
+		// Only draw the walls if they are not an EmptyWall, or a door
+
+		if (!(north instanceof EmptyWall) && !(north instanceof Door)) {
 			p.line(0, 0, SQUARE_SIZE, 0);
 		}
-		if (!(walls.get(Direction.EAST) instanceof EmptyWall)) {
-			p.line(SQUARE_SIZE, 0, SQUARE_SIZE, SQUARE_SIZE);
-		}
-		if (!(walls.get(Direction.SOUTH) instanceof EmptyWall)) {
+		if (!(south instanceof EmptyWall) && !(south instanceof Door)) {
 			p.line(0, SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
 		}
-		if (!(walls.get(Direction.WEST) instanceof EmptyWall)) {
+		if (!(east instanceof EmptyWall) && !(east instanceof Door)) {
+			p.line(SQUARE_SIZE, 0, SQUARE_SIZE, SQUARE_SIZE);
+		}
+		if (!(west instanceof EmptyWall) && !(west instanceof Door)) {
 			p.line(0, 0, 0, SQUARE_SIZE);
 		}
 	}

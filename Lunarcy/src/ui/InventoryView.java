@@ -29,30 +29,7 @@ public class InventoryView extends Bar {
 		// Get all the players items
 		items = gameState.getPlayer(playerID).getInventory();
 
-		p.pushMatrix();
-		p.pushStyle();
-
-		p.noStroke();
-
-		// Translate drawing to match location
-		p.translate(LEFT_PADDING, TOP_PADDING);
-
-		// Draw the background
-		p.fill(0, 0, 0, 100);
-		p.rect(0, 0, BAR_WIDTH, ITEM_SIZE);
-
-		p.noFill();
-
-		if (items != null) {
-			for (int i = 0; i < items.size(); i++) {
-				p.image(ENTITY_IMAGES.get(items.get(i).getImageName()), i
-						* (ITEM_SIZE + ITEM_SPACING), 0, ITEM_SIZE, ITEM_SIZE);
-			}
-		}
-
-		// pop matrix and style information from the stack
-		p.popStyle();
-		p.popMatrix();
+		super.draw(gameState, delta);
 
 	}
 

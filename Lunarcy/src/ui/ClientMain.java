@@ -40,15 +40,17 @@ import network.Client;
 class ClientMain extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	// Used ion the server textbox
+
+	// The default text in the server textbox
 	private final String EXAMPLESERVER = "localhost";
 
-	// Will be used to make a palette of size MAXCOLORS x MAXCOLORS
+	// Used to make a color palette of size MAXCOLORS x MAXCOLORS
 	private final int MAXCOLORS = 5;
 
 	// Width of the textboxes
 	private final int WIDTH = 200;
 
+	// To prevent players from having excessively long names
 	private final int MAX_USERNAME_LENGTH = 20;
 
 	// To dynamically update from colorChooser
@@ -115,6 +117,12 @@ class ClientMain extends JFrame {
 		setResizable(false);
 	}
 
+	/**
+	 * Adds a horizontal seperator at the specified
+	 * x,y coordinates
+	 * @param x
+	 * @param y
+	 */
 	private void addSeperator(int x, int y) {
 		// Setup layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -256,7 +264,6 @@ class ClientMain extends JFrame {
 
 	}
 
-	@SuppressWarnings("serial")
 	private void addColorPreview() {
 		// Setup layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -277,6 +284,12 @@ class ClientMain extends JFrame {
 
 			}
 
+			/**
+			 * Tint the image based on the chosen colour,
+			 * to show an accurate preview of the space suit.
+			 *
+			 * @param g
+			 */
 			private void tintPicture(Graphics g) {
 				for (int x = 0; x < spacesuitImage.getWidth(); x++) {
 					for (int y = 0; y < spacesuitImage.getHeight(); y++) {

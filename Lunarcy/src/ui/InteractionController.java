@@ -13,8 +13,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import network.Client;
+import network.CloseAction;
 import network.DropAction;
 import network.MoveAction;
+import network.OpenAction;
 import network.OrientAction;
 import network.PickupAction;
 import network.PutAction;
@@ -56,6 +58,7 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 	// Canvas field
 	private Canvas canvas;
 
+
 	// Game state field
 	private GameState gameState;
 
@@ -90,17 +93,28 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		client.sendAction(new PickupAction(player.getId(), itemID));
 	}
 
+	public void openContainer() {
+		client.sendAction(new OpenAction(player.getId()));
+	}
+
+	public void closeContainer() {
+		client.sendAction(new CloseAction(player.getId()));
+	}
+
 	public void setInventory(InventoryView inventory) {
 		this.inventoryView = inventory;
 	}
 
-	public void setContainerView(ContainerView containerView) {
+	/** Update methods*/
+
+	public void setContainerView(ContainerView containerView){
 		this.containerView = containerView;
 	}
 
 	public void setEntityView(EntityView entityView) {
 		this.entityView = entityView;
 	}
+
 
 	public void update(Player player, GameState gameState) {
 		this.player = player;
@@ -183,14 +197,16 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
-		// attempt to get an entity from entity view
-		Entity entity = entityView.getItemAt(x, y);
-		System.out.println(entity);
+		// attempt to get a container from entity view
+		Container clickedContainer = entityView.getContainerAt(x, y);
 
-		//When a container is clicked
-		if (entity != null && entity instanceof Container) {
-			//Show the container menu
-			selectedContainer = (Container)entity;
+		//If an open container is clicked, shut it
+		if (clickedContainer != null && !clickedContainer.isOpen()) {
+			//Hide/show it
+			openContainer();
+		}
+		else if (clickedContainer != null && clickedContainer.isOpen()) {
+			closeContainer();
 		}
 
 	}
@@ -210,6 +226,19 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 			draggedY = y;
 			return;
 		}
+
+		// If the container menu was clicked
+		if (containerView.getContainer() !=null && containerView.onBar(x, y)) {
+
+			System.out.println("pressed");
+
+			// Get the item which was clicked
+			draggedToItem = containerView.getItemAt(x, y);
+			draggedFromItem = null;
+
+			return;
+		}
+
 
 		Entity entity = entityView.getItemAt(x, y);
 		if (entity != null && entity instanceof Item) {
@@ -238,9 +267,17 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
+
+		//If they drop an item onto a container
+		Container container = entityView.getContainerAt(x, y);
+
+		if(draggedFromItem != null && container != null){
+			//Put the item in the container
+			putItem(draggedFromItem.entityID);
+		}
 		// If the item was not released on the inventory bar, and there was an
 		// item currently being dragged, drop it
-		if (!inventoryView.onBar(x, y) && draggedFromItem != null) {
+		else if (draggedFromItem != null && !inventoryView.onBar(x, y)) {
 			// Drop the dragged from item
 			dropItem(draggedFromItem.entityID);
 		}

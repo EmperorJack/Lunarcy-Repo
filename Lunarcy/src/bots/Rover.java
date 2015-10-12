@@ -9,10 +9,10 @@ import game.Character;
 import java.io.Serializable;
 
 /**
- * A rover is a 'bot' in the game. Each rover can be following one of three
+ * A rover is a 'bot' in the game. Each rover can be following one of two
  * movement strategies, at a given time.
  *
- * 1. Roam: Follow a random path, change to #2 when a player is spotted
+ * 1. Roam: Follow a random path, change to #2 when a player is spotted.
  *
  * 2. Track: Track and follow a specific Player, using shortest path to attempt
  * to capture them. Gives up after the player gets too far away, and reverts to
@@ -100,6 +100,7 @@ public class Rover implements Character, Serializable {
 	 *
 	 */
 	private void updateStrategy(GameState gameState) {
+
 		// If we are roaming, see if we can track anyone
 		if (movementStrategy instanceof RoamMovement) {
 
@@ -109,6 +110,7 @@ public class Rover implements Character, Serializable {
 
 			// If we can see a target, and they're outside chase them
 			if (target != null && gameState.isOutside(target.getLocation())) {
+
 				// Change to tracking this target
 				movementStrategy = new TrackMovement(this, gameState, target);
 			}
@@ -117,7 +119,7 @@ public class Rover implements Character, Serializable {
 		// If we are in Track Mode
 		else if (movementStrategy instanceof TrackMovement) {
 			// If the tracker has been following for too long
-			if (((TrackMovement) movementStrategy).shouldGiveup(gameState)) {
+			if (((TrackMovement) movementStrategy).shouldGiveup(this, gameState)) {
 				// Change back to Roaming
 				movementStrategy = new RoamMovement();
 			}

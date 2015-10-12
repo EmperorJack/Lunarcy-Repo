@@ -128,10 +128,10 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.OXYGEN));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORYVIEW));
-		hud.add(factory.getDrawingComponent(DrawingComponentFactory.CONTAINERVIEW));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.ENTITYVIEW));
 		hud.add(factory
 				.getDrawingComponent(DrawingComponentFactory.OBJECTIVEVIEW));
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.CONTAINERVIEW));
 
 		// audio setup
 		// minim = new Minim(this);
