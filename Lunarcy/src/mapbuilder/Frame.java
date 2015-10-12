@@ -67,11 +67,15 @@ public class Frame extends JFrame implements ActionListener {
 		JCheckBoxMenuItem insideToggle = new JCheckBoxMenuItem("Inside Tiles");
 		final JCheckBoxMenuItem wallToggle = new JCheckBoxMenuItem("Walls");
 		final JCheckBoxMenuItem doorToggle = new JCheckBoxMenuItem("Doors");
+		final JCheckBoxMenuItem containerToggle = new JCheckBoxMenuItem("Containers");
+		final JCheckBoxMenuItem removeContainers = new JCheckBoxMenuItem("Remove Containers");
 		optionMenu.add(saveMenuItem);
 		optionMenu.add(loadMenuItem);
 		toggleMenu.add(insideToggle);
 		toggleMenu.add(wallToggle);
 		toggleMenu.add(doorToggle);
+		toggleMenu.add(containerToggle);
+		toggleMenu.add(removeContainers);
 		toolMenu.add(setWalkable);
 		toolMenu.add(setBlank);
 		toolMenu.add(setShip);
@@ -97,6 +101,8 @@ public class Frame extends JFrame implements ActionListener {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					doorToggle.setState(false);
+					containerToggle.setState(false);
+					removeContainers.setState(false);
 					mapBuilder.wallsOn();
 				} else {
 					mapBuilder.wallsOff();
@@ -109,12 +115,43 @@ public class Frame extends JFrame implements ActionListener {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					wallToggle.setState(false);
+					containerToggle.setState(false);
+					removeContainers.setState(false);
 					mapBuilder.doorsOn();
 				} else {
 					mapBuilder.doorsOff();
 				}
 			}
 		});
+
+		containerToggle.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					wallToggle.setState(false);
+					doorToggle.setState(false);
+					removeContainers.setState(false);
+					mapBuilder.containersOn();
+				} else {
+					mapBuilder.containersOff();
+				}
+			}
+		});
+
+		removeContainers.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					wallToggle.setState(false);
+					doorToggle.setState(false);
+					containerToggle.setState(false);
+					mapBuilder.removeContainersOn();
+				} else {
+					mapBuilder.removeContainersOff();
+				}
+			}
+		});
+
 
 		final JPanel panel = new JPanel(new BorderLayout());
 		canvas = new Canvas(mapBuilder);

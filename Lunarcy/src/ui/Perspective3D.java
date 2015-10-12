@@ -196,7 +196,7 @@ public class Perspective3D extends DrawingComponent {
 				p.translate(position.x, position.y, position.z);
 
 				// rotate the current player sprite to face this player
-				rotateRelativeTo(position);
+				rotateRelativeTo(position, 1);
 
 				// draw the player astronaut image
 				p.imageMode(PApplet.CENTER);
@@ -238,7 +238,7 @@ public class Perspective3D extends DrawingComponent {
 				p.translate(position.x, position.y, position.z);
 
 				// rotate the current rover sprite to face this player
-				rotateRelativeTo(position);
+				rotateRelativeTo(position, 1);
 
 				// draw the player rover image
 				p.imageMode(PApplet.CENTER);
@@ -392,7 +392,7 @@ public class Perspective3D extends DrawingComponent {
 		p.translate(xOffset, yOffset, zOffset);
 
 		// rotate the current entity to face this player
-		rotateRelativeTo(position);
+		rotateRelativeTo(position, 1);
 
 		// draw the entity image
 		p.image(entityImages.get(entity.getImageName()), 0, 0, size, size);
@@ -407,10 +407,13 @@ public class Perspective3D extends DrawingComponent {
 	 * @param position
 	 *            The position vector to rotate in reference to.
 	 */
-	private void rotateRelativeTo(PVector position) {
+	private void rotateRelativeTo(PVector position, float factor) {
 		// compute the angle between the camera and the given position vector
 		float angle = PApplet.atan2(actualCameraEye.z - position.z,
 				actualCameraEye.x - position.x);
+
+		// apply the factor to the rotation angle
+		angle *= factor;
 
 		// rotate the matrix by the computed angle
 		p.rotateY(-(angle - PApplet.HALF_PI));

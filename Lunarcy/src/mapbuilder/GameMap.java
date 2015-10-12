@@ -11,11 +11,12 @@ public class GameMap {
 	private Square[][] squares;
 	private Map<Item, Integer> tierDictionary;
 	private List<Location> spawnPoints;
-
+	private int entityCount = 0;
 
 	public GameMap(){
 		setSquares(new Square[20][20]);
 		setTierDictionary(new HashMap<Item, Integer>());
+		int entityCount = 0;
 	}
 
 	public Square[][] getSquares() {
@@ -41,4 +42,21 @@ public class GameMap {
 	public void setSpawnPoints(List<Location> spawnPoints) {
 		this.spawnPoints = spawnPoints;
 	}
+
+	public int getEntityCount() {
+		return entityCount;
+	}
+
+	public void setEntityCount(int entityCount) {
+		this.entityCount = entityCount;
+	}
+
+	public void increaseEntityCount(){
+		entityCount++;
+	}
+
+	public void decreaseEntityCount(){
+		entityCount--;
+	}
+
 }

@@ -153,6 +153,22 @@ public class WalkableSquare extends Square {
 	}
 
 	/**
+	 * Adds the container to the specified side of the room.
+	 *
+	 * @param side
+	 *            the side of the Square to add the container to
+	 * @param container
+	 *            the container to add
+	 * @return True if container could be added, False otherwise
+	 */
+	public boolean removeContainer(Direction side) {
+		if (side == null)
+			return false;
+		containers.remove(side);
+		return true;
+	}
+
+	/**
 	 * Get the set of all the players in the room Note: Modifying the returned
 	 * set will not change the players in the room
 	 *
