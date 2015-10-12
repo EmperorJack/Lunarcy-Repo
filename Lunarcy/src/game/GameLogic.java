@@ -25,6 +25,45 @@ public class GameLogic {
 	}
 
 	/**
+	 * Updates all the characters inside the GameState e.g Moves the Rovers and
+	 * changes Player Oxygen
+	 */
+	public synchronized void tickGameState() {
+		//Move all the rovers
+		if(tickCount % 4 == 0){
+			for(Rover r: state.getRovers()){
+				r.tick(state);
+			}
+		}
+		//Move all the players
+		for(int i = 0; i < moves.length; i++){
+			if(moves[i]!=null){
+				moves[i].move();
+				moves[i] = null;
+			}
+		}
+		Set<Location> locations = new HashSet<Location>();
+		// Update player oxygen
+		for (Player player : state.getPlayers()) {
+			if (player != null) {
+				if(player.getOxygen()==0){
+					killPlayer(player);
+				}
+				locations.add(player.getLocation());
+			}
+		}
+		for (Location loc : locations) {
+			Square square = state.getSquare(loc);
+			square.tick();
+		}
+		Ship ship = state.getShip();
+		if(ship.hasLaunched()){
+			System.out.println(ship.getPilot().getName() + " has won the game!!");
+		}
+		tickCount++;
+	}
+
+	/**
 	 * Checks if a player can enter a square and if they can will move them into
 	 * that square
 	 *
@@ -148,7 +187,7 @@ public class GameLogic {
 			}
 			//There must be no matching item in the square so check the container
 			Container container = wSquare.getContainer(player.getOrientation());
-			if (container.canAccess(player) && container.hasItem(itemID)) {
+			if (container !=null && container.canAccess(player) && container.hasItem(itemID)) {
 				Item item = container.takeItem(itemID);
 				if (item != null) {
 					return player.giveItem(item);
@@ -211,71 +250,36 @@ public class GameLogic {
 			WalkableSquare wSquare = (WalkableSquare) square;
 
 			Container container = wSquare.getContainer(player.getOrientation());
-			Item item = player.removeItem(itemID);
-			if (item != null) {
-				container.addItem(item);
-				return true;
-			} else {
-				return false;
+			if(container !=null){
+				Item item = player.removeItem(itemID);
+				if (item != null) {
+					container.addItem(item);
+					return true;
+				} else {
+					return false;
+				}
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Updates all the characters inside the GameState e.g Moves the Rovers and
-	 * changes Player Oxygen
-	 */
-	public synchronized void tickGameState() {
-
-
-		//Move all the rovers
-		if(tickCount % 4 == 0){
-			for(Rover r: state.getRovers()){
-				r.tick(state);
-			}
-		}
-
-		//Move all the players
-		for(int i = 0; i < moves.length; i++){
-			if(moves[i]!=null){
-				moves[i].move();
-				moves[i] = null;
-			}
-		}
-
-		Set<Location> locations = new HashSet<Location>();
-		// Update player oxygen
-		for (Player player : state.getPlayers()) {
-			if (player != null) {
-				if(player.getOxygen()==0){
-					killPlayer(player);
-				}
-				locations.add(player.getLocation());
-			}
-		}
-		for (Location loc : locations) {
-			Square square = state.getSquare(loc);
-			square.tick();
-		}
-
-		Ship ship = state.getShip();
-		if(ship.hasLaunched()){
-			System.out.println(ship.getPilot().getName() + " has won the game!!");
-		}
-
-		tickCount++;
 	}
 
 	public GameState getGameState() {
 		return state;
 	}
 
-	public Player getwinner(){
+	public Player getWinner(){
 		if(state.getShip().hasLaunched()){
 			return state.getShip().getPilot();
 		}
 		return null;
+	}
+
+	/**
+	 * Returns the time as a percentage of the day
+	 * @return 0-100% of how much the day night cycle has gone through
+	 */
+	public int getTime(){
+		return tickCount % 300;
 	}
 
 	private class PlayerMove{
