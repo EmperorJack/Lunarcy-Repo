@@ -14,7 +14,7 @@ import ui.renderer.Perspective3D;
 import game.GameState;
 
 /**
- * Factory class used to construct drawing different drawing componenets for the
+ * Factory class used to construct drawing different drawing components for the
  * canvas. Can create a variety of heads up display components or the 3D
  * perspective component.
  *
@@ -36,7 +36,7 @@ public class DrawingComponentFactory {
 	private InteractionController interactionControl;
 
 	// map of unique item images
-	Map<String, PImage> entityImages;
+	private Map<String, PImage> entityImages;
 
 	// types of components available
 	public static final int INVENTORYVIEW = 0;
@@ -44,9 +44,8 @@ public class DrawingComponentFactory {
 	public static final int OXYGEN = 2;
 	public static final int PERSPECTIVE3D = 3;
 	public static final int ENTITYVIEW = 4;
-	public static final int MENU = 5;
-	public static final int OBJECTIVEVIEW = 6;
-	public static final int CONTAINERVIEW = 7;
+	public static final int OBJECTIVEVIEW = 5;
+	public static final int CONTAINERVIEW = 6;
 
 	public DrawingComponentFactory(Canvas p, GameState gameState, int playerID,
 			InteractionController interactionControl,

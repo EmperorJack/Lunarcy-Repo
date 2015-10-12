@@ -37,7 +37,7 @@ public class Skybox {
 		skyModel.drawMode(OBJModel.POLYGON);
 
 		// load the sun image
-		sun = p.loadImage("/assets/items/shipPart_GRAVITY_CORE.png");
+		sun = p.loadImage("/assets/characters/OgreMan.png");
 		// TODO replace temp image with actual sun image here
 
 		// set the sun offset and size

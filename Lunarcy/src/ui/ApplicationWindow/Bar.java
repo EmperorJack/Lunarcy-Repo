@@ -21,7 +21,7 @@ import game.Item;
 public abstract class Bar extends DrawingComponent {
 
 	// The bars alignment and sizing
-	protected int LEFT_PADDING, TOP_PADDING, BAR_WIDTH;
+	private final int LEFT_PADDING, TOP_PADDING, BAR_WIDTH;
 
 	// Sizing of the individual items within the bar
 	protected final int ITEM_SIZE;
