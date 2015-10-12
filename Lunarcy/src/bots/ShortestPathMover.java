@@ -32,7 +32,6 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 
 		for (Direction direction : game.Direction.values()) {
 			if (validMove(gamestate, rover, loc, direction)) {
-
 				neighbours.add(loc.getAdjacent(direction));
 			}
 		}
@@ -40,7 +39,9 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 		return neighbours;
 	}
 
-	private boolean validMove(GameState state, Rover rover, Location loc, Direction direction) {
+	private boolean validMove(GameState state, Rover rover, Location loc,
+			Direction direction) {
+
 		Square src = state.getSquare(loc);
 		Square dest = state.getSquare(loc.getAdjacent(direction));
 
@@ -59,7 +60,7 @@ abstract class ShortestPathMover implements MoveStrategy, Serializable {
 	 * @param end
 	 * @return
 	 */
-	private int estimate(Location start, Location end) {
+	protected int estimate(Location start, Location end) {
 		if (start == null || end == null) {
 			return -1;
 		}

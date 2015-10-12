@@ -38,9 +38,13 @@ public class ContainerView extends Bar {
 	@Override
 	public void draw(GameState gameState, float delta) {
 
-		if(container!=null){
-			items = container.getItems();
+		//Dont draw if there is no container set
+		if(container==null){
+			return;
 		}
+
+		items = container.getItems();
+
 
 		p.pushMatrix();
 		p.pushStyle();

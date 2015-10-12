@@ -56,8 +56,6 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 	// Canvas field
 	private Canvas canvas;
 
-	private Container selectedContainer;
-
 	public InteractionController(Client client, GameState gamestate, Player player, Canvas canvas) {
 
 		this.client = client;
@@ -91,7 +89,12 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		this.inventoryView = inventory;
 	}
 
-	public void setContainerView(ContainerView containerView) {
+	/** Update methods*/
+	public void updateContainerView(Container container) {
+		containerView.updateContainer(container);
+	}
+
+	public void setContainerView(ContainerView containerView){
 		this.containerView = containerView;
 	}
 
@@ -185,9 +188,10 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 
 		//When a container is clicked
 		if (entity != null && entity instanceof Container) {
-			//Show the container menu
-			selectedContainer = (Container)entity;
+			//Update the container menu
+			updateContainerView((Container)entity);
 		}
+
 
 	}
 

@@ -7,17 +7,27 @@ import processing.core.PImage;
 import game.GameState;
 import game.Item;
 
+/**
+ * Represents a component which is
+ * drawn as a "bar", ie the Inventory Bar
+ * and Container bar.
+ *
+ * @author evansben1
+ *
+ */
 public abstract class Bar extends DrawingComponent {
 
 	// The bars alignment and sizing
 	protected int LEFT_PADDING, TOP_PADDING, BAR_WIDTH;
+
+	//Sizing of the items inside the bar
 	protected final int ITEM_SIZE;
 	protected final int ITEM_SPACING;
 
 	//Which items the bar contains
 	protected List<Item> items;
 
-	// So we can preload all our images based on the entitys name
+	// So we can preload all our images
 	protected final Map<String, PImage> ENTITY_IMAGES;
 
 	public Bar(int leftPadding, int topPadding, List<Item> items, Canvas p, GameState gameState, int playerID, Map<String, PImage> entityImages) {
@@ -66,11 +76,11 @@ public abstract class Bar extends DrawingComponent {
 
 	/**
 	 * Returns true if the coordinates entered are inside the
-	 * inventory bar.
+	 *  bar.
 	 *
 	 * @param x
 	 * @param y
-	 * @return True if the given position on the inventory bar.
+	 * @return True if the given position is on the inventory bar.
 	 */
 	public boolean onBar(int x, int y) {
 		return x > LEFT_PADDING && x < LEFT_PADDING + BAR_WIDTH
