@@ -302,7 +302,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		// create a scanner to parse in the items file
 		try {
 			Scanner scanner = new Scanner(
-					new File("assets/items/all_items.txt"));
+					new File("assets/items/all_entities.txt"));
 
 			// while the scanner has entity names left to parse
 			while (scanner.hasNextLine()) {
