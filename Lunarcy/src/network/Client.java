@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import javax.activity.InvalidActivityException;
+
 /**
  * A class for
  *
@@ -32,11 +34,12 @@ public class Client {
 
 	public Client(String serverAddr, String name, Color colour, int frameWidth,
 			int frameHeight, boolean hardwareRenderer)
-			throws IllegalArgumentException {
+			throws IllegalArgumentException, IllegalArgumentException{
 		this.serverAddr = serverAddr;
 		this.colour = colour;
 		this.frameWidth = frameWidth;
 		this.frameHeight = frameHeight;
+		this.hardwareRenderer = hardwareRenderer;
 		try {
 			socket = new Socket(serverAddr, DEFAULT_PORT);
 			System.out.println("bound socket");
@@ -52,24 +55,29 @@ public class Client {
 		writeObject(name);
 
 		// Send hex colour
-		String hexColour = String.format("#%02x%02x%02x", this.colour.getRed(),
-				this.colour.getGreen(), this.colour.getBlue());
+		String hexColour = String.format("#%02x%02x%02x", this.colour.getRed(), this.colour.getGreen(), this.colour.getBlue());
 		System.out.println("hex colour  " + hexColour);
 		writeObject(hexColour);
 		System.out.println("Name sent to server: " + name);
-		readInt();
+		id = readInt();
 
-		this.hardwareRenderer = hardwareRenderer;
 		getInitialGamestate();
 
 		System.out.println("Listening for gamestate");
 		// listenForGameUpdates(); //listen for gamestates from the server
 	}
 
-	private void negotiateConnection(){
+	private void negotiateConnection() throws IllegalArgumentException{
 		//do
 			//sendName
 			//if response = -1
+		//writeObject
+		writeObject(name);
+		int response = readInt();
+		if(response == -1)throw new IllegalArgumentException("Not a valid Name");
+		id = response;
+		String hexColour = String.format("#%02x%02x%02x", this.colour.getRed(), this.colour.getGreen(), this.colour.getBlue());
+
 	}
 
 	public void getInitialGamestate() {
@@ -113,15 +121,16 @@ public class Client {
 		writeObject(action);
 	}
 
-	private void readInt() {
+	private int readInt() {
 		System.out.println("trying to read ID");
 		try {
-			id = inputFromServer.readInt();
-			System.out.println("My clientID is: " + id);
+			return inputFromServer.readInt();
+			//System.out.println("My clientID is: " + id);
 		} catch (IOException e) {
 			System.err.println("cant read ID");
 			e.printStackTrace();
 		}
+		return -1;
 	}
 
 	private boolean writeObject(Object o) {
@@ -134,8 +143,9 @@ public class Client {
 				e.printStackTrace();
 				return false;
 			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public int getPlayerID() {
