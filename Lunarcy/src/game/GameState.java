@@ -39,7 +39,9 @@ public class GameState implements Serializable {
 		loadMap(map);
 		rovers = new HashSet<Rover>();
 		players = new Player[numPlayers];
-
+		addRover(new Rover());
+		((WalkableSquare) getSquare(new Location(1, 1))).setContainer(
+				Direction.NORTH, new Chest(69));
 	}
 
 	/**
@@ -100,18 +102,17 @@ public class GameState implements Serializable {
 		board = gameMap.getSquares();
 		spawnPoints = new ArrayList<Location>();
 		spawnPoints.add(new Location(1, 1));
-
-		// Search the board to find the ship and save it
-		// Probably need to do something if there is no ship
-		// (InvalidMapException??)
-		for (int y = 0; y < board.length; y++) {
-			for (int x = 0; x < board[y].length; x++) {
-				if (board[y][x] instanceof Ship) {
-					ship = (Ship) board[y][x];
+			// Search the board to find the ship and save it
+			// Probably need to do something if there is no ship
+			// (InvalidMapException??)
+			for (int y = 0; y < board.length; y++) {
+				for (int x = 0; x < board[y].length; x++) {
+					if (board[y][x] instanceof Ship) {
+						ship = (Ship) board[y][x];
+					}
 				}
 			}
 		}
-	}
 
 	/**
 	 * Add a location to the Set of locations where players may spawn
@@ -200,8 +201,7 @@ public class GameState implements Serializable {
 	}
 
 	/**
-	 * HashMap Retrieves the ID number of the player whose name matches the
-	 * parameter.
+	 * Retrieves the ID number of the player whose name matches the parameter.
 	 *
 	 * @param playerName
 	 *            The name of the Player whose name matches

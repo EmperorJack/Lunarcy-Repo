@@ -42,7 +42,7 @@ public class ServerMain extends JFrame {
 	private JTextArea console;
 	private JButton loadGame;
 	private JButton loadMap;
-	private String selectedMap = "gamemap.xml";
+	private String selectedMap = "assets/maps/map.xml";
 	public ServerMain() {
 		super("Start Game");
 
