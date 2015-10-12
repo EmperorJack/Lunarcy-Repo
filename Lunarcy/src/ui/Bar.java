@@ -6,11 +6,12 @@ import java.util.Map;
 import processing.core.PImage;
 import game.GameState;
 import game.Item;
+import game.Player;
+import game.WalkableSquare;
 
 /**
- * Represents a component which is
- * drawn as a "bar", ie the Inventory Bar
- * and Container bar.
+ * Represents a component which is drawn as a "bar", ie the Inventory Bar and
+ * Container bar.
  *
  * @author evansben1
  *
@@ -20,17 +21,18 @@ public abstract class Bar extends DrawingComponent {
 	// The bars alignment and sizing
 	protected int LEFT_PADDING, TOP_PADDING, BAR_WIDTH;
 
-	//Sizing of the items inside the bar
+	// Sizing of the items inside the bar
 	protected final int ITEM_SIZE;
 	protected final int ITEM_SPACING;
 
-	//Which items the bar contains
+	// Which items the bar contains
 	protected List<Item> items;
 
 	// So we can preload all our images
 	protected final Map<String, PImage> ENTITY_IMAGES;
 
-	public Bar(int leftPadding, int topPadding, List<Item> items, Canvas p, GameState gameState, int playerID, Map<String, PImage> entityImages) {
+	public Bar(int leftPadding, int topPadding, List<Item> items, Canvas p,
+			GameState gameState, int playerID, Map<String, PImage> entityImages) {
 		super(p, gameState, playerID);
 
 		LEFT_PADDING = leftPadding;
@@ -41,6 +43,42 @@ public abstract class Bar extends DrawingComponent {
 		ENTITY_IMAGES = entityImages;
 
 		this.items = items;
+
+	}
+
+	/**
+	 * Draws the bar at LEFT_PADDING
+	 * TOP_PADDING with the specified items.
+	 */
+	@Override
+	public void draw(GameState gameState, float delta) {
+
+		p.pushMatrix();
+		p.pushStyle();
+
+		p.noStroke();
+
+		// Translate drawing to match location
+		p.translate(LEFT_PADDING, TOP_PADDING);
+
+		// Draw the background
+		p.fill(0, 0, 0, 100);
+		p.rect(0, 0, BAR_WIDTH, ITEM_SIZE);
+
+		// p.imageMode(PApplet.CENTER);
+
+		p.noFill();
+
+		if (items != null) {
+			for (int i = 0; i < items.size(); i++) {
+				p.image(ENTITY_IMAGES.get(items.get(i).getImageName()), i
+						* (ITEM_SIZE + ITEM_SPACING), 0, ITEM_SIZE, ITEM_SIZE);
+			}
+		}
+
+		// pop matrix and style information from the stack
+		p.popStyle();
+		p.popMatrix();
 
 	}
 
@@ -70,13 +108,12 @@ public abstract class Bar extends DrawingComponent {
 			return null;
 		}
 
-		//If it was within bounds, return the value at the corresponding index
+		// If it was within bounds, return the value at the corresponding index
 		return items.get(index);
 	}
 
 	/**
-	 * Returns true if the coordinates entered are inside the
-	 *  bar.
+	 * Returns true if the coordinates entered are inside the bar.
 	 *
 	 * @param x
 	 * @param y
@@ -86,6 +123,5 @@ public abstract class Bar extends DrawingComponent {
 		return x > LEFT_PADDING && x < LEFT_PADDING + BAR_WIDTH
 				&& y > TOP_PADDING && y < TOP_PADDING + ITEM_SIZE;
 	}
-
 
 }

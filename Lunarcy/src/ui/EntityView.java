@@ -34,13 +34,11 @@ public class EntityView extends DrawingComponent {
 
 	// currently held container
 	private Container container;
-	private boolean containerOpened;
 
 	public EntityView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {
 		super(p, gameState, playerID);
 		this.entityImages = entityImages;
-		containerOpened = false;
 	}
 
 	@Override
@@ -69,11 +67,6 @@ public class EntityView extends DrawingComponent {
 
 			String containerImageName = container.getImageName();
 
-			// if the container is currently open
-			if (containerOpened) {
-				containerImageName += "_open";
-			}
-
 			// draw the container
 			p.image(entityImages.get(containerImageName),
 					Canvas.TARGET_WIDTH / 2.0f, CONTAINER_SIZE / 2,
@@ -101,20 +94,6 @@ public class EntityView extends DrawingComponent {
 		// pop matrix and style information from the stack
 		p.popStyle();
 		p.popMatrix();
-	}
-
-	/**
-	 * Set the container opened or closed dependent on the given state.
-	 *
-	 * @param setOpen
-	 *            True for open, false for closed.
-	 */
-	public void setContainerOpen(boolean setOpen) {
-		this.containerOpened = setOpen;
-	}
-
-	public boolean getContainerOpen() {
-		return containerOpened;
 	}
 
 	/**

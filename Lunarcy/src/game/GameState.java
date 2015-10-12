@@ -226,9 +226,6 @@ public class GameState implements Serializable {
 		if (playerID < 0 || playerID > players.length)
 			return false;
 		players[playerID] = player;
-		// TESTCODE
-		if (playerID == 0)
-			addRover(new Rover());
 		return true;
 	}
 

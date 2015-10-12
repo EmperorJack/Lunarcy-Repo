@@ -13,8 +13,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import network.Client;
+import network.CloseAction;
 import network.DropAction;
 import network.MoveAction;
+import network.OpenAction;
 import network.OrientAction;
 import network.PickupAction;
 import network.PutAction;
@@ -91,14 +93,19 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		client.sendAction(new PickupAction(player.getId(), itemID));
 	}
 
+	public void openContainer() {
+		client.sendAction(new OpenAction(player.getId()));
+	}
+
+	public void closeContainer() {
+		client.sendAction(new CloseAction(player.getId()));
+	}
+
 	public void setInventory(InventoryView inventory) {
 		this.inventoryView = inventory;
 	}
 
 	/** Update methods*/
-	public void updateContainerView(Container container) {
-		containerView.updateContainer(container);
-	}
 
 	public void setContainerView(ContainerView containerView){
 		this.containerView = containerView;
@@ -107,6 +114,7 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 	public void setEntityView(EntityView entityView) {
 		this.entityView = entityView;
 	}
+
 
 	public void update(Player player, GameState gameState) {
 		this.player = player;
@@ -192,21 +200,13 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		// attempt to get a container from entity view
 		Container clickedContainer = entityView.getContainerAt(x, y);
 
-		//If a container is clicked
-		if (clickedContainer != null && !clickedContainer.equals(containerView.getContainer())) {
-			//Update the container menu
-			updateContainerView(clickedContainer);
-
-			//Open the container (for redering)
-			entityView.setContainerOpen(true);
+		//If an open container is clicked, shut it
+		if (clickedContainer != null && !clickedContainer.isOpen()) {
+			//Hide/show it
+			openContainer();
 		}
-		//A container was not clicked, or a container was reclicked
-		else{
-			//Clear the container
-			updateContainerView(null);
-
-			//And shut it
-			entityView.setContainerOpen(false);
+		else if (clickedContainer != null && clickedContainer.isOpen()) {
+			closeContainer();
 		}
 
 	}
