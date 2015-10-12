@@ -31,7 +31,12 @@ public class BlankSquare extends Square {
 	}
 
 	@Override
-	public List<Entity> getEntities(Direction side) {
-		return new ArrayList<Entity>();
+	public List<Item> getItems(Direction side) {
+		return new ArrayList<Item>();
+	}
+
+	@Override
+	public Container getContainer(Direction side) {
+		return null;
 	}
 }

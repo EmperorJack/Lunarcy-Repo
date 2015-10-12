@@ -9,7 +9,7 @@ public class LockedChest extends Container {
 		this.key = key;
 	}
 	@Override
-	protected boolean canAccess(Player player) {
+	public boolean canAccess(Player player) {
 		return player.getInventory().contains(key);
 	}
 	@Override

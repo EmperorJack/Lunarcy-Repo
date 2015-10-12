@@ -9,7 +9,7 @@ public class Door implements Wall {
 	private static final long serialVersionUID = 908914959512451832L;
 
 	@Override
-	public boolean pass(Character character) {
+	public boolean canPass(Character character) {
 		return character instanceof Player;
 	}
 }

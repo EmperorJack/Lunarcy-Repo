@@ -1,9 +1,8 @@
 package game;
 
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Represents a Container which contains items.
@@ -40,7 +39,7 @@ public abstract class Container extends Entity {
 	 * @return The first Item in the set with a matching ID number
 	 * @throws IllegalArgumentException if itemID was not found
 	 */
-	public Item takeItem(Player player, int itemID){
+	public Item takeItem(int itemID){
 		Item item = null;
 		for(Item i : items){
 			if(i.entityID == itemID){
@@ -50,12 +49,8 @@ public abstract class Container extends Entity {
 		if(item==null){
 			throw new IllegalArgumentException("'itemID' does not correspond with an item in this container");
 		}
-		if(canAccess(player)){
-			items.remove(item);
-			return item;
-		}else{
-			return null;
-		}
+		items.remove(item);
+		return item;
 	}
 
 	/**
@@ -63,7 +58,7 @@ public abstract class Container extends Entity {
 	 * @param player
 	 * @return True if player can access, False otherwise
 	 */
-	protected abstract boolean canAccess(Player player);
+	public abstract boolean canAccess(Player player);
 
 	/**
 	 * Returns the set of all items inside this container.

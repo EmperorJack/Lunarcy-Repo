@@ -58,7 +58,7 @@ public class GameLogic {
 	 * @return True if the Character may move, False otherwise
 	 */
 	public boolean validMove(Character character, Direction direction){
-		if(character == null && direction == null){
+		if(character == null || direction == null){
 			return false;
 		}
 
@@ -138,26 +138,20 @@ public class GameLogic {
 		if (square instanceof WalkableSquare) {
 			WalkableSquare wSquare = (WalkableSquare) square;
 
-			// Check all Items/Containers in the square to find the matching
-			// item
-			for (Entity e : wSquare.getEntities(player.getOrientation())) {
-				if (e instanceof Item && e.entityID == itemID) {
+			// Check all Items in the square to find a matching item
+			for (Item i : wSquare.getItems(player.getOrientation())) {
+				if (i.entityID == itemID) {
 					// Found the matching item
-					Item item = wSquare.takeItem(player.getOrientation(),
-							(Item) e);
+					Item item = wSquare.takeItem(player.getOrientation(),itemID);
 					return player.giveItem(item);
-				} else if (e instanceof Container) {
-					// Have to check if the container has the item and can be
-					// accessed
-					Container container = (Container) e;
-					if (container.hasItem(itemID)) {
-						Item item = container.takeItem(player, itemID);
-						if (item != null) {
-							return player.giveItem(item);
-						} else {
-							return false;
-						}
-					}
+				}
+			}
+			//There must be no matching item in the square so check the container
+			Container container = wSquare.getContainer(player.getOrientation());
+			if (container.canAccess(player) && container.hasItem(itemID)) {
+				Item item = container.takeItem(itemID);
+				if (item != null) {
+					return player.giveItem(item);
 				}
 			}
 		}
@@ -187,7 +181,7 @@ public class GameLogic {
 			Item item = player.removeItem(itemID);
 			if (item != null) {
 				WalkableSquare wSquare = (WalkableSquare) square;
-				wSquare.addEntity(player.getOrientation(), item);
+				wSquare.addItem(player.getOrientation(), item);
 			}
 		}
 		return false;
@@ -205,10 +199,9 @@ public class GameLogic {
 	 * @return True if Item was picked up, false otherwise (Invalid playerID,
 	 *         containerID or itemID)
 	 */
-	public boolean putItemIntoContainer(int playerID, int containerID,
-			int itemID) {
+	public boolean putItemIntoContainer(int playerID, int itemID) {
 		Player player = state.getPlayer(playerID);
-		if (player == null || containerID < 0 || itemID < 0)
+		if (player == null || itemID < 0)
 			return false;
 		Square square = state.getSquare(player.getLocation());
 
@@ -217,19 +210,13 @@ public class GameLogic {
 		if (square instanceof WalkableSquare) {
 			WalkableSquare wSquare = (WalkableSquare) square;
 
-			// Check all the containers to find a matching one
-			for (Entity e : wSquare.getEntities(player.getOrientation())) {
-				if (e instanceof Container && e.entityID == containerID) {
-					Container container = (Container) e;
-					if (!container.hasItem(itemID)) {
-						Item item = player.removeItem(itemID);
-						if (item != null) {
-							return container.addItem(item);
-						} else {
-							return false;
-						}
-					}
-				}
+			Container container = wSquare.getContainer(player.getOrientation());
+			Item item = player.removeItem(itemID);
+			if (item != null) {
+				container.addItem(item);
+				return true;
+			} else {
+				return false;
 			}
 		}
 		return false;

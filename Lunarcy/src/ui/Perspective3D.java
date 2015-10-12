@@ -3,6 +3,7 @@ package ui;
 import game.Direction;
 import game.Entity;
 import game.GameState;
+import game.Item;
 import game.Location;
 import game.Player;
 import game.Square;
@@ -286,15 +287,15 @@ public class Perspective3D extends DrawingComponent {
 					for (Direction dir : Direction.values()) {
 
 						// get the entities for the current direction
-						List<Entity> entities = s.getEntities(dir);
+						List<Item> items = s.getItems(dir);
 
 						// for each entity
-						for (int i = 0; i < entities.size(); i++) {
+						for (int i = 0; i < items.size(); i++) {
 							p.pushMatrix();
 
 							// compute the offset for the current entity image
 							int offset = (int) ((i + 1)
-									/ (float) (entities.size() + 1) * SQUARE_SIZE)
+									/ (float) (items.size() + 1) * SQUARE_SIZE)
 									- SQUARE_SIZE / 2;
 
 							// setup the x and z offsets
@@ -332,7 +333,7 @@ public class Perspective3D extends DrawingComponent {
 
 							// draw the entity image
 							p.imageMode(PApplet.CENTER);
-							p.image(entityImages.get(entities.get(i)
+							p.image(entityImages.get(items.get(i)
 									.getImageName()), 0, 0, ENTITY_SIZE,
 									ENTITY_SIZE);
 

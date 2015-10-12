@@ -79,8 +79,8 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		client.sendAction(new DropAction(player.getId(), itemID));
 	}
 
-	public void putItem(int itemID, int containerID) {
-		client.sendAction(new PutAction(player.getId(), itemID, containerID));
+	public void putItem(int itemID) {
+		client.sendAction(new PutAction(player.getId(), itemID));
 	}
 
 	public void pickupItem(int itemID) {

@@ -20,7 +20,8 @@ public class WalkableSquare extends Square {
 	private final String name;
 	private final String description;
 
-	private Map<Direction, List<Entity>> entities;
+	private Map<Direction, List<Item>> items;
+	private Map<Direction, Container> containers;
 	private Set<Player> players;
 	private boolean inside;
 
@@ -30,14 +31,14 @@ public class WalkableSquare extends Square {
 		this.description = description;
 		this.inside = inside;
 
-		entities = new HashMap<Direction, List<Entity>>();
+		items = new HashMap<Direction, List<Item>>();
+		containers = new HashMap<Direction, Container>();
 
 		//populate with empty sets to avoid Null Pointers
-		entities.put(Direction.NORTH, new ArrayList<Entity>());
-		entities.put(Direction.EAST, new ArrayList<Entity>());
-		entities.put(Direction.SOUTH, new ArrayList<Entity>());
-		entities.put(Direction.WEST, new ArrayList<Entity>());
-
+		for(Direction dir: Direction.values()){
+			items.put(dir, new ArrayList<Item>());
+			containers.put(dir, null);
+		}
 		players = new HashSet<Player>();
 
 		walls = new HashMap<Direction, Wall>();
@@ -77,13 +78,13 @@ public class WalkableSquare extends Square {
 	public boolean canEnter(Character character, Direction direction) {
 		if (character == null||direction == null)
 			return false;
-		return walls.get(direction).pass(character);
+		return walls.get(direction).canPass(character);
 	}
 
 	public boolean canExit(Character character, Direction direction) {
 		if (character == null||direction == null)
 			return false;
-		return walls.get(direction).pass(character);
+		return walls.get(direction).canPass(character);
 	}
 
 	public boolean addPlayer(Player player) {
@@ -101,40 +102,54 @@ public class WalkableSquare extends Square {
 		}
 	}
 
-	/**
-	 * Get the list of entities on a certain side of the room. Note: Modifying the
-	 * returned list will not change the entities in the room
-	 *
-	 * @param side
-	 *            the side of the Square the entities are on
-	 * @return List<Entity> of all the entities on that side of the room
-	 */
-	public List<Entity> getEntities(Direction side) {
+	public List<Item> getItems(Direction side) {
 		if (side == null)
 			return null;
-		return new ArrayList<Entity>(entities.get(side));
+		return new ArrayList<Item>(items.get(side));
+	}
+
+	public Container getContainer(Direction side){
+		if(side==null)
+			return null;
+		return containers.get(side);
 	}
 
 	/**
-	 * Adds the entity to the set of entities on the specified side of the room.
+	 * Adds the item to the set of items on the specified side of the room.
 	 *
 	 * @param side
-	 *            the side of the Square to add the entity to
-	 * @param entity
-	 *            the entity to add
-	 * @return True if entity could be added, False otherwise
+	 *            the side of the Square to add the item to
+	 * @param item
+	 *            the item to add
+	 * @return True if item could be added, False otherwise
 	 */
-	public boolean addEntity(Direction side, Entity entity) {
-		if (side == null||entity == null)
+	public boolean addItem(Direction side, Item item) {
+		if (side == null||item == null)
 			return false;
 
-		//Initialise the set if it hasnt been done yet
-		//This is required as the data loading does not use the constructor
-		if(entities.get(side) == null){
-			entities.put(side, new ArrayList<Entity>());
+		//Initialise the set if it hasn't been done yet
+		//This is required as the data loading does not call the constructor on any objects
+		if(items.get(side) == null){
+			items.put(side, new ArrayList<Item>());
 		}
 
-		return entities.get(side).add(entity);
+		return items.get(side).add(item);
+	}
+
+	/**
+	 * Adds the container to the specified side of the room.
+	 *
+	 * @param side
+	 *            the side of the Square to add the container to
+	 * @param container
+	 *            the container to add
+	 * @return True if container could be added, False otherwise
+	 */
+	public boolean addContainer(Direction side, Container container) {
+		if (side == null)
+			return false;
+		containers.put(side,container);
+		return true;
 	}
 
 	/**
@@ -147,14 +162,18 @@ public class WalkableSquare extends Square {
 		return new HashSet<Player>(players);
 	}
 
-	public Item takeItem(Direction side, Item item){
-		if (side == null||item == null)
+	public Item takeItem(Direction side, int itemID){
+		if (side == null||itemID < 0)
 			return null;
-		if(entities.get(side).contains(item)){
-			entities.get(side).remove(item);
-			return item;
+
+		Item item = null;
+		for(Item i: items.get(side)){
+			if(i.entityID == itemID){
+				item = i;
+			}
 		}
-		return null;
+		items.get(side).remove(item);
+		return item;
 	}
 
 	/**
@@ -165,12 +184,7 @@ public class WalkableSquare extends Square {
 	public boolean hasContainer(Direction direction){
 		if(direction==null)
 			return false;
-		for(Entity e: getEntities(direction)){
-			if(e instanceof Container){
-				return true;
-			}
-		}
-		return false;
+		return containers.containsKey(direction) && containers.get(direction) != null;
 	}
 
 	public String getName() {
@@ -183,23 +197,5 @@ public class WalkableSquare extends Square {
 
 	public boolean isInside() {
 		return inside;
-	}
-
-	/**
-	 * Returns a string[] containing all the entity names,
-	 * used when displaying menu buttons
-	 * @param dir
-	 * @return
-	 */
-	public String[] getEntityNames(Direction dir){
-		List<Entity> entityList = entities.get(dir);
-
-		String[] buttons = new String[entityList.size()];
-		for(int i=0; i<buttons.length; i++){
-			Entity entity = entityList.get(i);
-			buttons[i] = entity.getImageName();
-		}
-
-		return buttons;
 	}
 }

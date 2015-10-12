@@ -192,7 +192,7 @@ public class GameState implements Serializable {
 	 */
 	public int getPlayerID(String playerName){
 		for(Player p: players){
-			if(p.getName().equals(playerName)){
+			if(p!=null && p.getName().equals(playerName)){
 				return p.getId();
 			}
 		}
