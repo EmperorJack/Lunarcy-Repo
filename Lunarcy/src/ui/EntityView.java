@@ -6,6 +6,7 @@ import java.util.Map;
 import game.Entity;
 import game.GameState;
 import game.Player;
+import game.Item;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -26,7 +27,7 @@ public class EntityView extends DrawingComponent {
 	private final Map<String, PImage> entityImages;
 
 	// currently held entites
-	private List<Entity> entities;
+	private List<Item> items;
 
 	public EntityView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {
@@ -44,11 +45,11 @@ public class EntityView extends DrawingComponent {
 		Player thisPlayer = gameState.getPlayer(playerID);
 
 		// get the entities in the current square for the player direction
-		entities = gameState.getSquare(thisPlayer.getLocation()).getItems(
+		items = gameState.getSquare(thisPlayer.getLocation()).getItems(
 				thisPlayer.getOrientation());
 
 		// check there is at least one entity to draw
-		if (entities.size() >= 1) {
+		if (items.size() >= 1) {
 
 			// translate to allow for top padding
 			p.translate(0, TOP_PADDING);
@@ -56,12 +57,12 @@ public class EntityView extends DrawingComponent {
 			p.imageMode(PApplet.CENTER);
 
 			// for each entity
-			for (int i = 0; i < entities.size(); i++) {
+			for (int i = 0; i < items.size(); i++) {
 				// compute the x position to place the image
-				int xPos = (int) ((i + 1) / (float) (entities.size() + 1) * Canvas.TARGET_WIDTH);
+				int xPos = (int) ((i + 1) / (float) (items.size() + 1) * Canvas.TARGET_WIDTH);
 
 				// draw the entity image
-				p.image(entityImages.get(entities.get(i).getImageName()), xPos,
+				p.image(entityImages.get(items.get(i).getImageName()), xPos,
 						ENTITY_SIZE / 2, ENTITY_SIZE, ENTITY_SIZE);
 			}
 		}
@@ -86,15 +87,15 @@ public class EntityView extends DrawingComponent {
 		if (TOP_PADDING <= y && y <= (Canvas.TARGET_HEIGHT)) {
 
 			// for each entity
-			for (int i = 0; i < entities.size(); i++) {
+			for (int i = 0; i < items.size(); i++) {
 
 				// compute the x position of the entity
-				int xPos = (int) ((i + 1) / (float) (entities.size() + 1) * Canvas.TARGET_WIDTH);
+				int xPos = (int) ((i + 1) / (float) (items.size() + 1) * Canvas.TARGET_WIDTH);
 
 				// check if the mouse position is within bounds of the entity
 				if ((xPos - ENTITY_SIZE / 2) <= x
 						&& x <= (xPos + ENTITY_SIZE / 2)) {
-					return entities.get(i);
+					return items.get(i);
 				}
 			}
 		}

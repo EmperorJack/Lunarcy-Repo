@@ -3,6 +3,7 @@ package ui;
 import game.Direction;
 import game.Entity;
 import game.GameState;
+import game.Item;
 import game.Location;
 import game.Player;
 import game.Square;
@@ -286,7 +287,7 @@ public class Perspective3D extends DrawingComponent {
 					for (Direction dir : Direction.values()) {
 
 						// get the entities for the current direction
-						List<Entity> entities = s.getItems(dir);
+						List<Item> entities = s.getItems(dir);
 
 						// for each entity
 						for (int i = 0; i < entities.size(); i++) {
