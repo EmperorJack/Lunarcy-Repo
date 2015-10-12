@@ -69,7 +69,7 @@ public class Client {
 		String hexColour = String.format("#%02x%02x%02x", colour.getRed(),
 				colour.getGreen(), colour.getBlue());
 		System.out.println("hex colour  " + hexColour);
-		showDialog();
+		//showDialog();
 		writeObject(hexColour);
 		System.out.println("Name sent to server: " + name);
 
