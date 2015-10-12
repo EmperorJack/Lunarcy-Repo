@@ -14,7 +14,7 @@ import ui.renderer.Perspective3D;
 import game.GameState;
 
 /**
- * Factory class used to construct drawing different drawing componenets for the
+ * Factory class used to construct drawing different drawing components for the
  * canvas. Can create a variety of heads up display components or the 3D
  * perspective component.
  *
