@@ -1,4 +1,4 @@
-package ui;
+package ui.renderer;
 
 import game.Direction;
 import game.Door;

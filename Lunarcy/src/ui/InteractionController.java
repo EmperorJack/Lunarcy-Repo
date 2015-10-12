@@ -12,9 +12,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import ui.ApplicationWindow.ContainerView;
+import ui.ApplicationWindow.InventoryView;
+import ui.renderer.Canvas;
+import ui.renderer.EntityView;
 import network.Client;
+import network.CloseAction;
 import network.DropAction;
 import network.MoveAction;
+import network.OpenAction;
 import network.OrientAction;
 import network.PickupAction;
 import network.PutAction;
@@ -23,10 +29,11 @@ import network.PutAction;
  * This class listens for player input to allow interaction between the UI
  * componenets and player movement/actions.
  *
- * @author Ben and Jack
+ * @author evansben1 and Jack
  *
  */
-public class InteractionController implements KeyListener, MouseListener, MouseMotionListener {
+public class InteractionController implements KeyListener, MouseListener,
+		MouseMotionListener {
 
 	// Drawing components
 	private InventoryView inventoryView;
@@ -56,17 +63,12 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 	// Canvas field
 	private Canvas canvas;
 
-	// Game state field
-	private GameState gameState;
 
-	// Currently selected container
-	private Container selectedContainer;
-
-	public InteractionController(Client client, GameState gamestate, Player player, Canvas canvas) {
+	public InteractionController(Client client, GameState gamestate,
+			Player player, Canvas canvas) {
 		this.client = client;
 		this.player = player;
 		this.canvas = canvas;
-		this.gameState = gamestate;
 
 		// Initialize the values for dragging/dropping items
 		resetDragValues();
@@ -76,6 +78,7 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		canvas.addMouseMotionListener(this);
 
 	}
+
 	/** Action methods **/
 
 	public void dropItem(int itemID) {
@@ -90,9 +93,19 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		client.sendAction(new PickupAction(player.getId(), itemID));
 	}
 
+	public void openContainer() {
+		client.sendAction(new OpenAction(player.getId()));
+	}
+
+	public void closeContainer() {
+		client.sendAction(new CloseAction(player.getId()));
+	}
+
 	public void setInventory(InventoryView inventory) {
 		this.inventoryView = inventory;
 	}
+
+	/** Update methods */
 
 	public void setContainerView(ContainerView containerView) {
 		this.containerView = containerView;
@@ -102,9 +115,8 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		this.entityView = entityView;
 	}
 
-	public void update(Player player, GameState gameState) {
+	public void update(Player player) {
 		this.player = player;
-		this.gameState = gameState;
 	}
 
 	/**
@@ -147,22 +159,26 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 
 		// move forward
 		case KeyEvent.VK_W:
-			client.sendAction(new MoveAction(player.getId(), player.getOrientation()));
+			client.sendAction(new MoveAction(player.getId(), player
+					.getOrientation()));
 			break;
 
 		// strafe left
 		case KeyEvent.VK_A:
-			client.sendAction(new MoveAction(player.getId(), player.getOrientation().left()));
+			client.sendAction(new MoveAction(player.getId(), player
+					.getOrientation().left()));
 			break;
 
 		// move back
 		case KeyEvent.VK_S:
-			client.sendAction(new MoveAction(player.getId(), player.getOrientation().opposite()));
+			client.sendAction(new MoveAction(player.getId(), player
+					.getOrientation().opposite()));
 			break;
 
 		// strafe right
 		case KeyEvent.VK_D:
-			client.sendAction(new MoveAction(player.getId(), player.getOrientation().right()));
+			client.sendAction(new MoveAction(player.getId(), player
+					.getOrientation().right()));
 			break;
 
 		// turn left
@@ -183,14 +199,15 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
-		// attempt to get an entity from entity view
-		Entity entity = entityView.getItemAt(x, y);
-		System.out.println(entity);
+		// attempt to get a container from entity view
+		Container clickedContainer = entityView.getContainerAt(x, y);
 
-		//When a container is clicked
-		if (entity != null && entity instanceof Container) {
-			//Show the container menu
-			selectedContainer = (Container)entity;
+		// If an open container is clicked, shut it
+		if (clickedContainer != null && !clickedContainer.isOpen()) {
+			// Hide/show it
+			openContainer();
+		} else if (clickedContainer != null && clickedContainer.isOpen()) {
+			closeContainer();
 		}
 
 	}
@@ -208,6 +225,18 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 
 			draggedX = x;
 			draggedY = y;
+			return;
+		}
+
+		// If the container menu was clicked
+		if (containerView.getContainer() != null && containerView.onBar(x, y)) {
+
+			System.out.println("pressed");
+
+			// Get the item which was clicked
+			draggedToItem = containerView.getItemAt(x, y);
+			draggedFromItem = null;
+
 			return;
 		}
 
@@ -238,9 +267,16 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
+		// If they drop an item onto a container
+		Container container = entityView.getContainerAt(x, y);
+
+		if (draggedFromItem != null && container != null) {
+			// Put the item in the container
+			putItem(draggedFromItem.entityID);
+		}
 		// If the item was not released on the inventory bar, and there was an
 		// item currently being dragged, drop it
-		if (!inventoryView.onBar(x, y) && draggedFromItem != null) {
+		else if (draggedFromItem != null && !inventoryView.onBar(x, y)) {
 			// Drop the dragged from item
 			dropItem(draggedFromItem.getEntityID());
 		}

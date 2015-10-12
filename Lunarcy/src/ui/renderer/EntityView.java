@@ -1,4 +1,4 @@
-package ui;
+package ui.renderer;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +10,7 @@ import game.Item;
 import game.Square;
 import processing.core.PApplet;
 import processing.core.PImage;
+import ui.DrawingComponent;
 
 /**
  * Displays the entities (containers and items) that can be interacted with from
@@ -34,13 +35,11 @@ public class EntityView extends DrawingComponent {
 
 	// currently held container
 	private Container container;
-	private boolean containerOpened;
 
 	public EntityView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {
 		super(p, gameState, playerID);
 		this.entityImages = entityImages;
-		containerOpened = false;
 	}
 
 	@Override
@@ -69,11 +68,6 @@ public class EntityView extends DrawingComponent {
 
 			String containerImageName = container.getImageName();
 
-			// if the container is currently open
-			if (containerOpened) {
-				containerImageName += "_open";
-			}
-
 			// draw the container
 			p.image(entityImages.get(containerImageName),
 					Canvas.TARGET_WIDTH / 2.0f, CONTAINER_SIZE / 2,
@@ -101,16 +95,6 @@ public class EntityView extends DrawingComponent {
 		// pop matrix and style information from the stack
 		p.popStyle();
 		p.popMatrix();
-	}
-
-	/**
-	 * Set the container opened or closed dependent on the given state.
-	 *
-	 * @param setOpen
-	 *            True for open, false for closed.
-	 */
-	public void setContainerOpen(boolean setOpen) {
-		this.containerOpened = setOpen;
 	}
 
 	/**
@@ -149,7 +133,8 @@ public class EntityView extends DrawingComponent {
 		if (container != null) {
 
 			// first check the y position is within the bounds
-			if (TOP_PADDING_ITEMS <= y && y <= (TOP_PADDING_ITEMS + CONTAINER_SIZE)) {
+			if ((TOP_PADDING_ITEMS - CONTAINER_SIZE / 2) <= y
+					&& y <= (TOP_PADDING_ITEMS + CONTAINER_SIZE / 2)) {
 
 				// check the x position is within the bounds
 				if (Canvas.TARGET_WIDTH / 2 - CONTAINER_SIZE / 2 <= x

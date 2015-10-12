@@ -98,6 +98,42 @@ public class NewServer {
 		}
 	}
 
+	public void run(){
+		transmitState(); // transmit initially
+		System.out.println("Server running fully");
+		long lastUpdate = System.currentTimeMillis();
+		while (running) {
+			if (System.currentTimeMillis() > lastUpdate + updateFreq) {
+				gameLogic.tickGameState();
+				//System.out.println("tranmitting state");
+				transmitState();
+				lastUpdate = System.currentTimeMillis();
+			} else{
+				processAction();
+			}
+		}
+		System.out.println("Server shutting down");
+
+		try {
+			serverSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("All clients disconnected \n closing down server");
+	}
+
+	/**
+	 * Process the next client action from the queue
+	 */
+	//TODO extend method to apply move to all clients if successful
+	private void processAction() {
+		NetworkAction action = actionQueue.poll();
+		if (action != null){
+			action.applyAction(gameLogic);// interpreter.interpret(action);
+		}
+	}
+
 	//methods for working with clientlist
 
 	synchronized private int addClientConnection(ClientConnection cc){
@@ -265,29 +301,3 @@ public class NewServer {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

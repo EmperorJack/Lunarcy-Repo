@@ -1,6 +1,5 @@
 package bots;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import game.GameState;
@@ -9,7 +8,8 @@ import game.Player;
 
 /**
  * Track Movement: Follow a Player around the map, computing the shortest path
- * to them and trying to reach them. Will give up after a set amount of time.
+ * to them and trying to reach them. Will give up if the player is further than
+ * a set distance from the rover.
  *
  * @author Ben
  *
@@ -21,12 +21,16 @@ public class TrackMovement extends ShortestPathMover {
 	// The player we are chasing
 	private Player target;
 
-	//The path we are currently following
+	// The path we are currently following
 	private List<Location> path;
+
+	private final int MAX_DISTANCE;
 
 	public TrackMovement(Rover rover, GameState gamestate, Player target) {
 		this.target = target;
-		this.path = findPath(rover, gamestate, rover.getLocation(), target.getLocation());
+		this.MAX_DISTANCE = gamestate.getBoard().length / 4;
+		this.path = findPath(rover, gamestate, rover.getLocation(),
+				target.getLocation());
 	}
 
 	/**
@@ -48,14 +52,15 @@ public class TrackMovement extends ShortestPathMover {
 	}
 
 	/**
-	 * Gives up if the player is inside
+	 * Gives up if the player is inside, or the player is too far away from you.
 	 *
 	 * @return
 	 */
-	public boolean shouldGiveup(GameState gamestate) {
+	public boolean shouldGiveup(Rover rover, GameState gamestate) {
 
-		// If the players inside give up chasing them
-		return !gamestate.isOutside(target.getLocation());
+		// If the players inside, or too far from you give up chasing them
+		return !gamestate.isOutside(target.getLocation())
+				|| estimate(rover.getLocation(), target.getLocation()) > MAX_DISTANCE;
 
 	}
 
@@ -63,29 +68,31 @@ public class TrackMovement extends ShortestPathMover {
 	 * Finds the shortest path from currentLocation, to the target field.
 	 * Returns this path if one was found, or null.
 	 *
-	 * @param currentLocation:
-	 *            Where the rover is currently located
+	 * @param currentLocation
+	 *            : Where the rover is currently located
 	 * @return the path
 	 */
 	public Location nextStep(Rover rover, GameState gamestate) {
 
-		//Makes sure the target is outside
-		if (shouldGiveup(gamestate)){
+		// Makes sure the target is outside
+		if (shouldGiveup(rover, gamestate)) {
 			return null;
 		}
 
-		//Updates the path if the targets changed locations
-		if(mustUpdate()){
-			path = findPath(rover, gamestate, rover.getLocation(), target.getLocation());
+		// Updates the path if the targets changed locations
+		if (mustUpdate()) {
+			path = findPath(rover, gamestate, rover.getLocation(),
+					target.getLocation());
 		}
 
-		//If a path couldnt be found, return null
-		if(path == null){
+		// If a path couldnt be found, return null
+		if (path == null) {
 			return null;
 		}
 
-		//if the path is empty, we are already at the player so do not need to move
-		if(path.isEmpty()){
+		// if the path is empty, we are already at the player so do not need to
+		// move
+		if (path.isEmpty()) {
 			return rover.getLocation();
 		}
 

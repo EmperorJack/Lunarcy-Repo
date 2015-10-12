@@ -1,4 +1,4 @@
-package ui;
+package ui.renderer;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -10,11 +10,13 @@ import java.util.Map;
 import java.util.Scanner;
 
 import network.Client;
-import ddf.minim.*;
 import game.GameState;
 import game.Item;
 import game.Player;
 import processing.core.*;
+import ui.DrawingComponent;
+import ui.DrawingComponentFactory;
+import ui.InteractionController;
 
 /**
  * The primary Processing PApplet, our drawing canvas. This canvas maintains the
@@ -61,8 +63,8 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	private final int ENTITY_SIZE = 100;
 
 	// audio fields
-	private Minim minim;
-	private AudioPlayer track;
+	//private Minim minim;
+	//private AudioPlayer track;
 
 	/**
 	 * Setup a new Processing Canvas.
@@ -128,10 +130,10 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.OXYGEN));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORYVIEW));
-		hud.add(factory.getDrawingComponent(DrawingComponentFactory.CONTAINERVIEW));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.ENTITYVIEW));
 		hud.add(factory
 				.getDrawingComponent(DrawingComponentFactory.OBJECTIVEVIEW));
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.CONTAINERVIEW));
 
 		// audio setup
 		// minim = new Minim(this);
@@ -140,6 +142,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 		// drawing setup
 		noStroke();
+		hint(ENABLE_DEPTH_MASK);
 
 		// text setup
 		hint(ENABLE_NATIVE_FONTS);
@@ -174,7 +177,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			player = gameState.getPlayer(playerID);
 
 			// update interaction controller
-			interactionControl.update(player, gameState);
+			interactionControl.update(player);
 
 			// the state has now been updated
 			stateUpdated = false;

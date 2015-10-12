@@ -1,5 +1,6 @@
 package ui;
 
+import ui.renderer.Canvas;
 import game.GameState;
 
 /**

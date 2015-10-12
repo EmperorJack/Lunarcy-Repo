@@ -3,6 +3,14 @@ package ui;
 import java.util.Map;
 
 import processing.core.PImage;
+import ui.ApplicationWindow.ContainerView;
+import ui.ApplicationWindow.InventoryView;
+import ui.ApplicationWindow.Minimap;
+import ui.ApplicationWindow.ObjectiveView;
+import ui.ApplicationWindow.Oxygen;
+import ui.renderer.Canvas;
+import ui.renderer.EntityView;
+import ui.renderer.Perspective3D;
 import game.GameState;
 
 /**

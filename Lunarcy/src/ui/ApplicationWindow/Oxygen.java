@@ -1,13 +1,15 @@
-package ui;
+package ui.ApplicationWindow;
 
 import processing.core.PApplet;
+import ui.DrawingComponent;
+import ui.renderer.Canvas;
 import game.GameState;
 import game.Player;
 
 /**
  * Displays the oxygen bar in the bottom right corner of the canvas
  *
- * @author b
+ * @author evansben1
  *
  */
 public class Oxygen extends DrawingComponent {
@@ -20,10 +22,12 @@ public class Oxygen extends DrawingComponent {
 	// Sizing of the oxygen tank
 	private final int CYLINDERWIDTH = 200;
 	private final int CYLINDERHEIGHT = 35;
+
 	// Size of the dial on the oxygen tank
 	private final int DIALSIZE = 10;
 
-	private final int LOW_OXYGEN = 50;
+	//Turns the oxygen level red if it gets below this point
+	private final int LOW_OXYGEN = 30;
 
 	public Oxygen(Canvas p, GameState gameState, int playerID) {
 		super(p, gameState, playerID);
@@ -46,7 +50,7 @@ public class Oxygen extends DrawingComponent {
 		p.fill(0, 0, 0, 100);
 		p.rect(0, 0, CYLINDERWIDTH, CYLINDERHEIGHT);
 
-		// Draw the remaining amount of oxygen
+		// Gey the remaining amount of oxygen
 		int oxygen = player.getOxygen();
 
 		p.noStroke();
@@ -58,10 +62,9 @@ public class Oxygen extends DrawingComponent {
 			p.fill(139, 158, 162);
 		}
 
+		//Draw the remaining amount of oxygen
 		p.rect(0, 0, oxygen, CYLINDERHEIGHT);
 
-		// Set our drawing values back
-		p.rectMode(PApplet.CORNER);
 		p.fill(139, 158, 162);
 
 		// Draw the knob

@@ -1,11 +1,13 @@
-package ui;
+package ui.ApplicationWindow;
 
 import game.GameState;
-
 import processing.core.PApplet;
+import ui.DrawingComponent;
+import ui.InteractionController;
+import ui.renderer.Canvas;
 
 /**
- * Displays a menu in the middle pof the screen. This should not be instantiated
+ * Displays a menu in the middle of the screen.
  *
  * @author evansben1
  *

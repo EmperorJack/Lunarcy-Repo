@@ -1,4 +1,4 @@
-package ui;
+package ui.ApplicationWindow;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -31,7 +31,7 @@ import storage.Storage;
 /**
  * A GUI window for starting a new server.
  *
- * @author Ben
+ * @author evansben1
  *
  */
 public class ServerMain extends JFrame {
@@ -333,7 +333,6 @@ public class ServerMain extends JFrame {
 		//Configure the text area to get the input from stdout
 		PrintStream printStream = new PrintStream(new ConsoleOutput(console));
 		//System.setOut(printStream);
-
 
 		// Not directly editable by user
 		console.setEditable(false);
