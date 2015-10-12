@@ -56,11 +56,18 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 	// Canvas field
 	private Canvas canvas;
 
-	public InteractionController(Client client, GameState gamestate, Player player, Canvas canvas) {
 
+	// Game state field
+	private GameState gameState;
+
+	// Currently selected container
+	private Container selectedContainer;
+
+	public InteractionController(Client client, GameState gamestate, Player player, Canvas canvas) {
 		this.client = client;
 		this.player = player;
 		this.canvas = canvas;
+		this.gameState = gamestate;
 
 		// Initialize the values for dragging/dropping items
 		resetDragValues();
@@ -70,7 +77,6 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		canvas.addMouseMotionListener(this);
 
 	}
-
 	/** Action methods **/
 
 	public void dropItem(int itemID) {
@@ -102,8 +108,9 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		this.entityView = entityView;
 	}
 
-	public void update(Player player) {
+	public void update(Player player, GameState gameState) {
 		this.player = player;
+		this.gameState = gameState;
 	}
 
 	/**
@@ -183,7 +190,7 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		int y = (int) (e.getY() / canvas.getScaling());
 
 		// attempt to get an entity from entity view
-		Entity entity = entityView.getEntityAt(x, y);
+		Entity entity = entityView.getItemAt(x, y);
 		System.out.println(entity);
 
 		//When a container is clicked
@@ -211,7 +218,7 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 			return;
 		}
 
-		Entity entity = entityView.getEntityAt(x, y);
+		Entity entity = entityView.getItemAt(x, y);
 		if (entity != null && entity instanceof Item) {
 			// Set the item to be picked up
 			draggedToItem = (Item) entity;

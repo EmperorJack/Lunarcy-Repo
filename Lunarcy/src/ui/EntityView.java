@@ -3,10 +3,11 @@ package ui;
 import java.util.List;
 import java.util.Map;
 
-import game.Entity;
+import game.Container;
 import game.GameState;
 import game.Player;
 import game.Item;
+import game.Square;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -20,19 +21,26 @@ import processing.core.PImage;
 public class EntityView extends DrawingComponent {
 
 	// entity drawing fields
-	private final int ENTITY_SIZE = 200;
-	private final int TOP_PADDING = 400;
+	private final int ITEM_SIZE = 200;
+	private final int CONTAINER_SIZE = 600;
+	private final int TOP_PADDING_ITEMS = 400;
+	private final int TOP_PADDING_CONTAINER = 30;
 
 	// all possible entity images
 	private final Map<String, PImage> entityImages;
 
-	// currently held entites
+	// currently held items
 	private List<Item> items;
+
+	// currently held container
+	private Container container;
+	private boolean containerOpened;
 
 	public EntityView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {
 		super(p, gameState, playerID);
 		this.entityImages = entityImages;
+		containerOpened = false;
 	}
 
 	@Override
@@ -44,27 +52,50 @@ public class EntityView extends DrawingComponent {
 		// get the player from the current game state
 		Player thisPlayer = gameState.getPlayer(playerID);
 
-		// get the entities in the current square for the player direction
-		items = gameState.getSquare(thisPlayer.getLocation()).getItems(
-				thisPlayer.getOrientation());
+		// get the square the player is currently in
+		Square square = gameState.getSquare(thisPlayer.getLocation());
 
-		// check there is at least one entity to draw
-		if (items.size() >= 1) {
+		// get the container in the current square for this player direction
+		container = square.getContainer(thisPlayer.getOrientation());
+
+		p.imageMode(PApplet.CENTER);
+
+		// if the container currently exists
+		if (container != null) {
+			p.pushMatrix();
 
 			// translate to allow for top padding
-			p.translate(0, TOP_PADDING);
+			p.translate(0, TOP_PADDING_CONTAINER);
 
-			p.imageMode(PApplet.CENTER);
+			String containerImageName = container.getImageName();
 
-			// for each entity
-			for (int i = 0; i < items.size(); i++) {
-				// compute the x position to place the image
-				int xPos = (int) ((i + 1) / (float) (items.size() + 1) * Canvas.TARGET_WIDTH);
-
-				// draw the entity image
-				p.image(entityImages.get(items.get(i).getImageName()), xPos,
-						ENTITY_SIZE / 2, ENTITY_SIZE, ENTITY_SIZE);
+			// if the container is currently open
+			if (containerOpened) {
+				containerImageName += "_open";
 			}
+
+			// draw the container
+			p.image(entityImages.get(containerImageName),
+					Canvas.TARGET_WIDTH / 2.0f, CONTAINER_SIZE / 2,
+					CONTAINER_SIZE, CONTAINER_SIZE);
+
+			p.popMatrix();
+		}
+
+		// get the items in the current square for the player direction
+		items = square.getItems(thisPlayer.getOrientation());
+
+		// translate to allow for top padding
+		p.translate(0, TOP_PADDING_ITEMS);
+
+		// for each item
+		for (int i = 0; i < items.size(); i++) {
+			// compute the x position to place the image
+			int xPos = (int) ((i + 1) / (float) (items.size() + 1) * Canvas.TARGET_WIDTH);
+
+			// draw the item image
+			p.image(entityImages.get(items.get(i).getImageName()), xPos,
+					ITEM_SIZE / 2, ITEM_SIZE, ITEM_SIZE);
 		}
 
 		// pop matrix and style information from the stack
@@ -73,34 +104,62 @@ public class EntityView extends DrawingComponent {
 	}
 
 	/**
-	 * Returns the entity at the clicked position, or null if the click was not
-	 * on a valid entity.
+	 * Set the container opened state to the given state.
+	 *
+	 * @param setOpen
+	 *            True for open, false for closed.
+	 */
+	public void setContainerOpen(boolean setOpen) {
+		this.containerOpened = setOpen;
+	}
+
+	/**
+	 * Returns the item at the clicked position, or null if the click was not on
+	 * a valid item.
 	 *
 	 * @param x
 	 *            The clicked x location.
 	 * @param y
 	 *            The clicked y location.
-	 * @return The entity clicked on or null if no entity.
+	 * @return The item clicked on or null if no item.
 	 */
-	public Entity getEntityAt(int x, int y) {
-		// first check the y position is within the bounds of the entity view
-		if (TOP_PADDING <= y && y <= (Canvas.TARGET_HEIGHT)) {
+	public Item getItemAt(int x, int y) {
+		// first check the y position is within the bounds
+		if (TOP_PADDING_ITEMS <= y && y <= (TOP_PADDING_ITEMS + ITEM_SIZE)) {
 
-			// for each entity
+			// for each item
 			for (int i = 0; i < items.size(); i++) {
 
-				// compute the x position of the entity
+				// compute the x position of the item
 				int xPos = (int) ((i + 1) / (float) (items.size() + 1) * Canvas.TARGET_WIDTH);
 
-				// check if the mouse position is within bounds of the entity
-				if ((xPos - ENTITY_SIZE / 2) <= x
-						&& x <= (xPos + ENTITY_SIZE / 2)) {
+				// check if the x position is within bounds of the current item
+				if ((xPos - ITEM_SIZE / 2) <= x && x <= (xPos + ITEM_SIZE / 2)) {
 					return items.get(i);
 				}
 			}
 		}
 
-		// no entity found at given position
+		// no item found at given position
+		return null;
+	}
+
+	public Container getContainerAt(int x, int y) {
+		// if a container currently exists
+		if (container != null) {
+
+			// first check the y position is within the bounds
+			if (TOP_PADDING_ITEMS <= y && y <= (TOP_PADDING_ITEMS + ITEM_SIZE)) {
+
+				// check the x position is within the bounds
+				if (Canvas.TARGET_WIDTH / 2 - CONTAINER_SIZE <= x
+						&& x <= Canvas.TARGET_WIDTH / 2 + CONTAINER_SIZE) {
+					return container;
+				}
+			}
+		}
+
+		// no container exists or found at given position
 		return null;
 	}
 }

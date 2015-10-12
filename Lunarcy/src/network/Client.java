@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import javax.activity.InvalidActivityException;
+import javax.swing.JOptionPane;
 
 /**
  * A class for
@@ -34,12 +35,13 @@ public class Client {
 
 	public Client(String serverAddr, String name, Color colour, int frameWidth,
 			int frameHeight, boolean hardwareRenderer)
-			throws IllegalArgumentException, IllegalArgumentException{
+			throws IllegalArgumentException, IllegalArgumentException {
 		this.serverAddr = serverAddr;
 		this.colour = colour;
 		this.frameWidth = frameWidth;
 		this.frameHeight = frameHeight;
 		this.hardwareRenderer = hardwareRenderer;
+		this.name = name;
 		try {
 			socket = new Socket(serverAddr, DEFAULT_PORT);
 			System.out.println("bound socket");
@@ -51,15 +53,7 @@ public class Client {
 			System.out.println("Couldn't establish connection");
 			throw new IllegalArgumentException("Bad IP");
 		}
-		//negotiateConnection();
-		writeObject(name);
-
-		// Send hex colour
-		String hexColour = String.format("#%02x%02x%02x", this.colour.getRed(), this.colour.getGreen(), this.colour.getBlue());
-		System.out.println("hex colour  " + hexColour);
-		writeObject(hexColour);
-		System.out.println("Name sent to server: " + name);
-		id = readInt();
+		negotiateConnection(name, colour);
 
 		getInitialGamestate();
 
@@ -67,17 +61,41 @@ public class Client {
 		// listenForGameUpdates(); //listen for gamestates from the server
 	}
 
-	private void negotiateConnection() throws IllegalArgumentException{
-		//do
-			//sendName
-			//if response = -1
-		//writeObject
+	private void negotiateConnection(String name, Color colour)
+			throws IllegalArgumentException {
 		writeObject(name);
-		int response = readInt();
-		if(response == -1)throw new IllegalArgumentException("Not a valid Name");
-		id = response;
-		String hexColour = String.format("#%02x%02x%02x", this.colour.getRed(), this.colour.getGreen(), this.colour.getBlue());
+		this.id = readInt();
+		// Send hex colour
+		String hexColour = String.format("#%02x%02x%02x", colour.getRed(),
+				colour.getGreen(), colour.getBlue());
+		System.out.println("hex colour  " + hexColour);
+		//showDialog();
+		writeObject(hexColour);
+		System.out.println("Name sent to server: " + name);
 
+		// do
+		// sendName
+		// if response = -1
+		// writeObject
+		// writeObject(name);
+		// int response = readInt();
+		// if(response == -1)throw new
+		// IllegalArgumentException("Not a valid Name");
+		// id = response;
+		// String hexColour = String.format("#%02x%02x%02x",
+		// this.colour.getRed(), this.colour.getGreen(), this.colour.getBlue());
+
+	}
+	/**
+	 * A dialog which prompts for an ammended username
+	 * @return The value entered
+	 */
+	private String showDialog() {
+		String s = (String) JOptionPane.showInputDialog(null,
+				"To join this game, please enter the correct name",
+				"Invalid Username", JOptionPane.PLAIN_MESSAGE, null,
+				null, this.name);
+		return s;
 	}
 
 	public void getInitialGamestate() {
@@ -125,7 +143,7 @@ public class Client {
 		System.out.println("trying to read ID");
 		try {
 			return inputFromServer.readInt();
-			//System.out.println("My clientID is: " + id);
+			// System.out.println("My clientID is: " + id);
 		} catch (IOException e) {
 			System.err.println("cant read ID");
 			e.printStackTrace();

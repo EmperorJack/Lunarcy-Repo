@@ -229,13 +229,14 @@ public class Server {
 			// Read the user name sent from the client
 			try {
 				this.username = (String) inputFromClient.readObject();
+				sendID(clientID);
 				//TODO negotiate username
 				this.colour = Color.decode((String)inputFromClient.readObject());
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 			System.out.println("Server: new Client: " + username + " " + clientID + " colour: "+ this.colour.toString());
-			sendID(clientID);
+
 			System.out.println("wrote id to client" + clientID);
 
 			// Begin listening to this client
@@ -320,7 +321,7 @@ public class Server {
 	}
 
 	public static void main(String[] args) {
-		Server serv = new Server(1, 1000,"map.xml");
+		Server serv = new Server(1, 1000,"assets/maps/map.xml");
 		serv.run();
 		serv.stop();
 	}

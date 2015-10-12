@@ -145,7 +145,7 @@ public class WalkableSquare extends Square {
 	 *            the container to add
 	 * @return True if container could be added, False otherwise
 	 */
-	public boolean addContainer(Direction side, Container container) {
+	public boolean setContainer(Direction side, Container container) {
 		if (side == null)
 			return false;
 		containers.put(side,container);

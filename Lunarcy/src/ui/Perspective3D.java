@@ -1,7 +1,6 @@
 package ui;
 
 import game.Direction;
-import game.Entity;
 import game.GameState;
 import game.Item;
 import game.Location;
@@ -47,9 +46,9 @@ public class Perspective3D extends DrawingComponent {
 
 	// entity drawing fields
 	private final Map<String, PImage> entityImages;
-	private final int ENTITY_SIZE = 150;
-	private final int ENTITY_Y_OFFSET = -75;
-	private final int ENTITY_INNER_PADDING = -400;
+	private final int ITEM_SIZE = 150;
+	private final int ITEM_Y_OFFSET = -75;
+	private final int ITEM_INNER_PADDING = -250;
 
 	// camera fields
 	private final int PLAYER_VIEW_HEIGHT = -180;
@@ -94,7 +93,7 @@ public class Perspective3D extends DrawingComponent {
 		actualCameraEye = new PVector(0, PLAYER_VIEW_HEIGHT, 0);
 		targetCameraEye = new PVector(0, PLAYER_VIEW_HEIGHT, 0);
 
-		// camera center setup (rotation / orientaiton)
+		// camera center setup (rotation / orientation)
 		cameraCenter = new PVector(0, -PApplet.cos(PApplet.HALF_PI)
 				+ PLAYER_VIEW_HEIGHT, 0);
 		targetCameraCenter = new PVector(0, -PApplet.cos(PApplet.HALF_PI)
@@ -255,6 +254,9 @@ public class Perspective3D extends DrawingComponent {
 	 */
 	private void drawEntites(Player thisPlayer, Square[][] board) {
 		p.pushMatrix();
+		p.pushStyle();
+
+		p.imageMode(PApplet.CENTER);
 
 		// for each square in the game state board
 		for (int row = 0; row < board.length; row++) {
@@ -278,10 +280,10 @@ public class Perspective3D extends DrawingComponent {
 					int z = row * SQUARE_SIZE + SQUARE_SIZE / 2;
 
 					// get the position vector in 3D space
-					PVector position = new PVector(x, ENTITY_Y_OFFSET, z);
+					PVector position = new PVector(x, ITEM_Y_OFFSET, z);
 
 					// translate to the current square location
-					p.translate(x, ENTITY_Y_OFFSET, z);
+					p.translate(x, ITEM_Y_OFFSET, z);
 
 					// for each direction
 					for (Direction dir : Direction.values()) {
@@ -306,21 +308,21 @@ public class Perspective3D extends DrawingComponent {
 							switch (dir) {
 							case NORTH:
 								xOffset = offset;
-								zOffset = ENTITY_INNER_PADDING;
+								zOffset = ITEM_INNER_PADDING;
 								break;
 
 							case EAST:
-								xOffset = -ENTITY_INNER_PADDING;
+								xOffset = -ITEM_INNER_PADDING;
 								zOffset = offset;
 								break;
 
 							case SOUTH:
 								xOffset = -offset;
-								zOffset = -ENTITY_INNER_PADDING;
+								zOffset = -ITEM_INNER_PADDING;
 								break;
 
 							case WEST:
-								xOffset = ENTITY_INNER_PADDING;
+								xOffset = ITEM_INNER_PADDING;
 								zOffset = -offset;
 								break;
 							}
@@ -332,10 +334,9 @@ public class Perspective3D extends DrawingComponent {
 							rotateRelativeTo(position);
 
 							// draw the entity image
-							p.imageMode(PApplet.CENTER);
 							p.image(entityImages.get(items.get(i)
-									.getImageName()), 0, 0, ENTITY_SIZE,
-									ENTITY_SIZE);
+									.getImageName()), 0, 0, ITEM_SIZE,
+									ITEM_SIZE);
 
 							p.popMatrix();
 						}
@@ -345,6 +346,7 @@ public class Perspective3D extends DrawingComponent {
 			}
 		}
 
+		p.popStyle();
 		p.popMatrix();
 	}
 

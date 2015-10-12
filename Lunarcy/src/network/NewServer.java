@@ -149,13 +149,19 @@ public class NewServer {
 		private void negotiateId() {
 			// TODO Auto-generated method stub
 			String name = "";
-			do {
-				name = readStringFromClient();
-				clientId = addPlayerToGamestate(name);
-				if(clientId == -1){
-					sendIntToClient(-1);
-				}
-			} while (clientId == -1);
+//			do {
+//				name = readStringFromClient();
+//				clientId = addPlayerToGamestate(name);
+//				if(clientId == -1){
+//					sendIntToClient(-1);
+//				}
+//			} while (clientId == -1);
+			name = readStringFromClient();
+			clientId = addPlayerToGamestate(name);
+			if(clientId == -1){
+				disconnect();
+				return;
+			}
 			username = name;
 			sendIntToClient(clientId);
 			readColourFromClient();
