@@ -7,8 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import mapbuilder.GameMap;
@@ -42,6 +44,41 @@ public class GameState implements Serializable {
 		addRover(new Rover());
 		((WalkableSquare) getSquare(new Location(1, 1))).setContainer(
 				Direction.NORTH, new Chest(69));
+	}
+
+	/**
+	 * Distributes all the passed in Items amongst the containers on the board,
+	 * matches the access level of each container (keyID) with the corresponding List in the Map parameter
+	 * @param items A map from the access level an item should be stored in
+	 * to a list of all the items in that access level
+	 */
+	public void distributeItems(Map<Integer, List<Item>> items){
+		Map<Integer, Set<Container>> containers = new HashMap<Integer, Set<Container>>();
+
+		//First we need to map all containers to their access level
+		for(int y = 0; y < board.length; y++){
+			for(int x = 0; x < board[y].length; x++){
+				//Find any WalkableSquare as only they have containers
+				if(board[y][x] instanceof WalkableSquare){
+
+					//Check all the possible directions
+					for(Direction dir: Direction.values()){
+
+						WalkableSquare square = (WalkableSquare)board[y][x];
+						if(square.hasContainer(dir)){
+
+							Container container = square.getContainer(dir);
+							int access = container.getAccessLevel();
+							//Check if there are already containers of this access level
+							if(!containers.containsKey(access)){
+								containers.put(access, new HashSet<Container>());
+							}
+							containers.get(access).add(container);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**

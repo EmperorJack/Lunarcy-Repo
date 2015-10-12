@@ -18,5 +18,9 @@ public class Chest extends Container {
 	public String getName() {
 		return "Chest";
 	}
+	@Override
+	public int getAccessLevel() {
+		return 0;
+	}
 
 }
