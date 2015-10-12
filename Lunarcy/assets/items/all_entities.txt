@@ -4,3 +4,7 @@ shipPart_FUEL_CORE
 shipPart_GPS
 shipPart_GRAVITY_CORE
 shipPart_WARP_DRIVE
+chest
+chest_open
+lockedChest
+lockedChest_open
