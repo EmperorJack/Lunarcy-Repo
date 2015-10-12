@@ -22,7 +22,7 @@ public class Client {
 	private Socket socket;
 	private ObjectInputStream inputFromServer;
 	private ObjectOutputStream outputToServer;
-	private int id;
+	private int id = -1;
 	private String name;
 	private Frame frame;
 	private Color colour;
@@ -48,7 +48,9 @@ public class Client {
 			System.out.println("Couldn't establish connection");
 			throw new IllegalArgumentException("Bad IP");
 		}
+		//negotiateConnection();
 		writeObject(name);
+
 		// Send hex colour
 		String hexColour = String.format("#%02x%02x%02x", this.colour.getRed(),
 				this.colour.getGreen(), this.colour.getBlue());
@@ -62,6 +64,12 @@ public class Client {
 
 		System.out.println("Listening for gamestate");
 		// listenForGameUpdates(); //listen for gamestates from the server
+	}
+
+	private void negotiateConnection(){
+		//do
+			//sendName
+			//if response = -1
 	}
 
 	public void getInitialGamestate() {
