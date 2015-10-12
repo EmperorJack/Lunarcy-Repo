@@ -44,7 +44,7 @@ public class EntityView extends DrawingComponent {
 		Player thisPlayer = gameState.getPlayer(playerID);
 
 		// get the entities in the current square for the player direction
-		entities = gameState.getSquare(thisPlayer.getLocation()).getEntities(
+		entities = gameState.getSquare(thisPlayer.getLocation()).getItems(
 				thisPlayer.getOrientation());
 
 		// check there is at least one entity to draw

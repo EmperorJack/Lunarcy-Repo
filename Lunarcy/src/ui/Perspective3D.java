@@ -286,7 +286,7 @@ public class Perspective3D extends DrawingComponent {
 					for (Direction dir : Direction.values()) {
 
 						// get the entities for the current direction
-						List<Entity> entities = s.getEntities(dir);
+						List<Entity> entities = s.getItems(dir);
 
 						// for each entity
 						for (int i = 0; i < entities.size(); i++) {

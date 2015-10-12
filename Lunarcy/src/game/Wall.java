@@ -9,5 +9,5 @@ import java.io.Serializable;
  *
  */
 public interface Wall extends Serializable {
-	public boolean pass(Character character);
+	public boolean canPass(Character character);
 }

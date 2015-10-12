@@ -121,6 +121,17 @@ public class Player implements Character, Serializable {
 		return temp;
 	}
 
+	public boolean hasKey(int keyCode){
+		for(Item i: inventory){
+			if(i instanceof Key){
+				if(((Key)i).keyCode == keyCode){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public Direction getOrientation() {
 		return orientation;
 	}
@@ -144,8 +155,8 @@ public class Player implements Character, Serializable {
 	public Color getColour() {
 		return colour;
 	}
-	
-	
+
+
 	public void depleteOxygen(){
 		this.oxygen = 0;
 	}

@@ -1,13 +1,13 @@
 package game;
 
-public class UnlockedChest extends Container {
+public class Chest extends Container {
 	private static final long serialVersionUID = -1401298737961190449L;
 
-	public UnlockedChest(int entityID) {
+	public Chest(int entityID) {
 		super(entityID);
 	}
 	@Override
-	protected boolean canAccess(Player player) {
+	public boolean canAccess(Player player) {
 		return true;
 	}
 	@Override

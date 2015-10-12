@@ -1,7 +1,7 @@
 package game;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a Container which contains items.
@@ -12,11 +12,11 @@ import java.util.Set;
 public abstract class Container extends Entity {
 	private static final long serialVersionUID = -7267673923708405364L;
 
-	Set<Item> items;
+	List<Item> items;
 
 	public Container(int entityID) {
 		super(entityID);
-		items = new HashSet<Item>();
+		items = new ArrayList<Item>();
 	}
 
 	public boolean addItem(Item item){
@@ -38,7 +38,7 @@ public abstract class Container extends Entity {
 	 * @return The first Item in the set with a matching ID number
 	 * @throws IllegalArgumentException if itemID was not found
 	 */
-	public Item takeItem(Player player, int itemID){
+	public Item takeItem(int itemID){
 		Item item = null;
 		for(Item i : items){
 			if(i.entityID == itemID){
@@ -48,12 +48,8 @@ public abstract class Container extends Entity {
 		if(item==null){
 			throw new IllegalArgumentException("'itemID' does not correspond with an item in this container");
 		}
-		if(canAccess(player)){
-			items.remove(item);
-			return item;
-		}else{
-			return null;
-		}
+		items.remove(item);
+		return item;
 	}
 
 	/**
@@ -61,14 +57,14 @@ public abstract class Container extends Entity {
 	 * @param player
 	 * @return True if player can access, False otherwise
 	 */
-	protected abstract boolean canAccess(Player player);
+	public abstract boolean canAccess(Player player);
 
 	/**
 	 * Returns the set of all items inside this container.
 	 * Note: Modifying the returned set will not change the set inside the container,
 	 * @return
 	 */
-	public Set<Item> getItems(){
-		return new HashSet<Item>(items);
+	public List<Item> getItems(){
+		return new ArrayList<Item>(items);
 	}
 }

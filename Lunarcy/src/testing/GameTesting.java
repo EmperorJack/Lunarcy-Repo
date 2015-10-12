@@ -289,10 +289,7 @@ public class GameTesting {
 	}
 
 	/* White box tests (ie for Robbie) */
-	@Test
-	public void test() {
-		GameLogic logic = createNewGameLogic(1);
-	}
+
 
 	private GameLogic createNewGameLogic(int numPlayers) {
 		GameState state = new GameState(numPlayers, "map.xml");
