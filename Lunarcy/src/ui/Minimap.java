@@ -113,7 +113,7 @@ public class Minimap extends DrawingComponent {
 
 		// if the square is the ship
 		if (walk instanceof Ship) {
-			// tint the square red
+			// tint the square green
 			p.tint(0, 255, 0, 100);
 		}
 
