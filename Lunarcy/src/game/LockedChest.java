@@ -6,6 +6,11 @@ public class LockedChest extends Container {
 	private final int keyID;
 	public LockedChest(int entityID, int keyID) {
 		super(entityID);
+		if(keyID < 1){
+			keyID = 1;
+		}else if(keyID > 3){
+			keyID = 3;
+		}
 		this.keyID = keyID;
 	}
 	@Override
