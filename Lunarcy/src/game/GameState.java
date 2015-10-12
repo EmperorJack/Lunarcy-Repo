@@ -53,9 +53,7 @@ public class GameState implements Serializable {
 	 * to a list of all the items in that access level
 	 */
 	public void distributeItems(Map<Item, Integer> itemsToAccess){
-
 		Map<Integer, List<Item>> itemMap = new HashMap<Integer, List<Item>>();
-
 		//First have to change so we can find items by access level
 		for(Item item: itemsToAccess.keySet()){
 			Integer access = itemsToAccess.get(item);
@@ -64,9 +62,7 @@ public class GameState implements Serializable {
 			}
 			itemMap.get(access).add(item);
 		}
-
 		Map<Integer, Set<Container>> containers = new HashMap<Integer, Set<Container>>();
-
 		//Then we need to map all containers to their access level
 		for(int y = 0; y < board.length; y++){
 			for(int x = 0; x < board[y].length; x++){
@@ -91,13 +87,20 @@ public class GameState implements Serializable {
 				}
 			}
 		}
-
 		//Now we can begin to distribute the items between all the containers
 		for(Integer access: containers.keySet()){
 			List<Item> items = itemMap.get(access);
-
+			//Go through and fill up all the containers
 			while(!items.isEmpty()){
-
+				for(Container container: containers.get(access)){
+					if(items.isEmpty()){
+						//Then we have no more items to distribute so quit
+						break;
+					}
+					//Each time add a random item from the list;
+					int index = (int)(items.size() * Math.random());
+					container.addItem(items.remove(index));
+				}
 			}
 		}
 
@@ -159,8 +162,7 @@ public class GameState implements Serializable {
 	public void loadMap(String map) {
 		GameMap gameMap = Storage.loadGameMap(new File(map));
 		board = gameMap.getSquares();
-		spawnPoints = new ArrayList<Location>();
-		spawnPoints.add(new Location(1, 1));
+		spawnPoints = gameMap.getSpawnPoints();
 			// Search the board to find the ship and save it
 			// Probably need to do something if there is no ship
 			// (InvalidMapException??)
@@ -286,14 +288,12 @@ public class GameState implements Serializable {
 		if (rover == null) {
 			return null;
 		}
-
 		for (Player player : players) {
 			if (player != null
 					&& player.getLocation().equals(rover.getLocation())) {
 				return player;
 			}
 		}
-
 		return null;
 	}
 

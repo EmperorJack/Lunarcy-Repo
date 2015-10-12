@@ -12,7 +12,7 @@ public class Ship extends WalkableSquare {
 	private Player pilot;
 
 	public Ship(ShipPart... parts) {
-		super("Escape Ship", "Find all the parts to repair the ship", false,
+		super("Escape Ship", "Find all the parts to repair the ship", true,
 				null, null, null, null);
 		hasLaunched = false;
 		pilot = null;

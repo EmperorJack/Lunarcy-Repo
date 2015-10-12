@@ -188,7 +188,7 @@ public class GameLogic {
 			}
 			//There must be no matching item in the square so check the container
 			Container container = wSquare.getContainer(player.getOrientation());
-			if (container !=null && container.canAccess(player) && container.hasItem(itemID)) {
+			if (container !=null && container.isOpen() && container.canAccess(player) && container.hasItem(itemID)) {
 				Item item = container.takeItem(itemID);
 				if (item != null) {
 					return player.giveItem(item);
@@ -251,7 +251,7 @@ public class GameLogic {
 			WalkableSquare wSquare = (WalkableSquare) square;
 
 			Container container = wSquare.getContainer(player.getOrientation());
-			if(container != null){
+			if(container != null && container.isOpen()){
 				Item item = player.removeItem(itemID);
 				if (item != null) {
 					container.addItem(item);
