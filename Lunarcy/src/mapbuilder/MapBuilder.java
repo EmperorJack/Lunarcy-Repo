@@ -47,6 +47,7 @@ public class MapBuilder {
 	public static final int GRID_SIZE = 30;
 	boolean addWalls = false;
 	boolean addDoors = false;
+	boolean addContainers = false;
 	private BufferedImage rocketImage;
 	final JFileChooser fc = new JFileChooser();
 
@@ -61,8 +62,8 @@ public class MapBuilder {
 				// null, null, null);
 			}
 		}
-		gridArea = new Rectangle(GRID_LEFT, GRID_TOP,
-				GRID_SIZE * squares[0].length, GRID_SIZE * squares.length);
+		gridArea = new Rectangle(GRID_LEFT, GRID_TOP, GRID_SIZE
+				* squares[0].length, GRID_SIZE * squares.length);
 
 		try {
 			// TODO: Replace with creative commons image
@@ -85,9 +86,10 @@ public class MapBuilder {
 		}
 	}
 
-	public void setSelected(){
-		if (highlightedTile != null){
-			selectedTile = new Location(highlightedTile.getX(), highlightedTile.getY());
+	public void setSelected() {
+		if (highlightedTile != null) {
+			selectedTile = new Location(highlightedTile.getX(),
+					highlightedTile.getY());
 		}
 	}
 
@@ -117,7 +119,7 @@ public class MapBuilder {
 
 	public void setShip() {
 		if (selectedTile != null) {
-			if  (squares[selectedTile.getY()][selectedTile.getX()] instanceof Ship){
+			if (squares[selectedTile.getY()][selectedTile.getX()] instanceof Ship) {
 				squares[selectedTile.getY()][selectedTile.getX()] = new BlankSquare();
 			}
 			for (int i = 0; i < squares.length; i++) {
@@ -332,7 +334,8 @@ public class MapBuilder {
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
 				}
-				if (squares[i][j] instanceof WalkableSquare && !(squares[i][j] instanceof Ship)) {
+				if (squares[i][j] instanceof WalkableSquare
+						&& !(squares[i][j] instanceof Ship)) {
 					drawSquare(g, (WalkableSquare) squares[i][j], GRID_LEFT + j
 							* GRID_SIZE, GRID_TOP + i * GRID_SIZE);
 				}
@@ -367,7 +370,7 @@ public class MapBuilder {
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
 				map = Storage.loadGameMap(fc.getSelectedFile());
 				squares = map.getSquares();
-				}
+			}
 		}
 	}
 
@@ -398,7 +401,24 @@ public class MapBuilder {
 		if (walls.get(Direction.WEST) instanceof Door) {
 			g.fillRect(x, y, 3, GRID_SIZE);
 		}
-		g.setColor(Color.black);
+		g.setColor(Color.yellow);
+		Container toDraw = square.getContainer(Direction.NORTH);
+		if (toDraw != null) {
+			g.fillRect(x + GRID_SIZE / 2, y + 3, 5, 5);
+		}
+		toDraw = square.getContainer(Direction.EAST);
+		if (toDraw != null) {
+			g.fillRect(x + GRID_SIZE - 8, y + GRID_SIZE / 2, 5, 5);
+		}
+		toDraw = square.getContainer(Direction.SOUTH);
+		if (toDraw != null) {
+			g.fillRect(x + GRID_SIZE / 2, y + GRID_SIZE - 8, 5, 5);
+		}
+		toDraw = square.getContainer(Direction.WEST);
+		if (toDraw != null) {
+			g.fillRect(x + 3, y + GRID_SIZE / 2, 5, 5);
+		}
+		g.setColor(Color.BLACK);
 
 	}
 
@@ -414,8 +434,36 @@ public class MapBuilder {
 			addWall(dir);
 		} else if (addDoors) {
 			addDoor(dir);
+		} else if (addContainers) {
+			addContainer(dir);
 		} else {
 			removeDoor(dir);
+		}
+	}
+
+	private void addContainer(Direction dir) {
+		if (highlightedTile != null
+				&& squares[highlightedTile.getY()][highlightedTile.getX()] instanceof WalkableSquare) {
+			WalkableSquare currentSquare = (WalkableSquare) squares[highlightedTile
+					.getY()][highlightedTile.getX()];
+			if (currentSquare.getContainer(dir) != null) {
+				currentSquare
+						.setContainer(dir, new Chest(map.getEntityCount()));
+				map.increaseEntityCount();
+			}
+		}
+	}
+
+	private void removeContainer(Direction dir){
+		if (highlightedTile != null
+				&& squares[highlightedTile.getY()][highlightedTile.getX()] instanceof WalkableSquare) {
+			WalkableSquare currentSquare = (WalkableSquare) squares[highlightedTile
+					.getY()][highlightedTile.getX()];
+			if (currentSquare.getContainer(dir) != null) {
+				currentSquare
+						.setContainer(dir, new Chest(map.getEntityCount()));
+				map.increaseEntityCount();
+			}
 		}
 	}
 
@@ -435,4 +483,11 @@ public class MapBuilder {
 		addDoors = false;
 	}
 
+	public void containersOn() {
+		addContainers = true;
+	}
+
+	public void containersOff() {
+		addContainers = false;
+	}
 }
