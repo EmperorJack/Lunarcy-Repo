@@ -113,6 +113,10 @@ public class EntityView extends DrawingComponent {
 		this.containerOpened = setOpen;
 	}
 
+	public boolean getContainerOpen() {
+		return containerOpened;
+	}
+
 	/**
 	 * Returns the item at the clicked position, or null if the click was not on
 	 * a valid item.

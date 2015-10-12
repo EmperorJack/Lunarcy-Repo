@@ -189,16 +189,25 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
-		// attempt to get an entity from entity view
-		Entity entity = entityView.getItemAt(x, y);
-		System.out.println(entity);
+		// attempt to get a container from entity view
+		Container clickedContainer = entityView.getContainerAt(x, y);
 
-		//When a container is clicked
-		if (entity != null && entity instanceof Container) {
+		//If a container is clicked
+		if (clickedContainer != null && !clickedContainer.equals(containerView.getContainer())) {
 			//Update the container menu
-			updateContainerView((Container)entity);
-		}
+			updateContainerView(clickedContainer);
 
+			//Open the container (for redering)
+			entityView.setContainerOpen(true);
+		}
+		//A container was not clicked, or a container was reclicked
+		else{
+			//Clear the container
+			updateContainerView(null);
+
+			//And shut it
+			entityView.setContainerOpen(false);
+		}
 
 	}
 
@@ -217,6 +226,19 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 			draggedY = y;
 			return;
 		}
+
+		// If the container menu was clicked
+		if (containerView.getContainer() !=null && containerView.onBar(x, y)) {
+
+			System.out.println("pressed");
+
+			// Get the item which was clicked
+			draggedToItem = containerView.getItemAt(x, y);
+			draggedFromItem = null;
+
+			return;
+		}
+
 
 		Entity entity = entityView.getItemAt(x, y);
 		if (entity != null && entity instanceof Item) {
@@ -245,9 +267,17 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
+
+		//If they drop an item onto a container
+		Container container = entityView.getContainerAt(x, y);
+
+		if(draggedFromItem != null && container != null){
+			//Put the item in the container
+			putItem(draggedFromItem.entityID);
+		}
 		// If the item was not released on the inventory bar, and there was an
 		// item currently being dragged, drop it
-		if (!inventoryView.onBar(x, y) && draggedFromItem != null) {
+		else if (draggedFromItem != null && !inventoryView.onBar(x, y)) {
 			// Drop the dragged from item
 			dropItem(draggedFromItem.entityID);
 		}

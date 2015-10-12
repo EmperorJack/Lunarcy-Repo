@@ -7,6 +7,7 @@ import java.util.Map;
 import game.Container;
 import game.GameState;
 import game.Item;
+import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
@@ -21,7 +22,9 @@ public class ContainerView extends Bar {
 	private Container container;
 
 	public ContainerView(Canvas p, GameState gameState, int playerID, Map<String, PImage> entityImages) {
-		super((int)(Canvas.TARGET_WIDTH * 0.3) , 50, gameState.getPlayer(playerID).getInventory(), p, gameState, playerID, entityImages);
+		//TODO: Make x,y nicer
+		super(Canvas.TARGET_WIDTH/2 - (int) (Canvas.TARGET_WIDTH * 0.15), Canvas.TARGET_HEIGHT/2 - 50,
+				gameState.getPlayer(playerID).getInventory(), p, gameState, playerID, entityImages);
 
 		items = new ArrayList<Item>();
 	}
@@ -33,6 +36,9 @@ public class ContainerView extends Bar {
 
 	public void updateContainer(Container container){
 		this.container = container;
+		if(container!=null){
+			items = container.getItems();
+		}
 	}
 
 	@Override
@@ -58,12 +64,13 @@ public class ContainerView extends Bar {
 		p.fill(0, 0, 0, 100);
 		p.rect(0, 0, BAR_WIDTH, ITEM_SIZE);
 
+		//p.imageMode(PApplet.CENTER);
+
 		p.noFill();
 
 		if (items != null) {
 			for (int i = 0; i < items.size(); i++) {
-				p.image(ENTITY_IMAGES.get(items.get(i).getImageName()), i
-						* (ITEM_SIZE + ITEM_SPACING), 0, ITEM_SIZE, ITEM_SIZE);
+				p.image(ENTITY_IMAGES.get(items.get(i).getImageName()), i* (ITEM_SIZE + ITEM_SPACING), 0, ITEM_SIZE, ITEM_SIZE);
 			}
 		}
 
@@ -71,6 +78,10 @@ public class ContainerView extends Bar {
 		p.popStyle();
 		p.popMatrix();
 
+	}
+
+	public Container getContainer() {
+		return container;
 	}
 
 
