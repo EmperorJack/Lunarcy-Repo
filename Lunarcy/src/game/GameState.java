@@ -2,8 +2,6 @@ package game;
 
 import java.awt.Color;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,8 +15,6 @@ import mapbuilder.GameMap;
 import storage.Storage;
 import bots.*;
 
-import com.thoughtworks.xstream.XStream;
-
 /**
  * This class contains all the information about the game state, it does not
  * contain any of the logic for the game but should instead be modified by
@@ -31,11 +27,15 @@ import com.thoughtworks.xstream.XStream;
 public class GameState implements Serializable {
 	private static final long serialVersionUID = -6038094749199471954L;
 
+	private static final int dayLength = 300;
+
 	private Square[][] board;
 	private List<Location> spawnPoints;
 	private Ship ship;
 	private Player[] players;
 	private Set<Rover> rovers;
+
+	private int tickCount;
 
 	public GameState(int numPlayers, String map) {
 		loadMap(map);
@@ -298,6 +298,20 @@ public class GameState implements Serializable {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Ticks the GameState and updates the time
+	 */
+	public void tick(){
+		tickCount++;
+	}
+	/**
+	 * Returns the time as a percentage of the day
+	 * @return 0-100% of how much the day night cycle has gone through
+	 */
+	public int getTime(){
+		return (int)((tickCount % dayLength) / (dayLength/100f));
 	}
 
 	public Square[][] getBoard() {

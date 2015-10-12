@@ -13,7 +13,6 @@ import bots.*;
  *
  */
 public class GameLogic {
-	private static final int dayLength = 300;
 	private GameState state;
 	private PlayerMove[] moves;
 
@@ -61,6 +60,7 @@ public class GameLogic {
 		if(ship.hasLaunched()){
 			System.out.println(ship.getPilot().getName() + " has won the game!!");
 		}
+		state.tick();
 		tickCount++;
 	}
 
@@ -323,14 +323,6 @@ public class GameLogic {
 			return state.getShip().getPilot();
 		}
 		return null;
-	}
-
-	/**
-	 * Returns the time as a percentage of the day
-	 * @return 0-100% of how much the day night cycle has gone through
-	 */
-	public int getTime(){
-		return (int)((tickCount % dayLength) / (dayLength/100f));
 	}
 
 	private class PlayerMove{
