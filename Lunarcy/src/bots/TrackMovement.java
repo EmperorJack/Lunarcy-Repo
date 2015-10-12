@@ -20,13 +20,13 @@ public class TrackMovement extends ShortestPathMover {
 
 	// The player we are chasing
 	private Player target;
-	
+
 	//The path we are currently following
 	private List<Location> path;
-	
-	public TrackMovement(Player target) {
+
+	public TrackMovement(Rover rover, GameState gamestate, Player target) {
 		this.target = target;
-		this.path = new ArrayList<Location>();
+		this.path = findPath(rover, gamestate, rover.getLocation(), target.getLocation());
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class TrackMovement extends ShortestPathMover {
 
 		// If the players inside give up chasing them
 		return !gamestate.isOutside(target.getLocation());
-		
+
 	}
 
 	/**
@@ -68,24 +68,29 @@ public class TrackMovement extends ShortestPathMover {
 	 * @return the path
 	 */
 	public Location nextStep(Rover rover, GameState gamestate) {
-		if (shouldGiveup(gamestate))
+
+		//Makes sure the target is outside
+		if (shouldGiveup(gamestate)){
 			return null;
-		
+		}
+
+		//Updates the path if the targets changed locations
 		if(mustUpdate()){
 			path = findPath(rover, gamestate, rover.getLocation(), target.getLocation());
 		}
-		
+
+		//If a path couldnt be found, return null
 		if(path == null){
 			return null;
 		}
-		
+
 		//if the path is empty, we are already at the player so do not need to move
 		if(path.isEmpty()){
 			return rover.getLocation();
 		}
 
 		return path.remove(0);
-		
+
 	}
 
 }

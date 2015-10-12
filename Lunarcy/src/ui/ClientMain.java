@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -367,26 +368,27 @@ class ClientMain extends JFrame {
 					return;
 				}
 
+				// get the resolution mode
+				int width;
+				int height;
+				String mode = (String) resolutionMode.getSelectedItem();
+
+				// if the 'default' value was selected
+				if (mode.equals("Default")) {
+					width = 1280;
+					height = 720;
+				}
+				//If they selected one of the other item
+				else {
+					width = Integer.valueOf(mode.split("x")[0]);
+					height = Integer.valueOf(mode.split("x")[1]);
+				}
+
+
 				// Make a new client
 				Client client;
 
 				try {
-					// get the resolution mode
-					int width;
-					int height;
-					String mode = (String) resolutionMode.getSelectedItem();
-
-					// if the default value was selected
-					if (mode.equals("Default")) {
-						width = 1280;
-						height = 720;
-					} else {
-						System.out.println(mode.split("x")[0] + " " + mode.split("x")[1]);
-						width = Integer.valueOf(mode.split("x")[0]);
-						height = Integer.valueOf(mode.split("x")[1]);
-						System.out.println(width + " " + height);
-					}
-
 					client = new Client(serverTextbox.getText(), nameTextbox
 							.getText(), chosenColor, width, height, renderMode
 							.getSelectedItem().equals("Hardware"));
@@ -399,13 +401,11 @@ class ClientMain extends JFrame {
 					return;
 				}
 
-				ClientSplashScreen clientSplash = new ClientSplashScreen(client);
-
 				// Hide this window as now the splash screen is up
 				setVisible(false);
 
-				// Start the connection
-				clientSplash.startClient();
+				client.listenForGameUpdates();
+
 
 			}
 
@@ -500,7 +500,7 @@ class ClientMain extends JFrame {
 		try {
 			// TODO: Replace with creative commons image
 			spacesuitImage = ImageIO.read(new File(
-					"assets/items/space_suit.png"));
+					"assets/clientmain/Player.png"));
 		} catch (IOException e) {
 			// Error loading image
 			return;

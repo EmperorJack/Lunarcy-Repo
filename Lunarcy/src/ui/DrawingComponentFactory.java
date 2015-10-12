@@ -31,13 +31,14 @@ public class DrawingComponentFactory {
 	Map<String, PImage> entityImages;
 
 	// types of components available
-	public static final int INVENTORY = 0;
+	public static final int INVENTORYVIEW = 0;
 	public static final int MINIMAP = 1;
 	public static final int OXYGEN = 2;
 	public static final int PERSPECTIVE3D = 3;
 	public static final int ENTITYVIEW = 4;
 	public static final int MENU = 5;
-	public static final int WINNING_ITEMS = 6;
+	public static final int OBJECTIVEVIEW = 6;
+	public static final int CONTAINERVIEW = 7;
 
 	public DrawingComponentFactory(Canvas p, GameState gameState, int playerID,
 			InteractionController interactionControl,
@@ -60,10 +61,25 @@ public class DrawingComponentFactory {
 		// depending on the type of component requested
 		switch (type) {
 
-		case INVENTORY:
-			Inventory inventory = new Inventory(p, gameState, playerID, entityImages);
+		case INVENTORYVIEW:
+			InventoryView inventory = new InventoryView(p, gameState, playerID,
+					entityImages);
 			interactionControl.setInventory(inventory);
 			return inventory;
+
+		case OBJECTIVEVIEW:
+			return new ObjectiveView(p, gameState, playerID, entityImages);
+
+		case CONTAINERVIEW:
+			ContainerView container = new ContainerView(p, gameState, playerID,
+					entityImages);
+			interactionControl.setContainerView(container);
+			return container;
+
+		case ENTITYVIEW:
+			EntityView entityView = new EntityView(p, gameState, playerID, entityImages);
+			interactionControl.setEntityView(entityView);
+			return entityView;
 
 		case MINIMAP:
 			return new Minimap(p, gameState, playerID);
@@ -74,14 +90,6 @@ public class DrawingComponentFactory {
 		case PERSPECTIVE3D:
 			return new Perspective3D(p, gameState, playerID, entityImages);
 
-		case ENTITYVIEW:
-			EntityView entityView = new EntityView(p, gameState, playerID,
-					entityImages);
-			interactionControl.setEntityView(entityView);
-			return entityView;
-			
-		case WINNING_ITEMS:
-			return new WinningItems(p, gameState, playerID, entityImages);
 		}
 
 		// invalid component entered

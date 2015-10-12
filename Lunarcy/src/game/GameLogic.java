@@ -230,7 +230,7 @@ public class GameLogic {
 
 
 		//Move all the rovers
-		if(tickCount % 8 == 0){
+		if(tickCount % 4 == 0){
 			for(Rover r: state.getRovers()){
 				r.tick(state);
 			}

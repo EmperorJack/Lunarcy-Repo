@@ -29,8 +29,9 @@ import network.PutAction;
 public class InteractionController implements KeyListener, MouseListener, MouseMotionListener {
 
 	// Drawing components
-	private Inventory inventory;
+	private InventoryView inventoryView;
 	private EntityView entityView;
+	private ContainerView containerView;
 
 	// Dragging/dropping items
 
@@ -54,6 +55,8 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 
 	// Canvas field
 	private Canvas canvas;
+
+	private Container selectedContainer;
 
 	public InteractionController(Client client, GameState gamestate, Player player, Canvas canvas) {
 
@@ -84,15 +87,19 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		client.sendAction(new PickupAction(player.getId(), itemID));
 	}
 
-	public void setInventory(Inventory inventory) {
-		this.inventory = inventory;
+	public void setInventory(InventoryView inventory) {
+		this.inventoryView = inventory;
+	}
+
+	public void setContainerView(ContainerView containerView) {
+		this.containerView = containerView;
 	}
 
 	public void setEntityView(EntityView entityView) {
 		this.entityView = entityView;
 	}
 
-	public void update(GameState gameState, Player player) {
+	public void update(Player player) {
 		this.player = player;
 	}
 
@@ -176,9 +183,10 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		Entity entity = entityView.getEntityAt(x, y);
 		System.out.println(entity);
 
-		// Do something with containers
+		//When a container is clicked
 		if (entity != null && entity instanceof Container) {
-
+			//Show the container menu
+			selectedContainer = (Container)entity;
 		}
 
 	}
@@ -189,9 +197,9 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 		int y = (int) (e.getY() / canvas.getScaling());
 
 		// If the inventory was clicked
-		if (inventory.onInventoryBar(x, y)) {
+		if (inventoryView.onBar(x, y)) {
 			// Get the item which was clicked
-			draggedFromItem = inventory.getItemAt(x, y);
+			draggedFromItem = inventoryView.getItemAt(x, y);
 			draggedToItem = null;
 
 			draggedX = x;
@@ -217,6 +225,7 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 			draggedX = x;
 			draggedY = y;
 		}
+
 	}
 
 	@Override
@@ -227,16 +236,14 @@ public class InteractionController implements KeyListener, MouseListener, MouseM
 
 		// If the item was not released on the inventory bar, and there was an
 		// item currently being dragged, drop it
-		if (!inventory.onInventoryBar(x, y) && draggedFromItem != null) {
-
+		if (!inventoryView.onBar(x, y) && draggedFromItem != null) {
 			// Drop the dragged from item
 			dropItem(draggedFromItem.entityID);
-
 		}
 
 		// If it was released on the inventory bar, check if theres a dragged to
 		// item
-		else if (inventory.onInventoryBar(x, y) && draggedToItem != null) {
+		else if (inventoryView.onBar(x, y) && draggedToItem != null) {
 
 			// Pickup the item which was dragged onto the inventory
 			pickupItem(draggedToItem.entityID);

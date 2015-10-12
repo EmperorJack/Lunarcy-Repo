@@ -239,7 +239,6 @@ public class Server {
 			System.out.println("wrote id to client" + clientID);
 
 			// Begin listening to this client
-
 		}
 
 		private void sendID(int clientID) {
