@@ -33,9 +33,9 @@ public class Skybox {
 		p.pushMatrix();
 
 		// get the current time from the game state
-		//int time = gameState.getTime();
+		// int time = gameState.getTime();
 
-		// rotate in
+		// rotate the skybox relative to the current time
 
 		// draw the skybox model
 		model.draw();

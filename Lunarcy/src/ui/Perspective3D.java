@@ -191,7 +191,7 @@ public class Perspective3D extends DrawingComponent {
 				p.translate(position.x, position.y, position.z);
 
 				// rotate the current player sprite to face this player
-				rotateRelativeTo(position, 1);
+				rotateRelativeTo(position);
 
 				// draw the player astronaut image
 				p.imageMode(PApplet.CENTER);
@@ -233,7 +233,7 @@ public class Perspective3D extends DrawingComponent {
 				p.translate(position.x, position.y, position.z);
 
 				// rotate the current rover sprite to face this player
-				rotateRelativeTo(position, 1);
+				rotateRelativeTo(position);
 
 				// draw the player rover image
 				p.imageMode(PApplet.CENTER);
@@ -386,17 +386,15 @@ public class Perspective3D extends DrawingComponent {
 		// translate to the current entity offsets
 		p.translate(xOffset, yOffset, zOffset);
 
-		float factor = 1.0f;
-
 		// if the entity is a container
 		if (entity instanceof Container) {
 
-			// change the rotation factor
-			factor = 0.1f;
+			// rotate the current container to face this player
+			rotateContainerRelativeTo(position, dir);
+		} else {
+			// rotate the current item to face this player
+			rotateRelativeTo(position);
 		}
-
-		// rotate the current entity to face this player
-		rotateRelativeTo(position, factor);
 
 		// draw the entity image
 		p.image(entityImages.get(entity.getImageName()), 0, 0, size, size);
@@ -411,16 +409,47 @@ public class Perspective3D extends DrawingComponent {
 	 * @param position
 	 *            The position vector to rotate in reference to.
 	 */
-	private void rotateRelativeTo(PVector position, float factor) {
+	private void rotateRelativeTo(PVector position) {
 		// compute the angle between the camera and the given position vector
 		float angle = PApplet.atan2(actualCameraEye.z - position.z,
 				actualCameraEye.x - position.x);
 
-		// apply the factor to the rotation angle
-		// angle *= factor;
+		// rotate the matrix by the computed angle
+		p.rotateY(-(angle - PApplet.HALF_PI));
+	}
+
+	private void rotateContainerRelativeTo(PVector position, Direction dir) {
+		// compute the angle between the camera and the given position vector
+		float angle = PApplet.atan2(actualCameraEye.z - position.z,
+				actualCameraEye.x - position.x);
+
+		// compute the angle offset for the given direction
+		float angleOffset = 0;
+		float factor = 0.1f;
+
+		// set the angle offset based on the current direction
+		switch (dir) {
+		case NORTH:
+			angleOffset = 0;
+			break;
+
+		case EAST:
+			angleOffset = PApplet.HALF_PI;
+			factor = -factor;
+			break;
+
+		case SOUTH:
+			angleOffset = PApplet.PI;
+			factor = -factor;
+			break;
+
+		case WEST:
+			angleOffset = PApplet.HALF_PI * 3;
+			break;
+		}
 
 		// rotate the matrix by the computed angle
-		p.rotateY(-(angle - PApplet.HALF_PI) * factor);
+		p.rotateY(-(angle * factor + angleOffset));
 	}
 
 	/**

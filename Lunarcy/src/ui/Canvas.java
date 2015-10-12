@@ -140,6 +140,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 		// drawing setup
 		noStroke();
+		hint(ENABLE_DEPTH_MASK);
 
 		// text setup
 		hint(ENABLE_NATIVE_FONTS);
