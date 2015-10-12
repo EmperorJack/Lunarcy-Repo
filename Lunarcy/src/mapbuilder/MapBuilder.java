@@ -48,6 +48,7 @@ public class MapBuilder {
 	boolean addWalls = false;
 	boolean addDoors = false;
 	boolean addContainers = false;
+	boolean removeContainers = false;
 	private BufferedImage rocketImage;
 	final JFileChooser fc = new JFileChooser();
 
@@ -56,7 +57,8 @@ public class MapBuilder {
 		squares = new Square[20][20];
 		map = new GameMap();
 
-		fc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/assets/maps"));
+		fc.setCurrentDirectory(new File(System.getProperty("user.dir")
+				+ "/assets/maps"));
 
 		for (int i = 0; i < squares.length; i++) {
 			for (int j = 0; j < squares[0].length; j++) {
@@ -439,6 +441,8 @@ public class MapBuilder {
 			addDoor(dir);
 		} else if (addContainers) {
 			addContainer(dir);
+		} else if (removeContainers){
+			removeContainer(dir);
 		} else {
 			removeDoor(dir);
 		}
@@ -449,8 +453,11 @@ public class MapBuilder {
 				&& squares[highlightedTile.getY()][highlightedTile.getX()] instanceof WalkableSquare) {
 			WalkableSquare currentSquare = (WalkableSquare) squares[highlightedTile
 					.getY()][highlightedTile.getX()];
-			currentSquare.setContainer(dir, new Chest(map.getEntityCount()));
-			map.increaseEntityCount();
+			if (!currentSquare.hasContainer(dir)) {
+				currentSquare
+						.setContainer(dir, new Chest(map.getEntityCount()));
+				map.increaseEntityCount();
+			}
 		}
 	}
 
@@ -459,10 +466,9 @@ public class MapBuilder {
 				&& squares[highlightedTile.getY()][highlightedTile.getX()] instanceof WalkableSquare) {
 			WalkableSquare currentSquare = (WalkableSquare) squares[highlightedTile
 					.getY()][highlightedTile.getX()];
-			if (currentSquare.getContainer(dir) != null) {
-				currentSquare
-						.setContainer(dir, new Chest(map.getEntityCount()));
-				map.increaseEntityCount();
+			if (currentSquare.hasContainer(dir)) {
+				currentSquare.removeContainer(dir);
+				map.decreaseEntityCount();
 			}
 		}
 	}
@@ -489,5 +495,13 @@ public class MapBuilder {
 
 	public void containersOff() {
 		addContainers = false;
+	}
+
+	public void removeContainersOn() {
+		removeContainers = true;
+	}
+
+	public void removeContainersOff() {
+		removeContainers = false;
 	}
 }

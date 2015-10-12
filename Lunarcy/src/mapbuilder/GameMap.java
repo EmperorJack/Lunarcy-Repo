@@ -54,4 +54,9 @@ public class GameMap {
 	public void increaseEntityCount(){
 		entityCount++;
 	}
+
+	public void decreaseEntityCount(){
+		entityCount--;
+	}
+
 }
