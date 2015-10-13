@@ -10,3 +10,4 @@ lockedChest
 lockedChest_open
 armour
 cloak
+bag
