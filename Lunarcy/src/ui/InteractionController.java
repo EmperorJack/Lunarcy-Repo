@@ -17,10 +17,10 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.SwingUtilities;
 
 import ui.ApplicationWindow.ContainerView;
+import ui.ApplicationWindow.EntityView;
 import ui.ApplicationWindow.InventoryView;
 import ui.ApplicationWindow.PopupDisplay;
 import ui.renderer.Canvas;
-import ui.renderer.EntityView;
 import network.Client;
 import network.CloseAction;
 import network.DropAction;

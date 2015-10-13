@@ -1,4 +1,4 @@
-package ui.renderer;
+package ui.ApplicationWindow;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +11,7 @@ import game.Square;
 import processing.core.PApplet;
 import processing.core.PImage;
 import ui.DrawingComponent;
+import ui.renderer.Canvas;
 
 /**
  * Displays the entities (containers and items) that can be interacted with from

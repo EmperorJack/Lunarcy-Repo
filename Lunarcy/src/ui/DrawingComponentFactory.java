@@ -4,13 +4,14 @@ import java.util.Map;
 
 import processing.core.PImage;
 import ui.ApplicationWindow.ContainerView;
+import ui.ApplicationWindow.EntityView;
 import ui.ApplicationWindow.InventoryView;
 import ui.ApplicationWindow.Minimap;
 import ui.ApplicationWindow.ObjectiveView;
 import ui.ApplicationWindow.Oxygen;
+import ui.ApplicationWindow.PlayerView;
 import ui.ApplicationWindow.PopupDisplay;
 import ui.renderer.Canvas;
-import ui.renderer.EntityView;
 import ui.renderer.Perspective3D;
 import game.GameState;
 
@@ -33,7 +34,7 @@ public class DrawingComponentFactory {
 	// player ID to construct components with
 	private int playerID;
 
-	// interaction controller for entity interactions across componenets
+	// interaction controller for entity interactions across components
 	private InteractionController interactionControl;
 
 	// map of unique item images
@@ -48,6 +49,7 @@ public class DrawingComponentFactory {
 	public static final int OBJECTIVEVIEW = 5;
 	public static final int CONTAINERVIEW = 6;
 	public static final int POPUP = 7;
+	public static final int PLAYERVIEW = 8;
 
 	public DrawingComponentFactory(Canvas p, GameState gameState, int playerID,
 			InteractionController interactionControl,
@@ -86,7 +88,8 @@ public class DrawingComponentFactory {
 			return container;
 
 		case ENTITYVIEW:
-			EntityView entityView = new EntityView(p, gameState, playerID, entityImages);
+			EntityView entityView = new EntityView(p, gameState, playerID,
+					entityImages);
 			interactionControl.setEntityView(entityView);
 			return entityView;
 
@@ -100,10 +103,13 @@ public class DrawingComponentFactory {
 			return new Perspective3D(p, gameState, playerID, entityImages);
 
 		case POPUP:
-			PopupDisplay popup = new PopupDisplay(null, null, p, gameState, playerID);
+			PopupDisplay popup = new PopupDisplay(null, null, p, gameState,
+					playerID);
 			interactionControl.setPopup(popup);
 			return popup;
 
+		case PLAYERVIEW:
+			return new PlayerView(p, gameState, playerID);
 		}
 
 		// invalid component entered

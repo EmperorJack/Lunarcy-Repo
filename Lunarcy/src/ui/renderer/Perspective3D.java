@@ -171,7 +171,9 @@ public class Perspective3D extends DrawingComponent {
 	 *            List of players in the game.
 	 */
 	private void drawPlayers(Player thisPlayer, Player[] players) {
+		// for each player
 		for (int i = 0; i < players.length; i++) {
+			
 			// don't draw a player in the same location as this player
 			if (!players[i].getLocation().equals(thisPlayer.getLocation())) {
 				p.pushMatrix();
