@@ -1,10 +1,10 @@
 package ui.renderer;
 
-import game.Container;
 import game.Direction;
 import game.Entity;
 import game.GameState;
 import game.Item;
+import game.Key;
 import game.Location;
 import game.Player;
 import game.SolidContainer;
@@ -146,7 +146,7 @@ public class Perspective3D extends DrawingComponent {
 		p.popMatrix();
 
 		// draw the game world
-		WORLD.draw();
+		WORLD.draw(gameState);
 
 		// draw the entities
 		drawEntites(thisPlayer, gameState.getBoard());
@@ -311,13 +311,20 @@ public class Perspective3D extends DrawingComponent {
 		for (Direction dir : Direction.values()) {
 
 			// get the container for the current direction
-			Container container = s.getContainer(dir);
+			SolidContainer container = s.getContainer(dir);
 
 			// if there is a container for the given direction
 			if (container != null) {
+				p.pushStyle();
+
+				// tint the image with the correct security colour
+				p.tint(Canvas.getSecurityColour(container.getAccessLevel()));
+
 				// draw the container
 				drawEntity(dir, container, position, 0, CONTAINER_SIZE,
 						CONTAINER_INNER_PADDING, CONTAINER_Y_OFFSET);
+
+				p.popStyle();
 			}
 
 			// get the items for the current direction
@@ -325,13 +332,27 @@ public class Perspective3D extends DrawingComponent {
 
 			// for each item
 			for (int i = 0; i < items.size(); i++) {
+				p.pushStyle();
+
+				Item currentItem = items.get(i);
+
+				// if the current item is a key
+				if (currentItem instanceof Key) {
+
+					// tint the image with the correct security colour
+					p.tint(Canvas.getSecurityColour(((Key) currentItem)
+							.getAccessLevel()));
+				}
+
 				// compute the offset for the current item
 				int offset = (int) ((i + 1) / (float) (items.size() + 1) * SQUARE_SIZE)
 						- SQUARE_SIZE / 2;
 
 				// draw the item
-				drawEntity(dir, items.get(i), position, offset, ITEM_SIZE,
+				drawEntity(dir, currentItem, position, offset, ITEM_SIZE,
 						ITEM_INNER_PADDING, ITEM_Y_OFFSET);
+
+				p.popStyle();
 			}
 		}
 		p.popMatrix();

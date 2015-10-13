@@ -1,5 +1,6 @@
 package ui.renderer;
 
+import java.awt.Color;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -65,6 +66,11 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 	// helmet mask field
 	private PImage helmet;
+
+	// security level colour fields
+	private final static int GREEN = 1;
+	private final static int ORANGE = 2;
+	private final static int RED = 3;
 
 	// audio fields
 	// private Minim minim;
@@ -310,6 +316,43 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	 */
 	public float getScaling() {
 		return scalingAmount;
+	}
+
+	/**
+	 * Returns the colour used to tint secured items based on the given access
+	 * level.
+	 *
+	 * @param accessLevel
+	 *            The access level of the colour requested.
+	 * @return The colour in RGB to tint for the given access level.
+	 */
+	public static int getSecurityColour(int accessLevel) {
+		Color color = null;
+
+		// depending on the given access level
+		switch (accessLevel) {
+
+		case GREEN:
+			// green level access required
+			color = new Color(85, 255, 0);
+			break;
+
+		case ORANGE:
+			// orange level access required
+			color = new Color(255, 175, 0);
+			break;
+
+		case RED:
+			// red level access required
+			color = new Color(255, 0, 0);
+			break;
+
+		default:
+			// no level access required
+			color = new Color(150, 150, 150);
+		}
+
+		return color.getRGB();
 	}
 
 	/**

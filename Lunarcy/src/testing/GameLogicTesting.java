@@ -46,15 +46,6 @@ public class GameLogicTesting {
 		assertEquals(original.right(), player.getOrientation());
 	}
 
-	/**
-	 * When killing a  player should lose 1 item
-	 */
-	@Test
-	public void validKillPlayer(){
-
-
-	}
-
 	private GameLogic createNewGameLogic(int numPlayers) {
 		GameState state = new GameState(numPlayers, "assets/maps/map.xml");
 
