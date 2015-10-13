@@ -213,7 +213,8 @@ public class WorldModel {
 		else if (ws.getWalls().get(dir) instanceof Door) {
 
 			// create a new door frame model
-			createDoor(ws, dir, x, y);
+			doorFrameModels.add(new OBJWrapper(getDoorFrameModel(dir),
+					SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 		}
 	}
 
@@ -246,6 +247,16 @@ public class WorldModel {
 		}
 	}
 
+	/**
+	 * Return the correct wall model depending on the given direction and inside
+	 * state.
+	 *
+	 * @param dir
+	 *            Direction the wall is in the square.
+	 * @param inside
+	 *            If the square is inside or not.
+	 * @return The correct wall model.
+	 */
 	private OBJModel getWallModel(Direction dir, Boolean inside) {
 		// get the door model based on the given direction
 		switch (dir) {
@@ -267,32 +278,15 @@ public class WorldModel {
 	}
 
 	/**
-	 * Given a walkable square that is known to have a door on a certain side,
-	 * check if the square is inside or outside and create the correct door
-	 * model.
+	 * Return the correct door frame model depending on the given direction and
+	 * inside state.
 	 *
-	 * @param ws
-	 *            The walkable square in question.
 	 * @param dir
-	 *            The direction to add a door too.
-	 * @param x
-	 *            x position of the walkable square.
-	 * @param y
-	 *            y position of the walkable square.
+	 *            Direction the door frame is in the square.
+	 * @param inside
+	 *            If the square is inside or not.
+	 * @return The correct door frame model.
 	 */
-	private void createDoor(WalkableSquare ws, Direction dir, int x, int y) {
-		// if the square is indoor
-		if (ws.isInside()) {
-			// create an indoor door model
-			insideModels.add(new OBJWrapper(getDoorFrameModel(dir), SQUARE_SIZE
-					* x, 0, SQUARE_SIZE * y));
-		} else {
-			// create a outdoor wall model
-			outsideModels.add(new OBJWrapper(getDoorFrameModel(dir),
-					SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
-		}
-	}
-
 	private OBJModel getDoorFrameModel(Direction dir) {
 		// get the door model based on the given direction
 		switch (dir) {

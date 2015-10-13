@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import game.GameState;
+import game.Key;
 import game.Player;
 import game.Item;
 import game.SolidContainer;
@@ -63,9 +64,13 @@ public class EntityView extends DrawingComponent {
 		// if the container currently exists
 		if (container != null) {
 			p.pushMatrix();
+			p.pushStyle();
 
 			// translate to allow for top padding
 			p.translate(0, TOP_PADDING_CONTAINER);
+
+			// tint the image with the correct security colour
+			p.tint(Canvas.getSecurityColour(container.getAccessLevel()));
 
 			String containerImageName = container.getImageName();
 
@@ -74,6 +79,7 @@ public class EntityView extends DrawingComponent {
 					Canvas.TARGET_WIDTH / 2.0f, CONTAINER_SIZE / 2,
 					CONTAINER_SIZE, CONTAINER_SIZE);
 
+			p.popStyle();
 			p.popMatrix();
 		}
 
@@ -85,11 +91,23 @@ public class EntityView extends DrawingComponent {
 
 		// for each item
 		for (int i = 0; i < items.size(); i++) {
+			p.pushStyle();
+
+			Item currentItem = items.get(i);
+
 			// compute the x position to place the image
 			int xPos = (int) ((i + 1) / (float) (items.size() + 1) * Canvas.TARGET_WIDTH);
 
+			// if the current item is a key
+			if (currentItem instanceof Key) {
+
+				// tint the image with the correct security colour
+				p.tint(Canvas.getSecurityColour(((Key) currentItem)
+						.getAccessLevel()));
+			}
+
 			// draw the item image
-			p.image(entityImages.get(items.get(i).getImageName()), xPos,
+			p.image(entityImages.get(currentItem.getImageName()), xPos,
 					ITEM_SIZE / 2, ITEM_SIZE, ITEM_SIZE);
 		}
 

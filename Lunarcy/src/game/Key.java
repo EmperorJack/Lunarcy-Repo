@@ -52,4 +52,8 @@ public class Key implements Item {
 			return true;
 		return false;
 	}
+
+	public int getAccessLevel() {
+		return keyCode;
+	}
 }
