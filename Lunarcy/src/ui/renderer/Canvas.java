@@ -13,6 +13,7 @@ import java.util.Scanner;
 import network.Client;
 import game.GameState;
 import game.Item;
+import game.Key;
 import game.Player;
 import game.WalkableSquare;
 import processing.core.*;
@@ -258,6 +259,14 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		if (draggedItem != null) {
 			pushMatrix();
 			pushStyle();
+
+			// if the dragged item is a key
+			if (draggedItem instanceof Key) {
+
+				// tint the image with the correct security colour
+				tint(Canvas.getSecurityColour(
+						((Key) draggedItem).getAccessLevel(), false));
+			}
 
 			int x = interactionControl.getDraggedItemX();
 			int y = interactionControl.getDraggedItemY();
