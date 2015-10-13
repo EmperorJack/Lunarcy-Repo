@@ -19,7 +19,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import storage.Storage;
-
 import game.*;
 
 /**
@@ -44,8 +43,8 @@ public class MapBuilder {
 	public static final int GRID_TOP = 60;
 	public static final int GRID_SIZE = 30;
 	boolean addWalls = false;
-	int addDoors = -1; //-1 if removing, 0-3 for unlocked to red doors
-	int addContainers = -1;//-1 if removing, 0-3 for unlocked to red containers
+	int addDoors = -1; // -1 if removing, 0-3 for unlocked to red doors
+	int addContainers = -1;// -1 if removing, 0-3 for unlocked to red containers
 	boolean removeContainers = false;
 	private BufferedImage rocketImage;
 	final JFileChooser fc = new JFileChooser();
@@ -309,7 +308,7 @@ public class MapBuilder {
 					if (((WalkableSquare) squares[i][j]).isInside()) {
 						g.setColor(Color.WHITE);
 					} else {
-						g.setColor(Color.GREEN);
+						g.setColor(Color.GREEN.darker());
 					}
 					g.fillRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
@@ -387,57 +386,82 @@ public class MapBuilder {
 				map = Storage.loadGameMap(fc.getSelectedFile());
 				squares = map.getSquares();
 				spawnPoints = map.getSpawnPoints();
-				if (spawnPoints == null) spawnPoints = new ArrayList<Location>();
+				if (spawnPoints == null)
+					spawnPoints = new ArrayList<Location>();
 			}
 		}
 	}
 
 	public void drawSquare(Graphics g, WalkableSquare square, int x, int y) {
 		Map<Direction, Wall> walls = square.getWalls();
-		if (walls.get(Direction.NORTH) instanceof SolidWall) {
+		if (walls.containsKey(Direction.NORTH) && !(walls.get(Direction.NORTH) instanceof EmptyWall)) {
+			setWallColor(walls.get(Direction.NORTH), g);
 			g.fillRect(x, y, GRID_SIZE, 3);
 		}
-		if (walls.get(Direction.EAST) instanceof SolidWall) {
+		if (walls.containsKey(Direction.EAST) && !(walls.get(Direction.EAST) instanceof EmptyWall)) {
+			setWallColor(walls.get(Direction.EAST), g);
 			g.fillRect(x + GRID_SIZE - 3, y, 3, GRID_SIZE);
 		}
-		if (walls.get(Direction.SOUTH) instanceof SolidWall) {
+		if (walls.containsKey(Direction.SOUTH) && !(walls.get(Direction.SOUTH) instanceof EmptyWall)) {
+			setWallColor(walls.get(Direction.SOUTH), g);
 			g.fillRect(x, y + GRID_SIZE - 3, GRID_SIZE, 3);
 		}
-		if (walls.get(Direction.WEST) instanceof SolidWall) {
+		if (walls.containsKey(Direction.WEST) && !(walls.get(Direction.WEST) instanceof EmptyWall)) {
+			setWallColor(walls.get(Direction.WEST), g);
 			g.fillRect(x, y, 3, GRID_SIZE);
 		}
-		g.setColor(Color.ORANGE.darker());
-		if (walls.get(Direction.NORTH) instanceof Door) {
-			g.fillRect(x, y, GRID_SIZE, 3);
-		}
-		if (walls.get(Direction.EAST) instanceof Door) {
-			g.fillRect(x + GRID_SIZE - 3, y, 3, GRID_SIZE);
-		}
-		if (walls.get(Direction.SOUTH) instanceof Door) {
-			g.fillRect(x, y + GRID_SIZE - 3, GRID_SIZE, 3);
-		}
-		if (walls.get(Direction.WEST) instanceof Door) {
-			g.fillRect(x, y, 3, GRID_SIZE);
-		}
-		g.setColor(Color.yellow);
 		Container toDraw = square.getContainer(Direction.NORTH);
 		if (toDraw != null) {
+			setContainerColor(toDraw, g);
 			g.fillRect(x + GRID_SIZE / 2, y + 3, 5, 5);
 		}
 		toDraw = square.getContainer(Direction.EAST);
 		if (toDraw != null) {
+			setContainerColor(toDraw, g);
 			g.fillRect(x + GRID_SIZE - 8, y + GRID_SIZE / 2, 5, 5);
 		}
 		toDraw = square.getContainer(Direction.SOUTH);
 		if (toDraw != null) {
+			setContainerColor(toDraw, g);
 			g.fillRect(x + GRID_SIZE / 2, y + GRID_SIZE - 8, 5, 5);
 		}
 		toDraw = square.getContainer(Direction.WEST);
 		if (toDraw != null) {
+			setContainerColor(toDraw, g);
 			g.fillRect(x + 3, y + GRID_SIZE / 2, 5, 5);
 		}
 		g.setColor(Color.BLACK);
 
+	}
+
+	private void setWallColor(Wall wall, Graphics g) {
+		if (wall instanceof LockedDoor){
+			if (((LockedDoor) wall).getKeyCode() == 1){
+				g.setColor(Color.GREEN);
+			} else if (((LockedDoor) wall).getKeyCode() == 2){
+				g.setColor(Color.ORANGE);
+			} else if  (((LockedDoor) wall).getKeyCode() == 3){
+				g.setColor(Color.RED);
+			}
+		} else if (wall instanceof Door){
+			g.setColor(Color.ORANGE.darker());
+		} else if (wall instanceof SolidWall){
+			g.setColor(Color.black);
+		}
+	}
+
+	private void setContainerColor(Container container, Graphics g){
+		if (container instanceof LockedChest) {
+			if (((LockedChest) container).getAccessLevel() == 1){
+				g.setColor(Color.GREEN);
+			} else if (((LockedChest) container).getAccessLevel() == 2){
+				g.setColor(Color.ORANGE);
+			} else if (((LockedChest) container).getAccessLevel() == 3){
+				g.setColor(Color.RED);
+			}
+		} else {
+			g.setColor(Color.BLACK);
+		}
 	}
 
 	public void doSelect(int startX, int startY, int x, int y) {
@@ -450,15 +474,65 @@ public class MapBuilder {
 	public void setWall(Direction dir) {
 		if (addWalls) {
 			addWall(dir);
-		} else if (addDoors >= 0) {
+		} else if (addDoors == 0) {
 			addDoor(dir);
-		} else if (addContainers >= 0) {
+		} else if (addDoors > 0) {
+			addLockedDoor(dir, addDoors);
+		} else if (addContainers == 0) {
 			addContainer(dir);
-		} else if (removeContainers){
+		} else if (addContainers > 0) {
+			addLockedContainer(dir, addContainers);
+		} else if (removeContainers) {
 			removeContainer(dir);
 		} else {
 			removeDoor(dir);
 		}
+	}
+
+	private void addLockedContainer(Direction dir, int access) {
+		if (highlightedTile != null
+				&& squares[highlightedTile.getY()][highlightedTile.getX()] instanceof WalkableSquare) {
+			WalkableSquare currentSquare = (WalkableSquare) squares[highlightedTile
+					.getY()][highlightedTile.getX()];
+			if (!currentSquare.hasContainer(dir)) {
+				currentSquare.setFurniture(dir, new LockedChest(
+						map.getEntityCount() + 500, access));
+				map.increaseEntityCount();
+			}
+		}
+
+	}
+
+	private void addLockedDoor(Direction dir, int access) {
+		if (highlightedTile != null
+				&& squares[highlightedTile.getY()][highlightedTile.getX()] instanceof WalkableSquare) {
+			Square currentSquare = squares[highlightedTile.getY()][highlightedTile
+					.getX()];
+			currentSquare.addLockedDoor(dir, access);
+			if (dir == Direction.NORTH && highlightedTile.getY() > 0) {
+				Square adjacentSquare = squares[highlightedTile.getY() - 1][highlightedTile
+						.getX()];
+				adjacentSquare.addLockedDoor(Direction.SOUTH, access);
+			}
+			if (dir == Direction.SOUTH
+					&& highlightedTile.getY() < squares.length - 1) {
+				Square adjacentSquare = squares[highlightedTile.getY() + 1][highlightedTile
+						.getX()];
+				adjacentSquare.addLockedDoor(Direction.NORTH, access);
+			}
+			if (dir == Direction.EAST
+					&& highlightedTile.getX() < squares[0].length - 1) {
+				Square adjacentSquare = squares[highlightedTile.getY()][highlightedTile
+						.getX() + 1];
+				adjacentSquare.addLockedDoor(Direction.WEST, access);
+			}
+			if (dir == Direction.WEST && highlightedTile.getX() > 0) {
+				Square adjacentSquare = squares[highlightedTile.getY()][highlightedTile
+						.getX() - 1];
+				adjacentSquare.addLockedDoor(Direction.EAST, access);
+			}
+		}
+
 	}
 
 	private void addContainer(Direction dir) {
@@ -467,8 +541,8 @@ public class MapBuilder {
 			WalkableSquare currentSquare = (WalkableSquare) squares[highlightedTile
 					.getY()][highlightedTile.getX()];
 			if (!currentSquare.hasContainer(dir)) {
-				currentSquare
-						.setFurniture(dir, new Chest(map.getEntityCount() + 500));
+				currentSquare.setFurniture(dir, new Chest(
+						map.getEntityCount() + 500));
 				map.increaseEntityCount();
 			}
 		}
@@ -521,13 +595,13 @@ public class MapBuilder {
 	}
 
 	public void addSpawnPoint() {
-		if (selectedTile != null && !spawnPoints.contains(selectedTile)){
+		if (selectedTile != null && !spawnPoints.contains(selectedTile)) {
 			spawnPoints.add(selectedTile);
 		}
 	}
 
 	public void removeSpawnPoint() {
-		if (selectedTile != null && spawnPoints.contains(selectedTile)){
+		if (selectedTile != null && spawnPoints.contains(selectedTile)) {
 			spawnPoints.remove(selectedTile);
 		}
 	}

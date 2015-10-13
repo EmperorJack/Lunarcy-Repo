@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import game.*;
 
 public class GameMap {
@@ -28,6 +30,7 @@ public class GameMap {
 	}
 
 	public void initTierDictionary(){
+		entityCount -= tierDictionary.size();
 		setTierDictionary(new HashMap<Item, Integer>());
 		//ADD SHIP PARTS
 		addShipPart(0, 5, 0);
@@ -63,6 +66,9 @@ public class GameMap {
 
 	public void setTierDictionary(Map<Item, Integer> tierDictionary) {
 		this.tierDictionary = tierDictionary;
+	}
+
+	public void clearTierDictionary(){
 	}
 
 	public List<Location> getSpawnPoints() {

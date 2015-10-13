@@ -118,4 +118,9 @@ public abstract class Square implements Serializable {
 	public void removeDoor(Direction dir) {
 		walls.put(dir, new EmptyWall());
 	}
+
+	public void addLockedDoor(Direction dir, int access) {
+		walls.put(dir, new LockedDoor(access));
+
+	}
 }
