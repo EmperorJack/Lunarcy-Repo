@@ -12,7 +12,8 @@ import game.*;
 public class GameMap {
 	private Square[][] squares;
 	private Map<Item, Integer> tierDictionary;
-	private List<Location> spawnPoints;
+	private List<Location> playerSpawnPoints;
+	private List<Location> roverSpawnPoints;
 	private int entityCount = 0;
 
 	public GameMap(){
@@ -71,12 +72,12 @@ public class GameMap {
 	public void clearTierDictionary(){
 	}
 
-	public List<Location> getSpawnPoints() {
-		return spawnPoints;
+	public List<Location> getPlayerSpawnPoints() {
+		return playerSpawnPoints;
 	}
 
-	public void setSpawnPoints(List<Location> spawnPoints) {
-		this.spawnPoints = spawnPoints;
+	public void setPlayerSpawnPoints(List<Location> spawnPoints) {
+		this.playerSpawnPoints = spawnPoints;
 	}
 
 	public int getEntityCount() {
@@ -93,6 +94,14 @@ public class GameMap {
 
 	public void decreaseEntityCount(){
 		entityCount--;
+	}
+
+	public List<Location> getRoverSpawnPoints() {
+		return roverSpawnPoints;
+	}
+
+	public void setRoverSpawnPoints(List<Location> roverSpawnPoints) {
+		this.roverSpawnPoints = roverSpawnPoints;
 	}
 
 }

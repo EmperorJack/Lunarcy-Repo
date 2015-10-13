@@ -35,13 +35,14 @@ public class MapBuilder {
 	private Location highlightedTile = null;
 	private Location selectedTile = null;
 	private Set<Location> selectedTiles;
-	private List<Location> spawnPoints;
+	private List<Location> playerSpawnPoints;
+	private List<Location> roverSpawnPoints;
 	private boolean dragging = false;
 	private Rectangle selectedArea = null;
 	private Rectangle gridArea;
 	public static final int GRID_LEFT = 340;
 	public static final int GRID_TOP = 60;
-	public static final int GRID_SIZE = 30;
+	public static final int GRID_SIZE = 20;
 	boolean addWalls = false;
 	int addDoors = -1; // -1 if removing, 0-3 for unlocked to red doors
 	int addContainers = -1;// -1 if removing, 0-3 for unlocked to red containers
@@ -51,8 +52,9 @@ public class MapBuilder {
 
 	public MapBuilder() {
 		selectedTiles = new HashSet<Location>();
-		spawnPoints = new ArrayList<Location>();
-		squares = new Square[20][20];
+		playerSpawnPoints = new ArrayList<Location>();
+		roverSpawnPoints = new ArrayList<Location>();
+		squares = new Square[30][30];
 		map = new GameMap();
 
 		fc.setCurrentDirectory(new File(System.getProperty("user.dir")
@@ -320,8 +322,14 @@ public class MapBuilder {
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
 				}
-				if (spawnPoints.contains(new Location(j, i))) {
+				if (playerSpawnPoints.contains(new Location(j, i))) {
 					g.setColor(Color.RED);
+					g.fillRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i
+							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
+					g.setColor(Color.BLACK);
+				}
+				if (roverSpawnPoints.contains(new Location(j, i))) {
+					g.setColor(Color.RED.darker());
 					g.fillRect(GRID_LEFT + j * GRID_SIZE, GRID_TOP + i
 							* GRID_SIZE, GRID_SIZE, GRID_SIZE);
 					g.setColor(Color.BLACK);
@@ -371,7 +379,8 @@ public class MapBuilder {
 			int returnValue = fc.showSaveDialog(null);
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
 				map.setSquares(squares);
-				map.setSpawnPoints(spawnPoints);
+				map.setPlayerSpawnPoints(playerSpawnPoints);
+				map.setRoverSpawnPoints(roverSpawnPoints);
 				Storage.saveGameMap(map, fc.getSelectedFile());
 			}
 		}
@@ -385,28 +394,34 @@ public class MapBuilder {
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
 				map = Storage.loadGameMap(fc.getSelectedFile());
 				squares = map.getSquares();
-				spawnPoints = map.getSpawnPoints();
-				if (spawnPoints == null)
-					spawnPoints = new ArrayList<Location>();
+				playerSpawnPoints = map.getPlayerSpawnPoints();
+				if (playerSpawnPoints == null)
+					playerSpawnPoints = new ArrayList<Location>();
+				if (roverSpawnPoints == null)
+					roverSpawnPoints = new ArrayList<Location>();
 			}
 		}
 	}
 
 	public void drawSquare(Graphics g, WalkableSquare square, int x, int y) {
 		Map<Direction, Wall> walls = square.getWalls();
-		if (walls.containsKey(Direction.NORTH) && !(walls.get(Direction.NORTH) instanceof EmptyWall)) {
+		if (walls.containsKey(Direction.NORTH)
+				&& !(walls.get(Direction.NORTH) instanceof EmptyWall)) {
 			setWallColor(walls.get(Direction.NORTH), g);
 			g.fillRect(x, y, GRID_SIZE, 3);
 		}
-		if (walls.containsKey(Direction.EAST) && !(walls.get(Direction.EAST) instanceof EmptyWall)) {
+		if (walls.containsKey(Direction.EAST)
+				&& !(walls.get(Direction.EAST) instanceof EmptyWall)) {
 			setWallColor(walls.get(Direction.EAST), g);
 			g.fillRect(x + GRID_SIZE - 3, y, 3, GRID_SIZE);
 		}
-		if (walls.containsKey(Direction.SOUTH) && !(walls.get(Direction.SOUTH) instanceof EmptyWall)) {
+		if (walls.containsKey(Direction.SOUTH)
+				&& !(walls.get(Direction.SOUTH) instanceof EmptyWall)) {
 			setWallColor(walls.get(Direction.SOUTH), g);
 			g.fillRect(x, y + GRID_SIZE - 3, GRID_SIZE, 3);
 		}
-		if (walls.containsKey(Direction.WEST) && !(walls.get(Direction.WEST) instanceof EmptyWall)) {
+		if (walls.containsKey(Direction.WEST)
+				&& !(walls.get(Direction.WEST) instanceof EmptyWall)) {
 			setWallColor(walls.get(Direction.WEST), g);
 			g.fillRect(x, y, 3, GRID_SIZE);
 		}
@@ -435,28 +450,28 @@ public class MapBuilder {
 	}
 
 	private void setWallColor(Wall wall, Graphics g) {
-		if (wall instanceof LockedDoor){
-			if (((LockedDoor) wall).getKeyCode() == 1){
+		if (wall instanceof LockedDoor) {
+			if (((LockedDoor) wall).getKeyCode() == 1) {
 				g.setColor(Color.GREEN);
-			} else if (((LockedDoor) wall).getKeyCode() == 2){
+			} else if (((LockedDoor) wall).getKeyCode() == 2) {
 				g.setColor(Color.ORANGE);
-			} else if  (((LockedDoor) wall).getKeyCode() == 3){
+			} else if (((LockedDoor) wall).getKeyCode() == 3) {
 				g.setColor(Color.RED);
 			}
-		} else if (wall instanceof Door){
+		} else if (wall instanceof Door) {
 			g.setColor(Color.ORANGE.darker());
-		} else if (wall instanceof SolidWall){
+		} else if (wall instanceof SolidWall) {
 			g.setColor(Color.black);
 		}
 	}
 
-	private void setContainerColor(Container container, Graphics g){
+	private void setContainerColor(Container container, Graphics g) {
 		if (container instanceof LockedChest) {
-			if (((LockedChest) container).getAccessLevel() == 1){
+			if (((LockedChest) container).getAccessLevel() == 1) {
 				g.setColor(Color.GREEN);
-			} else if (((LockedChest) container).getAccessLevel() == 2){
+			} else if (((LockedChest) container).getAccessLevel() == 2) {
 				g.setColor(Color.ORANGE);
-			} else if (((LockedChest) container).getAccessLevel() == 3){
+			} else if (((LockedChest) container).getAccessLevel() == 3) {
 				g.setColor(Color.RED);
 			}
 		} else {
@@ -495,8 +510,8 @@ public class MapBuilder {
 			WalkableSquare currentSquare = (WalkableSquare) squares[highlightedTile
 					.getY()][highlightedTile.getX()];
 			if (!currentSquare.hasContainer(dir)) {
-				currentSquare.setFurniture(dir, new LockedChest(
-						map.getEntityCount() + 500, access));
+				currentSquare.setFurniture(dir,
+						new LockedChest(map.getEntityCount() + 500, access));
 				map.increaseEntityCount();
 			}
 		}
@@ -594,15 +609,51 @@ public class MapBuilder {
 		removeContainers = false;
 	}
 
-	public void addSpawnPoint() {
-		if (selectedTile != null && !spawnPoints.contains(selectedTile)) {
-			spawnPoints.add(selectedTile);
+	public void addPlayerSpawnPoint() {
+		boolean added = false;
+		if (selectedTile != null && !playerSpawnPoints.contains(selectedTile)) {
+			Square squareToAdd = squares[selectedTile.getY()][selectedTile
+					.getX()];
+			if (squareToAdd instanceof WalkableSquare
+					&& ((WalkableSquare) squareToAdd).isInside()) {
+				playerSpawnPoints.add(selectedTile);
+				added = true;
+			}
+		}
+		if (!added){
+			JOptionPane.showMessageDialog(null,
+					"Invalid selected tile for player spawn point!", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	public void removeSpawnPoint() {
-		if (selectedTile != null && spawnPoints.contains(selectedTile)) {
-			spawnPoints.remove(selectedTile);
+	public void removePlayerSpawnPoint() {
+		if (selectedTile != null && playerSpawnPoints.contains(selectedTile)) {
+			playerSpawnPoints.remove(selectedTile);
+		}
+	}
+
+	public void addRoverSpawnPoint() {
+		boolean added = false;
+		if (selectedTile != null && !roverSpawnPoints.contains(selectedTile)) {
+			Square squareToAdd = squares[selectedTile.getY()][selectedTile
+					.getX()];
+			if (squareToAdd instanceof WalkableSquare
+					&& !((WalkableSquare) squareToAdd).isInside()) {
+				roverSpawnPoints.add(selectedTile);
+				added = true;
+			}
+		}
+		if (!added){
+			JOptionPane.showMessageDialog(null,
+					"Invalid selected tile for rover spawn point!", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void removeRoverSpawnPoint() {
+		if (selectedTile != null && roverSpawnPoints.contains(selectedTile)) {
+			roverSpawnPoints.remove(selectedTile);
 		}
 	}
 

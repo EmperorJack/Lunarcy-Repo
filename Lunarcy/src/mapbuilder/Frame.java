@@ -77,8 +77,10 @@ public class Frame extends JFrame implements ActionListener {
 		JMenuItem setWalkable = new JMenuItem("Set Walkable");
 		JMenuItem setBlank = new JMenuItem("Set Blank");
 		JMenuItem setShip = new JMenuItem("Set Ship");
-		JMenuItem addSpawn = new JMenuItem("Add Spawn Point");
-		JMenuItem removeSpawn = new JMenuItem("Remove Spawn Point");
+		JMenuItem addPlayerSpawn = new JMenuItem("Add Player Spawn Point");
+		JMenuItem removePlayerSpawn = new JMenuItem("Remove Player Spawn Point");
+		JMenuItem addRoverSpawn = new JMenuItem("Add Rover Spawn Point");
+		JMenuItem removeRoverSpawn = new JMenuItem("Remove Rover Spawn Point");
 		JMenuItem intialiseItems = new JMenuItem("Initialise Items");
 		optionMenu.add(saveMenuItem);
 		optionMenu.add(loadMenuItem);
@@ -96,16 +98,20 @@ public class Frame extends JFrame implements ActionListener {
 		toolMenu.add(setWalkable);
 		toolMenu.add(setBlank);
 		toolMenu.add(setShip);
-		toolMenu.add(addSpawn);
-		toolMenu.add(removeSpawn);
+		toolMenu.add(addPlayerSpawn);
+		toolMenu.add(removePlayerSpawn);
+		toolMenu.add(addRoverSpawn);
+		toolMenu.add(removeRoverSpawn);
 		toolMenu.add(intialiseItems);
 		saveMenuItem.addActionListener(this);
 		loadMenuItem.addActionListener(this);
 		setWalkable.addActionListener(this);
 		setBlank.addActionListener(this);
 		setShip.addActionListener(this);
-		addSpawn.addActionListener(this);
-		removeSpawn.addActionListener(this);
+		addPlayerSpawn.addActionListener(this);
+		removePlayerSpawn.addActionListener(this);
+		addRoverSpawn.addActionListener(this);
+		removeRoverSpawn.addActionListener(this);
 		intialiseItems.addActionListener(this);
 
 		insideToggle.addItemListener(new ItemListener() {
@@ -292,11 +298,17 @@ public class Frame extends JFrame implements ActionListener {
 		if (e.getActionCommand().equals("Set Ship")) {
 			mapBuilder.setShip();
 		}
-		if (e.getActionCommand().equals("Add Spawn Point")) {
-			mapBuilder.addSpawnPoint();
+		if (e.getActionCommand().equals("Add Player Spawn Point")) {
+			mapBuilder.addPlayerSpawnPoint();
 		}
-		if (e.getActionCommand().equals("Remove Spawn Point")) {
-			mapBuilder.removeSpawnPoint();
+		if (e.getActionCommand().equals("Remove Player Spawn Point")) {
+			mapBuilder.removePlayerSpawnPoint();
+		}
+		if (e.getActionCommand().equals("Add Rover Spawn Point")) {
+			mapBuilder.addRoverSpawnPoint();
+		}
+		if (e.getActionCommand().equals("Remove Rover Spawn Point")) {
+			mapBuilder.removeRoverSpawnPoint();
 		}
 		if (e.getActionCommand().equals("Initialise Items")) {
 			mapBuilder.initialiseItems();
