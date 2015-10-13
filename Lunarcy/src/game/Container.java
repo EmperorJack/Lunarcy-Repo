@@ -14,16 +14,18 @@ public abstract class Container implements Entity {
 	private static final long serialVersionUID = -7267673923708405364L;
 
 	private final int entityID;
-	private static final int MAX_ITEMS = 3;
+	private final int maxSize;
+	
 	List<Item> items;
 
-	public Container(int entityID) {
+	public Container(int entityID, int maxSize) {
 		this.entityID = entityID;
+		this.maxSize = maxSize;
 		items = new ArrayList<Item>();
 	}
 
 	public boolean addItem(Item item){
-		if(item.getEntityID()==entityID){
+		if(item.getEntityID()==entityID || items.size() >= maxSize){
 			//Cannot put a container inside itself!
 			return false;
 		}
@@ -41,6 +43,10 @@ public abstract class Container implements Entity {
 			}
 		}
 		return false;
+	}
+	
+	public boolean hasSpace(){
+		return items.size() < maxSize;
 	}
 
 	/**

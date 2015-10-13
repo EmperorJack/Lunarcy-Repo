@@ -395,6 +395,7 @@ public class MapBuilder {
 				map = Storage.loadGameMap(fc.getSelectedFile());
 				squares = map.getSquares();
 				playerSpawnPoints = map.getPlayerSpawnPoints();
+				roverSpawnPoints = map.getRoverSpawnPoints();
 				if (playerSpawnPoints == null)
 					playerSpawnPoints = new ArrayList<Location>();
 				if (roverSpawnPoints == null)

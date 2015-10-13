@@ -6,7 +6,7 @@ public abstract class SolidContainer extends Container implements Furniture {
 	private boolean isOpen;
 
 	public SolidContainer(int entityID) {
-		super(entityID);
+		super(entityID, 7);
 		isOpen = false;
 	}
 

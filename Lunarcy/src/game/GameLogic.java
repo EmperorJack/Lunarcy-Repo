@@ -186,6 +186,9 @@ public class GameLogic {
 			return false;
 		Square square = state.getSquare(player.getLocation());
 
+		if(!player.hasSpace()){
+			return false;
+		}
 		if (player.hasItem(itemID)) {
 			for(Item i: player.getInventory()){
 				if (i instanceof Container) {
@@ -199,10 +202,8 @@ public class GameLogic {
 					}
 				}
 			}
-		}else
-		// Otherwise cannot contain players/items
-		// Shouldn't need to check as it's from Player location, but to be safe
-		if (square instanceof WalkableSquare) {
+		}else if (square instanceof WalkableSquare) {
+			// Otherwise cannot contain players/items
 			WalkableSquare wSquare = (WalkableSquare) square;
 
 			Item item = null;
@@ -243,12 +244,25 @@ public class GameLogic {
 		if (player == null || itemID < 0)
 			return false;
 		Square square = state.getSquare(player.getLocation());
-
-		// Otherwise cannot contain players/items
-		// Shouldn't need to check as it's from Player location, but to be safe
+		
 		if (square instanceof WalkableSquare) {
+			// Otherwise cannot contain players/items
 			Item item = player.removeItem(itemID);
-			if (item != null) {
+			if(item==null){
+				//Then item wasn't directly in the players inventory
+				for(Item i: player.getInventory()){
+					if(i instanceof Container){
+						//Check if the item is inside the container
+						Container container = (Container) i;
+						if (container.canAccess(player) && container.hasItem(itemID)) {
+							item = container.takeItem(itemID);
+							break;
+						}
+					}
+				}
+			}
+			
+			if (item != null) {//Then we 
 				WalkableSquare wSquare = (WalkableSquare) square;
 				wSquare.addItem(player.getOrientation(), item);
 			}
@@ -277,24 +291,20 @@ public class GameLogic {
 		Square square = state.getSquare(player.getLocation());
 
 		if (player.hasItem(containerID)) {
-			// Get the container
+			// find the container
 			Item temp = player.getItem(containerID);
 			if (temp != null && temp instanceof Container) {
 				Container container = (Container) temp;
-				Item item = player.removeItem(itemID);
-				if (item != null) {
-					container.addItem(item);
-					return true;
-				} else {
-					return false;
+				if(container.hasSpace()){
+					Item item = player.removeItem(itemID);
+					if (item != null) {
+						container.addItem(item);
+						return true;
+					}
 				}
-			} else {
-				return false;
 			}
 		} else if (square instanceof WalkableSquare) {
 			// Otherwise cannot contain players/items
-			// Shouldn't need to check as it's from Player location, but to be
-			// safe=
 			WalkableSquare wSquare = (WalkableSquare) square;
 
 			SolidContainer container = wSquare.getContainer(player
@@ -304,8 +314,6 @@ public class GameLogic {
 				if (item != null) {
 					container.addItem(item);
 					return true;
-				} else {
-					return false;
 				}
 			}
 		}
