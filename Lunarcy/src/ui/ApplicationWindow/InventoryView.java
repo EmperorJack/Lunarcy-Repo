@@ -30,7 +30,6 @@ public class InventoryView extends Bar {
 
 		//Draw the bar with the updated items
 		super.draw(gameState, delta);
-
 	}
 
 

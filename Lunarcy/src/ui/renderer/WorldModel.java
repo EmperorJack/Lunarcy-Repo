@@ -2,11 +2,11 @@ package ui.renderer;
 
 import game.Direction;
 import game.Door;
+import game.GameState;
 import game.Ship;
 import game.SolidWall;
 import game.Square;
 import game.WalkableSquare;
-import game.Wall;
 
 import java.util.ArrayList;
 
@@ -39,19 +39,26 @@ public class WorldModel {
 	private final OBJModel eastWallOutsideObj;
 	private final OBJModel southWallOutsideObj;
 	private final OBJModel westWallOutsideObj;
-	private final OBJModel doorNorthObj;
-	private final OBJModel doorEastObj;
-	private final OBJModel doorSouthObj;
-	private final OBJModel doorWestObj;
+	private final OBJModel doorFrameNorthObj;
+	private final OBJModel doorFrameEastObj;
+	private final OBJModel doorFrameSouthObj;
+	private final OBJModel doorFrameWestObj;
+	// private final OBJModel doorOpenNorthObj;
+	// private final OBJModel doorOpenEastObj;
+	// private final OBJModel doorOpenSouthObj;
+	// private final OBJModel doorOpenWestObj;
 	private final OBJModel shipObj;
 
 	// lists of all distinct models that make up world 3D geometry
 	private ArrayList<OBJWrapper> insideModels;
 	private ArrayList<OBJWrapper> outsideModels;
-	private ArrayList<OBJWrapper> doorModels;
+	private ArrayList<OBJWrapper> doorFrameModels;
 
 	// ship obj wrapper
 	private OBJWrapper ship;
+
+	// square size and model scale
+	private final int SQUARE_SIZE;
 
 	/**
 	 * Setup a new world model with the given board. Each square will be
@@ -70,6 +77,7 @@ public class WorldModel {
 	public WorldModel(Canvas p, Square[][] board, float MODEL_SCALE,
 			int SQUARE_SIZE) {
 		this.p = p;
+		this.SQUARE_SIZE = SQUARE_SIZE;
 
 		// transformer to transform the modular assets correctly
 		OBJTransform transformer = new OBJTransform(p);
@@ -100,10 +108,14 @@ public class WorldModel {
 				MODEL_SCALE);
 
 		// setup the door object model modular assets
-		doorNorthObj = setupObjectModel("door_north", transformer, MODEL_SCALE);
-		doorEastObj = setupObjectModel("door_east", transformer, MODEL_SCALE);
-		doorSouthObj = setupObjectModel("door_south", transformer, MODEL_SCALE);
-		doorWestObj = setupObjectModel("door_west", transformer, MODEL_SCALE);
+		doorFrameNorthObj = setupObjectModel("door_frame_north", transformer,
+				MODEL_SCALE);
+		doorFrameEastObj = setupObjectModel("door_frame_east", transformer,
+				MODEL_SCALE);
+		doorFrameSouthObj = setupObjectModel("door_frame_south", transformer,
+				MODEL_SCALE);
+		doorFrameWestObj = setupObjectModel("door_frame_west", transformer,
+				MODEL_SCALE);
 
 		// setup the ship object model
 		shipObj = setupObjectModel("ship", transformer, MODEL_SCALE);
@@ -111,7 +123,7 @@ public class WorldModel {
 		// initialize distinct model list
 		insideModels = new ArrayList<OBJWrapper>();
 		outsideModels = new ArrayList<OBJWrapper>();
-		doorModels = new ArrayList<OBJWrapper>();
+		doorFrameModels = new ArrayList<OBJWrapper>();
 
 		// parse the game board into a world model file
 		parseGameWorld(board, SQUARE_SIZE);
@@ -161,44 +173,16 @@ public class WorldModel {
 					}
 
 					// check if the square has a north wall
-					checkWalls(ws, Direction.NORTH, SolidWall.class,
-							northWallInsideObj, northWallOutsideObj,
-							SQUARE_SIZE, col, row, insideModels, outsideModels);
-
-					// check if the square has a north door
-					checkWalls(ws, Direction.NORTH, Door.class, doorNorthObj,
-							doorNorthObj, SQUARE_SIZE, col, row, doorModels,
-							doorModels);
+					checkWalls(ws, Direction.NORTH, col, row);
 
 					// check if the square has an east wall
-					checkWalls(ws, Direction.EAST, SolidWall.class,
-							eastWallInsideObj, eastWallOutsideObj, SQUARE_SIZE,
-							col, row, insideModels, outsideModels);
-
-					// check if the square has an east door
-					checkWalls(ws, Direction.EAST, Door.class, doorEastObj,
-							doorEastObj, SQUARE_SIZE, col, row, doorModels,
-							doorModels);
+					checkWalls(ws, Direction.EAST, col, row);
 
 					// check if the square has a south wall
-					checkWalls(ws, Direction.SOUTH, SolidWall.class,
-							southWallInsideObj, southWallOutsideObj,
-							SQUARE_SIZE, col, row, insideModels, outsideModels);
-
-					// check if the square has a south door
-					checkWalls(ws, Direction.SOUTH, Door.class, doorSouthObj,
-							doorSouthObj, SQUARE_SIZE, col, row, doorModels,
-							doorModels);
+					checkWalls(ws, Direction.SOUTH, col, row);
 
 					// check if the square has a west wall
-					checkWalls(ws, Direction.WEST, SolidWall.class,
-							westWallInsideObj, westWallOutsideObj, SQUARE_SIZE,
-							col, row, insideModels, outsideModels);
-
-					// check if the square has a west door
-					checkWalls(ws, Direction.WEST, Door.class, doorWestObj,
-							doorWestObj, SQUARE_SIZE, col, row, doorModels,
-							doorModels);
+					checkWalls(ws, Direction.WEST, col, row);
 				}
 			}
 		}
@@ -210,36 +194,27 @@ public class WorldModel {
 	 *
 	 * @param ws
 	 *            The walkable square in question.
-	 * @param direction
+	 * @param dir
 	 *            The direction to check for walls.
-	 * @param type
-	 *            The type of wall to check for.
-	 * @param insideObjModel
-	 *            The inside wall model to create.
-	 * @param outsideObjModel
-	 *            The outside wall model to create.
-	 * @param SQUARE_SIZE
-	 *            The size of the game squares.
 	 * @param x
 	 *            x position of the walkable square.
 	 * @param y
 	 *            y position of the walkable square.
-	 * @param insideTarget
-	 *            The target list to place a new inside model.
-	 * @param outsideTarget
-	 *            The target list to place a new outside model.
 	 */
-	private <T extends Wall> void checkWalls(WalkableSquare ws,
-			Direction direction, Class<T> type, OBJModel insideObjModel,
-			OBJModel outsideObjModel, int SQUARE_SIZE, int x, int y,
-			ArrayList<OBJWrapper> insideTarget,
-			ArrayList<OBJWrapper> outsideTarget) {
+	private void checkWalls(WalkableSquare ws, Direction dir, int x, int y) {
 
-		// if the square has a wall of given type for the given direction
-		if (type.isInstance(ws.getWalls().get(direction))) {
+		// if the square has a wall for the given direction
+		if (ws.getWalls().get(dir) instanceof SolidWall) {
+
 			// create a new wall model
-			createWall(ws, insideObjModel, outsideObjModel, SQUARE_SIZE, x, y,
-					insideTarget, outsideTarget);
+			createWall(ws, dir, x, y);
+		}
+		// if the square has a door for the given direction
+		else if (ws.getWalls().get(dir) instanceof Door) {
+
+			// create a new door frame model
+			doorFrameModels.add(new OBJWrapper(getDoorFrameModel(dir),
+					SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 		}
 	}
 
@@ -250,35 +225,86 @@ public class WorldModel {
 	 *
 	 * @param ws
 	 *            The walkable square in question.
-	 * @param insideObjModel
-	 *            The inside wall model to create.
-	 * @param outsideObjModel
-	 *            The outside wall model to create.
-	 * @param SQUARE_SIZE
-	 *            The size of the game squares.
+	 * @param dir
+	 *            The direction to add a wall too.
 	 * @param x
 	 *            x position of the walkable square.
 	 * @param y
 	 *            y position of the walkable square.
-	 * @param insideTarget
-	 *            The target list to place a new inside model.
-	 * @param outsideTarget
-	 *            The target list to place a new outside model.
 	 */
-	private void createWall(WalkableSquare ws, OBJModel insideObjModel,
-			OBJModel outsideObjModel, int SQUARE_SIZE, int x, int y,
-			ArrayList<OBJWrapper> insideTarget,
-			ArrayList<OBJWrapper> outsideTarget) {
+	private void createWall(WalkableSquare ws, Direction dir, int x, int y) {
+		boolean inside = ws.isInside();
+
 		// if the square is indoor
-		if (ws.isInside()) {
+		if (inside) {
 			// create a west indoor wall model
-			insideTarget.add(new OBJWrapper(insideObjModel, SQUARE_SIZE * x, 0,
-					SQUARE_SIZE * y));
+			insideModels.add(new OBJWrapper(getWallModel(dir, inside),
+					SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 		} else {
 			// create a west outdoor wall model
-			outsideTarget.add(new OBJWrapper(outsideObjModel, SQUARE_SIZE * x,
-					0, SQUARE_SIZE * y));
+			outsideModels.add(new OBJWrapper(getWallModel(dir, inside),
+					SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
 		}
+	}
+
+	/**
+	 * Return the correct wall model depending on the given direction and inside
+	 * state.
+	 *
+	 * @param dir
+	 *            Direction the wall is in the square.
+	 * @param inside
+	 *            If the square is inside or not.
+	 * @return The correct wall model.
+	 */
+	private OBJModel getWallModel(Direction dir, Boolean inside) {
+		// get the door model based on the given direction
+		switch (dir) {
+		case NORTH:
+			return inside ? northWallInsideObj : northWallOutsideObj;
+
+		case EAST:
+			return inside ? eastWallInsideObj : eastWallOutsideObj;
+
+		case SOUTH:
+			return inside ? southWallInsideObj : southWallOutsideObj;
+
+		case WEST:
+			return inside ? westWallInsideObj : westWallOutsideObj;
+		}
+
+		// will not return null
+		return null;
+	}
+
+	/**
+	 * Return the correct door frame model depending on the given direction and
+	 * inside state.
+	 *
+	 * @param dir
+	 *            Direction the door frame is in the square.
+	 * @param inside
+	 *            If the square is inside or not.
+	 * @return The correct door frame model.
+	 */
+	private OBJModel getDoorFrameModel(Direction dir) {
+		// get the door model based on the given direction
+		switch (dir) {
+		case NORTH:
+			return doorFrameNorthObj;
+
+		case EAST:
+			return doorFrameEastObj;
+
+		case SOUTH:
+			return doorFrameSouthObj;
+
+		case WEST:
+			return doorFrameWestObj;
+		}
+
+		// will not return null
+		return null;
 	}
 
 	/**
@@ -308,7 +334,7 @@ public class WorldModel {
 	 * Draw the entire world model by drawing each list of distinct models
 	 * separately.
 	 */
-	public void draw() {
+	public void draw(GameState gameState) {
 		p.pushMatrix();
 		p.pushStyle();
 		p.fill(150);
@@ -318,8 +344,8 @@ public class WorldModel {
 			objModel.draw();
 		}
 
-		// draw the door models
-		for (OBJWrapper objModel : doorModels) {
+		// draw the door frame models
+		for (OBJWrapper objModel : doorFrameModels) {
 			objModel.draw();
 		}
 
