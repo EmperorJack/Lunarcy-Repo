@@ -129,7 +129,7 @@ public class EntityView extends DrawingComponent {
 		return null;
 	}
 
-	public SolidContainer getContainerAt(int x, int y) {
+	public SolidContainer getSolidContainerAt(int x, int y) {
 		// if a container currently exists
 		if (container != null) {
 
