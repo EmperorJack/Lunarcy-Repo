@@ -9,12 +9,20 @@ import game.Player;
 import ui.DrawingComponent;
 import ui.renderer.Canvas;
 
+/**
+ * Displays the players that are in the same square as the player from a 2D
+ * perspective.
+ *
+ * @author Jack
+ *
+ */
 public class PlayerView extends DrawingComponent {
 
 	// player drawing fields
-	private final int PLAYER_WIDTH = 200;
-	private final int PLAYER_HEIGHT = 400;
-	private final int TOP_PADDING = 400;
+	private final int PLAYER_WIDTH = 300;
+	private final int PLAYER_HEIGHT = 600;
+	private final int TOP_PADDING = 250;
+	private final int[] X_POSITIONS = { 150, 1130, 300, 980 };
 	private final PImage playerImage;
 
 	public PlayerView(Canvas p, GameState gameState, int playerID) {
@@ -65,12 +73,14 @@ public class PlayerView extends DrawingComponent {
 			p.tint(currentPlayer.getColour().getRGB());
 
 			// compute the x position to place the image
-			int xPos = (int) ((i + 1) / (float) (playersInSquare.size() + 1) * Canvas.TARGET_WIDTH);
+			// int xPos = (int) ((i + 1) / (float) (playersInSquare.size() + 1)
+			// * Canvas.TARGET_WIDTH);
+			int xPos = X_POSITIONS[i];
 
 			// draw the item image
 			p.image(playerImage, xPos, PLAYER_HEIGHT / 2, PLAYER_WIDTH,
 					PLAYER_HEIGHT);
-			
+
 			p.popStyle();
 		}
 

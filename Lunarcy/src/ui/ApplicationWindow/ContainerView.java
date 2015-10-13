@@ -7,20 +7,21 @@ import game.Container;
 import game.GameState;
 import game.Item;
 import game.Player;
+import game.SolidContainer;
 import game.WalkableSquare;
 import processing.core.PImage;
 import ui.renderer.Canvas;
 
 /**
- * Displays all the items in the selected container,
- * in a bar which draws inside the container.
+ * Displays all the items in the selected container, in a bar which draws inside
+ * the container.
  *
  * @author evansben1
  *
  */
 public class ContainerView extends Bar {
 
-	private Container container;
+	private SolidContainer container;
 
 	public ContainerView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {

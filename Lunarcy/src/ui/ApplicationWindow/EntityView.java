@@ -3,10 +3,10 @@ package ui.ApplicationWindow;
 import java.util.List;
 import java.util.Map;
 
-import game.Container;
 import game.GameState;
 import game.Player;
 import game.Item;
+import game.SolidContainer;
 import game.Square;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -14,8 +14,8 @@ import ui.DrawingComponent;
 import ui.renderer.Canvas;
 
 /**
- * Displays the entities (containers and items) that can be interacted with from
- * the current player perspective.
+ * Displays the entities (containers and items) in the same square as the player
+ * that can be interacted with from a 2D perspective.
  *
  * @author Jack
  *
@@ -35,7 +35,7 @@ public class EntityView extends DrawingComponent {
 	private List<Item> items;
 
 	// currently held container
-	private Container container;
+	private SolidContainer container;
 
 	public EntityView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {
@@ -129,7 +129,7 @@ public class EntityView extends DrawingComponent {
 		return null;
 	}
 
-	public Container getContainerAt(int x, int y) {
+	public SolidContainer getContainerAt(int x, int y) {
 		// if a container currently exists
 		if (container != null) {
 
