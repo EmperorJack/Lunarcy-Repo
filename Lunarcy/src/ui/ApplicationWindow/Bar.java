@@ -40,7 +40,7 @@ public abstract class Bar extends DrawingComponent {
 
 		LEFT_PADDING = leftPadding;
 		TOP_PADDING = topPadding;
-		BAR_WIDTH = (int) (Canvas.TARGET_WIDTH * 0.3);
+		BAR_WIDTH = (int) (Canvas.TARGET_WIDTH * 0.35);
 		ITEM_SIZE = 50;
 		ITEM_SPACING = 10;
 		ENTITY_IMAGES = entityImages;

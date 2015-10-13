@@ -179,6 +179,7 @@ public class ServerMain extends JFrame {
 				// Makes a new thread, which deals with the server
 				server = new Server(playerNum.getValue(), refreshRate.getValue(),selectedMap);
 				server.run();
+
 			}
 		});
 
@@ -280,12 +281,13 @@ public class ServerMain extends JFrame {
 				String filename = chooser.getSelectedFile().getAbsolutePath();
 
 				//Don't do anything if they cancel the chooser
-				if(filename==null){
+				if(filename == null){
 					return;
 				}
 
-				//Make a new server with the specified info
-				server = new Server(playerNum.getValue(), refreshRate.getValue(), Storage.loadState(filename));
+				// Make a new server with the specified info
+				server = new Server(playerNum.getValue(), refreshRate
+						.getValue(), Storage.loadState(filename));
 
 				server.run();
 			}

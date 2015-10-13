@@ -22,6 +22,11 @@ public class PopupDisplay extends DrawingComponent {
 	//The subtext of the display
 	private String desc;
 
+	//To deal with concurrency when updating
+	private String updatedTitle;
+	private String updatedDesc;
+	private boolean stateUpdated;
+
 	//Size of the display
 	private final int WIDTH = 500;
 	private final int HEIGHT = 150;
@@ -38,9 +43,22 @@ public class PopupDisplay extends DrawingComponent {
 		this.desc = desc;
 	}
 
-	public void update(String title, String desc){
-		this.title = title;
-		this.desc = desc;
+	public synchronized void set(String title, String desc){
+		this.updatedTitle = title;
+		this.updatedDesc = desc;
+		this.stateUpdated = true;
+	}
+
+	public synchronized void update() {
+		//If we need to update
+		if (stateUpdated) {
+
+			title = updatedTitle;
+			desc = updatedDesc;
+
+			//the state has been updated
+			stateUpdated = false;
+		}
 	}
 
 	/**
@@ -52,6 +70,8 @@ public class PopupDisplay extends DrawingComponent {
 	}
 	@Override
 	public void draw(GameState gameState, float delta) {
+
+		update();
 
 		//Dont draw unless the fields have been set
 		if(desc==null || title == null){

@@ -211,15 +211,23 @@ public class WalkableSquare extends Square {
 	public String getDescription() {
 
 		String desc = "This square contains the following items: ";
+		boolean hasItem = false;
 
 		for(Direction dir: Direction.values()){
 
 			for(Item i: items.get(dir)){
 				desc += i.getName()+", ";
+				hasItem = true;
 			}
 
 		}
 		desc += " \n";
+
+		//If there were no items
+		if(!hasItem){
+			return "This square has no items";
+		}
+
 		return desc;
 	}
 

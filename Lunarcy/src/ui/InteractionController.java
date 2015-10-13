@@ -75,7 +75,7 @@ public class InteractionController implements KeyListener, MouseListener,
 		this.client = client;
 		this.player = player;
 		this.canvas = canvas;
-		this.gameState = gameState;
+		this.gameState = gamestate;
 
 		// Initialize the values for dragging/dropping items
 		resetDragValues();
@@ -206,17 +206,17 @@ public class InteractionController implements KeyListener, MouseListener,
 		// Hide/show a popup of current squares info
 		case KeyEvent.VK_SPACE:
 			// If the menu is open, close it
-			if (popupDisplay.isSet()) {
-				popupDisplay.update(null, null);
-			}
-			// If its closed, open it and set the fields
-			else {
+			if (!popupDisplay.isSet()) {
 				Location location = player.getLocation();
 				WalkableSquare square = (WalkableSquare)gameState.getSquare(location);
-				popupDisplay.update(square.getName()+" at " + location, square.getDescription());
+				popupDisplay.set(square.getName()+" at " + location, square.getDescription());
+				return;
 			}
 			break;
 		}
+
+		//Reset our popup
+		popupDisplay.set(null, null);
 	}
 
 	@Override
@@ -242,14 +242,14 @@ public class InteractionController implements KeyListener, MouseListener,
 			Item item = entityView.getItemAt(x, y);
 
 			if (item != null) {
-				popupDisplay.update(item.getName(), item.getDescription());
+				popupDisplay.set(item.getName(), item.getDescription());
 				return;
 			}
 
 		}
 
 		// Hide the
-		popupDisplay.update(null, null);
+		popupDisplay.set(null, null);
 
 	}
 
@@ -311,7 +311,8 @@ public class InteractionController implements KeyListener, MouseListener,
 		// If they drop an item onto a container
 		Container container = entityView.getContainerAt(x, y);
 
-		if (draggedFromItem != null && container != null) {
+		//If they drag tp an open container
+		if (draggedFromItem != null && container != null && container.isOpen()) {
 			// Put the item in the container
 			putItem(draggedFromItem.entityID);
 		}

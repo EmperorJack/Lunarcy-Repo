@@ -14,7 +14,10 @@ import java.util.List;
  */
 public class Player implements Character, Serializable {
 	private static final long serialVersionUID = 606752819269306395L;
-	private static final int maxOxygen = 200;
+
+	private static final int MAX_OXYGEN = 200;
+
+	private final int MAX_INVENTORY_SIZE = 7;
 
 	private final int id;
 	private final String name;
@@ -58,7 +61,7 @@ public class Player implements Character, Serializable {
 	}
 
 	public boolean giveItem(Item item) {
-		if (item == null)
+		if (item == null || inventory.size() >= MAX_INVENTORY_SIZE)
 			return false;
 		return inventory.add(item);
 	}
@@ -93,7 +96,7 @@ public class Player implements Character, Serializable {
 	}
 
 	public int getMaxOxygen() {
-		return maxOxygen;
+		return MAX_OXYGEN;
 	}
 
 	public Location getLocation() {
@@ -175,6 +178,20 @@ public class Player implements Character, Serializable {
 	}
 
 	/**
+	 * Returns true if the player has a cloaking gadget
+	 * in their inventory
+	 * @return
+	 */
+	public boolean hasCloak() {
+		for (Item i : inventory) {
+			if (i instanceof CloakingGadget) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * FOR TESTING PURPOSES Adds some items to the players inventory
 	 */
 	public void testAddItems() {
@@ -184,7 +201,7 @@ public class Player implements Character, Serializable {
 		inventory.add(new ShipPart(id * 100 + 1, 1));
 		inventory.add(new ShipPart(id * 100 + 2, 2));
 		inventory.add(new ShipPart(id * 100 + 3, 3));
-		inventory.add(new ShipPart(id * 100 + 4, 4));
+		inventory.add(new CloakingGadget(id*100 + 4));
 		inventory.add(new Key(id * 100 + 5, 2));
 		inventory.add(new Armour(id * 100 + 6));
 	}
