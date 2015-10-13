@@ -70,7 +70,7 @@ public class EntityView extends DrawingComponent {
 			p.translate(0, TOP_PADDING_CONTAINER);
 
 			// tint the image with the correct security colour
-			p.tint(Canvas.getSecurityColour(container.getAccessLevel()));
+			p.tint(Canvas.getSecurityColour(container.getAccessLevel(), false));
 
 			String containerImageName = container.getImageName();
 
@@ -102,13 +102,15 @@ public class EntityView extends DrawingComponent {
 			if (currentItem instanceof Key) {
 
 				// tint the image with the correct security colour
-				p.tint(Canvas.getSecurityColour(((Key) currentItem)
-						.getAccessLevel()));
+				p.tint(Canvas.getSecurityColour(
+						((Key) currentItem).getAccessLevel(), false));
 			}
 
 			// draw the item image
 			p.image(entityImages.get(currentItem.getImageName()), xPos,
 					ITEM_SIZE / 2, ITEM_SIZE, ITEM_SIZE);
+
+			p.popStyle();
 		}
 
 		// pop matrix and style information from the stack

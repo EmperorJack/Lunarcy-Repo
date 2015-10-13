@@ -2,7 +2,8 @@ package ui.renderer;
 
 import game.Direction;
 import game.Door;
-import game.GameState;
+import game.LockedDoor;
+import game.Player;
 import game.Ship;
 import game.SolidWall;
 import game.Square;
@@ -27,32 +28,45 @@ public class WorldModel {
 	// the parent processing canvas
 	private Canvas p;
 
-	// the unique model assets
+	// inside model objects
 	private final OBJModel floorInsideObj;
 	private final OBJModel ceilingObj;
 	private final OBJModel northWallInsideObj;
 	private final OBJModel eastWallInsideObj;
 	private final OBJModel southWallInsideObj;
 	private final OBJModel westWallInsideObj;
+
+	// outside model objects
 	private final OBJModel floorOutsideObj;
 	private final OBJModel northWallOutsideObj;
 	private final OBJModel eastWallOutsideObj;
 	private final OBJModel southWallOutsideObj;
 	private final OBJModel westWallOutsideObj;
+
+	// door frame model objects
 	private final OBJModel doorFrameNorthObj;
 	private final OBJModel doorFrameEastObj;
 	private final OBJModel doorFrameSouthObj;
 	private final OBJModel doorFrameWestObj;
-	// private final OBJModel doorOpenNorthObj;
-	// private final OBJModel doorOpenEastObj;
-	// private final OBJModel doorOpenSouthObj;
-	// private final OBJModel doorOpenWestObj;
+
+	// door open / closed model objects
+	private final OBJModel doorOpenNorthObj;
+	private final OBJModel doorOpenEastObj;
+	private final OBJModel doorOpenSouthObj;
+	private final OBJModel doorOpenWestObj;
+	private final OBJModel doorClosedNorthObj;
+	private final OBJModel doorClosedEastObj;
+	private final OBJModel doorClosedSouthObj;
+	private final OBJModel doorClosedWestObj;
+
+	// ship model object
 	private final OBJModel shipObj;
 
 	// lists of all distinct models that make up world 3D geometry
 	private ArrayList<OBJWrapper> insideModels;
 	private ArrayList<OBJWrapper> outsideModels;
-	private ArrayList<OBJWrapper> doorFrameModels;
+	private ArrayList<OBJWrapper> doorModels;
+	private ArrayList<OBJWrapperLockedDoor> lockedDoorModels;
 
 	// ship obj wrapper
 	private OBJWrapper ship;
@@ -107,7 +121,7 @@ public class WorldModel {
 		westWallOutsideObj = setupObjectModel("wall_outside_west", transformer,
 				MODEL_SCALE);
 
-		// setup the door object model modular assets
+		// setup the door frame object model modular assets
 		doorFrameNorthObj = setupObjectModel("door_frame_north", transformer,
 				MODEL_SCALE);
 		doorFrameEastObj = setupObjectModel("door_frame_east", transformer,
@@ -117,16 +131,76 @@ public class WorldModel {
 		doorFrameWestObj = setupObjectModel("door_frame_west", transformer,
 				MODEL_SCALE);
 
+		// setup the door open / closed model modular assets
+		doorOpenNorthObj = setupObjectModel("door_open_north", transformer,
+				MODEL_SCALE);
+		doorOpenEastObj = setupObjectModel("door_open_east", transformer,
+				MODEL_SCALE);
+		doorOpenSouthObj = setupObjectModel("door_open_south", transformer,
+				MODEL_SCALE);
+		doorOpenWestObj = setupObjectModel("door_open_west", transformer,
+				MODEL_SCALE);
+		doorClosedNorthObj = setupObjectModel("door_closed_north", transformer,
+				MODEL_SCALE);
+		doorClosedEastObj = setupObjectModel("door_closed_east", transformer,
+				MODEL_SCALE);
+		doorClosedSouthObj = setupObjectModel("door_closed_south", transformer,
+				MODEL_SCALE);
+		doorClosedWestObj = setupObjectModel("door_closed_west", transformer,
+				MODEL_SCALE);
+
 		// setup the ship object model
 		shipObj = setupObjectModel("ship", transformer, MODEL_SCALE);
 
 		// initialize distinct model list
 		insideModels = new ArrayList<OBJWrapper>();
 		outsideModels = new ArrayList<OBJWrapper>();
-		doorFrameModels = new ArrayList<OBJWrapper>();
+		doorModels = new ArrayList<OBJWrapper>();
+		lockedDoorModels = new ArrayList<OBJWrapperLockedDoor>();
 
 		// parse the game board into a world model file
 		parseGameWorld(board, SQUARE_SIZE);
+	}
+
+	/**
+	 * Draw the entire world model by drawing each list of distinct models
+	 * separately.
+	 */
+	public void draw(Player player) {
+		p.pushMatrix();
+		p.pushStyle();
+		p.fill(150);
+
+		// draw the inside models
+		for (OBJWrapper objModel : insideModels) {
+			objModel.draw();
+		}
+
+		// draw the unlocked door models
+		for (OBJWrapper objModel : doorModels) {
+			objModel.draw();
+		}
+
+		// draw the locked door models
+		for (OBJWrapperLockedDoor objModel : lockedDoorModels) {
+			objModel.draw(player);
+		}
+
+		p.fill(108, 99, 92);
+
+		// draw the outside models
+		for (OBJWrapper objModel : outsideModels) {
+			objModel.draw();
+		}
+
+		p.fill(120);
+		p.stroke(0);
+
+		// draw the ship model
+		ship.draw();
+
+		p.popStyle();
+		p.popMatrix();
 	}
 
 	/**
@@ -209,12 +283,27 @@ public class WorldModel {
 			// create a new wall model
 			createWall(ws, dir, x, y);
 		}
-		// if the square has a door for the given direction
+		// if the square has a locked door for the given direction
+		else if (ws.getWalls().get(dir) instanceof LockedDoor) {
+
+			LockedDoor door = (LockedDoor) ws.getWalls().get(dir);
+
+			// create a new locked door model
+			lockedDoorModels.add(new OBJWrapperLockedDoor(
+					getDoorFrameModel(dir), SQUARE_SIZE * x, 0,
+					SQUARE_SIZE * y, door, getDoorOpenModel(dir),
+					getDoorClosedModel(dir)));
+		}
+		// if the square has an unlocked door for the given direction
 		else if (ws.getWalls().get(dir) instanceof Door) {
 
 			// create a new door frame model
-			doorFrameModels.add(new OBJWrapper(getDoorFrameModel(dir),
-					SQUARE_SIZE * x, 0, SQUARE_SIZE * y));
+			doorModels.add(new OBJWrapper(getDoorFrameModel(dir), SQUARE_SIZE
+					* x, 0, SQUARE_SIZE * y));
+
+			// create a new open door model
+			doorModels.add(new OBJWrapper(getDoorOpenModel(dir), SQUARE_SIZE
+					* x, 0, SQUARE_SIZE * y));
 		}
 	}
 
@@ -308,6 +397,66 @@ public class WorldModel {
 	}
 
 	/**
+	 * Return the correct door open model depending on the given direction and
+	 * inside state.
+	 *
+	 * @param dir
+	 *            Direction the door is in the square.
+	 * @param inside
+	 *            If the square is inside or not.
+	 * @return The correct door model.
+	 */
+	private OBJModel getDoorOpenModel(Direction dir) {
+		// get the door model based on the given direction
+		switch (dir) {
+		case NORTH:
+			return doorOpenNorthObj;
+
+		case EAST:
+			return doorOpenEastObj;
+
+		case SOUTH:
+			return doorOpenSouthObj;
+
+		case WEST:
+			return doorOpenWestObj;
+		}
+
+		// will not return null
+		return null;
+	}
+
+	/**
+	 * Return the correct door closed model depending on the given direction and
+	 * inside state.
+	 *
+	 * @param dir
+	 *            Direction the door is in the square.
+	 * @param inside
+	 *            If the square is inside or not.
+	 * @return The correct door model.
+	 */
+	private OBJModel getDoorClosedModel(Direction dir) {
+		// get the door model based on the given direction
+		switch (dir) {
+		case NORTH:
+			return doorClosedNorthObj;
+
+		case EAST:
+			return doorClosedEastObj;
+
+		case SOUTH:
+			return doorClosedSouthObj;
+
+		case WEST:
+			return doorClosedWestObj;
+		}
+
+		// will not return null
+		return null;
+	}
+
+	/**
 	 * Load a new object model from file.
 	 *
 	 * @param objName
@@ -328,42 +477,6 @@ public class WorldModel {
 		objectModel.drawMode(OBJModel.POLYGON);
 
 		return objectModel;
-	}
-
-	/**
-	 * Draw the entire world model by drawing each list of distinct models
-	 * separately.
-	 */
-	public void draw(GameState gameState) {
-		p.pushMatrix();
-		p.pushStyle();
-		p.fill(150);
-
-		// draw the inside models
-		for (OBJWrapper objModel : insideModels) {
-			objModel.draw();
-		}
-
-		// draw the door frame models
-		for (OBJWrapper objModel : doorFrameModels) {
-			objModel.draw();
-		}
-
-		p.fill(108, 99, 92);
-
-		// draw the outside models
-		for (OBJWrapper objModel : outsideModels) {
-			objModel.draw();
-		}
-
-		p.fill(120);
-		p.stroke(0);
-
-		// draw the ship model
-		ship.draw();
-
-		p.popStyle();
-		p.popMatrix();
 	}
 
 	/**
@@ -397,6 +510,58 @@ public class WorldModel {
 			p.pushMatrix();
 			p.translate(tX, tY, tZ);
 			obj.draw();
+			p.popMatrix();
+		}
+	}
+
+	/**
+	 * A wrapper class for a locked door Object Model. Contains translation data
+	 * to draw the model at a set position. Contains a reference to the door so
+	 * it can check if a player can enter it or not, which determines if it
+	 * should be drawn in the closed or open state.
+	 *
+	 * @author Jack
+	 *
+	 */
+	private class OBJWrapperLockedDoor extends OBJWrapper {
+
+		// associated door object
+		public LockedDoor door;
+
+		// open and closed door models
+		public OBJModel openObj;
+		public OBJModel closedObj;
+
+		public OBJWrapperLockedDoor(OBJModel obj, int tX, int tY, int tZ,
+				LockedDoor door, OBJModel openObj, OBJModel closedObj) {
+			super(obj, tX, tY, tZ);
+			this.door = door;
+			this.openObj = openObj;
+			this.closedObj = closedObj;
+		}
+
+		public void draw(Player player) {
+			p.pushMatrix();
+			p.pushStyle();
+			p.translate(tX, tY, tZ);
+
+			// draw the door frame
+			obj.draw();
+
+			// colour the model with the correct security colour
+			p.fill(Canvas.getSecurityColour(door.getKeyCode(), true));
+
+			// if the player can enter this door
+			if (door.canPass(player)) {
+
+				// draw door in open state
+				openObj.draw();
+			} else {
+				// draw door in closed state
+				closedObj.draw();
+			}
+
+			p.popStyle();
 			p.popMatrix();
 		}
 	}

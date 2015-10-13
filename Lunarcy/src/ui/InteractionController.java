@@ -1,7 +1,6 @@
 package ui;
 
 import game.Bag;
-import game.Container;
 import game.Entity;
 import game.GameState;
 import game.Item;
@@ -111,7 +110,6 @@ public class InteractionController implements KeyListener, MouseListener,
 	private void closeContainer() {
 		client.sendAction(new CloseAction(player.getId()));
 	}
-
 
 	/*--------- User input Listening methods ---------*/
 
@@ -293,7 +291,8 @@ public class InteractionController implements KeyListener, MouseListener,
 		// If they drop into a bag from their inventory
 		if (draggedFromItem != null && bagView.getBag() != null) {
 			// Put the item in the bag
-			putItem(bagView.getBag().getEntityID(), draggedFromItem.getEntityID());
+			putItem(bagView.getBag().getEntityID(),
+					draggedFromItem.getEntityID());
 		}
 		// If they drag the item to an open container
 		else if (draggedFromItem != null && container != null
@@ -309,17 +308,18 @@ public class InteractionController implements KeyListener, MouseListener,
 			dropItem(draggedFromItem.getEntityID());
 		}
 
-		// If it was released on the inventory bar, check if an item was being dragged
+		// If it was released on the inventory bar, check if an item was being
+		// dragged
 		// from the world in
 		else if (inventoryView.onBar(x, y) && draggedToItem != null) {
 			// Pickup the item which was dragged onto the inventory
 			pickupItem(draggedToItem.getEntityID());
 		}
 
-		//Reset all the dragged item settings
+		// Reset all the dragged item settings
 		resetDragValues();
 
-		//Close bagview
+		// Close bagview
 		bagView.update(null);
 	}
 
@@ -332,7 +332,6 @@ public class InteractionController implements KeyListener, MouseListener,
 		draggedX = DEFAULT_X;
 		draggedY = DEFAULT_Y;
 	}
-
 
 	/*---------Getter/Setter methods---------*/
 

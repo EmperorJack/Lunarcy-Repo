@@ -326,7 +326,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	 *            The access level of the colour requested.
 	 * @return The colour in RGB to tint for the given access level.
 	 */
-	public static int getSecurityColour(int accessLevel) {
+	public static int getSecurityColour(int accessLevel, boolean darker) {
 		Color color = null;
 
 		// depending on the given access level
@@ -350,6 +350,11 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		default:
 			// no level access required
 			color = new Color(150, 150, 150);
+		}
+
+		// if the requested colour should be darker
+		if (darker) {
+			color = color.darker();
 		}
 
 		return color.getRGB();

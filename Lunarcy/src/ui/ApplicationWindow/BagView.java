@@ -3,7 +3,6 @@ package ui.ApplicationWindow;
 import java.util.Map;
 
 import game.Bag;
-import game.Container;
 import game.GameState;
 import processing.core.PImage;
 import ui.renderer.Canvas;
@@ -54,6 +53,5 @@ public class BagView extends Bar {
 		super.draw(gameState, delta);
 
 	}
-
 
 }
