@@ -20,7 +20,7 @@ import bots.Rover;
  * @author Ben & Robbie
  *
  */
-public class GameTesting {
+public class GameStateTesting {
 
 	/* Outside tests (ie for everyone but Robbie) */
 

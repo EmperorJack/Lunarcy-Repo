@@ -1,5 +1,6 @@
 package ui;
 
+import game.Bag;
 import game.Container;
 import game.Entity;
 import game.GameState;
@@ -17,6 +18,7 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.SwingUtilities;
 
+import ui.ApplicationWindow.BagView;
 import ui.ApplicationWindow.ContainerView;
 import ui.ApplicationWindow.EntityView;
 import ui.ApplicationWindow.InventoryView;
@@ -45,6 +47,7 @@ public class InteractionController implements KeyListener, MouseListener,
 	private InventoryView inventoryView;
 	private EntityView entityView;
 	private ContainerView containerView;
+	private BagView bagView;
 	private PopupDisplay popupDisplay;
 
 	// Dragging/dropping items
@@ -93,8 +96,8 @@ public class InteractionController implements KeyListener, MouseListener,
 		client.sendAction(new DropAction(player.getId(), itemID));
 	}
 
-	private void putItem(int itemID, int containerID) {
-		client.sendAction(new PutAction(player.getId(), itemID, containerID));
+	private void putItem(int containerID, int itemID) {
+		client.sendAction(new PutAction(player.getId(), containerID, itemID));
 	}
 
 	private void pickupItem(int itemID) {
@@ -111,6 +114,10 @@ public class InteractionController implements KeyListener, MouseListener,
 
 	public void setInventory(InventoryView inventory) {
 		this.inventoryView = inventory;
+	}
+
+	public void setBagView(BagView bagView) {
+		this.bagView = bagView;
 	}
 
 	public void setPopup(PopupDisplay popup) {
@@ -209,14 +216,16 @@ public class InteractionController implements KeyListener, MouseListener,
 			// If the menu is open, close it
 			if (!popupDisplay.isSet()) {
 				Location location = player.getLocation();
-				WalkableSquare square = (WalkableSquare)gameState.getSquare(location);
-				popupDisplay.set(square.getName()+" at " + location, square.getDescription());
+				WalkableSquare square = (WalkableSquare) gameState
+						.getSquare(location);
+				popupDisplay.set(square.getName() + " at " + location,
+						square.getDescription());
 				return;
 			}
 			break;
 		}
 
-		//Reset our popup
+		// Reset our popup
 		popupDisplay.set(null, null);
 	}
 
@@ -226,15 +235,28 @@ public class InteractionController implements KeyListener, MouseListener,
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
+		// If you click the inventory, check if a bag was clicked
+		if (inventoryView.onBar(x, y)) {
+			Item selectedItem = inventoryView.getItemAt(x, y);
+
+			// If they select a bag
+			if (selectedItem instanceof Bag) {
+				Bag bag = (Bag) selectedItem;
+				bagView.update(bag);
+				return;
+			}
+
+		}
+
 		// attempt to get a container from entity view
 		SolidContainer clickedContainer = entityView.getSolidContainerAt(x, y);
 
 		// If an closed solid container is clicked
 		if (clickedContainer != null && !clickedContainer.isOpen()) {
-			//Open it
+			// Open it
 			openContainer();
 		}
-		//Else close the container
+		// Else close the container
 		else if (clickedContainer != null && clickedContainer.isOpen()) {
 			closeContainer();
 		}
@@ -250,8 +272,11 @@ public class InteractionController implements KeyListener, MouseListener,
 			}
 
 		}
-		// Hide the
+		// Hide the popup
 		popupDisplay.set(null, null);
+
+		// Hide the bagview
+		bagView.update(null);
 
 	}
 
@@ -273,9 +298,6 @@ public class InteractionController implements KeyListener, MouseListener,
 
 		// If the container menu was clicked
 		if (containerView.getContainer() != null && containerView.onBar(x, y)) {
-
-			System.out.println("pressed");
-
 			// Get the item which was clicked
 			draggedToItem = containerView.getItemAt(x, y);
 			draggedFromItem = null;
@@ -283,6 +305,18 @@ public class InteractionController implements KeyListener, MouseListener,
 			return;
 		}
 
+		// If the bag bar was clicked
+		if (bagView.onBar(x, y)) {
+			draggedToItem = bagView.getItemAt(x, y);
+			draggedFromItem = null;
+
+			draggedX = x;
+			draggedY = y;
+			return;
+
+		}
+
+		// If they click an item in the square
 		Entity entity = entityView.getItemAt(x, y);
 		if (entity != null && entity instanceof Item) {
 			// Set the item to be picked up
@@ -310,14 +344,14 @@ public class InteractionController implements KeyListener, MouseListener,
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
-		// If they drop an item onto a container
 		SolidContainer container = entityView.getSolidContainerAt(x, y);
 
-		//If they drag tp an open container
+		// If they drag to an open container
 		if (draggedFromItem != null && container != null && container.isOpen()) {
 			// Put the item in the container
-			putItem(draggedFromItem.getEntityID(), container.getEntityID());
+			putItem(container.getEntityID(), draggedFromItem.getEntityID());
 		}
+
 		// If the item was not released on the inventory bar, and there was an
 		// item currently being dragged, drop it
 		else if (draggedFromItem != null && !inventoryView.onBar(x, y)) {
@@ -328,11 +362,17 @@ public class InteractionController implements KeyListener, MouseListener,
 		// If it was released on the inventory bar, check if theres a dragged to
 		// item
 		else if (inventoryView.onBar(x, y) && draggedToItem != null) {
-
 			// Pickup the item which was dragged onto the inventory
 			pickupItem(draggedToItem.getEntityID());
 		}
 
+		// If they drop into a bag
+		else if (draggedToItem != null && bagView.getBag() != null) {
+			// Put the item in the bag
+			putItem(bagView.getBag().getEntityID(), draggedToItem.getEntityID());
+		}
+
+		bagView.update(null);
 		resetDragValues();
 
 	}
