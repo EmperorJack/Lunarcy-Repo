@@ -29,6 +29,19 @@ public class Frame extends JFrame implements ActionListener {
 	Canvas canvas;
 	MapBuilder mapBuilder;
 
+
+	final JCheckBoxMenuItem insideToggle = new JCheckBoxMenuItem("Inside Tiles");
+	final JCheckBoxMenuItem wallToggle = new JCheckBoxMenuItem("Walls");
+	final JCheckBoxMenuItem doorToggle = new JCheckBoxMenuItem("Doors");
+	final JCheckBoxMenuItem greenDoorToggle = new JCheckBoxMenuItem("Green Doors");
+	final JCheckBoxMenuItem orangeDoorToggle = new JCheckBoxMenuItem("Orange Doors");
+	final JCheckBoxMenuItem redDoorToggle = new JCheckBoxMenuItem("Red Doors");
+	final JCheckBoxMenuItem containerToggle = new JCheckBoxMenuItem("Containers");
+	final JCheckBoxMenuItem greenContainerToggle = new JCheckBoxMenuItem("Green Containers");
+	final JCheckBoxMenuItem orangeContainerToggle = new JCheckBoxMenuItem("Orange Containers");
+	final JCheckBoxMenuItem redContainerToggle = new JCheckBoxMenuItem("Red Containers");
+	final JCheckBoxMenuItem removeContainers = new JCheckBoxMenuItem("Remove Containers");
+
 	public Frame() {
 		setTitle("Cool Map Builder");
 		setSize(1280, 755);
@@ -66,11 +79,7 @@ public class Frame extends JFrame implements ActionListener {
 		JMenuItem setShip = new JMenuItem("Set Ship");
 		JMenuItem addSpawn = new JMenuItem("Add Spawn Point");
 		JMenuItem removeSpawn = new JMenuItem("Remove Spawn Point");
-		JCheckBoxMenuItem insideToggle = new JCheckBoxMenuItem("Inside Tiles");
-		final JCheckBoxMenuItem wallToggle = new JCheckBoxMenuItem("Walls");
-		final JCheckBoxMenuItem doorToggle = new JCheckBoxMenuItem("Doors");
-		final JCheckBoxMenuItem containerToggle = new JCheckBoxMenuItem("Containers");
-		final JCheckBoxMenuItem removeContainers = new JCheckBoxMenuItem("Remove Containers");
+		JMenuItem intialiseItems = new JMenuItem("Initialise Items");
 		optionMenu.add(saveMenuItem);
 		optionMenu.add(loadMenuItem);
 		toggleMenu.add(insideToggle);
@@ -83,6 +92,7 @@ public class Frame extends JFrame implements ActionListener {
 		toolMenu.add(setShip);
 		toolMenu.add(addSpawn);
 		toolMenu.add(removeSpawn);
+		toolMenu.add(intialiseItems);
 		saveMenuItem.addActionListener(this);
 		loadMenuItem.addActionListener(this);
 		setWalkable.addActionListener(this);
@@ -95,6 +105,8 @@ public class Frame extends JFrame implements ActionListener {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
+					setTogglesFalse(insideToggle);
+					insideToggle.setState(true);
 					mapBuilder.insideTilesOn();
 				} else {
 					mapBuilder.insideTilesOff();
@@ -107,9 +119,8 @@ public class Frame extends JFrame implements ActionListener {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					doorToggle.setState(false);
-					containerToggle.setState(false);
-					removeContainers.setState(false);
+					setTogglesFalse(wallToggle);
+					wallToggle.setState(true);
 					mapBuilder.wallsOn();
 				} else {
 					mapBuilder.wallsOff();
@@ -121,10 +132,9 @@ public class Frame extends JFrame implements ActionListener {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					wallToggle.setState(false);
-					containerToggle.setState(false);
-					removeContainers.setState(false);
-					mapBuilder.doorsOn();
+					setTogglesFalse(doorToggle);
+					doorToggle.setState(true);
+					mapBuilder.doorsOn(0);
 				} else {
 					mapBuilder.doorsOff();
 				}
@@ -135,10 +145,9 @@ public class Frame extends JFrame implements ActionListener {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					wallToggle.setState(false);
-					doorToggle.setState(false);
-					removeContainers.setState(false);
-					mapBuilder.containersOn();
+					setTogglesFalse(containerToggle);
+					containerToggle.setState(true);
+					mapBuilder.containersOn(0);
 				} else {
 					mapBuilder.containersOff();
 				}
@@ -149,9 +158,8 @@ public class Frame extends JFrame implements ActionListener {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					wallToggle.setState(false);
-					doorToggle.setState(false);
-					containerToggle.setState(false);
+					setTogglesFalse(removeContainers);
+					removeContainers.setState(true);
 					mapBuilder.removeContainersOn();
 				} else {
 					mapBuilder.removeContainersOff();
@@ -171,6 +179,19 @@ public class Frame extends JFrame implements ActionListener {
 		setResizable(false);
 		setVisible(true);
 
+	}
+
+	public void setTogglesFalse(JCheckBoxMenuItem checkBoxFrom){
+		if (!checkBoxFrom.equals(wallToggle)) wallToggle.setState(false);
+		if (!checkBoxFrom.equals(doorToggle)) doorToggle.setState(false);
+		if (!checkBoxFrom.equals(greenDoorToggle)) greenDoorToggle.setState(false);
+		if (!checkBoxFrom.equals(orangeDoorToggle)) orangeDoorToggle.setState(false);
+		if (!checkBoxFrom.equals(redDoorToggle)) redDoorToggle.setState(false);
+		if (!checkBoxFrom.equals(containerToggle)) containerToggle.setState(false);
+		if (!checkBoxFrom.equals(greenContainerToggle)) greenContainerToggle.setState(false);
+		if (!checkBoxFrom.equals(orangeContainerToggle)) orangeContainerToggle.setState(false);
+		if (!checkBoxFrom.equals(redContainerToggle)) redContainerToggle.setState(false);
+		if (!checkBoxFrom.equals(removeContainers)) removeContainers.setState(false);
 	}
 
 	public static void main(String[] args) {
@@ -199,6 +220,9 @@ public class Frame extends JFrame implements ActionListener {
 		}
 		if (e.getActionCommand().equals("Remove Spawn Point")) {
 			mapBuilder.removeSpawnPoint();
+		}
+		if (e.getActionCommand().equals("Initialise Items")) {
+			mapBuilder.initialiseItems();
 		}
 	}
 }
