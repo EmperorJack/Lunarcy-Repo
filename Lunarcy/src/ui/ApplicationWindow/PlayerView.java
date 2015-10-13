@@ -57,8 +57,9 @@ public class PlayerView extends DrawingComponent {
 
 		// for each player
 		for (int i = 0; i < playersInSquare.size(); i++) {
+			p.pushStyle();
 
-			Player currentPlayer = players[i];
+			Player currentPlayer = playersInSquare.get(i);
 
 			// tint the image with the current player colour
 			p.tint(currentPlayer.getColour().getRGB());
@@ -69,6 +70,12 @@ public class PlayerView extends DrawingComponent {
 			// draw the item image
 			p.image(playerImage, xPos, PLAYER_HEIGHT / 2, PLAYER_WIDTH,
 					PLAYER_HEIGHT);
+			
+			p.popStyle();
 		}
+
+		// push matrix and style information onto the stack
+		p.popStyle();
+		p.popMatrix();
 	}
 }
