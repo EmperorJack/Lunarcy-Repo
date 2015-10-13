@@ -119,6 +119,12 @@ public class Player implements Character, Serializable {
 		for (Item i : inventory) {
 			if (i instanceof ShipPart) {
 				temp.add((ShipPart) i);
+			}else if(i instanceof Container){
+				for(Item item: ((Container)i).getItems()){
+					if (item instanceof ShipPart) {
+						temp.add((ShipPart) item);
+					}
+				}
 			}
 		}
 		return temp;
@@ -130,15 +136,34 @@ public class Player implements Character, Serializable {
 				if (((Key) i).keyCode == keyCode) {
 					return true;
 				}
+			}else if(i instanceof Container){
+				for(Item item: ((Container)i).getItems()){
+					if (item instanceof Key) {
+						if (((Key) item).keyCode == keyCode) {
+							return true;
+						}
+					}
+				}
 			}
 		}
 		return false;
 	}
 
+	/**
+	 * Checks the players inventory and any containers inside for an item with matching entityID
+	 * @param itemID
+	 * @return
+	 */
 	public boolean hasItem(int itemID){
 		for(Item i: inventory){
 			if(i.getEntityID() == itemID){
 				return true;
+			}else if(i instanceof Container){
+				for(Item item: ((Container)i).getItems()){
+					if(item.getEntityID() == itemID){
+						return true;
+					}
+				}
 			}
 		}
 		return false;

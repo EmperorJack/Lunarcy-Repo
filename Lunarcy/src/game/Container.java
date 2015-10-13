@@ -14,6 +14,7 @@ public abstract class Container implements Entity {
 	private static final long serialVersionUID = -7267673923708405364L;
 
 	private final int entityID;
+	private static final int MAX_ITEMS = 3;
 	List<Item> items;
 
 	public Container(int entityID) {

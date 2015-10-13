@@ -170,14 +170,14 @@ public class GameLogic {
 	/**
 	 * Picks up the item corresponding to the itemID and gives it to the Player.
 	 * Will only take the Item if it is in the same Square as Player and is on
-	 * the side they are facing.
+	 * the side they are facing or if it is in an accessable container. An accessable container
+	 * is one which is either in the same square as the player or in their inventory.
 	 *
 	 * @param player
 	 *            The Player that is picking up the Item
 	 * @param itemID
 	 *            The entityID of the Item to pick up
-	 * @return True if Item was picked up, false otherwise (Invalid playerID or
-	 *         itemID)
+	 * @return True if Item was picked up, false otherwise
 	 */
 	public boolean pickUpItem(int playerID, int itemID) {
 
@@ -186,57 +186,38 @@ public class GameLogic {
 			return false;
 		Square square = state.getSquare(player.getLocation());
 
+		if (player.hasItem(itemID)) {
+			for(Item i: player.getInventory()){
+				if (i instanceof Container) {
+					Container container = (Container) i;
+					if (container.canAccess(player) && container.hasItem(itemID)) {
+						Item item = container.takeItem(itemID);
+						if (item != null) {
+							return player.giveItem(item);
+						}
+						return false;
+					}
+				}
+			}
+		}else
 		// Otherwise cannot contain players/items
 		// Shouldn't need to check as it's from Player location, but to be safe
 		if (square instanceof WalkableSquare) {
 			WalkableSquare wSquare = (WalkableSquare) square;
-			Item item = wSquare.takeItem(player.getOrientation(), itemID);
-			return player.giveItem(item);
-		}
-		return false;
-	}
 
-	/**
-	 * Checks if the player has access to the container and if they do then puts
-	 * it into the players inventory. A player can access a container if either
-	 * it is in their inventory or it is in the same Square and Direction as
-	 * them, as well as being open.
-	 *
-	 * @param playerID
-	 * @param containerID
-	 * @param itemID
-	 * @return
-	 */
-	public boolean takeItemFromContainer(int playerID, int containerID,
-			int itemID) {
-		Player player = state.getPlayer(playerID);
-		if (player == null || itemID < 0 || containerID == itemID)
-			return false;
-		Square square = state.getSquare(player.getLocation());
+			Item item = null;
 
-		if (player.hasItem(containerID)) {
-			Item temp = player.getItem(containerID);
-			if (temp != null && temp instanceof Container) {
-				Container container = (Container) temp;
-				if (container.canAccess(player) && container.hasItem(itemID)) {
-					Item item = container.takeItem(itemID);
-					if (item != null) {
-						return player.giveItem(item);
-					}
-				}
-			} else {
-				return false;
+			//Checks if the item is in the square
+			item = wSquare.takeItem(player.getOrientation(), itemID);
+			if(item != null){
+				return player.giveItem(item);
 			}
-		} else if (square instanceof WalkableSquare) {
-			WalkableSquare wSquare = (WalkableSquare) square;
 
-			// There must be no matching item in the square so check the
-			// container
+			//Check the container in the square
 			SolidContainer container = wSquare.getContainer(player
 					.getOrientation());
-			if (container != null && container.isOpen()
-					&& container.hasItem(itemID)) {
-				Item item = container.takeItem(itemID);
+			if (container != null && container.isOpen() && container.hasItem(itemID)) {
+				item = container.takeItem(itemID);
 				if (item != null) {
 					return player.giveItem(item);
 				}
@@ -255,8 +236,7 @@ public class GameLogic {
 	 *           The entityID of the Item being dropped
 	 * @param containerID
 	 *           The entityId of the container that holds the item
-	 * @return True if the Item was dropped, false otherwise (Invalid playerID
-	 *         or itemID)
+	 * @return True if the Item was dropped, false otherwise
 	 */
 	public boolean dropItem(int playerID, int itemID) {
 		Player player = state.getPlayer(playerID);
@@ -279,7 +259,7 @@ public class GameLogic {
 	/**
 	 * Puts the item corresponding to the itemID into a container. Will only put
 	 * the Item if the container is in the same Square as Player and if it is on
-	 * the side they are facing.
+	 * the side they are facing or the container is in their inventory
 	 *
 	 * @param player
 	 *            The Player that is picking up the Item
@@ -287,8 +267,7 @@ public class GameLogic {
 	 *            The entityID of the Item to pick up
 	 * @param containerID
 	 *            The entityId of the container that holds the item
-	 * @return True if Item was picked up, false otherwise (Invalid playerID,
-	 *         containerID or itemID)
+	 * @return True if Item was picked up, false otherwise
 	 */
 	public boolean putItemIntoContainer(int playerID, int containerID,
 			int itemID) {
