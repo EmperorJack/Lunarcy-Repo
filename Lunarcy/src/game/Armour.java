@@ -10,7 +10,7 @@ package game;
 public class Armour implements Item {
 	private static final long serialVersionUID = 8530995197024927216L;
 
-	private int entityID;
+	private final int entityID;
 
 	public Armour(int entityID) {
 		this.entityID = entityID;
