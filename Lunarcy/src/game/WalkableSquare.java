@@ -135,6 +135,15 @@ public class WalkableSquare extends Square {
 		return items.get(side).add(item);
 	}
 
+	/**
+	 * Checks if the Square contains an item, if it does then it removes the item from the
+	 * items in the square and returns it
+	 * @param side
+	 *            the side of the Square to take the item from
+	 * @param itemID
+	 *            the entityID of the item to take
+	 * @return
+	 */
 	public Item takeItem(Direction side, int itemID){
 		if (side == null||itemID < 0)
 			return null;
@@ -145,7 +154,9 @@ public class WalkableSquare extends Square {
 				item = i;
 			}
 		}
-		items.get(side).remove(item);
+		if(item!=null){
+			items.get(side).remove(item);
+		}
 		return item;
 	}
 
