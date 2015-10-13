@@ -14,7 +14,10 @@ import java.util.List;
  */
 public class Player implements Character, Serializable {
 	private static final long serialVersionUID = 606752819269306395L;
-	private static final int maxOxygen = 200;
+
+	private static final int MAX_OXYGEN = 200;
+
+	private final int MAX_INVENTORY_SIZE = 7;
 
 	private final int id;
 	private final String name;
@@ -53,12 +56,12 @@ public class Player implements Character, Serializable {
 		}
 	}
 
-	public void resetOxygen(){
+	public void resetOxygen() {
 		oxygen = getMaxOxygen();
 	}
 
 	public boolean giveItem(Item item) {
-		if (item == null)
+		if (item == null || inventory.size() >= MAX_INVENTORY_SIZE)
 			return false;
 		return inventory.add(item);
 	}
@@ -92,16 +95,16 @@ public class Player implements Character, Serializable {
 		return oxygen;
 	}
 
-	public int getMaxOxygen(){
-		return maxOxygen;
+	public int getMaxOxygen() {
+		return MAX_OXYGEN;
 	}
 
 	public Location getLocation() {
 		return location;
 	}
 
-	public void setLocation(Location location){
-		if(location==null || location.getX() < 0 || location.getY() < 0){
+	public void setLocation(Location location) {
+		if (location == null || location.getX() < 0 || location.getY() < 0) {
 			return;
 		}
 		this.location = location;
@@ -111,20 +114,20 @@ public class Player implements Character, Serializable {
 		return new ArrayList<Item>(inventory);
 	}
 
-	public List<ShipPart> getShipParts(){
+	public List<ShipPart> getShipParts() {
 		List<ShipPart> temp = new ArrayList<ShipPart>();
-		for(Item i: inventory){
-			if(i instanceof ShipPart){
-				temp.add((ShipPart)i);
+		for (Item i : inventory) {
+			if (i instanceof ShipPart) {
+				temp.add((ShipPart) i);
 			}
 		}
 		return temp;
 	}
 
-	public boolean hasKey(int keyCode){
-		for(Item i: inventory){
-			if(i instanceof Key){
-				if(((Key)i).keyCode == keyCode){
+	public boolean hasKey(int keyCode) {
+		for (Item i : inventory) {
+			if (i instanceof Key) {
+				if (((Key) i).keyCode == keyCode) {
 					return true;
 				}
 			}
@@ -174,9 +177,36 @@ public class Player implements Character, Serializable {
 		return colour;
 	}
 
-
-	public void depleteOxygen(){
+	public void depleteOxygen() {
 		this.oxygen = 0;
+	}
+
+	/**
+	 * Returns true if the player has armout
+	 * in their inventory
+	 * @return
+	 */
+	public boolean hasArmour() {
+		for (Item i : inventory) {
+			if (i instanceof Armour) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Returns true if the player has a cloaking gadget
+	 * in their inventory
+	 * @return
+	 */
+	public boolean hasCloak() {
+		for (Item i : inventory) {
+			if (i instanceof CloakingGadget) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -189,7 +219,9 @@ public class Player implements Character, Serializable {
 		inventory.add(new ShipPart(id * 100 + 1, 1));
 		inventory.add(new ShipPart(id * 100 + 2, 2));
 		inventory.add(new ShipPart(id * 100 + 3, 3));
-		inventory.add(new ShipPart(id * 100 + 4, 4));
+		inventory.add(new CloakingGadget(id*100 + 4));
 		inventory.add(new Key(id * 100 + 5, 2));
+		inventory.add(new Armour(id * 100 + 6));
 	}
+
 }

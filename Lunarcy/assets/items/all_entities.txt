@@ -8,3 +8,5 @@ chest
 chest_open
 lockedChest
 lockedChest_open
+armour
+cloak

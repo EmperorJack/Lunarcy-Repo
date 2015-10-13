@@ -58,8 +58,8 @@ public class TrackMovement extends ShortestPathMover {
 	 */
 	public boolean shouldGiveup(Rover rover, GameState gamestate) {
 
-		// If the players inside, or too far from you give up chasing them
-		return !gamestate.isOutside(target.getLocation())
+		// If the players inside, too far from you, or has a cloaking gadget give up chasing them
+		return !gamestate.isOutside(target.getLocation()) || target.hasCloak()
 				|| estimate(rover.getLocation(), target.getLocation()) > MAX_DISTANCE;
 
 	}

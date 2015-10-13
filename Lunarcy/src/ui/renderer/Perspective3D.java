@@ -147,14 +147,14 @@ public class Perspective3D extends DrawingComponent {
 		// draw the game world
 		WORLD.draw();
 
+		// draw the entities
+		drawEntites(thisPlayer, gameState.getBoard());
+
 		// draw the players
 		drawPlayers(thisPlayer, players);
 
 		// draw the rovers
 		drawRovers(thisPlayer, rovers);
-
-		// draw the entities
-		drawEntites(thisPlayer, gameState.getBoard());
 
 		// pop matrix and style information from the stack
 		p.popStyle();
@@ -171,7 +171,9 @@ public class Perspective3D extends DrawingComponent {
 	 *            List of players in the game.
 	 */
 	private void drawPlayers(Player thisPlayer, Player[] players) {
+		// for each player
 		for (int i = 0; i < players.length; i++) {
+
 			// don't draw a player in the same location as this player
 			if (!players[i].getLocation().equals(thisPlayer.getLocation())) {
 				p.pushMatrix();

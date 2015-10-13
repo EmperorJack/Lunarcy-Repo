@@ -27,6 +27,7 @@ public class WalkableSquare extends Square {
 
 	public WalkableSquare(String name, String description, boolean inside,
 			Wall north, Wall east, Wall south, Wall west) {
+
 		this.name = name;
 		this.description = description;
 		this.inside = inside;
@@ -229,11 +230,30 @@ public class WalkableSquare extends Square {
 	}
 
 	public String getName() {
-		return name;
+		return "Walkable Square";
 	}
 
 	public String getDescription() {
-		return description;
+
+		String desc = "This square contains the following items: ";
+		boolean hasItem = false;
+
+		for(Direction dir: Direction.values()){
+
+			for(Item i: items.get(dir)){
+				desc += i.getName()+", ";
+				hasItem = true;
+			}
+
+		}
+		desc += " \n";
+
+		//If there were no items
+		if(!hasItem){
+			return "This square has no items";
+		}
+
+		return desc;
 	}
 
 	public boolean isInside() {

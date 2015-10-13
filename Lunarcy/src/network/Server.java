@@ -334,6 +334,7 @@ package network;
 
 import game.GameLogic;
 import game.GameState;
+import game.Player;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -344,6 +345,11 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.awt.Color;
+
+
+
+
+
 
 //import network.NewServer.ClientConnection;
 import storage.Storage;
@@ -377,25 +383,20 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		fromSavedGame = true;
 	}
 
 	public Server(int maxClients, int updateFreq, String map) {
 		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;
 		GameState gameState = new GameState(maxClients, map);
+		gameLogic = new GameLogic(gameState);
 		try {
 			serverSocket = new ServerSocket(PORT);
+			listenForClients();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		gameLogic = new GameLogic(gameState);
-		listenForClients();
-		// add players to gamestate
-//		for (ClientConnection client : clientList) {
-//			gameState
-//					.addPlayer(client.clientID, client.username, client.colour);
-//		}
-
 	}
 
 	/**
@@ -449,8 +450,8 @@ public class Server {
 			} catch (IOException e) {
 				continue;
 			}
-			int clientID = clientList.size();
-
+			int clientID = (fromSavedGame)? -1 :clientList.size(); //set -1 if from saved game
+			//int clientID = clientList.size();
 			ClientConnection client;
 			try {
 				client = new ClientConnection(s, clientID);
@@ -574,7 +575,7 @@ public class Server {
 	}
 
 	synchronized private ArrayList<ClientConnection> getConnections(){
-		return this.clientList;
+		return (ArrayList<ClientConnection>) this.clientList.clone(); //TODO check this is ok
 	}
 
 	/**
@@ -610,33 +611,42 @@ public class Server {
 		}
 
 		private void negotiateConnection() {
-			// Sleep for a bit
-//			try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException ex) {
-//				Thread.currentThread().interrupt();// TODO what does this do??
-//			}
+			String name = "";
+			do {
+				try {
+					name = (String) inputFromClient.readObject();
+					System.out.println("read name from client: " + name);
+				} catch (ClassNotFoundException | IOException e) {
+					//TODO disconnect();
+				}
+				//clientId = addPlayerToGamestate(name);
+				if(fromSavedGame){
+					this.clientId = getClientIdFromGameState(name); //retrieve their previous name
+				}
+				if(fromSavedGame && this.clientId == -1){ //TODO can be from just clientId
+					sendInt(-1);
 
-//			name = readStringFromClient();
-//			clientId = addPlayerToGamestate(name);
-//			if(clientId == -1){
-//				disconnect();
-//				return;
-//			}
-//			username = name;
-//			sendIntToClient(clientId);
-//			readColourFromClient();
-
-			// Read the user name sent from the client
-			//TODO negotiate username
+					System.out.println("sent -1 to client");
+				}
+			} while (fromSavedGame && this.clientId == -1);
+			sendInt(this.clientId);
+			System.out.println("sent id to client: " + this.clientId);
 			try {
-				this.username = (String) inputFromClient.readObject();
-				sendInt(clientId);
-				// TODO negotiate username
 				this.colour = Color.decode((String) inputFromClient.readObject());
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
+			} catch (NumberFormatException | ClassNotFoundException
+					| IOException e) {
+				//TODO disconnect();
 			}
+			this.username = name;
+
+//			try {
+//				this.username = (String) inputFromClient.readObject();
+//				sendInt(clientId);
+//				// TODO negotiate username
+//				this.colour = Color.decode((String) inputFromClient.readObject());
+//			} catch (ClassNotFoundException | IOException e) {
+//				e.printStackTrace();
+//			}
 			System.out.println("Server: new Client: " + username + " "
 					+ clientId + " colour: " + this.colour.toString());
 
@@ -644,6 +654,18 @@ public class Server {
 			addPlayerToGame(this);
 			// Begin listening to this client
 			this.clientRunning = true; //ready to be sent to
+		}
+
+		private int getClientIdFromGameState(String name) {
+			System.out.println("getClientIdFrom Gamestate");
+			Player[] players = gameLogic.getGameState().getPlayers();
+			for(Player p : players){
+				if(p != null){
+					System.out.println("checking gamestate player name: "+p.getName()+" "+name);
+					if(p.getName().equals(name))return p.getId();
+				}
+			}
+			return -1;
 		}
 
 		private void sendInt(int val) {

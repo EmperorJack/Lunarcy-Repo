@@ -99,9 +99,12 @@ public class RoamMovement implements MoveStrategy {
 					//Since it is a set of players, make an iterator
 					Iterator<Player> iter = square.getPlayers().iterator();
 
-					// If there are players in the square, return the "first"
-					if (iter.hasNext()) {
-						return iter.next();
+					// If there are players in the square, return the "first" which is visible
+					while (iter.hasNext()) {
+						Player next = iter.next();
+						if(!next.hasCloak()){
+							return next;
+						}
 					}
 				}
 			}

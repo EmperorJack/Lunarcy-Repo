@@ -134,6 +134,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		hud = new ArrayList<DrawingComponent>();
 
 		// get the HUD drawing components
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.PLAYERVIEW));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.OXYGEN));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
 		hud.add(factory
@@ -143,6 +144,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 				.getDrawingComponent(DrawingComponentFactory.OBJECTIVEVIEW));
 		hud.add(factory
 				.getDrawingComponent(DrawingComponentFactory.CONTAINERVIEW));
+		hud.add(factory.getDrawingComponent(DrawingComponentFactory.POPUP));
 
 		// audio setup
 		// minim = new Minim(this);
@@ -186,7 +188,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			player = gameState.getPlayer(playerID);
 
 			// update interaction controller
-			interactionControl.update(player);
+			interactionControl.update(player, gameState);
 
 			// the state has now been updated
 			stateUpdated = false;

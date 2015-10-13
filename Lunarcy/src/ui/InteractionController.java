@@ -4,7 +4,9 @@ import game.Container;
 import game.Entity;
 import game.GameState;
 import game.Item;
+import game.Location;
 import game.Player;
+import game.WalkableSquare;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -13,10 +15,12 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.SwingUtilities;
+
 import ui.ApplicationWindow.ContainerView;
+import ui.ApplicationWindow.EntityView;
 import ui.ApplicationWindow.InventoryView;
+import ui.ApplicationWindow.PopupDisplay;
 import ui.renderer.Canvas;
-import ui.renderer.EntityView;
 import network.Client;
 import network.CloseAction;
 import network.DropAction;
@@ -40,6 +44,7 @@ public class InteractionController implements KeyListener, MouseListener,
 	private InventoryView inventoryView;
 	private EntityView entityView;
 	private ContainerView containerView;
+	private PopupDisplay popupDisplay;
 
 	// Dragging/dropping items
 
@@ -63,13 +68,14 @@ public class InteractionController implements KeyListener, MouseListener,
 
 	// Canvas field
 	private Canvas canvas;
-
+	private GameState gameState;
 
 	public InteractionController(Client client, GameState gamestate,
 			Player player, Canvas canvas) {
 		this.client = client;
 		this.player = player;
 		this.canvas = canvas;
+		this.gameState = gamestate;
 
 		// Initialize the values for dragging/dropping items
 		resetDragValues();
@@ -106,6 +112,10 @@ public class InteractionController implements KeyListener, MouseListener,
 		this.inventoryView = inventory;
 	}
 
+	public void setPopup(PopupDisplay popup) {
+		this.popupDisplay = popup;
+	}
+
 	/** Update methods */
 
 	public void setContainerView(ContainerView containerView) {
@@ -116,9 +126,9 @@ public class InteractionController implements KeyListener, MouseListener,
 		this.entityView = entityView;
 	}
 
-
-	public void update(Player player) {
+	public void update(Player player, GameState gameState) {
 		this.player = player;
+		this.gameState = gameState;
 	}
 
 	/**
@@ -192,7 +202,21 @@ public class InteractionController implements KeyListener, MouseListener,
 		case KeyEvent.VK_E:
 			client.sendAction(new OrientAction(player.getId(), false));
 			break;
+
+		// Hide/show a popup of current squares info
+		case KeyEvent.VK_SPACE:
+			// If the menu is open, close it
+			if (!popupDisplay.isSet()) {
+				Location location = player.getLocation();
+				WalkableSquare square = (WalkableSquare)gameState.getSquare(location);
+				popupDisplay.set(square.getName()+" at " + location, square.getDescription());
+				return;
+			}
+			break;
 		}
+
+		//Reset our popup
+		popupDisplay.set(null, null);
 	}
 
 	@Override
@@ -212,17 +236,20 @@ public class InteractionController implements KeyListener, MouseListener,
 			closeContainer();
 		}
 
-		//On a right click, show item  descriptions
-		if(SwingUtilities.isRightMouseButton(e)){
+
+		// On a right click, show item descriptions
+		if (SwingUtilities.isRightMouseButton(e)) {
 
 			Item item = entityView.getItemAt(x, y);
 
-			if(item!=null){
-
+			if (item != null) {
+				popupDisplay.set(item.getName(), item.getDescription());
+				return;
 			}
 
 		}
-
+		// Hide the
+		popupDisplay.set(null, null);
 
 	}
 
@@ -284,7 +311,8 @@ public class InteractionController implements KeyListener, MouseListener,
 		// If they drop an item onto a container
 		Container container = entityView.getContainerAt(x, y);
 
-		if (draggedFromItem != null && container != null) {
+		//If they drag tp an open container
+		if (draggedFromItem != null && container != null && container.isOpen()) {
 			// Put the item in the container
 			putItem(draggedFromItem.getEntityID());
 		}

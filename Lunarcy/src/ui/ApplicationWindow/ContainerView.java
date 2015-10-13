@@ -24,8 +24,9 @@ public class ContainerView extends Bar {
 
 	public ContainerView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {
+
 		// TODO: Make x,y nicer
-		super(Canvas.TARGET_WIDTH / 2 - (int) (Canvas.TARGET_WIDTH * 0.15),
+		super(Canvas.TARGET_WIDTH / 2 - (int) (Canvas.TARGET_WIDTH * 0.175),
 				Canvas.TARGET_HEIGHT / 2 - 50, gameState.getPlayer(playerID)
 						.getInventory(), p, gameState, playerID, entityImages);
 

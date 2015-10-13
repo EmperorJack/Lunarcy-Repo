@@ -62,8 +62,14 @@ public class Client {
 
 	private void negotiateConnection(String name, Color colour)
 			throws IllegalArgumentException {
-		writeObject(name);
-		this.id = readInt();
+		do {
+			writeObject(name);
+			this.id = readInt();
+			if(this.id == -1){
+				name = showDialog();
+			}
+		} while (this.id == -1);
+		this.name = name;
 		// Send hex colour
 		String hexColour = String.format("#%02x%02x%02x", colour.getRed(),
 				colour.getGreen(), colour.getBlue());
@@ -72,17 +78,16 @@ public class Client {
 		writeObject(hexColour);
 		System.out.println("Name sent to server: " + name);
 
-		// do
-		// sendName
-		// if response = -1
-		// writeObject
-		// writeObject(name);
-		// int response = readInt();
-		// if(response == -1)throw new
-		// IllegalArgumentException("Not a valid Name");
-		// id = response;
-		// String hexColour = String.format("#%02x%02x%02x",
-		// this.colour.getRed(), this.colour.getGreen(), this.colour.getBlue());
+
+//		writeObject(name);
+//		this.id = readInt();
+//		// Send hex colour
+//		String hexColour = String.format("#%02x%02x%02x", colour.getRed(),
+//				colour.getGreen(), colour.getBlue());
+//		System.out.println("hex colour  " + hexColour);
+//		//showDialog();
+//		writeObject(hexColour);
+//		System.out.println("Name sent to server: " + name);
 
 	}
 	/**
@@ -141,8 +146,9 @@ public class Client {
 	private int readInt() {
 		System.out.println("trying to read ID");
 		try {
-			return inputFromServer.readInt();
-			// System.out.println("My clientID is: " + id);
+			int val = inputFromServer.readInt();
+			System.out.println("My clientID is: " + val);
+			return val;
 		} catch (IOException e) {
 			System.err.println("cant read ID");
 			e.printStackTrace();

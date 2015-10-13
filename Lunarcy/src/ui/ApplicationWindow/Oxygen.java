@@ -17,7 +17,7 @@ public class Oxygen extends DrawingComponent {
 	// Where the oxygen bar starts (x)
 	private final int LEFT_PADDING = (int) (Canvas.TARGET_WIDTH * 0.8);
 	// Where the oxygen bar starts (y)
-	private final int TOP_PADDING = (int) (Canvas.TARGET_HEIGHT * 0.8);
+	private final int TOP_PADDING = (int) (Canvas.TARGET_HEIGHT * 0.85);
 
 	// Sizing of the oxygen tank
 	private final int CYLINDERWIDTH = 200;
