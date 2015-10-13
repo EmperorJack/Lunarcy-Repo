@@ -332,7 +332,7 @@ public class ServerMain extends JFrame {
 
 		//Configure the text area to get the input from stdout
 		PrintStream printStream = new PrintStream(new ConsoleOutput(console));
-		System.setOut(printStream);
+		//System.setOut(printStream); TODO uncomment
 
 		// Not directly editable by user
 		console.setEditable(false);
