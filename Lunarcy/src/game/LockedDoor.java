@@ -13,6 +13,9 @@ public class LockedDoor implements Wall {
 			return false;
 		}
 		Player player = (Player)character;
-		return player.hasKey(keyCode);
+		return player.hasKey(getKeyCode());
+	}
+	public int getKeyCode() {
+		return keyCode;
 	}
 }

@@ -85,7 +85,13 @@ public class Frame extends JFrame implements ActionListener {
 		toggleMenu.add(insideToggle);
 		toggleMenu.add(wallToggle);
 		toggleMenu.add(doorToggle);
+		toggleMenu.add(greenDoorToggle);
+		toggleMenu.add(orangeDoorToggle);
+		toggleMenu.add(redDoorToggle);
 		toggleMenu.add(containerToggle);
+		toggleMenu.add(greenContainerToggle);
+		toggleMenu.add(orangeContainerToggle);
+		toggleMenu.add(redContainerToggle);
 		toggleMenu.add(removeContainers);
 		toolMenu.add(setWalkable);
 		toolMenu.add(setBlank);
@@ -100,13 +106,13 @@ public class Frame extends JFrame implements ActionListener {
 		setShip.addActionListener(this);
 		addSpawn.addActionListener(this);
 		removeSpawn.addActionListener(this);
+		intialiseItems.addActionListener(this);
 
 		insideToggle.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					setTogglesFalse(insideToggle);
-					insideToggle.setState(true);
 					mapBuilder.insideTilesOn();
 				} else {
 					mapBuilder.insideTilesOff();
@@ -120,7 +126,6 @@ public class Frame extends JFrame implements ActionListener {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					setTogglesFalse(wallToggle);
-					wallToggle.setState(true);
 					mapBuilder.wallsOn();
 				} else {
 					mapBuilder.wallsOff();
@@ -133,7 +138,6 @@ public class Frame extends JFrame implements ActionListener {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					setTogglesFalse(doorToggle);
-					doorToggle.setState(true);
 					mapBuilder.doorsOn(0);
 				} else {
 					mapBuilder.doorsOff();
@@ -141,12 +145,49 @@ public class Frame extends JFrame implements ActionListener {
 			}
 		});
 
+		greenDoorToggle.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					setTogglesFalse(greenDoorToggle);
+					mapBuilder.doorsOn(1);
+				} else {
+					mapBuilder.doorsOff();
+				}
+			}
+		});
+
+		orangeDoorToggle.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					setTogglesFalse(orangeDoorToggle);
+					mapBuilder.doorsOn(2);
+				} else {
+					mapBuilder.doorsOff();
+				}
+			}
+		});
+
+
+		redDoorToggle.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					setTogglesFalse(redDoorToggle);
+					mapBuilder.doorsOn(3);
+				} else {
+					mapBuilder.doorsOff();
+				}
+			}
+		});
+
+
 		containerToggle.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					setTogglesFalse(containerToggle);
-					containerToggle.setState(true);
 					mapBuilder.containersOn(0);
 				} else {
 					mapBuilder.containersOff();
@@ -154,12 +195,48 @@ public class Frame extends JFrame implements ActionListener {
 			}
 		});
 
+		greenContainerToggle.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					setTogglesFalse(greenContainerToggle);
+					mapBuilder.containersOn(1);
+				} else {
+					mapBuilder.containersOff();
+				}
+			}
+		});
+
+		orangeContainerToggle.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					setTogglesFalse(orangeContainerToggle);
+					mapBuilder.containersOn(2);
+				} else {
+					mapBuilder.containersOff();
+				}
+			}
+		});
+
+		redContainerToggle.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					setTogglesFalse(orangeContainerToggle);
+					mapBuilder.containersOn(3);
+				} else {
+					mapBuilder.containersOff();
+				}
+			}
+		});
+
+
 		removeContainers.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					setTogglesFalse(removeContainers);
-					removeContainers.setState(true);
 					mapBuilder.removeContainersOn();
 				} else {
 					mapBuilder.removeContainersOff();
