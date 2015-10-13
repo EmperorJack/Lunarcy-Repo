@@ -294,8 +294,7 @@ public class ServerMain extends JFrame {
 
 				// Make a new server with the specified info
 				try {
-					server = new Server(playerNum.getValue(), refreshRate
-							.getValue(), Storage.loadState(filename));
+					server = new Server(refreshRate.getValue(), Storage.loadState(filename));
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(null,"Port Already In Use");
 					System.exit(1);

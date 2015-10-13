@@ -65,8 +65,10 @@ public class Client {
 		do {
 			writeObject(name);
 			this.id = readInt();
-			if (this.id == -1) {
-				name = showDialog();
+			if (this.id == Server.INVALID_USERNAME) {
+				name = showDialog("To join this game, please enter the correct name");
+			}else if(this.id == Server.USERNAME_TAKEN){
+				name = showDialog("Username already taken");
 			}
 		} while (this.id == -1);
 		this.name = name;
@@ -85,9 +87,9 @@ public class Client {
 	 *
 	 * @return The value entered
 	 */
-	private String showDialog() {
+	private String showDialog(String message) {
 		String s = (String) JOptionPane.showInputDialog(null,
-				"To join this game, please enter the correct name",
+				message,
 				"Invalid Username", JOptionPane.PLAIN_MESSAGE, null, null,
 				this.name);
 		return s;
