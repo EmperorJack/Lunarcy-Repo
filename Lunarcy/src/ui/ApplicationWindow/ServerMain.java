@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -177,11 +178,17 @@ public class ServerMain extends JFrame {
 				loadGame.setEnabled(false);
 
 				// Makes a new thread, which deals with the server
-				server = new Server(playerNum.getValue(), refreshRate.getValue(),selectedMap);
+				try {
+					server = new Server(playerNum.getValue(), refreshRate.getValue(),selectedMap);
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null,"Port Already In Use");
+					System.exit(1);
+				}
 				server.run();
-
 			}
 		});
+
+
 
 		// Start button is at 0, 5
 		c.gridx = 0;
@@ -286,9 +293,13 @@ public class ServerMain extends JFrame {
 				}
 
 				// Make a new server with the specified info
-				server = new Server(playerNum.getValue(), refreshRate
-						.getValue(), Storage.loadState(filename));
-
+				try {
+					server = new Server(playerNum.getValue(), refreshRate
+							.getValue(), Storage.loadState(filename));
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null,"Port Already In Use");
+					System.exit(1);
+				}
 				server.run();
 			}
 

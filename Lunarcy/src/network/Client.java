@@ -65,7 +65,7 @@ public class Client {
 		do {
 			writeObject(name);
 			this.id = readInt();
-			if(this.id == -1){
+			if (this.id == -1) {
 				name = showDialog();
 			}
 		} while (this.id == -1);
@@ -74,31 +74,22 @@ public class Client {
 		String hexColour = String.format("#%02x%02x%02x", colour.getRed(),
 				colour.getGreen(), colour.getBlue());
 		System.out.println("hex colour  " + hexColour);
-		//showDialog();
+		// showDialog();
 		writeObject(hexColour);
 		System.out.println("Name sent to server: " + name);
 
-
-//		writeObject(name);
-//		this.id = readInt();
-//		// Send hex colour
-//		String hexColour = String.format("#%02x%02x%02x", colour.getRed(),
-//				colour.getGreen(), colour.getBlue());
-//		System.out.println("hex colour  " + hexColour);
-//		//showDialog();
-//		writeObject(hexColour);
-//		System.out.println("Name sent to server: " + name);
-
 	}
+
 	/**
 	 * A dialog which prompts for an ammended username
+	 *
 	 * @return The value entered
 	 */
 	private String showDialog() {
 		String s = (String) JOptionPane.showInputDialog(null,
 				"To join this game, please enter the correct name",
-				"Invalid Username", JOptionPane.PLAIN_MESSAGE, null,
-				null, this.name);
+				"Invalid Username", JOptionPane.PLAIN_MESSAGE, null, null,
+				this.name);
 		return s;
 	}
 
@@ -115,11 +106,29 @@ public class Client {
 	public void listenForGameUpdates() {
 		new Thread(new Runnable() {
 			public void run() {
-				while (true) {
-					GameState state = getGameState();
-					if (state != null) {
-						frame.getCanvas().setGameState(state);
+				try {
+					while (true) {
+						// GameState state = getGameState();
+						// if (state != null) {
+						// frame.getCanvas().setGameState(state);
+						// }
+						Object obj;
+
+						obj = inputFromServer.readObject();
+
+						if (obj instanceof String) {
+							String val = (String) obj;
+							if (val.equals("quit"))
+								break;
+						} else if (obj instanceof GameState) {
+							GameState gameState = (GameState) obj;
+							frame.getCanvas().setGameState(gameState);
+						}
+
 					}
+				} catch (ClassNotFoundException | IOException e) {
+				}finally{
+					disconnect();
 				}
 			}
 		}).start();
@@ -154,6 +163,18 @@ public class Client {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+
+	private void disconnect(){
+		JOptionPane.showMessageDialog(null,"Disconnected from Server");
+        try {
+        	inputFromServer.close();
+            outputToServer.close();
+			socket.close();
+		} catch (IOException e) {
+		}finally{
+			System.exit(1);
+		}
 	}
 
 	private boolean writeObject(Object o) {

@@ -373,30 +373,20 @@ public class Server {
 	private boolean running = true;
 	private boolean fromSavedGame = false;
 
-	public Server(int maxClients, int updateFreq, GameState gameState) {
+	public Server(int maxClients, int updateFreq, GameState gameState) throws IOException {
 		this.maxClients = gameState.getPlayers().length;
 		this.updateFreq = updateFreq;
 		gameLogic = new GameLogic(gameState);
-		try {
-			serverSocket = new ServerSocket(PORT);
-			listenForClients();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		serverSocket = new ServerSocket(PORT);
 		fromSavedGame = true;
 	}
 
-	public Server(int maxClients, int updateFreq, String map) {
+	public Server(int maxClients, int updateFreq, String map) throws IOException {
 		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;
 		GameState gameState = new GameState(maxClients, map);
 		gameLogic = new GameLogic(gameState);
-		try {
-			serverSocket = new ServerSocket(PORT);
-			listenForClients();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		serverSocket = new ServerSocket(PORT);
 	}
 
 	/**
@@ -439,7 +429,7 @@ public class Server {
 	 *
 	 * @throws IOException
 	 */
-	private void listenForClients() {
+	public void listenForClients() {
 
 		System.out.println("Listeneing for clients");
 		// wait for all clients to connect
@@ -477,6 +467,7 @@ public class Server {
 		// Make a new thread, as server.run() is non terminating
 		new Thread(new Runnable() {
 			public void run() {
+				listenForClients();
 				waitForClients(); //wait for all clients to be ready
 				transmitState(); // transmit initially
 				System.out.println("Server running fully");
@@ -682,7 +673,7 @@ public class Server {
 		 * Listen to client and add any NetworkActions to the action queue to be
 		 * processed
 		 */
-		public void listenToClient() {
+		private void listenToClient() {
 			new Thread(new Runnable() {
 				public void run() {
 					negotiateConnection();
@@ -734,12 +725,12 @@ public class Server {
 				socket.getInputStream().close();
 				socket.getOutputStream().close();
 				socket.close();
-			} catch (IOException e1) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				System.out.println("Unable to close client socket descriptor");
-				e1.printStackTrace();
+				//System.out.println("Unable to close client socket descriptor");
+				//e1.printStackTrace();
 			}
-			clientList.remove(this);
+			removeClientConnection(this);
 		}
 
 		/**
@@ -751,9 +742,16 @@ public class Server {
 	}
 
 	public static void main(String[] args) {
-		Server serv = new Server(1, 1000, "assets/maps/map.xml");
-		serv.run();
-		serv.stop();
+		Server serv ;
+		try {
+			serv = new Server(1, 1000, "assets/maps/map.xml");
+			serv.run();
+			serv.stop();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }
