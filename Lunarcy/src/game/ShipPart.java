@@ -27,7 +27,7 @@ public class ShipPart implements Item {
 	}
 
 	public String getName(){
-		return type.toString().replace('_', ' ') + " #" + this.getEntityID();
+		return type.toString().replace('_', ' ');
 	}
 
 	public String getDescription(){

@@ -44,8 +44,8 @@ public class MapBuilder {
 	public static final int GRID_TOP = 60;
 	public static final int GRID_SIZE = 30;
 	boolean addWalls = false;
-	boolean addDoors = false;
-	boolean addContainers = false;
+	int addDoors = -1; //-1 if removing, 0-3 for unlocked to red doors
+	int addContainers = -1;//-1 if removing, 0-3 for unlocked to red containers
 	boolean removeContainers = false;
 	private BufferedImage rocketImage;
 	final JFileChooser fc = new JFileChooser();
@@ -450,9 +450,9 @@ public class MapBuilder {
 	public void setWall(Direction dir) {
 		if (addWalls) {
 			addWall(dir);
-		} else if (addDoors) {
+		} else if (addDoors >= 0) {
 			addDoor(dir);
-		} else if (addContainers) {
+		} else if (addContainers >= 0) {
 			addContainer(dir);
 		} else if (removeContainers){
 			removeContainer(dir);
@@ -468,7 +468,7 @@ public class MapBuilder {
 					.getY()][highlightedTile.getX()];
 			if (!currentSquare.hasContainer(dir)) {
 				currentSquare
-						.setFurniture(dir, new Chest(map.getEntityCount()));
+						.setFurniture(dir, new Chest(map.getEntityCount() + 500));
 				map.increaseEntityCount();
 			}
 		}
@@ -496,20 +496,20 @@ public class MapBuilder {
 		addWalls = false;
 	}
 
-	public void doorsOn() {
-		addDoors = true;
+	public void doorsOn(int accessLevel) {
+		addDoors = accessLevel;
 	}
 
 	public void doorsOff() {
-		addDoors = false;
+		addDoors = -1;
 	}
 
-	public void containersOn() {
-		addContainers = true;
+	public void containersOn(int accessLevel) {
+		addContainers = accessLevel;
 	}
 
 	public void containersOff() {
-		addContainers = false;
+		addContainers = -1;
 	}
 
 	public void removeContainersOn() {
@@ -531,4 +531,9 @@ public class MapBuilder {
 			spawnPoints.remove(selectedTile);
 		}
 	}
+
+	public void initialiseItems() {
+		map.initTierDictionary();
+	}
+
 }
