@@ -24,7 +24,7 @@ public class Key implements Item {
 	}
 
 	public String getName() {
-		return "Key "+keyCode+" #"+entityID;
+		return "Key "+keyCode;
 	}
 
 	public String getDescription() {

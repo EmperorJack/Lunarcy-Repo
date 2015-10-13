@@ -47,4 +47,6 @@ public abstract class SolidContainer extends Container implements Furniture {
 		items.remove(item);
 		return item;
 	}
+
+	public abstract int getAccessLevel();
 }

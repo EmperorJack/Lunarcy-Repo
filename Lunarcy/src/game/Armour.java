@@ -7,11 +7,13 @@ package game;
  * @author evansben1
  *
  */
-public class Armour extends Item {
+public class Armour implements Item {
+	private int entityID;
 
 	public Armour(int entityID) {
-		super(entityID);
+		this.entityID = entityID;
 	}
+
 
 	public String getImageName() {
 		return "armour";
@@ -22,6 +24,12 @@ public class Armour extends Item {
 	}
 
 	public String getDescription() {
-		return "When you have armout in your inventory, rovers can not kill you";
+		return "When you have armour in your inventory, rovers can not kill you";
+	}
+
+
+	@Override
+	public int getEntityID() {
+		return entityID;
 	}
 }

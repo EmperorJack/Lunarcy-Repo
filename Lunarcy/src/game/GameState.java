@@ -56,7 +56,7 @@ public class GameState implements Serializable {
 		Map<Integer, List<Item>> itemMap = sortItemsByAccess(itemsToAccess);
 		//First have to change so we can find items by access level
 
-		Map<Integer, Set<Container>> containers = new HashMap<Integer, Set<Container>>();
+		Map<Integer, Set<SolidContainer>> containers = new HashMap<Integer, Set<SolidContainer>>();
 		//Then we need to map all containers to their access level
 		for(int y = 0; y < board.length; y++){
 			for(int x = 0; x < board[y].length; x++){
@@ -69,11 +69,11 @@ public class GameState implements Serializable {
 						WalkableSquare square = (WalkableSquare)board[y][x];
 						if(square.hasContainer(dir)){
 
-							Container container = square.getContainer(dir);
+							SolidContainer container = square.getContainer(dir);
 							int access = container.getAccessLevel();
 							//Check if there are already containers of this access level
 							if(!containers.containsKey(access)){
-								containers.put(access, new HashSet<Container>());
+								containers.put(access, new HashSet<SolidContainer>());
 							}
 							containers.get(access).add(container);
 						}

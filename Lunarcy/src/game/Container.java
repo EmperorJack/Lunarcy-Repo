@@ -69,8 +69,6 @@ public abstract class Container implements Entity {
 	 */
 	public abstract boolean canAccess(Player player);
 
-	public abstract int getAccessLevel();
-
 	public int getEntityID(){
 		return entityID;
 	}
