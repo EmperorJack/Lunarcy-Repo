@@ -215,6 +215,12 @@ public class Player implements Character, Serializable {
 		for (Item i : inventory) {
 			if (i instanceof Armour) {
 				return true;
+			}else if(i instanceof Container){
+				for(Item item: ((Container)i).getItems()){
+					if (item instanceof Armour) {
+						return true;
+					}
+				}
 			}
 		}
 		return false;
@@ -229,6 +235,12 @@ public class Player implements Character, Serializable {
 		for (Item i : inventory) {
 			if (i instanceof CloakingGadget) {
 				return true;
+			}else if(i instanceof Container){
+				for(Item item: ((Container)i).getItems()){
+					if (item instanceof CloakingGadget) {
+						return true;
+					}
+				}
 			}
 		}
 		return false;

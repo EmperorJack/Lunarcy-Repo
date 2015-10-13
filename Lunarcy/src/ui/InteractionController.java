@@ -51,7 +51,7 @@ public class InteractionController implements KeyListener, MouseListener,
 
 	// Dragging/dropping items
 
-	// Dragging out of inventory
+	// Dragging out of the inventory
 	private Item draggedFromItem;
 
 	// Dragging into inventory
@@ -92,6 +92,7 @@ public class InteractionController implements KeyListener, MouseListener,
 	/*--------- Action methods --------- */
 
 	private void dropItem(int itemID) {
+		System.out.println("Dropping " + itemID);
 		client.sendAction(new DropAction(player.getId(), itemID));
 	}
 
@@ -229,13 +230,25 @@ public class InteractionController implements KeyListener, MouseListener,
 
 		// If the inventory was clicked
 		if (inventoryView.onBar(x, y)) {
-			// Get the item which was clicked
+			// We are dragged an item from the inventory
 			draggedFromItem = inventoryView.getItemAt(x, y);
 			draggedToItem = null;
 
 			draggedX = x;
 			draggedY = y;
 			return;
+		}
+
+		// If the bag bar was clicked
+		if (bagView.onBar(x, y)) {
+			//We can drag this item to our inventory
+			draggedToItem = bagView.getItemAt(x, y);
+			draggedFromItem = null;
+
+			draggedX = x;
+			draggedY = y;
+			return;
+
 		}
 
 		// If the container menu was clicked
@@ -245,17 +258,6 @@ public class InteractionController implements KeyListener, MouseListener,
 			draggedFromItem = null;
 
 			return;
-		}
-
-		// If the bag bar was clicked
-		if (bagView.onBar(x, y)) {
-			draggedToItem = bagView.getItemAt(x, y);
-			draggedFromItem = null;
-
-			draggedX = x;
-			draggedY = y;
-			return;
-
 		}
 
 		// If they click an item in the square
@@ -289,7 +291,7 @@ public class InteractionController implements KeyListener, MouseListener,
 		SolidContainer container = entityView.getSolidContainerAt(x, y);
 
 		// If they drop into a bag from their inventory
-		if (draggedFromItem != null && bagView.getBag() != null) {
+		if (draggedFromItem != null && bagView.onBar(x, y) && bagView.getBag() != null) {
 			// Put the item in the bag
 			putItem(bagView.getBag().getEntityID(),
 					draggedFromItem.getEntityID());
@@ -304,6 +306,7 @@ public class InteractionController implements KeyListener, MouseListener,
 		// If the item was not released on the inventory bar, and there was an
 		// item currently being dragged, drop it
 		else if (draggedFromItem != null && !inventoryView.onBar(x, y)) {
+
 			// Drop the dragged from item
 			dropItem(draggedFromItem.getEntityID());
 		}
