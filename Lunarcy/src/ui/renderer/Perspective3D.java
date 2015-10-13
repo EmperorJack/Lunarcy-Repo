@@ -7,6 +7,7 @@ import game.GameState;
 import game.Item;
 import game.Location;
 import game.Player;
+import game.SolidContainer;
 import game.Square;
 import game.WalkableSquare;
 
@@ -389,18 +390,27 @@ public class Perspective3D extends DrawingComponent {
 		// translate to the current entity offsets
 		p.translate(xOffset, yOffset, zOffset);
 
+		String imageName = null;
+
 		// if the entity is a container
-		if (entity instanceof Container) {
+		if (entity instanceof SolidContainer) {
 
 			// rotate the current container to face this player
 			rotateContainerRelativeTo(position, dir);
+
+			// get the image name
+			imageName = ((SolidContainer) entity).getImageName();
 		} else {
+
 			// rotate the current item to face this player
 			rotateRelativeTo(position);
+
+			// get the image name
+			imageName = ((Item) entity).getImageName();
 		}
 
 		// draw the entity image
-		p.image(entityImages.get(entity.getImageName()), 0, 0, size, size);
+		p.image(entityImages.get(imageName), 0, 0, size, size);
 
 		p.popMatrix();
 	}
