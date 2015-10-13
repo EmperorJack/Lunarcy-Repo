@@ -146,7 +146,7 @@ public class Perspective3D extends DrawingComponent {
 		p.popMatrix();
 
 		// draw the game world
-		WORLD.draw();
+		WORLD.draw(gameState);
 
 		// draw the entities
 		drawEntites(thisPlayer, gameState.getBoard());

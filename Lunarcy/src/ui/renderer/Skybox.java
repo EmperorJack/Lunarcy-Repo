@@ -10,7 +10,7 @@ import game.GameState;
  * Represents the skybox that rotates the game world. Has a skybox model,
  * essentially a sky textured cube and a separate sun image. The skybox rotates
  * relative to the time of the current gamestate.
- * 
+ *
  * @author Jack
  *
  */
@@ -55,12 +55,13 @@ public class Skybox {
 		p.pushStyle();
 
 		// get the current time from the game state
-		// int time = gameState.getTime();
-		// TODO get game state time, will need mapping from degrees to range
-		int time = (int) (p.frameCount);
+		int time = gameState.getTime();
+
+		// compute the angle to rotate the skybox by
+		float angle = PApplet.map(time, 0, 99, 0, PApplet.TWO_PI);
 
 		// rotate the skybox relative to the current time
-		p.rotateX(PApplet.radians(time));
+		p.rotateX(angle);
 
 		// draw the skybox model
 		skyModel.draw();

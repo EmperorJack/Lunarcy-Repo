@@ -66,6 +66,11 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	// helmet mask field
 	private PImage helmet;
 
+	// security level colour fields
+	private final int GREEN = 0;
+	private final int ORANGE = 0;
+	private final int RED = 0;
+
 	// audio fields
 	// private Minim minim;
 	// private AudioPlayer track;
