@@ -6,6 +6,7 @@ import game.GameState;
 import game.Item;
 import game.Location;
 import game.Player;
+import game.SolidContainer;
 import game.WalkableSquare;
 
 import java.awt.event.KeyEvent;
@@ -226,16 +227,17 @@ public class InteractionController implements KeyListener, MouseListener,
 		int y = (int) (e.getY() / canvas.getScaling());
 
 		// attempt to get a container from entity view
-		Container clickedContainer = entityView.getContainerAt(x, y);
+		SolidContainer clickedContainer = entityView.getSolidContainerAt(x, y);
 
-		// If an open container is clicked, shut it
+		// If an closed solid container is clicked
 		if (clickedContainer != null && !clickedContainer.isOpen()) {
-			// Hide/show it
+			//Open it
 			openContainer();
-		} else if (clickedContainer != null && clickedContainer.isOpen()) {
+		}
+		//Else close the container
+		else if (clickedContainer != null && clickedContainer.isOpen()) {
 			closeContainer();
 		}
-
 
 		// On a right click, show item descriptions
 		if (SwingUtilities.isRightMouseButton(e)) {
@@ -309,12 +311,12 @@ public class InteractionController implements KeyListener, MouseListener,
 		int y = (int) (e.getY() / canvas.getScaling());
 
 		// If they drop an item onto a container
-		Container container = entityView.getContainerAt(x, y);
+		SolidContainer container = entityView.getSolidContainerAt(x, y);
 
 		//If they drag tp an open container
 		if (draggedFromItem != null && container != null && container.isOpen()) {
 			// Put the item in the container
-			putItem(draggedFromItem.getEntityID());
+			putItem(draggedFromItem.getEntityID(), container.getEntityID());
 		}
 		// If the item was not released on the inventory bar, and there was an
 		// item currently being dragged, drop it
