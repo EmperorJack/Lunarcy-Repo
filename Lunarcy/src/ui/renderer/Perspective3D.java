@@ -146,7 +146,7 @@ public class Perspective3D extends DrawingComponent {
 		p.popMatrix();
 
 		// draw the game world
-		WORLD.draw(gameState);
+		WORLD.draw(thisPlayer);
 
 		// draw the entities
 		drawEntites(thisPlayer, gameState.getBoard());
@@ -318,7 +318,8 @@ public class Perspective3D extends DrawingComponent {
 				p.pushStyle();
 
 				// tint the image with the correct security colour
-				p.tint(Canvas.getSecurityColour(container.getAccessLevel()));
+				p.tint(Canvas.getSecurityColour(container.getAccessLevel(),
+						false));
 
 				// draw the container
 				drawEntity(dir, container, position, 0, CONTAINER_SIZE,
@@ -340,8 +341,8 @@ public class Perspective3D extends DrawingComponent {
 				if (currentItem instanceof Key) {
 
 					// tint the image with the correct security colour
-					p.tint(Canvas.getSecurityColour(((Key) currentItem)
-							.getAccessLevel()));
+					p.tint(Canvas.getSecurityColour(
+							((Key) currentItem).getAccessLevel(), false));
 				}
 
 				// compute the offset for the current item

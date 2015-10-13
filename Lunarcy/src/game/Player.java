@@ -247,7 +247,7 @@ public class Player implements Character, Serializable {
 		inventory.add(new CloakingGadget(id*100 + 4));
 		Bag b = new Bag(id * 100 + 5);
 		b.addItem(new Key(id*100+7, 1));
-		b.addItem(new Key(id*100+8, 3));
+		b.addItem(new Key(id*100+8, 2));
 		b.addItem(new Key(id*100+9, 3));
 		inventory.add(b);
 		inventory.add(new Armour(id * 100 + 6));
