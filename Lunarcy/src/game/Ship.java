@@ -38,6 +38,9 @@ public class Ship extends WalkableSquare {
 
 		//Check if the player has all the required parts
 		boolean hasParts = true;
+		
+		
+		
 		List<ShipPart> playerParts = player.getShipParts();
 
 		for(ShipPart reqPart: requiredParts){

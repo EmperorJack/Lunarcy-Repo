@@ -6,12 +6,15 @@ import game.GameState;
 import game.Item;
 import game.Location;
 import game.Player;
+import game.WalkableSquare;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import javax.swing.SwingUtilities;
 
 import ui.ApplicationWindow.ContainerView;
 import ui.ApplicationWindow.InventoryView;
@@ -65,12 +68,14 @@ public class InteractionController implements KeyListener, MouseListener,
 
 	// Canvas field
 	private Canvas canvas;
+	private GameState gameState;
 
 	public InteractionController(Client client, GameState gamestate,
 			Player player, Canvas canvas) {
 		this.client = client;
 		this.player = player;
 		this.canvas = canvas;
+		this.gameState = gameState;
 
 		// Initialize the values for dragging/dropping items
 		resetDragValues();
@@ -83,23 +88,23 @@ public class InteractionController implements KeyListener, MouseListener,
 
 	/** Action methods **/
 
-	public void dropItem(int itemID) {
+	private void dropItem(int itemID) {
 		client.sendAction(new DropAction(player.getId(), itemID));
 	}
 
-	public void putItem(int itemID) {
+	private void putItem(int itemID) {
 		client.sendAction(new PutAction(player.getId(), itemID));
 	}
 
-	public void pickupItem(int itemID) {
+	private void pickupItem(int itemID) {
 		client.sendAction(new PickupAction(player.getId(), itemID));
 	}
 
-	public void openContainer() {
+	private void openContainer() {
 		client.sendAction(new OpenAction(player.getId()));
 	}
 
-	public void closeContainer() {
+	private void closeContainer() {
 		client.sendAction(new CloseAction(player.getId()));
 	}
 
@@ -121,8 +126,9 @@ public class InteractionController implements KeyListener, MouseListener,
 		this.entityView = entityView;
 	}
 
-	public void update(Player player) {
+	public void update(Player player, GameState gameState) {
 		this.player = player;
+		this.gameState = gameState;
 	}
 
 	/**
@@ -206,7 +212,8 @@ public class InteractionController implements KeyListener, MouseListener,
 			// If its closed, open it and set the fields
 			else {
 				Location location = player.getLocation();
-				popupDisplay.update(location.toString(), "This is a square");
+				WalkableSquare square = (WalkableSquare)gameState.getSquare(location);
+				popupDisplay.update(square.getName()+" at " + location, square.getDescription());
 			}
 			break;
 		}
@@ -228,6 +235,21 @@ public class InteractionController implements KeyListener, MouseListener,
 		} else if (clickedContainer != null && clickedContainer.isOpen()) {
 			closeContainer();
 		}
+
+		// On a right click, show item descriptions
+		if (SwingUtilities.isRightMouseButton(e)) {
+
+			Item item = entityView.getItemAt(x, y);
+
+			if (item != null) {
+				popupDisplay.update(item.getName(), item.getDescription());
+				return;
+			}
+
+		}
+
+		// Hide the
+		popupDisplay.update(null, null);
 
 	}
 

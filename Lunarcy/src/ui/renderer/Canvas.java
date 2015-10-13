@@ -13,6 +13,7 @@ import network.Client;
 import game.GameState;
 import game.Item;
 import game.Player;
+import game.WalkableSquare;
 import processing.core.*;
 import ui.DrawingComponent;
 import ui.DrawingComponentFactory;
@@ -62,9 +63,12 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	private Map<String, PImage> entityImages;
 	private final int ENTITY_SIZE = 100;
 
+	// helmet mask field
+	private PImage helmet;
+
 	// audio fields
-	//private Minim minim;
-	//private AudioPlayer track;
+	// private Minim minim;
+	// private AudioPlayer track;
 
 	/**
 	 * Setup a new Processing Canvas.
@@ -115,6 +119,9 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		// load the entity images
 		entityImages = loadEntityImages();
 
+		// load the helmet mask image
+		helmet = loadImage("/assets/hud/helmet_mask.png");
+
 		// setup the drawing component factory
 		DrawingComponentFactory factory = new DrawingComponentFactory(this,
 				gameState, playerID, interactionControl, entityImages);
@@ -129,11 +136,13 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 		// get the HUD drawing components
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.OXYGEN));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.MINIMAP));
-		hud.add(factory.getDrawingComponent(DrawingComponentFactory.INVENTORYVIEW));
+		hud.add(factory
+				.getDrawingComponent(DrawingComponentFactory.INVENTORYVIEW));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.ENTITYVIEW));
 		hud.add(factory
 				.getDrawingComponent(DrawingComponentFactory.OBJECTIVEVIEW));
-		hud.add(factory.getDrawingComponent(DrawingComponentFactory.CONTAINERVIEW));
+		hud.add(factory
+				.getDrawingComponent(DrawingComponentFactory.CONTAINERVIEW));
 		hud.add(factory.getDrawingComponent(DrawingComponentFactory.POPUP));
 
 		// audio setup
@@ -178,7 +187,7 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			player = gameState.getPlayer(playerID);
 
 			// update interaction controller
-			interactionControl.update(player);
+			interactionControl.update(player, gameState);
 
 			// the state has now been updated
 			stateUpdated = false;
@@ -222,6 +231,14 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 		// scale in reference to the canvas scaling amount
 		scale(scalingAmount);
+
+		// if the player is outside
+		if (!((WalkableSquare) gameState.getSquare(player.getLocation()))
+				.isInside()) {
+
+			// draw the helmet mask overlay
+			image(helmet, 0, 0, 1280, 720);
+		}
 
 		// draw the heads up display components
 		for (DrawingComponent component : hud) {
@@ -305,8 +322,8 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 		// create a scanner to parse in the items file
 		try {
-			Scanner scanner = new Scanner(
-					new File("assets/items/all_entities.txt"));
+			Scanner scanner = new Scanner(new File(
+					"assets/items/all_entities.txt"));
 
 			// while the scanner has entity names left to parse
 			while (scanner.hasNextLine()) {

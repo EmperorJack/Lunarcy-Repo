@@ -285,8 +285,11 @@ public class GameState implements Serializable {
 			return null;
 		}
 		for (Player player : players) {
-			if (player != null
-					&& player.getLocation().equals(rover.getLocation())) {
+
+			//If there is a player without armour, whose location matches the rover
+			if (player != null && !player.hasArmour() && player.getLocation().equals(rover.getLocation())) {
+
+				//They have been caught so return them
 				return player;
 			}
 		}
