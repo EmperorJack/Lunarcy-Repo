@@ -3,6 +3,7 @@ package ui;
 import java.util.Map;
 
 import processing.core.PImage;
+import ui.ApplicationWindow.BagView;
 import ui.ApplicationWindow.ContainerView;
 import ui.ApplicationWindow.EntityView;
 import ui.ApplicationWindow.InventoryView;
@@ -50,6 +51,7 @@ public class DrawingComponentFactory {
 	public static final int CONTAINERVIEW = 6;
 	public static final int POPUP = 7;
 	public static final int PLAYERVIEW = 8;
+	public static final int BAGVIEW = 9;
 
 	public DrawingComponentFactory(Canvas p, GameState gameState, int playerID,
 			InteractionController interactionControl,
@@ -110,6 +112,13 @@ public class DrawingComponentFactory {
 
 		case PLAYERVIEW:
 			return new PlayerView(p, gameState, playerID);
+
+		case BAGVIEW:
+			BagView bagView = new BagView(p, gameState, playerID,
+					entityImages);
+			interactionControl.setBagView(bagView);
+			return bagView;
+
 		}
 
 		// invalid component entered

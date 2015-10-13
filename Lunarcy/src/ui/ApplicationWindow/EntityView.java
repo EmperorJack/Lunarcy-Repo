@@ -134,8 +134,8 @@ public class EntityView extends DrawingComponent {
 		if (container != null) {
 
 			// first check the y position is within the bounds
-			if ((TOP_PADDING_ITEMS - CONTAINER_SIZE / 2) <= y
-					&& y <= (TOP_PADDING_ITEMS + CONTAINER_SIZE / 2)) {
+			if ((TOP_PADDING_CONTAINER) <= y
+					&& y <= (TOP_PADDING_CONTAINER + CONTAINER_SIZE)) {
 
 				// check the x position is within the bounds
 				if (Canvas.TARGET_WIDTH / 2 - CONTAINER_SIZE / 2 <= x
