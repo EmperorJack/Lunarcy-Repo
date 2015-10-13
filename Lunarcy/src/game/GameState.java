@@ -322,7 +322,7 @@ public class GameState implements Serializable {
 	}
 	/**
 	 * Returns the time as a percentage of the day
-	 * @return 0-100% of how much the day night cycle has gone through
+	 * @return 0-99% of how much the day night cycle has gone through
 	 */
 	public int getTime(){
 		return (int)((tickCount % dayLength) / (dayLength/100f));
