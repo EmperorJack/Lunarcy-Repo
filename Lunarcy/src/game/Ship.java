@@ -36,11 +36,33 @@ public class Ship extends WalkableSquare {
 		if (player == null)
 			return false;
 
-		//Check if the player has all the required parts
+		boolean hasParts = playerHasWinningParts(player);
+
+		if(hasParts){
+			hasLaunched = true;
+			//Make sure we don't overwrite the first player to win
+			pilot = pilot == null ? player: pilot;
+		}
+		return super.addPlayer(player);
+	}
+
+	/**
+	 * Ignores the walls on the square and only lets a player enter if they have the required parts
+	 */
+	public boolean canEnter(Character character, Direction direction) {
+		if (character == null||direction == null || !(character instanceof Player)){
+			return false;
+		}
+		return playerHasWinningParts((Player)character);
+	}
+
+	public boolean canExit(Character character, Direction direction) {
+		return false;
+	}
+
+	private boolean playerHasWinningParts(Player player){
 		boolean hasParts = true;
-		
-		
-		
+
 		List<ShipPart> playerParts = player.getShipParts();
 
 		for(ShipPart reqPart: requiredParts){
@@ -51,19 +73,15 @@ public class Ship extends WalkableSquare {
 					hasPart = true;
 				}
 			}
-			if(hasPart==false){
+			if(!hasPart){
 				//Player is missing a part, no need to keep checking
 				hasParts = false;
 				break;
 			}
 		}
-		if(hasParts){
-			hasLaunched = true;
-			//Make sure we dont overwrite the first player to win
-			pilot = pilot == null ? player: pilot;
-		}
-		return super.addPlayer(player);
+		return hasParts;
 	}
+
 
 	/**
 	 * @return True if a winning player has been added to the square, False if no winner yet

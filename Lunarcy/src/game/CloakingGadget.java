@@ -8,6 +8,7 @@ package game;
  *
  */
 public class CloakingGadget implements Item {
+	private static final long serialVersionUID = -1468450603052040243L;
 
 	private int entityID;
 
