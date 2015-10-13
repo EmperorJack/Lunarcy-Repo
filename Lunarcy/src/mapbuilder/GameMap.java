@@ -27,6 +27,36 @@ public class GameMap {
 		this.squares = squares;
 	}
 
+	public void initTierDictionary(){
+		setTierDictionary(new HashMap<Item, Integer>());
+		//ADD SHIP PARTS
+		addShipPart(0, 5, 0);
+		addShipPart(1, 3, 1);
+		addShipPart(2, 4, 1);
+		addShipPart(3, 2, 2);
+		addShipPart(4, 1, 3);
+		//ADD Keys
+		addKey(1,6,0);
+		addKey(2,4,1);
+		addKey(3,2,2);
+	}
+
+	public void addShipPart(int partID, int count, int tier){
+		for (int i = 0; i < count; i++){
+			ShipPart newPart = new ShipPart(entityCount + 10, partID);
+			tierDictionary.put(newPart, tier);
+			increaseEntityCount();
+		}
+	}
+
+	public void addKey(int keyCode, int count, int tier){
+		for (int i = 0; i < count; i++){
+			Key newKey = new Key(entityCount + 100, keyCode);
+			tierDictionary.put(newKey, tier);
+			increaseEntityCount();
+		}
+	}
+
 	public Map<Item, Integer> getTierDictionary() {
 		return tierDictionary;
 	}
