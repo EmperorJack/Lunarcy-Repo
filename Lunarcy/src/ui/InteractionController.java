@@ -235,19 +235,6 @@ public class InteractionController implements KeyListener, MouseListener,
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
-		// attempt to get a container from entity view
-		SolidContainer clickedContainer = entityView.getSolidContainerAt(x, y);
-
-		// If an closed solid container is clicked
-		if (clickedContainer != null && !clickedContainer.isOpen()) {
-			// Open it
-			openContainer();
-		}
-		// Else close the container
-		else if (clickedContainer != null && clickedContainer.isOpen()) {
-			closeContainer();
-		}
-
 		// If you click the inventory, check if a bag was clicked
 		if (inventoryView.onBar(x, y)) {
 			Item selectedItem = inventoryView.getItemAt(x, y);
@@ -259,6 +246,19 @@ public class InteractionController implements KeyListener, MouseListener,
 				return;
 			}
 
+		}
+
+		// attempt to get a container from entity view
+		SolidContainer clickedContainer = entityView.getSolidContainerAt(x, y);
+
+		// If an closed solid container is clicked
+		if (clickedContainer != null && !clickedContainer.isOpen()) {
+			// Open it
+			openContainer();
+		}
+		// Else close the container
+		else if (clickedContainer != null && clickedContainer.isOpen()) {
+			closeContainer();
 		}
 
 		// On a right click, show item descriptions
@@ -298,9 +298,6 @@ public class InteractionController implements KeyListener, MouseListener,
 
 		// If the container menu was clicked
 		if (containerView.getContainer() != null && containerView.onBar(x, y)) {
-
-			System.out.println("pressed");
-
 			// Get the item which was clicked
 			draggedToItem = containerView.getItemAt(x, y);
 			draggedFromItem = null;
@@ -310,8 +307,8 @@ public class InteractionController implements KeyListener, MouseListener,
 
 		// If the bag bar was clicked
 		if (bagView.onBar(x, y)) {
-			draggedFromItem = bagView.getItemAt(x, y);
-			draggedToItem = null;
+			draggedToItem = bagView.getItemAt(x, y);
+			draggedFromItem = null;
 
 			draggedX = x;
 			draggedY = y;
@@ -365,7 +362,6 @@ public class InteractionController implements KeyListener, MouseListener,
 		// If it was released on the inventory bar, check if theres a dragged to
 		// item
 		else if (inventoryView.onBar(x, y) && draggedToItem != null) {
-
 			// Pickup the item which was dragged onto the inventory
 			pickupItem(draggedToItem.getEntityID());
 		}
@@ -376,6 +372,7 @@ public class InteractionController implements KeyListener, MouseListener,
 			putItem(bagView.getBag().getEntityID(), draggedToItem.getEntityID());
 		}
 
+		bagView.update(null);
 		resetDragValues();
 
 	}
