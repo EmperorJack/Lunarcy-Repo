@@ -14,17 +14,16 @@ public abstract class Container implements Entity {
 	private static final long serialVersionUID = -7267673923708405364L;
 
 	private final int entityID;
-	private boolean isOpen;
 	List<Item> items;
 
 	public Container(int entityID) {
 		this.entityID = entityID;
 		items = new ArrayList<Item>();
-		isOpen = false;
 	}
 
 	public boolean addItem(Item item){
-		if(!isOpen()){
+		if(item.getEntityID()==entityID){
+			//Cannot put a container inside itself!
 			return false;
 		}
 		return items.add(item);
@@ -43,20 +42,6 @@ public abstract class Container implements Entity {
 		return false;
 	}
 
-	public boolean isOpen(){
-		return isOpen;
-	}
-
-	public void open(Player player){
-		if(canAccess(player)){
-			isOpen = true;
-		}
-	}
-
-	public void close(){
-		isOpen = false;
-	}
-
 	/**
 	 * Finds the item with specified ID and removes it from the container
 	 * @param itemID The ID number of the wanted item
@@ -64,9 +49,6 @@ public abstract class Container implements Entity {
 	 * @throws IllegalArgumentException if itemID was not found
 	 */
 	public Item takeItem(int itemID){
-		if(!isOpen){
-			return null;
-		}
 		Item item = null;
 		for(Item i : items){
 			if(i.getEntityID() == itemID){

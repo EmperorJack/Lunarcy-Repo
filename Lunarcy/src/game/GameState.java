@@ -53,15 +53,9 @@ public class GameState implements Serializable {
 	 * to a list of all the items in that access level
 	 */
 	public void distributeItems(Map<Item, Integer> itemsToAccess){
-		Map<Integer, List<Item>> itemMap = new HashMap<Integer, List<Item>>();
+		Map<Integer, List<Item>> itemMap = sortItemsByAccess(itemsToAccess);
 		//First have to change so we can find items by access level
-		for(Item item: itemsToAccess.keySet()){
-			Integer access = itemsToAccess.get(item);
-			if(!itemMap.containsKey(access)){
-				itemMap.put(access, new ArrayList<Item>());
-			}
-			itemMap.get(access).add(item);
-		}
+
 		Map<Integer, Set<Container>> containers = new HashMap<Integer, Set<Container>>();
 		//Then we need to map all containers to their access level
 		for(int y = 0; y < board.length; y++){
@@ -104,6 +98,26 @@ public class GameState implements Serializable {
 			}
 		}
 
+	}
+
+	/**
+	 * Reverses the Map so that for every item in the parameter map it will be placed into
+	 * a set of items that is mapped to the Integer that corresponds to the item in the parameter map.
+	 * @param items
+	 * @return
+	 */
+	private Map<Integer, List<Item>> sortItemsByAccess(Map<Item, Integer> items){
+		Map<Integer, List<Item>> itemMap = new HashMap<Integer, List<Item>>();
+
+		for(Item item: items.keySet()){
+			Integer access = items.get(item);
+			if(!itemMap.containsKey(access)){
+				itemMap.put(access, new ArrayList<Item>());
+			}
+			itemMap.get(access).add(item);
+		}
+
+		return itemMap;
 	}
 
 	/**

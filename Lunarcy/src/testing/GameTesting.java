@@ -31,7 +31,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void testInvalidSquare_1() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		Square square = gameState.getSquare(new Location(-1, -1));
 		assertNull("Should be null", square);
 	}
@@ -42,13 +42,13 @@ public class GameTesting {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void tesInvalidSquare_2() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		gameState.getSquare(null);
 	}
 
 	@Test
 	public void testValidSquare() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		Square square = gameState.getSquare(new Location(0, 0));
 		assertNotNull("Square at 0,0 should be a valid square", square);
 	}
@@ -59,7 +59,7 @@ public class GameTesting {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void tesInvalidSetSquare_1() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		Square square = gameState.getSquare(new Location(0, 0));
 		gameState.setSquare(null, square);
 	}
@@ -70,7 +70,7 @@ public class GameTesting {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void tesInvalidSetSquare_2() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		gameState.setSquare(new Location(0, 0), null);
 	}
 
@@ -79,7 +79,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void tesInvalidSetSquare_3() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		Square[][] board = gameState.getBoard();
 		Square square = gameState.setSquare(new Location(board[0].length, 0), new BlankSquare());
 		assertNull("Should be null", square);
@@ -90,7 +90,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void ValidSetSquare_1() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		Square square = gameState.setSquare(new Location(0, 0), new BlankSquare());
 		assertNotNull("Shouldn't be null", square);
 	}
@@ -100,7 +100,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void validOutsideSquare() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		WalkableSquare square = new WalkableSquare("ben", "A test square", false, null, null, null, null);
 		Location location = new Location(0, 0);
 		gameState.setSquare(location, square);
@@ -112,7 +112,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void invalidOutsideSquare_1() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		WalkableSquare square = new WalkableSquare("ben", "A test square", true, null, null, null, null);
 		Location location = new Location(0, 0);
 		gameState.setSquare(location, square);
@@ -124,7 +124,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void invalidOutsideSquare_2() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		Square square = new BlankSquare();
 		Location location = new Location(0, 0);
 		gameState.setSquare(location, square);
@@ -139,7 +139,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void validRoverCatch() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		gameState.addRover(new Rover());
 		gameState.addPlayer(0, "Ben", Color.RED);
 
@@ -157,7 +157,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void invalidRoverCatch_1() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		gameState.addRover(new Rover());
 		gameState.addPlayer(0, "Ben", Color.RED);
 
@@ -171,7 +171,7 @@ public class GameTesting {
 
 	@Test
 	public void invalidRoverCatch_2() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		gameState.addRover(new Rover());
 		gameState.addPlayer(0, "Ben", Color.RED);
 
@@ -189,7 +189,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void invalidRoverAdd() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		assertFalse("Should not be able to add a null rover", gameState.addRover(null));
 	}
 
@@ -200,7 +200,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void invalidSpawn_1() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		assertFalse("Should not be able to add null", gameState.addSpawn(null));
 	}
 
@@ -209,7 +209,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void invalidSpawn_2() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		Square[][] board = gameState.getBoard();
 		assertFalse("Should not be able to add off the board", gameState.addSpawn(new Location(board[0].length, 0)));
 	}
@@ -219,7 +219,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void validSpawn() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		assertTrue("Should be able to be set to 0,0", gameState.addSpawn(new Location(0, 0)));
 	}
 
@@ -231,7 +231,7 @@ public class GameTesting {
 
 	@Test
 	public void validAddPlayer_1() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		gameState.addPlayer(0, "Ben", Color.RED);
 		Player player = gameState.getPlayer(0);
 		assertNotNull("Should be able to get a valid player", player);
@@ -243,7 +243,7 @@ public class GameTesting {
 
 	@Test
 	public void invalidAddPlayer_1() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		Player player = gameState.getPlayer(0);
 		assertNull("Shouldnt be able to get an invalid player", player);
 	}
@@ -253,7 +253,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void validGetPlayer_1() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		gameState.addPlayer(0, "Ben", Color.RED);
 		assertEquals(gameState.getPlayerID("Ben"), 0);
 	}
@@ -263,7 +263,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void invalidGetPlayer_1() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		assertEquals(gameState.getPlayerID("Ben"), -1);
 	}
 
@@ -272,7 +272,7 @@ public class GameTesting {
 	 **/
 	@Test
 	public void validRemovePlayer_1() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		gameState.addPlayer(0, "Ben", Color.RED);
 		gameState.removePlayer(0);
 		assertNull(gameState.getPlayer(0));
@@ -283,7 +283,7 @@ public class GameTesting {
 	 */
 	@Test
 	public void invalidRemovePlayer_1() {
-		GameState gameState = new GameState(1, "map.xml");
+		GameState gameState = new GameState(1, "assets/maps/map.xml");
 		assertFalse(gameState.removePlayer(-1));
 	}
 
@@ -291,7 +291,7 @@ public class GameTesting {
 
 
 	private GameLogic createNewGameLogic(int numPlayers) {
-		GameState state = new GameState(numPlayers, "map.xml");
+		GameState state = new GameState(numPlayers, "assets/maps/map.xml");
 
 		for (int i = 0; i < numPlayers; i++) {
 			state.addPlayer(i, "Player" + i, Color.black);

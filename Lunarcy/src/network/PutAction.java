@@ -9,10 +9,12 @@ public class PutAction implements NetworkAction, Serializable {
 
 	int playerID;
 	int itemID;
+	int containerID;
 
-	public PutAction(int playerID, int itemID){
+	public PutAction(int playerID, int itemID, int containerID){
 		this.playerID = playerID;
 		this.itemID = itemID;
+		this.containerID = containerID;
 	}
 
 	public int getPlayerID() {
@@ -24,6 +26,6 @@ public class PutAction implements NetworkAction, Serializable {
 	}
 
 	public boolean applyAction(GameLogic logic){
-		return logic.putItemIntoContainer(playerID, itemID);
+		return logic.putItemIntoContainer(playerID, itemID, containerID);
 	}
 }

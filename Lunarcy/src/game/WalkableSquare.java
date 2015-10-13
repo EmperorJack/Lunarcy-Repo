@@ -112,18 +112,6 @@ public class WalkableSquare extends Square {
 		return new ArrayList<Item>(items.get(side));
 	}
 
-	public Container getContainer(Direction side){
-		if(side==null || !hasContainer(side))
-			return null;
-		return (Container)furnitureMap.get(side);
-	}
-
-	public Furniture getFurniture(Direction side) {
-		if(side==null || !hasFurniture(side))
-			return null;
-		return furnitureMap.get(side);
-	}
-
 	/**
 	 * Adds the item to the set of items on the specified side of the room.
 	 *
@@ -194,15 +182,15 @@ public class WalkableSquare extends Square {
 	}
 
 	/**
-	 * Checks if there is a Container in the specified direction
+	 * Checks if there is a SolidContainer in the specified direction
 	 * @param direction The direction to check
-	 * @return True if there is a Container, False otherwise
+	 * @return True if there is a SolidContainer, False otherwise
 	 */
 	public boolean hasContainer(Direction direction){
 		if(direction==null || !furnitureMap.containsKey(direction))
 			return false;
 		Furniture f = furnitureMap.get(direction);
-		return f != null && f instanceof Container;
+		return f != null && f instanceof SolidContainer;
 	}
 
 	/**
@@ -214,6 +202,18 @@ public class WalkableSquare extends Square {
 		if(direction==null || !furnitureMap.containsKey(direction) )
 			return false;
 		return furnitureMap.get(direction) != null;
+	}
+
+	public SolidContainer getContainer(Direction side){
+		if(side==null || !hasContainer(side))
+			return null;
+		return (SolidContainer)furnitureMap.get(side);
+	}
+
+	public Furniture getFurniture(Direction side) {
+		if(side==null || !hasFurniture(side))
+			return null;
+		return furnitureMap.get(side);
 	}
 
 /* --------Other Getters/Setters-------- */

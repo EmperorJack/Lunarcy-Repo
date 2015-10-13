@@ -30,17 +30,14 @@ public class BlankSquare extends Square {
 	public void tick() {
 	}
 
-	@Override
 	public List<Item> getItems(Direction side) {
 		return new ArrayList<Item>();
 	}
 
-	@Override
-	public Container getContainer(Direction side) {
+	public SolidContainer getContainer(Direction side) {
 		return null;
 	}
 
-	@Override
 	public Furniture getFurniture(Direction side) {
 		return null;
 	}

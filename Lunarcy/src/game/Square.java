@@ -71,19 +71,21 @@ public abstract class Square implements Serializable {
 
 	/**
 	 * Get the container on a certain side of the room, if there is one
+	 * Will not return just plain furniture
 	 *
 	 * @param side
 	 *            the side of the Square the entities are on
 	 * @return The container on that side of the room, if there is one
 	 */
-	public abstract Container getContainer(Direction side);
+	public abstract SolidContainer getContainer(Direction side);
 
 	/**
-	 * Get the container on a certain side of the room, if there is one
+	 * Get the furniture on a certain side of the Square, if there is one
+	 * Will also return containers
 	 *
 	 * @param side
-	 *            the side of the Square the entities are on
-	 * @return The container on that side of the room, if there is one
+	 *            the side of the Square get the furniture from
+	 * @return The furniture on that side of the room, if there is one
 	 */
 	public abstract Furniture getFurniture(Direction side);
 

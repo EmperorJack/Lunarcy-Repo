@@ -86,8 +86,8 @@ public class InteractionController implements KeyListener, MouseListener,
 		client.sendAction(new DropAction(player.getId(), itemID));
 	}
 
-	private void putItem(int itemID) {
-		client.sendAction(new PutAction(player.getId(), itemID));
+	private void putItem(int itemID, int containerID) {
+		client.sendAction(new PutAction(player.getId(), itemID, containerID));
 	}
 
 	private void pickupItem(int itemID) {
@@ -211,18 +211,18 @@ public class InteractionController implements KeyListener, MouseListener,
 		} else if (clickedContainer != null && clickedContainer.isOpen()) {
 			closeContainer();
 		}
-		
+
 		//On a right click, show item  descriptions
 		if(SwingUtilities.isRightMouseButton(e)){
-			
+
 			Item item = entityView.getItemAt(x, y);
-			
+
 			if(item!=null){
-				
+
 			}
-			
+
 		}
-		
+
 
 	}
 

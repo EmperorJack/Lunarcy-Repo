@@ -1,6 +1,6 @@
 package game;
 
-public class Chest extends Container implements Furniture {
+public class Chest extends SolidContainer {
 	private static final long serialVersionUID = -1401298737961190449L;
 
 	public Chest(int entityID) {

@@ -132,6 +132,24 @@ public class Player implements Character, Serializable {
 		return false;
 	}
 
+	public boolean hasItem(int itemID){
+		for(Item i: inventory){
+			if(i.getEntityID() == itemID){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public Item getItem(int itemID){
+		for(Item i: inventory){
+			if(i.getEntityID() == itemID){
+				return i;
+			}
+		}
+		return null;
+	}
+
 	public Direction getOrientation() {
 		return orientation;
 	}

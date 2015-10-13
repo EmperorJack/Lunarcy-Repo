@@ -468,7 +468,7 @@ public class MapBuilder {
 					.getY()][highlightedTile.getX()];
 			if (!currentSquare.hasContainer(dir)) {
 				currentSquare
-						.setContainer(dir, new Chest(map.getEntityCount()));
+						.setFurniture(dir, new Chest(map.getEntityCount()));
 				map.increaseEntityCount();
 			}
 		}
@@ -480,7 +480,7 @@ public class MapBuilder {
 			WalkableSquare currentSquare = (WalkableSquare) squares[highlightedTile
 					.getY()][highlightedTile.getX()];
 			if (currentSquare.hasContainer(dir)) {
-				currentSquare.removeContainer(dir);
+				currentSquare.removeFurniture(dir);
 				map.decreaseEntityCount();
 			}
 		}
