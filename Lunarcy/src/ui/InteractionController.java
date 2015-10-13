@@ -90,7 +90,7 @@ public class InteractionController implements KeyListener, MouseListener,
 
 	}
 
-	/** Action methods **/
+	/*--------- Action methods --------- */
 
 	private void dropItem(int itemID) {
 		client.sendAction(new DropAction(player.getId(), itemID));
@@ -112,64 +112,8 @@ public class InteractionController implements KeyListener, MouseListener,
 		client.sendAction(new CloseAction(player.getId()));
 	}
 
-	public void setInventory(InventoryView inventory) {
-		this.inventoryView = inventory;
-	}
 
-	public void setBagView(BagView bagView) {
-		this.bagView = bagView;
-	}
-
-	public void setPopup(PopupDisplay popup) {
-		this.popupDisplay = popup;
-	}
-
-	/** Update methods */
-
-	public void setContainerView(ContainerView containerView) {
-		this.containerView = containerView;
-	}
-
-	public void setEntityView(EntityView entityView) {
-		this.entityView = entityView;
-	}
-
-	public void update(Player player, GameState gameState) {
-		this.player = player;
-		this.gameState = gameState;
-	}
-
-	/**
-	 * If either the item being dragged from the inventory, or the item being
-	 * dragged to the inventory is non null, returns this item (only one can be
-	 * non null at a time).
-	 *
-	 * If both are null, returns null.
-	 *
-	 * @return
-	 */
-	public Item getDraggedItem() {
-
-		if (draggedFromItem != null) {
-			return draggedFromItem;
-		}
-
-		if (draggedToItem != null) {
-			return draggedToItem;
-		}
-
-		return null;
-	}
-
-	public int getDraggedItemX() {
-		return draggedX;
-	}
-
-	public int getDraggedItemY() {
-		return draggedY;
-	}
-
-	/** Key and Mouse Listening methods **/
+	/*--------- User input Listening methods ---------*/
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -346,8 +290,14 @@ public class InteractionController implements KeyListener, MouseListener,
 
 		SolidContainer container = entityView.getSolidContainerAt(x, y);
 
-		// If they drag to an open container
-		if (draggedFromItem != null && container != null && container.isOpen()) {
+		// If they drop into a bag from their inventory
+		if (draggedFromItem != null && bagView.getBag() != null) {
+			// Put the item in the bag
+			putItem(bagView.getBag().getEntityID(), draggedFromItem.getEntityID());
+		}
+		// If they drag the item to an open container
+		else if (draggedFromItem != null && container != null
+				&& container.isOpen()) {
 			// Put the item in the container
 			putItem(container.getEntityID(), draggedFromItem.getEntityID());
 		}
@@ -359,22 +309,18 @@ public class InteractionController implements KeyListener, MouseListener,
 			dropItem(draggedFromItem.getEntityID());
 		}
 
-		// If it was released on the inventory bar, check if theres a dragged to
-		// item
+		// If it was released on the inventory bar, check if an item was being dragged
+		// from the world in
 		else if (inventoryView.onBar(x, y) && draggedToItem != null) {
 			// Pickup the item which was dragged onto the inventory
 			pickupItem(draggedToItem.getEntityID());
 		}
 
-		// If they drop into a bag
-		else if (draggedToItem != null && bagView.getBag() != null) {
-			// Put the item in the bag
-			putItem(bagView.getBag().getEntityID(), draggedToItem.getEntityID());
-		}
-
-		bagView.update(null);
+		//Reset all the dragged item settings
 		resetDragValues();
 
+		//Close bagview
+		bagView.update(null);
 	}
 
 	/**
@@ -387,7 +333,66 @@ public class InteractionController implements KeyListener, MouseListener,
 		draggedY = DEFAULT_Y;
 	}
 
-	/* Unused listener methods */
+
+	/*---------Getter/Setter methods---------*/
+
+	public void setInventory(InventoryView inventory) {
+		this.inventoryView = inventory;
+	}
+
+	public void setBagView(BagView bagView) {
+		this.bagView = bagView;
+	}
+
+	public void setPopup(PopupDisplay popup) {
+		this.popupDisplay = popup;
+	}
+
+	public void setContainerView(ContainerView containerView) {
+		this.containerView = containerView;
+	}
+
+	public void setEntityView(EntityView entityView) {
+		this.entityView = entityView;
+	}
+
+	public void update(Player player, GameState gameState) {
+		this.player = player;
+		this.gameState = gameState;
+	}
+
+	/**
+	 * If either the item being dragged from the inventory, or the item being
+	 * dragged to the inventory is non null, returns this item (only one can be
+	 * non null at a time).
+	 *
+	 * If both are null, returns null.
+	 *
+	 * @return
+	 */
+	public Item getDraggedItem() {
+
+		if (draggedFromItem != null) {
+			return draggedFromItem;
+		}
+
+		if (draggedToItem != null) {
+			return draggedToItem;
+		}
+
+		return null;
+	}
+
+	public int getDraggedItemX() {
+		return draggedX;
+	}
+
+	public int getDraggedItemY() {
+		return draggedY;
+	}
+
+	/*---------Unused listener methods ---------*/
+
 	@Override
 	public void mouseEntered(MouseEvent e) {
 	}

@@ -50,7 +50,6 @@ public class BagView extends Bar {
 		//Update the items based on bags contents
 		items = selectedBag.getItems();
 
-
 		//Draw the bar with the updated items
 		super.draw(gameState, delta);
 

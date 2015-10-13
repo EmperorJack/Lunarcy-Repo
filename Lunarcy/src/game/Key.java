@@ -8,7 +8,7 @@ package game;
 public class Key implements Item {
 	private static final long serialVersionUID = -143449561013171486L;
 
-	public final int entityID;
+	private final int entityID;
 	public final int keyCode;
 	public Key(int entityID, int keyCode){
 		this.entityID = entityID;

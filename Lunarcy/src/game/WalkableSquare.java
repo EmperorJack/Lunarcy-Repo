@@ -251,18 +251,20 @@ public class WalkableSquare extends Square {
 
 		for(Direction dir: Direction.values()){
 
+			desc += "\n"+dir +" side: ";
 			for(Item i: items.get(dir)){
 				desc += i.getName()+", ";
 				hasItem = true;
 			}
 
+			Furniture furniture = furnitureMap.get(dir);
+			if(furniture!=null){
+				desc += furniture.getImageName();
+			}
+
 		}
 		desc += " \n";
 
-		//If there were no items
-		if(!hasItem){
-			return "This square has no items";
-		}
 
 		return desc;
 	}
