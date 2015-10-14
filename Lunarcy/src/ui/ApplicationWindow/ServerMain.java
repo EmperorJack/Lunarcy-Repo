@@ -8,8 +8,6 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -25,8 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import com.sun.glass.events.WindowEvent;
 
 import network.Server;
 import storage.Storage;
@@ -238,7 +234,6 @@ public class ServerMain extends JFrame {
 				loadGame.setEnabled(true);
 				loadMap.setEnabled(true);
 
-
 				// Ask if you want to save the server
 				int save = JOptionPane.showConfirmDialog(ServerMain.this,
 						"Do you want to save?", "Save",
@@ -253,7 +248,7 @@ public class ServerMain extends JFrame {
 							.getProperty("user.dir") + "/savedgames"));
 					chooser.showSaveDialog(null);
 
-					//if they chose a file
+					// if they chose a file
 					if (chooser.getSelectedFile() != null) {
 						String filename = chooser.getSelectedFile()
 								.getAbsolutePath();
@@ -299,9 +294,9 @@ public class ServerMain extends JFrame {
 						.getProperty("user.dir") + "/assets/maps"));
 
 				// Only show .XML files, as this is our map type
-				FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter(
-						"xml files (*.xml)", "xml");
-				chooser.setFileFilter(xmlfilter);
+				FileNameExtensionFilter jsonfilter = new FileNameExtensionFilter(
+						"json files (*.json)", "json");
+				chooser.setFileFilter(jsonfilter);
 
 				// Display the chooser
 				chooser.showOpenDialog(null);
@@ -343,12 +338,13 @@ public class ServerMain extends JFrame {
 				chooser.setCurrentDirectory(new File(System
 						.getProperty("user.dir") + "/savedgames"));
 				chooser.showOpenDialog(null);
-				String filename = chooser.getSelectedFile().getAbsolutePath();
 
 				// Don't do anything if they cancel the chooser
-				if (filename == null) {
+				if (chooser.getSelectedFile() == null) {
 					return;
 				}
+
+				String filename = chooser.getSelectedFile().getAbsolutePath();
 
 				// Make a new server with the specified info
 				try {
@@ -409,7 +405,7 @@ public class ServerMain extends JFrame {
 
 		// Configure the text area to get the input from stdout
 		PrintStream printStream = new PrintStream(new ConsoleOutput(console));
-		//System.setOut(printStream);
+		// System.setOut(printStream);
 
 		// Not directly editable by user
 		console.setEditable(false);

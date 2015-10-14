@@ -282,50 +282,50 @@
         "properties": {
           "requiredParts": [
             {
-              "entityID": 2001,
-              "type": "ENGINE"
-            },
-            {
-              "entityID": 2003,
-              "type": "GRAVITY_CORE"
-            },
-            {
-              "entityID": 2002,
-              "type": "FUEL_CORE"
+              "entityID": 2004,
+              "type": "GPS"
             },
             {
               "entityID": 2005,
               "type": "WARP_DRIVE"
             },
             {
-              "entityID": 2004,
-              "type": "GPS"
+              "entityID": 2002,
+              "type": "FUEL_CORE"
+            },
+            {
+              "entityID": 2003,
+              "type": "GRAVITY_CORE"
+            },
+            {
+              "entityID": 2001,
+              "type": "ENGINE"
             }
           ],
           "hasLaunched": false,
           "items": {
-            "EAST": [],
             "SOUTH": [],
-            "NORTH": [],
-            "WEST": []
+            "WEST": [],
+            "EAST": [],
+            "NORTH": []
           },
           "furnitureMap": {},
           "players": [],
           "inside": true,
           "walls": {
-            "EAST": {
-              "type": "EmptyWall",
-              "properties": {}
-            },
             "SOUTH": {
               "type": "EmptyWall",
               "properties": {}
             },
-            "NORTH": {
+            "WEST": {
               "type": "EmptyWall",
               "properties": {}
             },
-            "WEST": {
+            "EAST": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "NORTH": {
               "type": "EmptyWall",
               "properties": {}
             }
@@ -5623,7 +5623,419 @@
       }
     ]
   ],
-  "tierDictionary": {},
+  "tierDictionary": [
+    [
+      {
+        "type": "Armour",
+        "properties": {
+          "entityID": 139
+        }
+      },
+      3
+    ],
+    [
+      {
+        "type": "Key",
+        "properties": {
+          "entityID": 126,
+          "keyCode": 1
+        }
+      },
+      0
+    ],
+    [
+      {
+        "type": "Bag",
+        "properties": {
+          "entityID": 135,
+          "maxSize": 3,
+          "items": []
+        }
+      },
+      2
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 12,
+          "type": "ENGINE"
+        }
+      },
+      0
+    ],
+    [
+      {
+        "type": "Key",
+        "properties": {
+          "entityID": 121,
+          "keyCode": 1
+        }
+      },
+      0
+    ],
+    [
+      {
+        "type": "Key",
+        "properties": {
+          "entityID": 127,
+          "keyCode": 2
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "Bag",
+        "properties": {
+          "entityID": 133,
+          "maxSize": 3,
+          "items": []
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "Key",
+        "properties": {
+          "entityID": 128,
+          "keyCode": 2
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 19,
+          "type": "FUEL_CORE"
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 30,
+          "type": "WARP_DRIVE"
+        }
+      },
+      3
+    ],
+    [
+      {
+        "type": "Bag",
+        "properties": {
+          "entityID": 134,
+          "maxSize": 3,
+          "items": []
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "Bag",
+        "properties": {
+          "entityID": 137,
+          "maxSize": 3,
+          "items": []
+        }
+      },
+      2
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 13,
+          "type": "ENGINE"
+        }
+      },
+      0
+    ],
+    [
+      {
+        "type": "Key",
+        "properties": {
+          "entityID": 123,
+          "keyCode": 1
+        }
+      },
+      0
+    ],
+    [
+      {
+        "type": "Key",
+        "properties": {
+          "entityID": 129,
+          "keyCode": 2
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 15,
+          "type": "ENGINE"
+        }
+      },
+      0
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 17,
+          "type": "FUEL_CORE"
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "Key",
+        "properties": {
+          "entityID": 125,
+          "keyCode": 1
+        }
+      },
+      0
+    ],
+    [
+      {
+        "type": "Key",
+        "properties": {
+          "entityID": 131,
+          "keyCode": 3
+        }
+      },
+      2
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 21,
+          "type": "GRAVITY_CORE"
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 16,
+          "type": "FUEL_CORE"
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 26,
+          "type": "GPS"
+        }
+      },
+      2
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 22,
+          "type": "GRAVITY_CORE"
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "CloakingGadget",
+        "properties": {
+          "entityID": 141
+        }
+      },
+      2
+    ],
+    [
+      {
+        "type": "Key",
+        "properties": {
+          "entityID": 122,
+          "keyCode": 1
+        }
+      },
+      0
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 23,
+          "type": "GRAVITY_CORE"
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 27,
+          "type": "GPS"
+        }
+      },
+      2
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 11,
+          "type": "ENGINE"
+        }
+      },
+      0
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 20,
+          "type": "FUEL_CORE"
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 29,
+          "type": "WARP_DRIVE"
+        }
+      },
+      3
+    ],
+    [
+      {
+        "type": "Armour",
+        "properties": {
+          "entityID": 138
+        }
+      },
+      3
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 14,
+          "type": "ENGINE"
+        }
+      },
+      0
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 24,
+          "type": "GRAVITY_CORE"
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "Bag",
+        "properties": {
+          "entityID": 136,
+          "maxSize": 3,
+          "items": []
+        }
+      },
+      2
+    ],
+    [
+      {
+        "type": "Key",
+        "properties": {
+          "entityID": 130,
+          "keyCode": 2
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "CloakingGadget",
+        "properties": {
+          "entityID": 140
+        }
+      },
+      2
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 25,
+          "type": "GPS"
+        }
+      },
+      2
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 18,
+          "type": "FUEL_CORE"
+        }
+      },
+      1
+    ],
+    [
+      {
+        "type": "ShipPart",
+        "properties": {
+          "entityID": 28,
+          "type": "WARP_DRIVE"
+        }
+      },
+      3
+    ],
+    [
+      {
+        "type": "Key",
+        "properties": {
+          "entityID": 132,
+          "keyCode": 3
+        }
+      },
+      2
+    ],
+    [
+      {
+        "type": "Key",
+        "properties": {
+          "entityID": 124,
+          "keyCode": 1
+        }
+      },
+      0
+    ]
+  ],
   "playerSpawnPoints": [
     {
       "x": 0,
@@ -5631,5 +6043,5 @@
     }
   ],
   "roverSpawnPoints": [],
-  "entityCount": 1
+  "entityCount": 42
 }
