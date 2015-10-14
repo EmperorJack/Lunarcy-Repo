@@ -281,7 +281,6 @@ public class Server {
 			this.clientId = clientId;
 			outputToClient = new ObjectOutputStream(socket.getOutputStream());
 			inputFromClient = new ObjectInputStream(socket.getInputStream());
-			// negotiateConnection();
 		}
 
 		public boolean isRunning() {
