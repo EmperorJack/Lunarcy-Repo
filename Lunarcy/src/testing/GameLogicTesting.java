@@ -1,7 +1,6 @@
 package testing;
 
 import game.Bag;
-import game.Container;
 import game.Direction;
 import game.GameLogic;
 import game.GameState;
