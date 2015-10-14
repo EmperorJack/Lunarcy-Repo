@@ -3,12 +3,13 @@ package network;
 import game.GameLogic;
 
 import java.io.Serializable;
-
+/**
+ * Tries to pickup the given item using the given player
+ * @author denforjohn
+ *
+ */
 public class PickupAction implements NetworkAction, Serializable {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	int playerID;
 	int itemID;

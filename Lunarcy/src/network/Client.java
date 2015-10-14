@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
  */
 public class Client {
 	// Network related fields
-	private String serverAddr;
 	private static final int DEFAULT_PORT = 58627;
 	private Socket socket;
 	private ObjectInputStream inputFromServer;
@@ -27,7 +26,6 @@ public class Client {
 	private int id = -1;
 	private String name;
 	private Frame frame;
-	private Color colour;
 	private int frameWidth;
 	private int frameHeight;
 	private boolean hardwareRenderer;
@@ -35,8 +33,7 @@ public class Client {
 	public Client(String serverAddr, String name, Color colour, int frameWidth,
 			int frameHeight, boolean hardwareRenderer)
 			throws IllegalArgumentException {
-		this.serverAddr = serverAddr;
-		this.colour = colour;
+
 		this.frameWidth = frameWidth;
 		this.frameHeight = frameHeight;
 		this.hardwareRenderer = hardwareRenderer;

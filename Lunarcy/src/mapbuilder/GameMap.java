@@ -6,11 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JOptionPane;
 
 import game.*;
 
 public class GameMap implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Square[][] squares;
 	private Map<Item, Integer> tierDictionary;
 	private List<Location> playerSpawnPoints;
