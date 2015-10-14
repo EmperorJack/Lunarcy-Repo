@@ -37,12 +37,11 @@ public class Skybox {
 		skyModel.drawMode(OBJModel.POLYGON);
 
 		// load the sun image
-		sun = p.loadImage("/assets/characters/OgreMan.png");
-		// TODO replace temp image with actual sun image here
+		sun = p.loadImage("/assets/skybox/osirion-flare-09.png");
 
 		// set the sun offset and size
 		SUN_OFFSET = (int) (1000 * MODEL_SCALE);
-		SUN_SIZE = (int) (250 * MODEL_SCALE);
+		SUN_SIZE = (int) (500 * MODEL_SCALE);
 	}
 
 	/**

@@ -70,7 +70,7 @@ public class Client {
 			}else if(this.id == Server.USERNAME_TAKEN){
 				name = showDialog("Username already taken");
 			}
-		} while (this.id == -1);
+		} while (this.id == Server.USERNAME_TAKEN || this.id == Server.INVALID_USERNAME);
 		this.name = name;
 		// Send hex colour
 		String hexColour = String.format("#%02x%02x%02x", colour.getRed(),

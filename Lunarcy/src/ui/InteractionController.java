@@ -332,6 +332,10 @@ public class InteractionController implements KeyListener, MouseListener,
 		this.inventoryView = inventory;
 	}
 
+	public void updatePopup(String title, String desc){
+		popupDisplay.set(title, desc);
+	}
+
 	public void setBagView(BagView bagView) {
 		this.bagView = bagView;
 	}
