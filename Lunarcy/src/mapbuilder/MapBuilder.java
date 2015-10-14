@@ -713,4 +713,31 @@ public class MapBuilder {
 		addFurniture = false;
 	}
 
+	/**
+	 * Returns square array from MapBuilder for testing.
+	 * @return Array of game board. For testing.
+	 */
+	public Square[][] getSquares() {
+		// TODO Auto-generated method stub
+		return squares;
+	}
+
+
+	/**
+	 * GameMap
+	 * @return GameMap object for testing
+	 */
+	public GameMap getMap(){
+		return map;
+	}
+
+	/**
+	 * Sets selected tiles, used for testing.
+	 * @param selectedTiles
+	 */
+	public void setSelectedTiles(Set<Location> selectedTiles) {
+		this.selectedTiles = selectedTiles;
+
+	}
+
 }
