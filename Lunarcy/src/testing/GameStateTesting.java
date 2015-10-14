@@ -277,18 +277,27 @@ public class GameStateTesting {
 
 	/* White box tests */
 
+	/**
+	 * Should return all parts passed in
+	 */
 	@Test
 	public void testGetShipParts(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
 		assertEquals(ship.getParts().size(),3);
 	}
 	
+	/**
+	 * Cannot add a null player to a Square
+	 */
 	@Test
 	public void testInvalidShipAddPlayer(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1));
 		ship.addPlayer(null);
 	}
 	
+	/**
+	 * If a player with the required parts enters a ship then they should become the pilot
+	 */
 	@Test
 	public void testGetShipPilot(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
@@ -302,6 +311,9 @@ public class GameStateTesting {
 	}
 
 
+	/**
+	 * Player should only be able to enter the ship if they have the required parts
+	 */
 	@Test
 	public void validEnterShip_1(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
@@ -312,6 +324,9 @@ public class GameStateTesting {
 		assertTrue(ship.canEnter(p, Direction.EAST));
 	}
 
+	/**
+	 * Player should only be able to enter the ship if they have the required parts
+	 */
 	@Test
 	public void validEnterShip_2(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(3,3));
@@ -322,12 +337,18 @@ public class GameStateTesting {
 		assertTrue(ship.canEnter(p, Direction.EAST));
 	}
 
+	/**
+	 * Shouldn't be able to pass in a null argument
+	 */
 	@Test
 	public void invalidEnterShip_1(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
 		assertFalse(ship.canEnter(null, Direction.EAST));
 	}
 	
+	/**
+	 * Shouldn't be able to pass in a null argument
+	 */
 	@Test
 	public void invalidEnterShip_2(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1));
@@ -337,6 +358,9 @@ public class GameStateTesting {
 		assertFalse(ship.canEnter(p, null));
 	}
 	
+	/**
+	 * Player should not be able to enter the ship if they don't have the required parts
+	 */
 	@Test
 	public void invalidEnterShip_3(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
@@ -346,6 +370,9 @@ public class GameStateTesting {
 		assertFalse(ship.canEnter(p, Direction.EAST));
 	}
 
+	/**
+	 * Player should not be able to enter the ship if they don't have the required parts
+	 */
 	@Test
 	public void invalidEnterShip_4(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
@@ -356,6 +383,9 @@ public class GameStateTesting {
 		assertFalse(ship.canEnter(p, Direction.EAST));
 	}
 	
+	/**
+	 * A container with one max item should have space if no items are added
+	 */
 	@SuppressWarnings("serial")
 	@Test
 	public void testEmptyContainerSpace(){
@@ -367,6 +397,9 @@ public class GameStateTesting {
 		assertTrue(c.hasSpace());
 	}
 	
+	/**
+	 * A container with one max item should not have space if one item is added
+	 */
 	@SuppressWarnings("serial")
 	@Test
 	public void testFullContainerSpace(){
@@ -398,4 +431,6 @@ public class GameStateTesting {
 	public void testDirectionRight(){
 		assertEquals(Direction.NORTH.right() ,Direction.EAST);
 	}
+	
+	
 }

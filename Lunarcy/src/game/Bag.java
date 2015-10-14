@@ -1,5 +1,10 @@
 package game;
 
+/**
+ * This class is a container that may also be stored in the inventory of a player.
+ * @author Robbie
+ *
+ */
 public class Bag extends Container implements Item {
 	private static final long serialVersionUID = -3214772972114699038L;
 

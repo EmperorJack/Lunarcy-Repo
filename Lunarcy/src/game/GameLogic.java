@@ -305,8 +305,7 @@ public class GameLogic {
 	 *            The entityId of the container that holds the item
 	 * @return True if Item was picked up, false otherwise
 	 */
-	public synchronized boolean putItemIntoContainer(int playerID, int containerID,
-			int itemID) {
+	public synchronized boolean putItemIntoContainer(int playerID, int containerID,int itemID) {
 		Player player = state.getPlayer(playerID);
 		if (player == null || itemID < 0 || containerID == itemID)
 			return false;

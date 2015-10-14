@@ -175,10 +175,10 @@ public class GameLogicTesting {
 		GameState gamestate = logic.getGameState();
 		Player player = gamestate.getPlayer(0);
 
-		player.giveItem(new Key(100, 1));
+		player.giveItem(new Key(1000, 1));
 
-		SolidContainer container = (SolidContainer) gamestate.getSquare(player.getLocation()).getFurniture(player.getOrientation());
-		assertTrue(logic.putItemIntoContainer(0, container.getEntityID(), player.getInventory().get(0).getEntityID()));
+		SolidContainer container = gamestate.getSquare(player.getLocation()).getContainer(player.getOrientation());
+		assertTrue(logic.putItemIntoContainer(0, container.getEntityID(), 1000));
 	}
 
 	@Test
@@ -208,7 +208,8 @@ public class GameLogicTesting {
 		Bag bag = new Bag(100);
 		Key key = new Key(101, 1);
 
-		logic.pickUpItem(player.getId(), 100);
+		player.giveItem(key);
+		player.giveItem(bag);
 
 		assertTrue(logic.putItemIntoContainer(0, 100, 101));
 	}
