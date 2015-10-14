@@ -139,7 +139,7 @@ public class GameLogicTesting {
 
 
 		SolidContainer container = (SolidContainer) gamestate.getSquare(player.getLocation()).getFurniture(player.getOrientation());
-		logic.getGameState().getPlayer(0).giveItem(new Key(100, 1));
+		player.giveItem(new Key(100, 1));
 		container.open(player);
 		logic.putItemIntoContainer(0, container.getEntityID(), 100);
 		//logic.pickUpItem(0, 100);
