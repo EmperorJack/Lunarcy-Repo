@@ -221,7 +221,7 @@ public class GameState implements Serializable {
 	 * @return True if the rover was added, False otherwise
 	 */
 	public boolean addRover() {
-		if(rovers.size() >= MAX_ROVERS){
+		if(rovers.size() >= MAX_ROVERS || roverSpawnPoints.isEmpty()){
 			return false;
 		}
 		Rover rover = new Rover(roverSpawnPoints.get((int) (Math.random() * roverSpawnPoints.size())));
