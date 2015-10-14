@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.awt.Color;
 
+
+
 //import network.NewServer.ClientConnection;
 import storage.Storage;
 
@@ -150,6 +152,8 @@ public class Server extends Thread {
 			while (running && clientList.size() > 0) {
 				if (System.currentTimeMillis() > lastUpdate + updateFreq) {
 					gameLogic.tickGameState();
+
+					//winning case
 					if(gameLogic.getWinner() != null){
 						transmitState();
 						break;
@@ -203,8 +207,6 @@ public class Server extends Thread {
 	 * @throws IOException
 	 */
 	private void transmitState() throws IOException {
-		// TODO This can be made more efficient by serialising once before
-		// transmitting
 		GameState state = gameLogic.getGameState();
 		for (int i = 0; i < clientList.size(); i++) {
 			ClientConnection client = clientList.get(i);
@@ -215,7 +217,6 @@ public class Server extends Thread {
 	/**
 	 * Process the next client action from the queue
 	 */
-	// TODO extend method to apply move to all clients if successful
 	private void processAction() {
 		NetworkAction action = actionQueue.poll();
 		if (action != null) {
@@ -254,7 +255,6 @@ public class Server extends Thread {
 	}
 
 	synchronized private ArrayList<ClientConnection> getClientConnectionsClone() {
-		// TODO check this is all good
 		return (ArrayList<ClientConnection>) this.clientList.clone();
 	}
 
@@ -289,8 +289,7 @@ public class Server extends Thread {
 			return clientRunning;
 		}
 
-		private void negotiateConnection() {
-			try {
+		private void negotiateConnection() throws IOException, ClassNotFoundException {
 				String name = "";
 				int tempId = -1;
 				do {
@@ -309,22 +308,18 @@ public class Server extends Thread {
 						}
 					}
 				} while ((fromSavedGame && this.clientId == -1)
-						|| (!fromSavedGame && tempId != -1)); // TODO make this
-																// loop nicer
+						|| (!fromSavedGame && tempId != -1));
 				sendInt(this.clientId);
 				System.out.println("sent id to client: " + this.clientId);
 				try {
-					this.colour = Color.decode((String) inputFromClient
-							.readObject());
-				} catch (NumberFormatException | ClassNotFoundException
-						| IOException e) {
-					// TODO disconnect();
-					return;
+					this.colour = Color.decode((String) inputFromClient.readObject());
+				} catch (NumberFormatException e) {
+					this.colour = Color.RED;
 				}
 				this.username = name;
-			} catch (ClassNotFoundException | IOException e) {
-				// TODO disconnect();
-			}
+//			} catch (ClassNotFoundException | IOException e) {
+//				// TODO disconnect();
+//			}
 			gameLogic.getGameState().addPlayer(clientId, username, colour);//addPlayerToGame(this);
 			// Begin listening to this client
 			this.clientRunning = true; // ready to be sent to
@@ -365,6 +360,7 @@ public class Server extends Thread {
 		 * processed
 		 */
 		public void run() {
+			try{
 			negotiateConnection();
 			while (clientRunning) {
 				NetworkAction action = null;
@@ -376,6 +372,8 @@ public class Server extends Thread {
 				if (action != null)
 					actionQueue.add(action);
 			}
+			}catch(IOException | ClassNotFoundException e){}
+			stopClient();
 			close(); // when not running, disconnect
 		}
 
