@@ -46,7 +46,8 @@ public class MapBuilder {
 	boolean addWalls = false;
 	int addDoors = -1; // -1 if removing, 0-3 for unlocked to red doors
 	int addContainers = -1;// -1 if removing, 0-3 for unlocked to red containers
-	boolean removeContainers = false;
+	boolean addFurniture = false;
+	boolean removeFurniture = false;
 	private BufferedImage rocketImage;
 	final JFileChooser fc = new JFileChooser();
 
@@ -426,6 +427,7 @@ public class MapBuilder {
 			setWallColor(walls.get(Direction.WEST), g);
 			g.fillRect(x, y, 3, GRID_SIZE);
 		}
+
 		Container toDraw = square.getContainer(Direction.NORTH);
 		if (toDraw != null) {
 			setContainerColor(toDraw, g);
@@ -446,6 +448,25 @@ public class MapBuilder {
 			setContainerColor(toDraw, g);
 			g.fillRect(x + 3, y + GRID_SIZE / 2, 5, 5);
 		}
+
+		g.setColor(Color.MAGENTA);
+		Furniture furnitureToDraw = square.getFurniture(Direction.NORTH);
+		if (furnitureToDraw != null && !(furnitureToDraw instanceof Container)) {
+			g.fillRect(x + GRID_SIZE / 2, y + 3, 5, 5);
+		}
+		furnitureToDraw = square.getFurniture(Direction.EAST);
+		if (furnitureToDraw != null&& !(furnitureToDraw instanceof Container)) {
+			g.fillRect(x + GRID_SIZE - 8, y + GRID_SIZE / 2, 5, 5);
+		}
+		furnitureToDraw = square.getFurniture(Direction.SOUTH);
+		if (furnitureToDraw != null&& !(furnitureToDraw instanceof Container)) {
+			g.fillRect(x + GRID_SIZE / 2, y + GRID_SIZE - 8, 5, 5);
+		}
+		furnitureToDraw = square.getFurniture(Direction.WEST);
+		if (furnitureToDraw != null&& !(furnitureToDraw instanceof Container)) {
+			g.fillRect(x + 3, y + GRID_SIZE / 2, 5, 5);
+		}
+
 		g.setColor(Color.BLACK);
 
 	}
@@ -475,7 +496,7 @@ public class MapBuilder {
 			} else if (((LockedChest) container).getAccessLevel() == 3) {
 				g.setColor(Color.RED);
 			}
-		} else {
+		}	else {
 			g.setColor(Color.BLACK);
 		}
 	}
@@ -498,10 +519,28 @@ public class MapBuilder {
 			addContainer(dir);
 		} else if (addContainers > 0) {
 			addLockedContainer(dir, addContainers);
-		} else if (removeContainers) {
-			removeContainer(dir);
+		} else if (addFurniture){
+			addFurniture(dir);
+		} else if (removeFurniture) {
+			removeFurniture(dir);
 		} else {
 			removeDoor(dir);
+		}
+	}
+
+	private void addFurniture(Direction dir) {
+		if (highlightedTile != null
+				&& squares[highlightedTile.getY()][highlightedTile.getX()] instanceof WalkableSquare) {
+			WalkableSquare currentSquare = (WalkableSquare) squares[highlightedTile
+					.getY()][highlightedTile.getX()];
+			if (!currentSquare.hasContainer(dir)) {
+				if (currentSquare.isInside()){
+					currentSquare.setFurniture(dir, new Monitor());
+				} else {
+					currentSquare.setFurniture(dir, new Rock());
+				}
+				map.increaseEntityCount();
+			}
 		}
 	}
 
@@ -564,12 +603,12 @@ public class MapBuilder {
 		}
 	}
 
-	private void removeContainer(Direction dir) {
+	private void removeFurniture(Direction dir) {
 		if (highlightedTile != null
 				&& squares[highlightedTile.getY()][highlightedTile.getX()] instanceof WalkableSquare) {
 			WalkableSquare currentSquare = (WalkableSquare) squares[highlightedTile
 					.getY()][highlightedTile.getX()];
-			if (currentSquare.hasContainer(dir)) {
+			if (currentSquare.hasFurniture(dir)) {
 				currentSquare.removeFurniture(dir);
 				map.decreaseEntityCount();
 			}
@@ -602,12 +641,12 @@ public class MapBuilder {
 		addContainers = -1;
 	}
 
-	public void removeContainersOn() {
-		removeContainers = true;
+	public void removeFurnitureOn() {
+		removeFurniture = true;
 	}
 
-	public void removeContainersOff() {
-		removeContainers = false;
+	public void removeFurnitureOff() {
+		removeFurniture = false;
 	}
 
 	public void addPlayerSpawnPoint() {
@@ -660,6 +699,14 @@ public class MapBuilder {
 
 	public void initialiseItems() {
 		map.initTierDictionary();
+	}
+
+	public void furnitureOn() {
+		addFurniture = true;
+	}
+
+	public void furnitureOff() {
+		addFurniture = false;
 	}
 
 }
