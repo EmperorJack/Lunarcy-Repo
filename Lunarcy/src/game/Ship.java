@@ -65,7 +65,7 @@ public class Ship extends WalkableSquare {
 
 	private boolean playerHasWinningParts(Player player) {
 		boolean hasParts = true;
-
+		System.out.println("Checking Part");
 		List<ShipPart> playerParts = player.getShipParts();
 
 		for (ShipPart reqPart : requiredParts) {
@@ -74,6 +74,7 @@ public class Ship extends WalkableSquare {
 				// Cannot use equals() method as that checks EntityID
 				if (part.getTypeID() == reqPart.getTypeID()) {
 					hasPart = true;
+					break;
 				}
 			}
 			if (!hasPart) {

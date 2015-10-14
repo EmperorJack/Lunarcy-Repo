@@ -190,6 +190,7 @@ public class GameLogic {
 			return false;
 		}
 		if (player.hasItem(itemID)) {
+			//Item must be in a container in the players inventory
 			for(Item i: player.getInventory()){
 				if (i instanceof Container) {
 					Container container = (Container) i;
@@ -204,6 +205,7 @@ public class GameLogic {
 			}
 		}else if (square instanceof WalkableSquare) {
 			// Otherwise cannot contain players/items
+			// Item must be in the square
 			WalkableSquare wSquare = (WalkableSquare) square;
 
 			Item item = null;
@@ -311,6 +313,19 @@ public class GameLogic {
 					.getOrientation());
 			if (container != null && container.isOpen()) {
 				Item item = player.removeItem(itemID);
+				if(item==null){
+					//Then item wasn't directly in the players inventory
+					for(Item i: player.getInventory()){
+						if(i instanceof Container){
+							//Check if the item is inside a container
+							Container c = (Container) i;
+							if (c.canAccess(player) && c.hasItem(itemID)) {
+								item = c.takeItem(itemID);
+								break;
+							}
+						}
+					}
+				}
 				if (item != null) {
 					container.addItem(item);
 					return true;
