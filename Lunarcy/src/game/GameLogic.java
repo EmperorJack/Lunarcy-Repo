@@ -246,7 +246,7 @@ public class GameLogic {
 		if (player == null || itemID < 0)
 			return false;
 		Square square = state.getSquare(player.getLocation());
-		
+
 		if (square instanceof WalkableSquare) {
 			// Otherwise cannot contain players/items
 			Item item = player.removeItem(itemID);
@@ -263,8 +263,8 @@ public class GameLogic {
 					}
 				}
 			}
-			
-			if (item != null) {//Then we 
+
+			if (item != null) {//Then we
 				WalkableSquare wSquare = (WalkableSquare) square;
 				return wSquare.addItem(player.getOrientation(), item);
 			}

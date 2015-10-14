@@ -12,12 +12,13 @@ public class Ship extends WalkableSquare {
 	private Player pilot;
 
 	public Ship(ShipPart... parts) {
-		super("Escape Ship", "Find all the parts to repair the ship", true,
-				null, null, null, null);
+		super(true, null, null,
+				null, null);
 		hasLaunched = false;
 		pilot = null;
 		requiredParts = new HashSet<ShipPart>();
-		for(ShipPart part: parts){
+
+		for (ShipPart part : parts) {
 			requiredParts.add(part);
 		}
 	}
@@ -38,71 +39,69 @@ public class Ship extends WalkableSquare {
 
 		boolean hasParts = playerHasWinningParts(player);
 
-		if(hasParts){
+		if (hasParts) {
 			hasLaunched = true;
-			//Make sure we don't overwrite the first player to win
-			pilot = pilot == null ? player: pilot;
+			// Make sure we don't overwrite the first player to win
+			pilot = pilot == null ? player : pilot;
 		}
 		return super.addPlayer(player);
 	}
 
 	/**
-	 * Ignores the walls on the square and only lets a player enter if they have the required parts
+	 * Ignores the walls on the square and only lets a player enter if they have
+	 * the required parts
 	 */
 	public boolean canEnter(Character character, Direction direction) {
-		if (character == null||direction == null || !(character instanceof Player)){
+		if (character == null || direction == null
+				|| !(character instanceof Player)) {
 			return false;
 		}
-		return playerHasWinningParts((Player)character);
+		return playerHasWinningParts((Player) character);
 	}
 
 	public boolean canExit(Character character, Direction direction) {
 		return false;
 	}
 
-	private boolean playerHasWinningParts(Player player){
+	private boolean playerHasWinningParts(Player player) {
 		boolean hasParts = true;
 		System.out.println("Checking Part");
 		List<ShipPart> playerParts = player.getShipParts();
 
-		for(ShipPart reqPart: requiredParts){
+		for (ShipPart reqPart : requiredParts) {
 			boolean hasPart = false;
-			for(ShipPart part: playerParts){
-				System.out.println("Checking "+part.getName()+" against "+ reqPart.getName());
-				//Cannot use equals() method as that checks EntityID
-				if(part.getTypeID() == reqPart.getTypeID()){
-					System.out.println("Matched Part");
+			for (ShipPart part : playerParts) {
+				// Cannot use equals() method as that checks EntityID
+				if (part.getTypeID() == reqPart.getTypeID()) {
 					hasPart = true;
 					break;
 				}
 			}
-			if(!hasPart){
-				//Player is missing a part, no need to keep checking
+			if (!hasPart) {
+				// Player is missing a part, no need to keep checking
 				hasParts = false;
 				break;
 			}
 		}
-		System.out.println("Player " + (hasParts?"has":"doesn't have")+" the parts");
 		return hasParts;
 	}
 
-
 	/**
-	 * @return True if a winning player has been added to the square, False if no winner yet
+	 * @return True if a winning player has been added to the square, False if
+	 *         no winner yet
 	 */
-	public boolean hasLaunched(){
+	public boolean hasLaunched() {
 		return hasLaunched;
 	}
 
 	/**
 	 * @return The winning player if there is one, Null if not
 	 */
-	public Player getPilot(){
+	public Player getPilot() {
 		return pilot;
 	}
 
-
-	public Set<ShipPart> getParts(){
+	public Set<ShipPart> getParts() {
 		return new HashSet<>(requiredParts);
 	}
 }

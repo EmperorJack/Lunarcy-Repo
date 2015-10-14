@@ -3,6 +3,7 @@ package ui.ApplicationWindow;
 import java.util.List;
 import java.util.Map;
 
+import game.Furniture;
 import game.GameState;
 import game.Key;
 import game.Player;
@@ -35,8 +36,8 @@ public class EntityView extends DrawingComponent {
 	// currently held items
 	private List<Item> items;
 
-	// currently held container
-	private SolidContainer container;
+	// currently held furniture
+	private Furniture furniture;
 
 	public EntityView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {
@@ -56,26 +57,31 @@ public class EntityView extends DrawingComponent {
 		// get the square the player is currently in
 		Square square = gameState.getSquare(thisPlayer.getLocation());
 
-		// get the container in the current square for this player direction
-		container = square.getContainer(thisPlayer.getOrientation());
+		// get the furniture in the current square for this player direction
+		furniture = square.getFurniture(thisPlayer.getOrientation());
 
 		p.imageMode(PApplet.CENTER);
 
-		// if the container currently exists
-		if (container != null) {
+		// if the furniture currently exists
+		if (furniture != null) {
 			p.pushMatrix();
 			p.pushStyle();
 
 			// translate to allow for top padding
 			p.translate(0, TOP_PADDING_CONTAINER);
 
-			// tint the image with the correct security colour
-			p.tint(Canvas.getSecurityColour(container.getAccessLevel(), false));
+			// if the furniture is a solid container
+			if (furniture instanceof SolidContainer) {
 
-			String containerImageName = container.getImageName();
+				// tint the image with the correct container security colour
+				p.tint(Canvas.getSecurityColour(
+						((SolidContainer) furniture).getAccessLevel(), false));
+			}
+
+			String furnitureImageName = furniture.getImageName();
 
 			// draw the container
-			p.image(entityImages.get(containerImageName),
+			p.image(entityImages.get(furnitureImageName),
 					Canvas.TARGET_WIDTH / 2.0f, CONTAINER_SIZE / 2,
 					CONTAINER_SIZE, CONTAINER_SIZE);
 
@@ -149,9 +155,18 @@ public class EntityView extends DrawingComponent {
 		return null;
 	}
 
+	/**
+	 * Returns the container at the clicked position, or null if the click was
+	 * not on a valid container or the container does not exist.
+	 *
+	 * @param x
+	 *            The clicked x location.
+	 * @param y
+	 * @return The solid container if it was clicked on.
+	 */
 	public SolidContainer getSolidContainerAt(int x, int y) {
-		// if a container currently exists
-		if (container != null) {
+		// if furniture currently exists and is a solid container
+		if (furniture != null && furniture instanceof SolidContainer) {
 
 			// first check the y position is within the bounds
 			if ((TOP_PADDING_CONTAINER) <= y
@@ -160,7 +175,7 @@ public class EntityView extends DrawingComponent {
 				// check the x position is within the bounds
 				if (Canvas.TARGET_WIDTH / 2 - CONTAINER_SIZE / 2 <= x
 						&& x <= Canvas.TARGET_WIDTH / 2 + CONTAINER_SIZE / 2) {
-					return container;
+					return (SolidContainer) furniture;
 				}
 			}
 		}

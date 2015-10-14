@@ -1,7 +1,7 @@
 package ui.renderer;
 
 import game.Direction;
-import game.Entity;
+import game.Furniture;
 import game.GameState;
 import game.Item;
 import game.Key;
@@ -52,8 +52,10 @@ public class Perspective3D extends DrawingComponent {
 	private final int ITEM_INNER_PADDING = -250;
 	private final int ITEM_Y_OFFSET = -75;
 	private final int CONTAINER_SIZE = 450;
-	private final int CONTAINER_INNER_PADDING = -280;
 	private final int CONTAINER_Y_OFFSET = -200;
+	private final int FURNITURE_SIZE = 450;
+	private final int FURNITURE_Y_OFFSET = -200;
+	private final int FURNITURE_INNER_PADDING = -280;
 
 	// camera fields
 	private final int PLAYER_VIEW_HEIGHT = -180;
@@ -310,22 +312,33 @@ public class Perspective3D extends DrawingComponent {
 		// for each direction
 		for (Direction dir : Direction.values()) {
 
-			// get the container for the current direction
-			SolidContainer container = s.getContainer(dir);
+			// get the furniture for the current direction
+			Furniture furniture = s.getFurniture(dir);
 
 			// if there is a container for the given direction
-			if (container != null) {
-				p.pushStyle();
+			if (furniture != null) {
 
-				// tint the image with the correct security colour
-				p.tint(Canvas.getSecurityColour(container.getAccessLevel(),
-						false));
+				// if the furniture is a solid container
+				if (furniture instanceof SolidContainer) {
+					p.pushStyle();
 
-				// draw the container
-				drawEntity(dir, container, position, 0, CONTAINER_SIZE,
-						CONTAINER_INNER_PADDING, CONTAINER_Y_OFFSET);
+					SolidContainer container = (SolidContainer) furniture;
 
-				p.popStyle();
+					// tint the image with the correct security colour
+					p.tint(Canvas.getSecurityColour(container.getAccessLevel(),
+							false));
+
+					// draw the container
+					drawFurniture(dir, container, position, CONTAINER_SIZE,
+							FURNITURE_INNER_PADDING, CONTAINER_Y_OFFSET);
+
+					p.popStyle();
+				} else {
+
+					// draw the furniture
+					drawFurniture(dir, furniture, position, FURNITURE_SIZE,
+							FURNITURE_INNER_PADDING, FURNITURE_Y_OFFSET);
+				}
 			}
 
 			// get the items for the current direction
@@ -350,7 +363,7 @@ public class Perspective3D extends DrawingComponent {
 						- SQUARE_SIZE / 2;
 
 				// draw the item
-				drawEntity(dir, currentItem, position, offset, ITEM_SIZE,
+				drawItem(dir, currentItem, position, offset, ITEM_SIZE,
 						ITEM_INNER_PADDING, ITEM_Y_OFFSET);
 
 				p.popStyle();
@@ -360,25 +373,25 @@ public class Perspective3D extends DrawingComponent {
 	}
 
 	/**
-	 * Draw the given entity for the current square position in the given
+	 * Draw the given item for the current square position in the given
 	 * direction and with the given offset.
 	 *
 	 * @param dir
-	 *            The orientation to draw the entity with regard to.
-	 * @param entity
-	 *            The entity to be drawn.
+	 *            The orientation to draw the item with regard to.
+	 * @param item
+	 *            The item to be drawn.
 	 * @param position
-	 *            The relative position of all entities in this square.
+	 *            The relative position of all items in this square.
 	 * @param offset
-	 *            The offset to draw this entities along side other entities.
+	 *            The offset to draw this item along side other entities.
 	 * @param size
-	 *            The size of the entity to draw.
+	 *            The size of the item to draw.
 	 * @param padding
-	 *            The padding of the entity to draw.
+	 *            The padding of the item to draw.
 	 * @param yOffset
-	 *            The y offset of the entity to draw.
+	 *            The y offset of the item to draw.
 	 */
-	private void drawEntity(Direction dir, Entity entity, PVector position,
+	private void drawItem(Direction dir, Item item, PVector position,
 			int offset, int size, int padding, int yOffset) {
 		p.pushMatrix();
 
@@ -409,30 +422,74 @@ public class Perspective3D extends DrawingComponent {
 			break;
 		}
 
-		// translate to the current entity offsets
+		// translate to the current item offsets
 		p.translate(xOffset, yOffset, zOffset);
 
-		String imageName = null;
+		// rotate the current item to face this player
+		rotateRelativeTo(position);
 
-		// if the entity is a container
-		if (entity instanceof SolidContainer) {
+		// draw the item image
+		p.image(entityImages.get(item.getImageName()), 0, 0, size, size);
 
-			// rotate the current container to face this player
-			rotateContainerRelativeTo(position, dir);
+		p.popMatrix();
+	}
 
-			// get the image name
-			imageName = ((SolidContainer) entity).getImageName();
-		} else {
+	/**
+	 * Draw the given furniture for the current square position in the given
+	 * direction and with the given offset.
+	 *
+	 * @param dir
+	 *            The orientation to draw the furniture with regard to.
+	 * @param item
+	 *            The furniture to be drawn.
+	 * @param position
+	 *            The relative position of all furniture in this square.
+	 * @param size
+	 *            The size of the furniture to draw.
+	 * @param padding
+	 *            The padding of the furniture to draw.
+	 * @param yOffset
+	 *            The y offset of the furniture to draw.
+	 */
+	private void drawFurniture(Direction dir, Furniture furniture,
+			PVector position, int size, int padding, int yOffset) {
+		p.pushMatrix();
 
-			// rotate the current item to face this player
-			rotateRelativeTo(position);
+		// setup the x and z offsets
+		int xOffset = 0;
+		int zOffset = 0;
 
-			// get the image name
-			imageName = ((Item) entity).getImageName();
+		// set the offsets based on the current direction
+		switch (dir) {
+		case NORTH:
+			xOffset = 0;
+			zOffset = padding;
+			break;
+
+		case EAST:
+			xOffset = -padding;
+			zOffset = 0;
+			break;
+
+		case SOUTH:
+			xOffset = 0;
+			zOffset = -padding;
+			break;
+
+		case WEST:
+			xOffset = padding;
+			zOffset = 0;
+			break;
 		}
 
-		// draw the entity image
-		p.image(entityImages.get(imageName), 0, 0, size, size);
+		// translate to the current furniture offsets
+		p.translate(xOffset, yOffset, zOffset);
+
+		// rotate the current furniture to face this player
+		rotateFurnitureRelativeTo(position, dir);
+
+		// draw the furniture image
+		p.image(entityImages.get(furniture.getImageName()), 0, 0, size, size);
 
 		p.popMatrix();
 	}
@@ -453,7 +510,7 @@ public class Perspective3D extends DrawingComponent {
 		p.rotateY(-(angle - PApplet.HALF_PI));
 	}
 
-	private void rotateContainerRelativeTo(PVector position, Direction dir) {
+	private void rotateFurnitureRelativeTo(PVector position, Direction dir) {
 		// compute the angle between the camera and the given position vector
 		float angle = PApplet.atan2(actualCameraEye.z - position.z,
 				actualCameraEye.x - position.x);

@@ -101,7 +101,7 @@ public class GameStateTesting {
 	@Test
 	public void validOutsideSquare() {
 		GameState gameState = new GameState(1, "assets/maps/map.xml");
-		WalkableSquare square = new WalkableSquare("ben", "A test square", false, null, null, null, null);
+		WalkableSquare square = new WalkableSquare(false, null, null, null, null);
 		Location location = new Location(0, 0);
 		gameState.setSquare(location, square);
 		assertTrue(gameState.isOutside(location));
@@ -113,7 +113,7 @@ public class GameStateTesting {
 	@Test
 	public void invalidOutsideSquare_1() {
 		GameState gameState = new GameState(1, "assets/maps/map.xml");
-		WalkableSquare square = new WalkableSquare("ben", "A test square", true, null, null, null, null);
+		WalkableSquare square = new WalkableSquare(true, null, null, null, null);
 		Location location = new Location(0, 0);
 		gameState.setSquare(location, square);
 		assertFalse(gameState.isOutside(location));
