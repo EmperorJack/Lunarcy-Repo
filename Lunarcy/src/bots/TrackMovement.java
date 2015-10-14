@@ -11,7 +11,7 @@ import game.Player;
  * to them and trying to reach them. Will give up if the player is further than
  * a set distance from the rover.
  *
- * @author Ben
+ * @author evansben1
  *
  */
 

@@ -18,7 +18,7 @@ import game.Square;
  * following the shortest path to a given destination. You should extend this
  * class directly if the movement relies on following a path.
  *
- * @author b
+ * @author evansben1
  *
  */
 @SuppressWarnings("serial")

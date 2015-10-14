@@ -18,7 +18,7 @@ import java.io.Serializable;
  * to capture them. Gives up after the player gets too far away, and reverts to
  * the Roam Strategy.
  *
- * @author Ben
+ * @author evansben1
  *
  */
 public class Rover implements Character, Serializable {

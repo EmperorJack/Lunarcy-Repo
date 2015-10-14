@@ -34,7 +34,7 @@ import network.PutAction;
 
 /**
  * This class listens for player input to allow interaction between the UI
- * componenets and player movement/actions.
+ * Components and player movements/actions.
  *
  * @author evansben1 and Jack
  *
