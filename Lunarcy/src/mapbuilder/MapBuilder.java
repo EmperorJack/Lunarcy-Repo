@@ -139,7 +139,10 @@ public class MapBuilder {
 				}
 			}
 
-			squares[selectedTile.getY()][selectedTile.getX()] = new Ship();
+			squares[selectedTile.getY()][selectedTile.getX()] = new Ship(
+					new ShipPart(2001, 0), new ShipPart(2002, 1), new ShipPart(
+							2003, 2), new ShipPart(2004, 3), new ShipPart(2005,
+							4));
 
 		}
 	}
@@ -660,7 +663,7 @@ public class MapBuilder {
 				added = true;
 			}
 		}
-		if (!added){
+		if (!added) {
 			JOptionPane.showMessageDialog(null,
 					"Invalid selected tile for player spawn point!", "Error",
 					JOptionPane.ERROR_MESSAGE);
@@ -684,7 +687,7 @@ public class MapBuilder {
 				added = true;
 			}
 		}
-		if (!added){
+		if (!added) {
 			JOptionPane.showMessageDialog(null,
 					"Invalid selected tile for rover spawn point!", "Error",
 					JOptionPane.ERROR_MESSAGE);
