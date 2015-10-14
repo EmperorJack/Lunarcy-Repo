@@ -282,7 +282,9 @@ public class Server {
 
 		private void negotiateConnection() {
 			String name = "";
+			int tempId = -1;
 			do {
+				System.out.println("startloop");
 				try {
 					name = (String) inputFromClient.readObject();
 					System.out.println("read name from client: " + name);
@@ -292,13 +294,20 @@ public class Server {
 				//clientId = addPlayerToGamestate(name);
 				if(fromSavedGame){
 					this.clientId = getClientIdFromGameState(name); //retrieve their previous name
+					if(this.clientId == -1){ //TODO can be from just clientId
+						sendInt(INVALID_USERNAME);
+						System.out.println("client username invalid: " + name);
+					}
 				}
-				if(fromSavedGame && this.clientId == -1){ //TODO can be from just clientId
-					sendInt(-1);
+				else{
+					if((tempId = getClientIdFromGameState(name)) != -1){ //name already used
+						sendInt(USERNAME_TAKEN);
+						System.out.println("client username taken: " + name);
+						continue; //TODO this needs to start loop again
+					}
+				}
 
-					System.out.println("sent -1 to client");
-				}
-			} while (fromSavedGame && this.clientId == -1);
+			} while ((fromSavedGame && this.clientId == -1) || (!fromSavedGame && tempId != -1)); //TODO make this loop nicer
 			sendInt(this.clientId);
 			System.out.println("sent id to client: " + this.clientId);
 			try {
@@ -308,6 +317,7 @@ public class Server {
 				//TODO disconnect();
 			}
 			this.username = name;
+
 			System.out.println("Server: new Client: " + username + " "
 					+ clientId + " colour: " + this.colour.toString());
 
@@ -369,7 +379,7 @@ public class Server {
 			if (o != null) {
 				try {
 					if (reset)
-						outputToClient.reset();
+					outputToClient.reset();
 					outputToClient.writeObject(o);
 					outputToClient.flush();
 				} catch (SocketException e) { // critical, close client
