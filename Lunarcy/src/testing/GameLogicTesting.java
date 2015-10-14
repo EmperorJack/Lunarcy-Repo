@@ -5,6 +5,7 @@ import game.Direction;
 import game.GameLogic;
 import game.GameState;
 import game.Key;
+import game.Location;
 import game.Player;
 import game.ShipPart;
 import game.SolidContainer;
@@ -55,7 +56,7 @@ public class GameLogicTesting {
 	 * Player should be able to move to 0,1
 	 */
 	@Test
-	public void valiMovePlayer_1(){
+	public void validMovePlayer_1(){
 		GameLogic logic = createNewGameLogic(1);
 		assertTrue(logic.movePlayer(0, Direction.SOUTH));
 	}
@@ -64,7 +65,7 @@ public class GameLogicTesting {
 	 * Player shouldn't be able to move to 0,-1
 	 */
 	@Test
-	public void invaliMovePlayer_1(){
+	public void invalidMovePlayer_1(){
 		GameLogic logic = createNewGameLogic(1);
 		assertFalse(logic.movePlayer(0, Direction.NORTH));
 	}
@@ -73,7 +74,7 @@ public class GameLogicTesting {
 	 * Invalid player ID should return false
 	 */
 	@Test
-	public void invaliMovePlayer_2(){
+	public void invalidMovePlayer_2(){
 		GameLogic logic = createNewGameLogic(1);
 		assertFalse(logic.movePlayer(2, Direction.NORTH));
 	}
@@ -82,7 +83,7 @@ public class GameLogicTesting {
 	 * Null Direction should return false
 	 */
 	@Test
-	public void invaliMovePlayer_3(){
+	public void invalidMovePlayer_3(){
 		GameLogic logic = createNewGameLogic(1);
 		assertFalse(logic.movePlayer(2, null));
 	}
@@ -96,6 +97,24 @@ public class GameLogicTesting {
 		GameLogic logic = createNewGameLogic(1);
 		logic.getGameState().getPlayer(0).giveItem(new Key(100, 1));
 		assertTrue(logic.dropItem(0, 100));
+	}
+	
+	/**
+	 * Should be able to drop an item which is
+	 * in a bag in your inventory
+	 */
+	@Test
+	public void validDrop_2(){
+		GameLogic logic = createNewGameLogic(1);
+		GameState gamestate = logic.getGameState();
+		Player player = gamestate.getPlayer(0);
+		
+		Bag bag = new Bag(100);
+		Key key = new Key(101, 1);
+		bag.addItem(key);
+
+		player.giveItem(bag);
+		assertTrue(logic.dropItem(0, 101));
 	}
 
 	/**
@@ -202,12 +221,36 @@ public class GameLogicTesting {
 		GameState gamestate = logic.getGameState();
 		Player player = gamestate.getPlayer(0);
 
-		player.giveItem(new Key(1000, 1));
+		player.giveItem(new Key(100, 1));
 
 		SolidContainer container = gamestate.getSquare(player.getLocation()).getContainer(player.getOrientation());
-		assertTrue(logic.putItemIntoContainer(0, container.getEntityID(), 1000));
+		assertTrue(logic.putItemIntoContainer(0, container.getEntityID(), 100));
 	}
 
+	/**
+	 * Should be able to put an item from a bag into container
+	 */
+	@Test
+	public void validBagToContainer_1(){
+		GameLogic logic = createNewGameLogic(1);
+		logic.openContainer(0);
+
+		GameState gamestate = logic.getGameState();
+		Player player = gamestate.getPlayer(0);
+
+		Bag bag = new Bag(100);
+		Key key = new Key(101, 1);
+		bag.addItem(key);
+
+		player.giveItem(bag);
+
+		SolidContainer container = gamestate.getSquare(player.getLocation()).getContainer(player.getOrientation());
+		assertTrue(logic.putItemIntoContainer(0, container.getEntityID(), 101));
+	}
+	
+	/**
+	 * Should be able to take an item out of a bag
+	 */
 	@Test
 	public void validBagToInventory_1(){
 		GameLogic logic = createNewGameLogic(1);
@@ -222,6 +265,26 @@ public class GameLogicTesting {
 		player.giveItem(bag);
 
 		assertTrue(logic.pickUpItem(0, 101));
+
+	}
+	
+	/**
+	 * Should be able to put an item from players inventory into a bag
+	 */
+	@Test
+	public void validInventoryToBag_1(){
+		GameLogic logic = createNewGameLogic(1);
+
+		GameState gamestate = logic.getGameState();
+		Player player = gamestate.getPlayer(0);
+
+		Bag bag = new Bag(100);
+		Key key = new Key(101, 1);
+		
+		player.giveItem(key);
+		player.giveItem(bag);
+
+		assertTrue(logic.putItemIntoContainer(0, 100, 101));
 
 	}
 
@@ -283,6 +346,31 @@ public class GameLogicTesting {
 
 		//Should not have lost any items since they only have a key
 		assertTrue(sizeBefore == player.getInventory().size());
+	}
+	
+	@Test
+	public void noMoveBeforeTick(){
+		GameLogic logic = createNewGameLogic(1);
+		GameState state = logic.getGameState();
+		logic.movePlayer(0, Direction.SOUTH);
+		assertEquals(new Location(0,0), state.getPlayer(0).getLocation());
+	}
+	
+	@Test
+	public void noMoveAfterTick(){
+		GameLogic logic = createNewGameLogic(1);
+		GameState state = logic.getGameState();
+		state.tick();
+		assertEquals(new Location(0,0), state.getPlayer(0).getLocation());
+	}
+	
+	@Test
+	public void validMoveAfterTick(){
+		GameLogic logic = createNewGameLogic(1);
+		GameState state = logic.getGameState();
+		logic.movePlayer(0, Direction.SOUTH);
+		logic.tickGameState();
+		assertEquals(new Location(0,1), state.getPlayer(0).getLocation());
 	}
 
 

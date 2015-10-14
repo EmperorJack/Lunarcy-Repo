@@ -175,6 +175,18 @@ public class InteractionController implements KeyListener, MouseListener,
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
+		// On right click, show item descriptions
+		if (SwingUtilities.isRightMouseButton(e)) {
+
+			Item item = entityView.getItemAt(x, y);
+			// If they right click an item,show the items info
+			if (item != null) {
+				popupDisplay.set(item.getName(), item.getDescription());
+				return;
+			}
+
+		}
+
 		// If you click the inventory, check if a bag was clicked
 		if (inventoryView.onBar(x, y)) {
 			Item selectedItem = inventoryView.getItemAt(x, y);
@@ -201,17 +213,7 @@ public class InteractionController implements KeyListener, MouseListener,
 			closeContainer();
 		}
 
-		// On right click, show item descriptions
-		if (SwingUtilities.isRightMouseButton(e)) {
 
-			Item item = entityView.getItemAt(x, y);
-			// If they right click an item,show the items info
-			if (item != null) {
-				popupDisplay.set(item.getName(), item.getDescription());
-				return;
-			}
-
-		}
 		// Hide the popup and bag view on click
 		popupDisplay.set(null, null);
 		bagView.update(null);
