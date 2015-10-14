@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DefaultCaret;
 
@@ -39,13 +40,21 @@ import storage.Storage;
 public class ServerMain extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+
+	//The underlying server
 	private Server server;
+
+	//Sliders
 	private JSlider refreshRate;
 	private JSlider playerNum;
-	//private JTextArea console;
+
+	//Buttons
 	private JButton loadGame;
 	private JButton loadMap;
+
+	//The default map, can be changed by pressing load
 	private String selectedMap = "assets/maps/map.xml";
+
 	public ServerMain() {
 		super("Start Game");
 
