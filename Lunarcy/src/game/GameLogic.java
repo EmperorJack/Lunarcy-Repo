@@ -179,7 +179,7 @@ public class GameLogic {
 	 *            The entityID of the Item to pick up
 	 * @return True if Item was picked up, false otherwise
 	 */
-	public boolean pickUpItem(int playerID, int itemID) {
+	public synchronized boolean pickUpItem(int playerID, int itemID) {
 
 		Player player = state.getPlayer(playerID);
 		if (player == null || itemID < 0)
@@ -239,7 +239,7 @@ public class GameLogic {
 	 *           The entityId of the container that holds the item
 	 * @return True if the Item was dropped, false otherwise
 	 */
-	public boolean dropItem(int playerID, int itemID) {
+	public synchronized boolean dropItem(int playerID, int itemID) {
 		Player player = state.getPlayer(playerID);
 		if (player == null || itemID < 0)
 			return false;
@@ -264,7 +264,7 @@ public class GameLogic {
 			
 			if (item != null) {//Then we 
 				WalkableSquare wSquare = (WalkableSquare) square;
-				wSquare.addItem(player.getOrientation(), item);
+				return wSquare.addItem(player.getOrientation(), item);
 			}
 		}
 		return false;
@@ -283,7 +283,7 @@ public class GameLogic {
 	 *            The entityId of the container that holds the item
 	 * @return True if Item was picked up, false otherwise
 	 */
-	public boolean putItemIntoContainer(int playerID, int containerID,
+	public synchronized boolean putItemIntoContainer(int playerID, int containerID,
 			int itemID) {
 		Player player = state.getPlayer(playerID);
 		if (player == null || itemID < 0 || containerID == itemID)
@@ -379,7 +379,7 @@ public class GameLogic {
 		return false;
 	}
 
-	public GameState getGameState() {
+	public synchronized GameState getGameState() {
 		return state;
 	}
 

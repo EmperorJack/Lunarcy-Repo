@@ -1,5 +1,7 @@
 package game;
 
-public interface Furniture {
+import java.io.Serializable;
+
+public interface Furniture extends Serializable{
 	public abstract String getImageName();
 }

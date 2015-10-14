@@ -62,10 +62,9 @@ public abstract class Container implements Entity {
 				item = i;
 			}
 		}
-		if(item==null){
-			throw new IllegalArgumentException("'itemID' does not correspond with an item in this container");
+		if(item!=null){
+			items.remove(item);
 		}
-		items.remove(item);
 		return item;
 	}
 

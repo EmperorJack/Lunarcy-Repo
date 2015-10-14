@@ -247,14 +247,12 @@ public class WalkableSquare extends Square {
 	public String getDescription() {
 
 		String desc = "This square contains the following items: ";
-		boolean hasItem = false;
 
 		for(Direction dir: Direction.values()){
 
 			desc += "\n"+dir +" side: ";
 			for(Item i: items.get(dir)){
 				desc += i.getName()+", ";
-				hasItem = true;
 			}
 
 			Furniture furniture = furnitureMap.get(dir);
