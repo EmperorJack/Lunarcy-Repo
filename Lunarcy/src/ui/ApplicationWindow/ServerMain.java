@@ -222,10 +222,11 @@ public class ServerMain extends JFrame {
 					JFileChooser chooser = new JFileChooser();
 					chooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "/savedgames"));
 					chooser.showSaveDialog(null);
-					String filename = chooser.getSelectedFile().getAbsolutePath();
-
-					//Make a new server, using the saved gamestate
-					server.saveGamestate(filename);
+					if(chooser.getSelectedFile() != null){
+						String filename = chooser.getSelectedFile().getAbsolutePath();
+						//Make a new server, using the saved gamestate
+						server.saveGamestate(filename);
+					}
 				}
 
 			}

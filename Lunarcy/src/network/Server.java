@@ -14,11 +14,6 @@ import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.awt.Color;
 
-
-
-
-
-
 //import network.NewServer.ClientConnection;
 import storage.Storage;
 
@@ -43,6 +38,7 @@ public class Server {
 
 	public static int INVALID_USERNAME = -1;
 	public static int USERNAME_TAKEN = -2;
+
 	/**
 	 * Create a new server with an existing gamestate
 	 *
@@ -59,7 +55,8 @@ public class Server {
 		fromSavedGame = true;
 	}
 
-	public Server(int maxClients, int updateFreq, String map) throws IOException {
+	public Server(int maxClients, int updateFreq, String map)
+			throws IOException {
 		this.maxClients = maxClients;
 		this.updateFreq = updateFreq;
 		GameState gameState = new GameState(maxClients, map);
@@ -77,7 +74,7 @@ public class Server {
 			System.out.println("stopped " + client.username);
 		}
 		System.out.println("Stopping server");
-		 // stop main server
+		// stop main server
 		while (clientList.size() > 0) {
 			sleep(50);
 		}
@@ -118,17 +115,19 @@ public class Server {
 			} catch (IOException e) {
 				continue;
 			}
-			int clientID = (fromSavedGame)? -1 :clientList.size(); //set -1 if from saved game
-			//int clientID = clientList.size();
+			int clientID = (fromSavedGame) ? -1 : clientList.size(); // set -1
+																		// if
+																		// from
+																		// saved
+																		// game
 			ClientConnection client;
+
 			try {
 				client = new ClientConnection(s, clientID);
 			} catch (IOException e) {
 				try {
 					s.close();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
 				continue;
 			}
@@ -145,67 +144,75 @@ public class Server {
 		// Make a new thread, as server.run() is non terminating
 		new Thread(new Runnable() {
 			public void run() {
-				listenForClients();
-				waitForClients(); //wait for all clients to be ready
-				transmitState(); // transmit initially
-				System.out.println("Server running fully");
-				long lastUpdate = System.currentTimeMillis();
-				while (running) {
-					System.out.println("running");
-					if (System.currentTimeMillis() > lastUpdate + updateFreq) {
-						gameLogic.tickGameState();
-						// System.out.println("tranmitting state");
-						transmitState();
-						lastUpdate = System.currentTimeMillis();
-					} else {
-						processAction();
-					}
-				}
-				System.out.println("Server shutting down");
-
 				try {
-					serverSocket.close();
+					listenForClients();
+					waitForClients(); // wait for all clients to be ready
+					transmitState(); // transmit initially
+					System.out.println("Server running fully");
+
+					long lastUpdate = System.currentTimeMillis();
+
+					// run server
+					while (running && clientList.size() > 0) {
+						if (System.currentTimeMillis() > lastUpdate + updateFreq) {
+							gameLogic.tickGameState();
+							transmitState();
+							lastUpdate = System.currentTimeMillis();
+						} else {
+							processAction();
+						}
+					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					System.out.println("couldnt close serversocket");
-					e.printStackTrace();
+				} finally {
+					System.out.println("Server shutting down");
+					for (ClientConnection c : clientList)
+						c.stop(); // stop all clients
+					try {
+						serverSocket.close();
+					} catch (IOException e) {
+					}
+					System.out.println("Closing down server");
+					System.exit(1);
 				}
-				System.out.println("Closing down server");
-
-			}
-
-			private void waitForClients() {
-				boolean notReady = true;
-				while(!allClientsReady()){
-					sleep(50);
-				}
-			}
-
-			private boolean allClientsReady(){
-				ArrayList<ClientConnection> clients = getConnections();
-				for(ClientConnection c : clients){
-					if(!c.isRunning())return false;
-				}
-				return true;
 			}
 		}).start();
+	}
+	/**
+	 * Wait for all clients to be ready
+	 */
+	private void waitForClients() {
+		while (!allClientsReady()) {
+			sleep(50);
+		}
+	}
+
+	/**
+	 * Check that all clients in the client list are ready to begin the
+	 * game
+	 *
+	 * @return <tt>true</tt> if all clients ready to begin
+	 */
+	private boolean allClientsReady() {
+		ArrayList<ClientConnection> clients = getConnections();
+		for (ClientConnection c : clients) {
+			if (!c.isRunning())
+				return false;
+		}
+		return true;
 	}
 
 	/**
 	 * Send out the current gamestate to all clients
+	 *
+	 * @throws IOException
 	 */
-	private void transmitState() {
+	private void transmitState() throws IOException {
 		// TODO This can be made more efficient by serialising once before
 		// transmitting
 		GameState state = gameLogic.getGameState();
 		for (int i = 0; i < clientList.size(); i++) {
 			ClientConnection client = clientList.get(i);
-			boolean isNewObject = i == 0 ? true : false; // only reset output
-															// cache on first
-															// send
-			isNewObject = true; // only transmits new state to one player if
-								// this is false...
-			client.writeObject(state, isNewObject);
+			client.writeObject(state);
 		}
 	}
 
@@ -220,33 +227,33 @@ public class Server {
 		}
 	}
 
-	synchronized private int addPlayerToGame(ClientConnection c){
-		if(fromSavedGame){
-			return gameLogic.getGameState().getPlayerID(c.username); //TODO
-		}else{
+	synchronized private int addPlayerToGame(ClientConnection c) {
+		if (fromSavedGame) {
+			return gameLogic.getGameState().getPlayerID(c.username);
+		} else {
 			gameLogic.getGameState().addPlayer(c.clientId, c.username, c.colour);
 			return c.clientId;
 		}
 	}
 
-	//methods for working with clientlist
+	// methods for working with clientlist
 
-	synchronized private int addClientConnection(ClientConnection cc){
+	synchronized private int addClientConnection(ClientConnection cc) {
 		this.clientList.add(cc);
 		return this.clientList.indexOf(cc);
 	}
 
-	synchronized private boolean removeClientConnection(ClientConnection cc){
+	synchronized private boolean removeClientConnection(ClientConnection cc) {
 		return this.clientList.remove(cc);
 	}
 
-
-	synchronized private ClientConnection getClientConnection(int index){
+	synchronized private ClientConnection getClientConnection(int index) {
 		return this.clientList.get(index);
 	}
 
-	synchronized private ArrayList<ClientConnection> getConnections(){
-		return (ArrayList<ClientConnection>) this.clientList.clone(); //TODO check this is ok
+	synchronized private ArrayList<ClientConnection> getConnections() {
+		//TODO check this is all good
+		return (ArrayList<ClientConnection>) this.clientList.clone();
 	}
 
 	/**
@@ -274,7 +281,7 @@ public class Server {
 			this.clientId = clientId;
 			outputToClient = new ObjectOutputStream(socket.getOutputStream());
 			inputFromClient = new ObjectInputStream(socket.getInputStream());
-			//negotiateConnection();
+			// negotiateConnection();
 		}
 
 		public boolean isRunning() {
@@ -282,72 +289,74 @@ public class Server {
 		}
 
 		private void negotiateConnection() {
-			String name = "";
-			int tempId = -1;
-			do {
-				System.out.println("startloop");
-				try {
-					name = (String) inputFromClient.readObject();
-					System.out.println("read name from client: " + name);
-				} catch (ClassNotFoundException | IOException e) {
-					//TODO disconnect();
-				}
-				//clientId = addPlayerToGamestate(name);
-				if(fromSavedGame){
-					this.clientId = getClientIdFromGameState(name); //retrieve their previous name
-					if(this.clientId == -1){ //TODO can be from just clientId
-						sendInt(INVALID_USERNAME);
-						System.out.println("client username invalid: " + name);
-					}
-				}
-				else{
-					if((tempId = getClientIdFromGameState(name)) != -1){ //name already used
-						sendInt(USERNAME_TAKEN);
-						System.out.println("client username taken: " + name);
-						continue; //TODO this needs to start loop again
-					}
-				}
-
-			} while ((fromSavedGame && this.clientId == -1) || (!fromSavedGame && tempId != -1)); //TODO make this loop nicer
-			sendInt(this.clientId);
-			System.out.println("sent id to client: " + this.clientId);
 			try {
-				this.colour = Color.decode((String) inputFromClient.readObject());
-			} catch (NumberFormatException | ClassNotFoundException
-					| IOException e) {
-				//TODO disconnect();
+				String name = "";
+				int tempId = -1;
+				do {
+					name = (String) inputFromClient.readObject();
+					// clientId = addPlayerToGamestate(name);
+					if (fromSavedGame) {
+						//retrieve their previous name
+						this.clientId = getClientIdFromGameState(name);
+						if (this.clientId == -1) {
+							sendInt(INVALID_USERNAME);
+						}
+					} else {
+						//if name already used
+						if ((tempId = getClientIdFromGameState(name)) != -1) {
+							sendInt(USERNAME_TAKEN);
+						}
+					}
+				} while ((fromSavedGame && this.clientId == -1)
+						|| (!fromSavedGame && tempId != -1)); // TODO make this
+																// loop nicer
+				sendInt(this.clientId);
+				System.out.println("sent id to client: " + this.clientId);
+				try {
+					this.colour = Color.decode((String) inputFromClient
+							.readObject());
+				} catch (NumberFormatException | ClassNotFoundException
+						| IOException e) {
+					// TODO disconnect();
+					return;
+				}
+				this.username = name;
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO disconnect();
 			}
-			this.username = name;
-
-			System.out.println("Server: new Client: " + username + " "
-					+ clientId + " colour: " + this.colour.toString());
-
-			System.out.println("wrote id to client" + clientId);
 			addPlayerToGame(this);
 			// Begin listening to this client
-			this.clientRunning = true; //ready to be sent to
+			this.clientRunning = true; // ready to be sent to
 		}
 
+		/**
+		 * Get the id of a given player name from the gamestate
+		 *
+		 * @param name
+		 *            Username of player
+		 * @return id if found, -1 if not present
+		 */
 		private int getClientIdFromGameState(String name) {
-			System.out.println("getClientIdFrom Gamestate");
 			Player[] players = gameLogic.getGameState().getPlayers();
-			for(Player p : players){
-				if(p != null){
-					System.out.println("checking gamestate player name: "+p.getName()+" "+name);
-					if(p.getName().equals(name))return p.getId();
+			for (Player p : players) {
+				if (p != null) {
+					if (p.getName().equals(name))
+						return p.getId();
 				}
 			}
 			return -1;
 		}
 
-		private void sendInt(int val) {
-			try {
-				outputToClient.reset();
-				outputToClient.writeInt(val); // send client their ID
-				outputToClient.flush();
-			} catch (IOException e) {
-				close();
-			}
+		/**
+		 * Send an int to the client
+		 *
+		 * @param val
+		 * @throws IOException
+		 */
+		private void sendInt(int val) throws IOException {
+			outputToClient.reset();
+			outputToClient.writeInt(val); // send client their ID
+			outputToClient.flush();
 		}
 
 		/**
@@ -361,7 +370,8 @@ public class Server {
 					while (clientRunning) {
 						NetworkAction action = null;
 						try {
-							action = (NetworkAction) inputFromClient.readObject();
+							action = (NetworkAction) inputFromClient
+									.readObject();
 						} catch (IOException | ClassNotFoundException e) {
 							// just catch
 						}
@@ -375,24 +385,17 @@ public class Server {
 
 		/**
 		 * Send a message to the client
+		 *
+		 * @throws IOException
 		 */
-		public boolean writeObject(Object o, boolean reset) {
-			if (o != null) {
-				try {
-					if (reset)
-					outputToClient.reset();
-					outputToClient.writeObject(o);
-					outputToClient.flush();
-				} catch (SocketException e) { // critical, close client
-												// connection
-					close();
-					// e.printStackTrace();
-					return false;
-				} catch (IOException e) {
-					return false;
-				}
+		public void writeObject(Object o) {
+			try {
+				outputToClient.reset();
+				outputToClient.writeObject(o);
+				outputToClient.flush();
+			} catch (IOException e) {
+				close();
 			}
-			return true;
 		}
 
 		/**
@@ -400,7 +403,7 @@ public class Server {
 		 */
 		private void close() {
 			System.out.println("Client " + clientId + "Disconnected");
-
+			gameLogic.getGameState().removePlayer(this.clientId);
 			try {
 				inputFromClient.close();
 				outputToClient.close();
@@ -417,19 +420,6 @@ public class Server {
 		private void stop() {
 			this.clientRunning = false;
 		}
-	}
-
-	public static void main(String[] args) {
-		Server serv ;
-		try {
-			serv = new Server(1, 1000, "assets/maps/map.xml");
-			serv.run();
-			serv.stop();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 }
