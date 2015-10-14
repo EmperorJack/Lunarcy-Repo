@@ -213,7 +213,6 @@ public class InteractionController implements KeyListener, MouseListener,
 			closeContainer();
 		}
 
-
 		// Hide the popup and bag view on click
 		popupDisplay.set(null, null);
 		bagView.update(null);
@@ -300,7 +299,8 @@ public class InteractionController implements KeyListener, MouseListener,
 			dropItem(draggedItem.getEntityID());
 		}
 
-		// If the mouse was released on the inventory bar, check if there was am item
+		// If the mouse was released on the inventory bar, check if there was am
+		// item
 		// being dragged in
 		else if (inventoryView.onBar(x, y) && draggedItem != null) {
 			// Pickup the item which was dragged onto the inventory
@@ -334,7 +334,7 @@ public class InteractionController implements KeyListener, MouseListener,
 		this.inventoryView = inventory;
 	}
 
-	public void updatePopup(String title, String desc){
+	public void updatePopup(String title, String desc) {
 		popupDisplay.set(title, desc);
 	}
 
