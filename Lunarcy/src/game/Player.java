@@ -37,7 +37,6 @@ public class Player implements Character, Serializable {
 		this.oxygen = 200;
 		this.inventory = new ArrayList<Item>();
 		this.colour = colour;
-		testAddItems();
 	}
 
 	public void move(Direction direction) {
@@ -244,26 +243,4 @@ public class Player implements Character, Serializable {
 	public void depleteOxygen() {
 		this.oxygen = 0;
 	}
-
-
-
-	/**
-	 * FOR TESTING PURPOSES Adds some items to the players inventory
-	 */
-	public void testAddItems() {
-		if (inventory == null)
-			return;
-		inventory.add(new ShipPart(id * 100, 0));
-		inventory.add(new ShipPart(id * 100 + 1, 1));
-		inventory.add(new ShipPart(id * 100 + 2, 2));
-		inventory.add(new ShipPart(id * 100 + 3, 3));
-		inventory.add(new CloakingGadget(id*100 + 4));
-		Bag b = new Bag(id * 100 + 5);
-		b.addItem(new Key(id*100+7, 1));
-		b.addItem(new Key(id*100+8, 2));
-		b.addItem(new Key(id*100+9, 3));
-		inventory.add(b);
-		inventory.add(new Armour(id * 100 + 6));
-	}
-
 }

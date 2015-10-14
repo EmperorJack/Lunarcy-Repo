@@ -62,15 +62,18 @@ public class Ship extends WalkableSquare {
 
 	private boolean playerHasWinningParts(Player player){
 		boolean hasParts = true;
-
+		System.out.println("Checking Part");
 		List<ShipPart> playerParts = player.getShipParts();
 
 		for(ShipPart reqPart: requiredParts){
 			boolean hasPart = false;
 			for(ShipPart part: playerParts){
+				System.out.println("Checking "+part.getName()+" against "+ reqPart.getName());
 				//Cannot use equals() method as that checks EntityID
 				if(part.getTypeID() == reqPart.getTypeID()){
+					System.out.println("Matched Part");
 					hasPart = true;
+					break;
 				}
 			}
 			if(!hasPart){
@@ -79,6 +82,7 @@ public class Ship extends WalkableSquare {
 				break;
 			}
 		}
+		System.out.println("Player " + (hasParts?"has":"doesn't have")+" the parts");
 		return hasParts;
 	}
 
