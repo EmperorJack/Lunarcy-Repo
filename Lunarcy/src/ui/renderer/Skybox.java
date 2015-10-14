@@ -22,8 +22,9 @@ public class Skybox {
 	// skybox fields
 	private final OBJModel skyModel;
 	private final PImage sun;
-	private final int SUN_OFFSET;
-	private final int SUN_SIZE;
+	private final PImage planet;
+	private final int ORBIT_OFFSET;
+	private final int ORBIT_OBJECT_SIZE;
 
 	public Skybox(Canvas p, float MODEL_SCALE) {
 		this.p = p;
@@ -36,13 +37,13 @@ public class Skybox {
 		objectTransformer.scaleOBJ(skyModel, MODEL_SCALE);
 		skyModel.drawMode(OBJModel.POLYGON);
 
-		// load the sun image
-		sun = p.loadImage("/assets/characters/OgreMan.png");
-		// TODO replace temp image with actual sun image here
+		// load the orbiting planet images
+		sun = p.loadImage("/assets/skybox/osirion-flare-09.png");
+		planet = p.loadImage("/assets/skybox/planet.png");
 
 		// set the sun offset and size
-		SUN_OFFSET = (int) (1000 * MODEL_SCALE);
-		SUN_SIZE = (int) (250 * MODEL_SCALE);
+		ORBIT_OFFSET = (int) (1000 * MODEL_SCALE);
+		ORBIT_OBJECT_SIZE = (int) (500 * MODEL_SCALE);
 	}
 
 	/**
@@ -66,15 +67,35 @@ public class Skybox {
 		// draw the skybox model
 		skyModel.draw();
 
-		// translate to the sun position
-		p.translate(0, 0, SUN_OFFSET);
+		// draw the sun image
+		drawOrbitingObject(sun, ORBIT_OFFSET);
+
+		// draw the planet image
+		drawOrbitingObject(planet, -ORBIT_OFFSET);
+
+		p.popStyle();
+		p.popMatrix();
+	}
+
+	/**
+	 * Draws an orbiting image (sun or planet) in front of the skybox/
+	 *
+	 * @param image
+	 *            The image to draw.
+	 * @param offset
+	 *            The offset from the origin to draw the image.
+	 */
+	private void drawOrbitingObject(PImage image, int offset) {
+		p.pushMatrix();
+
+		// translate to the orbiting object position
+		p.translate(0, 0, offset);
 
 		p.imageMode(PApplet.CENTER);
 
-		// draw the sun image
-		p.image(sun, 0, 0, SUN_SIZE, SUN_SIZE);
+		// draw the orbiting object image
+		p.image(image, 0, 0, ORBIT_OBJECT_SIZE, ORBIT_OBJECT_SIZE);
 
-		p.popStyle();
 		p.popMatrix();
 	}
 }

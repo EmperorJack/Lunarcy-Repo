@@ -5,6 +5,7 @@ File(s):	/skybox/sky27_*.jpg
 Author:		Stijn "Ingar" Buys <ingar@osirion.org>
 License:	http://creativecommons.org/licenses/by-sa/3.0/
 
-Item:
-Author:
-License:
+Item:		Sun Flare
+File(s):	/skybox/osirion-flare-09.png
+Author:		Stijn "Ingar" Buys <ingar@osirion.org>
+License:	http://creativecommons.org/licenses/by-sa/3.0/

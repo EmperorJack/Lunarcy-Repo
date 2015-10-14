@@ -49,13 +49,8 @@ public class InteractionController implements KeyListener, MouseListener,
 	private BagView bagView;
 	private PopupDisplay popupDisplay;
 
-	// Dragging/dropping items
-
-	// Dragging out of the inventory
-	private Item draggedFromItem;
-
-	// Dragging into inventory
-	private Item draggedToItem;
+	// The currently dragged item
+	private Item draggedItem;
 
 	// The coordinates of the item currently being dragged
 	private int draggedX;
@@ -89,10 +84,9 @@ public class InteractionController implements KeyListener, MouseListener,
 
 	}
 
-	/*--------- Action methods --------- */
+	/*--------- Methods for sending out actions --------- */
 
 	private void dropItem(int itemID) {
-		System.out.println("Dropping " + itemID);
 		client.sendAction(new DropAction(player.getId(), itemID));
 	}
 
@@ -154,13 +148,16 @@ public class InteractionController implements KeyListener, MouseListener,
 			client.sendAction(new OrientAction(player.getId(), false));
 			break;
 
-		// Hide/show a popup of current squares info
+		// Show a popup of the current squares info
 		case KeyEvent.VK_SPACE:
-			// If the menu is open, close it
+			// Open the menu if its closed
 			if (!popupDisplay.isSet()) {
+				// Get the players location
 				Location location = player.getLocation();
+				// Get the square the player is at
 				WalkableSquare square = (WalkableSquare) gameState
 						.getSquare(location);
+				// Set the popup display to show the squares info
 				popupDisplay.set(square.getName() + " at " + location,
 						square.getDescription());
 				return;
@@ -168,7 +165,7 @@ public class InteractionController implements KeyListener, MouseListener,
 			break;
 		}
 
-		// Reset our popup
+		// Reset our popup (so it dissapears on movement)
 		popupDisplay.set(null, null);
 	}
 
@@ -185,18 +182,18 @@ public class InteractionController implements KeyListener, MouseListener,
 			// If they select a bag
 			if (selectedItem instanceof Bag) {
 				Bag bag = (Bag) selectedItem;
+				// Show the bag view bar
 				bagView.update(bag);
 				return;
 			}
 
 		}
 
-		// attempt to get a container from entity view
 		SolidContainer clickedContainer = entityView.getSolidContainerAt(x, y);
 
-		// If an closed solid container is clicked
+		// If a closed solid container is clicked
 		if (clickedContainer != null && !clickedContainer.isOpen()) {
-			// Open it
+			// Open the container
 			openContainer();
 		}
 		// Else close the container
@@ -204,21 +201,19 @@ public class InteractionController implements KeyListener, MouseListener,
 			closeContainer();
 		}
 
-		// On a right click, show item descriptions
+		// On right click, show item descriptions
 		if (SwingUtilities.isRightMouseButton(e)) {
 
 			Item item = entityView.getItemAt(x, y);
-
+			// If they right click an item,show the items info
 			if (item != null) {
 				popupDisplay.set(item.getName(), item.getDescription());
 				return;
 			}
 
 		}
-		// Hide the popup
+		// Hide the popup and bag view on click
 		popupDisplay.set(null, null);
-
-		// Hide the bagview
 		bagView.update(null);
 
 	}
@@ -229,11 +224,10 @@ public class InteractionController implements KeyListener, MouseListener,
 		int y = (int) (e.getY() / canvas.getScaling());
 
 		// If the inventory was clicked
-		if (inventoryView.onBar(x, y)) {
-			// We are dragged an item from the inventory
-			draggedFromItem = inventoryView.getItemAt(x, y);
-			draggedToItem = null;
 
+		if (inventoryView.onBar(x, y)) {
+			// We are dragging an item from the inventory
+			draggedItem = inventoryView.getItemAt(x, y);
 			draggedX = x;
 			draggedY = y;
 			return;
@@ -241,10 +235,8 @@ public class InteractionController implements KeyListener, MouseListener,
 
 		// If the bag bar was clicked
 		if (bagView.onBar(x, y)) {
-			//We can drag this item to our inventory
-			draggedToItem = bagView.getItemAt(x, y);
-			draggedFromItem = null;
-
+			// We can drag this item out
+			draggedItem = bagView.getItemAt(x, y);
 			draggedX = x;
 			draggedY = y;
 			return;
@@ -254,9 +246,7 @@ public class InteractionController implements KeyListener, MouseListener,
 		// If the container menu was clicked
 		if (containerView.getContainer() != null && containerView.onBar(x, y)) {
 			// Get the item which was clicked
-			draggedToItem = containerView.getItemAt(x, y);
-			draggedFromItem = null;
-
+			draggedItem = containerView.getItemAt(x, y);
 			return;
 		}
 
@@ -264,8 +254,7 @@ public class InteractionController implements KeyListener, MouseListener,
 		Entity entity = entityView.getItemAt(x, y);
 		if (entity != null && entity instanceof Item) {
 			// Set the item to be picked up
-			draggedToItem = (Item) entity;
-			draggedFromItem = null;
+			draggedItem = (Item) entity;
 		}
 	}
 
@@ -274,8 +263,8 @@ public class InteractionController implements KeyListener, MouseListener,
 		int x = (int) (e.getX() / canvas.getScaling());
 		int y = (int) (e.getY() / canvas.getScaling());
 
-		// Set the coordinates of the current item being dragged
-		if (draggedFromItem != null || draggedToItem != null) {
+		// Update the coordinates of the current item being dragged
+		if (draggedItem != null) {
 			draggedX = x;
 			draggedY = y;
 		}
@@ -291,38 +280,35 @@ public class InteractionController implements KeyListener, MouseListener,
 		SolidContainer container = entityView.getSolidContainerAt(x, y);
 
 		// If they drop into a bag from their inventory
-		if (draggedFromItem != null && bagView.onBar(x, y) && bagView.getBag() != null) {
+		if (draggedItem != null && bagView.onBar(x, y)
+				&& bagView.getBag() != null) {
 			// Put the item in the bag
-			putItem(bagView.getBag().getEntityID(),
-					draggedFromItem.getEntityID());
+			putItem(bagView.getBag().getEntityID(), draggedItem.getEntityID());
 		}
 		// If they drag the item to an open container
-		else if (draggedFromItem != null && container != null
-				&& container.isOpen()) {
+		else if (draggedItem != null && container != null && container.isOpen()) {
 			// Put the item in the container
-			putItem(container.getEntityID(), draggedFromItem.getEntityID());
+			putItem(container.getEntityID(), draggedItem.getEntityID());
 		}
 
 		// If the item was not released on the inventory bar, and there was an
 		// item currently being dragged, drop it
-		else if (draggedFromItem != null && !inventoryView.onBar(x, y)) {
-
+		else if (draggedItem != null && !inventoryView.onBar(x, y)) {
 			// Drop the dragged from item
-			dropItem(draggedFromItem.getEntityID());
+			dropItem(draggedItem.getEntityID());
 		}
 
-		// If it was released on the inventory bar, check if an item was being
-		// dragged
-		// from the world in
-		else if (inventoryView.onBar(x, y) && draggedToItem != null) {
+		// If the mouse was released on the inventory bar, check if there was am item
+		// being dragged in
+		else if (inventoryView.onBar(x, y) && draggedItem != null) {
 			// Pickup the item which was dragged onto the inventory
-			pickupItem(draggedToItem.getEntityID());
+			pickupItem(draggedItem.getEntityID());
 		}
 
 		// Reset all the dragged item settings
 		resetDragValues();
 
-		// Close bagview
+		// Close bag view
 		bagView.update(null);
 	}
 
@@ -330,16 +316,24 @@ public class InteractionController implements KeyListener, MouseListener,
 	 * Set all the fields related to dragging back to their default.
 	 */
 	private void resetDragValues() {
-		draggedToItem = null;
-		draggedFromItem = null;
+		draggedItem = null;
 		draggedX = DEFAULT_X;
 		draggedY = DEFAULT_Y;
 	}
 
 	/*---------Getter/Setter methods---------*/
 
+	public void update(Player player, GameState gameState) {
+		this.player = player;
+		this.gameState = gameState;
+	}
+
 	public void setInventory(InventoryView inventory) {
 		this.inventoryView = inventory;
+	}
+
+	public void updatePopup(String title, String desc){
+		popupDisplay.set(title, desc);
 	}
 
 	public void setBagView(BagView bagView) {
@@ -358,31 +352,8 @@ public class InteractionController implements KeyListener, MouseListener,
 		this.entityView = entityView;
 	}
 
-	public void update(Player player, GameState gameState) {
-		this.player = player;
-		this.gameState = gameState;
-	}
-
-	/**
-	 * If either the item being dragged from the inventory, or the item being
-	 * dragged to the inventory is non null, returns this item (only one can be
-	 * non null at a time).
-	 *
-	 * If both are null, returns null.
-	 *
-	 * @return
-	 */
 	public Item getDraggedItem() {
-
-		if (draggedFromItem != null) {
-			return draggedFromItem;
-		}
-
-		if (draggedToItem != null) {
-			return draggedToItem;
-		}
-
-		return null;
+		return draggedItem;
 	}
 
 	public int getDraggedItemX() {

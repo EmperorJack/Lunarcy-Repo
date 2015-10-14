@@ -17,19 +17,14 @@ import java.util.Set;
 public class WalkableSquare extends Square {
 	private static final long serialVersionUID = 7008891830061539518L;
 
-	private final String name;
-	private final String description;
-
 	private Map<Direction, List<Item>> items;
 	private Map<Direction, Furniture> furnitureMap;
 	private Set<Player> players;
 	private boolean inside;
 
-	public WalkableSquare(String name, String description, boolean inside,
-			Wall north, Wall east, Wall south, Wall west) {
+	public WalkableSquare(boolean inside, Wall north, Wall east,
+			Wall south, Wall west) {
 
-		this.name = name;
-		this.description = description;
 		this.inside = inside;
 
 		items = new HashMap<Direction, List<Item>>();
@@ -247,14 +242,12 @@ public class WalkableSquare extends Square {
 	public String getDescription() {
 
 		String desc = "This square contains the following items: ";
-		boolean hasItem = false;
 
 		for(Direction dir: Direction.values()){
 
 			desc += "\n"+dir +" side: ";
 			for(Item i: items.get(dir)){
 				desc += i.getName()+", ";
-				hasItem = true;
 			}
 
 			Furniture furniture = furnitureMap.get(dir);

@@ -40,7 +40,8 @@ public class Frame extends JFrame implements ActionListener {
 	final JCheckBoxMenuItem greenContainerToggle = new JCheckBoxMenuItem("Green Containers");
 	final JCheckBoxMenuItem orangeContainerToggle = new JCheckBoxMenuItem("Orange Containers");
 	final JCheckBoxMenuItem redContainerToggle = new JCheckBoxMenuItem("Red Containers");
-	final JCheckBoxMenuItem removeContainers = new JCheckBoxMenuItem("Remove Containers");
+	final JCheckBoxMenuItem furnitureToggle = new JCheckBoxMenuItem("Furniture");
+	final JCheckBoxMenuItem removeFurniture = new JCheckBoxMenuItem("Remove Furniture");
 
 	public Frame() {
 		setTitle("Cool Map Builder");
@@ -94,7 +95,8 @@ public class Frame extends JFrame implements ActionListener {
 		toggleMenu.add(greenContainerToggle);
 		toggleMenu.add(orangeContainerToggle);
 		toggleMenu.add(redContainerToggle);
-		toggleMenu.add(removeContainers);
+		toggleMenu.add(furnitureToggle);
+		toggleMenu.add(removeFurniture);
 		toolMenu.add(setWalkable);
 		toolMenu.add(setBlank);
 		toolMenu.add(setShip);
@@ -237,15 +239,27 @@ public class Frame extends JFrame implements ActionListener {
 			}
 		});
 
-
-		removeContainers.addItemListener(new ItemListener() {
+		furnitureToggle.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					setTogglesFalse(removeContainers);
-					mapBuilder.removeContainersOn();
+					setTogglesFalse(furnitureToggle);
+					mapBuilder.furnitureOn();
 				} else {
-					mapBuilder.removeContainersOff();
+					mapBuilder.furnitureOff();
+				}
+			}
+		});
+
+
+		removeFurniture.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					setTogglesFalse(removeFurniture);
+					mapBuilder.removeFurnitureOn();
+				} else {
+					mapBuilder.removeFurnitureOff();
 				}
 			}
 		});
@@ -274,7 +288,8 @@ public class Frame extends JFrame implements ActionListener {
 		if (!checkBoxFrom.equals(greenContainerToggle)) greenContainerToggle.setState(false);
 		if (!checkBoxFrom.equals(orangeContainerToggle)) orangeContainerToggle.setState(false);
 		if (!checkBoxFrom.equals(redContainerToggle)) redContainerToggle.setState(false);
-		if (!checkBoxFrom.equals(removeContainers)) removeContainers.setState(false);
+		if (!checkBoxFrom.equals(furnitureToggle))  furnitureToggle.setState(false);
+		if (!checkBoxFrom.equals(removeFurniture)) removeFurniture.setState(false);
 	}
 
 	public static void main(String[] args) {
