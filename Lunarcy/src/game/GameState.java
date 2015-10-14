@@ -88,6 +88,7 @@ public class GameState implements Serializable {
 		//Now we can begin to distribute the items between all the containers
 		for(Integer access: containers.keySet()){
 			List<Item> items = itemMap.get(access);
+			if(items==null)continue;
 			//Go through and fill up all the containers
 			while(!items.isEmpty()){
 				for(SolidContainer container: containers.get(access)){

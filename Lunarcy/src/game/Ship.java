@@ -37,9 +37,7 @@ public class Ship extends WalkableSquare {
 		if (player == null)
 			return false;
 
-		boolean hasParts = playerHasWinningParts(player);
-
-		if (hasParts) {
+		if (playerHasWinningParts(player)) {
 			hasLaunched = true;
 			// Make sure we don't overwrite the first player to win
 			pilot = pilot == null ? player : pilot;
