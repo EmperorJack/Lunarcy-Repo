@@ -128,7 +128,8 @@ public class RoamMovement implements MoveStrategy {
 					while (iter.hasNext()) {
 						Player player = iter.next();
 
-						//If a players outside, without a cloak, check the distance
+						// If a players outside, without a cloak, check the
+						// distance
 						if (gameState.isOutside(player.getLocation())
 								&& !player.hasCloak()
 								&& distance(rover, player) < closestDistance) {

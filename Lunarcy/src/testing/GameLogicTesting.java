@@ -6,12 +6,10 @@ import game.GameLogic;
 import game.GameState;
 import game.Key;
 import game.Player;
-import game.Ship;
 import game.ShipPart;
 import game.SolidContainer;
 
 import java.awt.Color;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.junit.Test;

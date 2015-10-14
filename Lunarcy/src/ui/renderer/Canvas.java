@@ -75,10 +75,6 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	private final static int ORANGE = 2;
 	private final static int RED = 3;
 
-	// audio fields
-	// private Minim minim;
-	// private AudioPlayer track;
-
 	/**
 	 * Setup a new Processing Canvas.
 	 *
