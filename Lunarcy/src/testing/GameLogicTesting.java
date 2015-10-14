@@ -98,6 +98,24 @@ public class GameLogicTesting {
 		logic.getGameState().getPlayer(0).giveItem(new Key(100, 1));
 		assertTrue(logic.dropItem(0, 100));
 	}
+	
+	/**
+	 * Should be able to drop an item which is
+	 * in a bag in your inventory
+	 */
+	@Test
+	public void validDrop_2(){
+		GameLogic logic = createNewGameLogic(1);
+		GameState gamestate = logic.getGameState();
+		Player player = gamestate.getPlayer(0);
+		
+		Bag bag = new Bag(100);
+		Key key = new Key(101, 1);
+		bag.addItem(key);
+
+		player.giveItem(bag);
+		assertTrue(logic.dropItem(0, 101));
+	}
 
 	/**
 	 * Shouldnt be able to drop an item up which is not
@@ -203,12 +221,36 @@ public class GameLogicTesting {
 		GameState gamestate = logic.getGameState();
 		Player player = gamestate.getPlayer(0);
 
-		player.giveItem(new Key(1000, 1));
+		player.giveItem(new Key(100, 1));
 
 		SolidContainer container = gamestate.getSquare(player.getLocation()).getContainer(player.getOrientation());
-		assertTrue(logic.putItemIntoContainer(0, container.getEntityID(), 1000));
+		assertTrue(logic.putItemIntoContainer(0, container.getEntityID(), 100));
 	}
 
+	/**
+	 * Should be able to put an item from a bag into container
+	 */
+	@Test
+	public void validBagToContainer_1(){
+		GameLogic logic = createNewGameLogic(1);
+		logic.openContainer(0);
+
+		GameState gamestate = logic.getGameState();
+		Player player = gamestate.getPlayer(0);
+
+		Bag bag = new Bag(100);
+		Key key = new Key(101, 1);
+		bag.addItem(key);
+
+		player.giveItem(bag);
+
+		SolidContainer container = gamestate.getSquare(player.getLocation()).getContainer(player.getOrientation());
+		assertTrue(logic.putItemIntoContainer(0, container.getEntityID(), 101));
+	}
+	
+	/**
+	 * Should be able to take an item out of a bag
+	 */
 	@Test
 	public void validBagToInventory_1(){
 		GameLogic logic = createNewGameLogic(1);
@@ -223,6 +265,26 @@ public class GameLogicTesting {
 		player.giveItem(bag);
 
 		assertTrue(logic.pickUpItem(0, 101));
+
+	}
+	
+	/**
+	 * Should be able to put an item from players inventory into a bag
+	 */
+	@Test
+	public void validInventoryToBag_1(){
+		GameLogic logic = createNewGameLogic(1);
+
+		GameState gamestate = logic.getGameState();
+		Player player = gamestate.getPlayer(0);
+
+		Bag bag = new Bag(100);
+		Key key = new Key(101, 1);
+		
+		player.giveItem(key);
+		player.giveItem(bag);
+
+		assertTrue(logic.putItemIntoContainer(0, 100, 101));
 
 	}
 
@@ -291,6 +353,14 @@ public class GameLogicTesting {
 		GameLogic logic = createNewGameLogic(1);
 		GameState state = logic.getGameState();
 		logic.movePlayer(0, Direction.SOUTH);
+		assertEquals(new Location(0,0), state.getPlayer(0).getLocation());
+	}
+	
+	@Test
+	public void noMoveAfterTick(){
+		GameLogic logic = createNewGameLogic(1);
+		GameState state = logic.getGameState();
+		state.tick();
 		assertEquals(new Location(0,0), state.getPlayer(0).getLocation());
 	}
 	
