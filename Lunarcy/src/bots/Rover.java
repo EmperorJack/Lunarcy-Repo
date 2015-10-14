@@ -35,11 +35,14 @@ public class Rover implements Character, Serializable {
 	private Location currentLocation;
 	private Direction orientation;
 
-	private final Location START_LOCATION = new Location(17, 5);
+	// So we can reset the rover to their original location if neccesary
+	private final Location startSpawn;
 
-	public Rover() {
+	public Rover(Location spawnLocation) {
+		this.startSpawn = spawnLocation;
+		this.currentLocation = spawnLocation;
+
 		this.movementStrategy = new RoamMovement();
-		this.currentLocation = START_LOCATION;
 		this.orientation = Direction.NORTH;
 	}
 
@@ -54,7 +57,7 @@ public class Rover implements Character, Serializable {
 
 		// if the next step is null, they're stuck
 		if (nextStep == null) {
-			//So set there movement to be roaming
+			// So set there movement to be roaming
 			movementStrategy = new RoamMovement();
 			return;
 		}
@@ -85,7 +88,7 @@ public class Rover implements Character, Serializable {
 
 	private void restartRover() {
 		movementStrategy = new RoamMovement();
-		currentLocation = START_LOCATION;
+		currentLocation = startSpawn;
 	}
 
 	/**
@@ -105,8 +108,8 @@ public class Rover implements Character, Serializable {
 		if (movementStrategy instanceof RoamMovement) {
 
 			// Check if we can see any players
-			Player target = ((RoamMovement) movementStrategy)
-					.viewTarget(this,gameState);
+			Player target = ((RoamMovement) movementStrategy).viewTarget(this,
+					gameState);
 
 			// If we can see a target, chase them
 			if (target != null) {
@@ -118,7 +121,8 @@ public class Rover implements Character, Serializable {
 		// If we are in Track Mode
 		else if (movementStrategy instanceof TrackMovement) {
 			// If the tracker has been following for too long
-			if (((TrackMovement) movementStrategy).shouldGiveup(this, gameState)) {
+			if (((TrackMovement) movementStrategy)
+					.shouldGiveup(this, gameState)) {
 				// Change back to Roaming
 				movementStrategy = new RoamMovement();
 			}

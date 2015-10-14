@@ -31,19 +31,23 @@ public class GameState implements Serializable {
 
 	private Square[][] board;
 	private List<Location> spawnPoints;
+	private List<Location> roverSpawnPoints;
 	private Ship ship;
 	private Player[] players;
 	private Set<Rover> rovers;
 
 	private int tickCount;
 
+	private final int MAX_ROVERS = 5;
+
 	public GameState(int numPlayers, String map) {
 		loadMap(map);
 		rovers = new HashSet<Rover>();
 		players = new Player[numPlayers];
-		addRover(new Rover());
-		((WalkableSquare) getSquare(new Location(1, 1))).setFurniture(
-				Direction.NORTH, new Chest(69));
+
+		for(int i=0; i<MAX_ROVERS; i++){
+			addRover();
+		}
 	}
 
 	/**
@@ -177,6 +181,7 @@ public class GameState implements Serializable {
 		GameMap gameMap = Storage.loadGameMap(new File(map));
 		board = gameMap.getSquares();
 		spawnPoints = gameMap.getPlayerSpawnPoints();
+		roverSpawnPoints = gameMap.getRoverSpawnPoints();
 			// Search the board to find the ship and save it
 			// Probably need to do something if there is no ship
 			// (InvalidMapException??)
@@ -210,16 +215,16 @@ public class GameState implements Serializable {
 	}
 
 	/**
-	 * Adds the rover to the Set of Rovers
+	 * Adds a new rover to the set of rovers
+	 * if there is still room
 	 *
-	 * @param rover
-	 *            The Rover to be added
 	 * @return True if the rover was added, False otherwise
 	 */
-	public boolean addRover(Rover rover) {
-		if (rover == null) {
+	public boolean addRover() {
+		if(rovers.size() >= MAX_ROVERS){
 			return false;
 		}
+		Rover rover = new Rover(roverSpawnPoints.get((int) (Math.random() * roverSpawnPoints.size())));
 		return rovers.add(rover);
 	}
 

@@ -37,7 +37,7 @@ public class Player implements Character, Serializable {
 		this.oxygen = 200;
 		this.inventory = new ArrayList<Item>();
 		this.colour = colour;
-		//testAddItems();
+		testAddItems();
 	}
 
 	public void move(Direction direction) {
