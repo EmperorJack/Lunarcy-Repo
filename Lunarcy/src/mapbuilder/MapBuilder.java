@@ -702,6 +702,7 @@ public class MapBuilder {
 
 	public void initialiseItems() {
 		map.initTierDictionary();
+		map.initialiseShip();
 	}
 
 	public void furnitureOn() {
