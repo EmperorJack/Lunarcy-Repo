@@ -140,7 +140,7 @@ public class GameStateTesting {
 	@Test
 	public void validRoverCatch() {
 		GameState gameState = new GameState(1, "assets/maps/map.xml");
-		gameState.addRover(new Rover());
+		gameState.addRover();
 		gameState.addPlayer(0, "Ben", Color.RED);
 
 		Rover rover = gameState.getRovers().iterator().next();
@@ -158,7 +158,7 @@ public class GameStateTesting {
 	@Test
 	public void invalidRoverCatch_1() {
 		GameState gameState = new GameState(1, "assets/maps/map.xml");
-		gameState.addRover(new Rover());
+		gameState.addRover();
 		gameState.addPlayer(0, "Ben", Color.RED);
 
 		assertNull("Rover should have caught a player", gameState.caughtPlayer(null));
@@ -172,7 +172,7 @@ public class GameStateTesting {
 	@Test
 	public void invalidRoverCatch_2() {
 		GameState gameState = new GameState(1, "assets/maps/map.xml");
-		gameState.addRover(new Rover());
+		gameState.addRover();
 		gameState.addPlayer(0, "Ben", Color.RED);
 
 		Rover rover = gameState.getRovers().iterator().next();
@@ -183,15 +183,6 @@ public class GameStateTesting {
 		assertNull("Rover should not have caught a player", gameState.caughtPlayer(rover));
 	}
 
-	/**
-	 * If the rover passed in is null, then the returning result should also be
-	 * null.
-	 */
-	@Test
-	public void invalidRoverAdd() {
-		GameState gameState = new GameState(1, "assets/maps/map.xml");
-		assertFalse("Should not be able to add a null rover", gameState.addRover(null));
-	}
 
 	/* Spawn tests */
 

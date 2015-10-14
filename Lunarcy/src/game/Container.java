@@ -25,7 +25,8 @@ public abstract class Container implements Entity {
 	}
 
 	public boolean addItem(Item item){
-		if(item.getEntityID()==entityID || items.size() >= maxSize){
+		System.out.println("Container has " + items.size() +" items out of "+maxSize);
+		if(item.getEntityID()==this.entityID || items.size() >= maxSize){
 			//Cannot put a container inside itself!
 			return false;
 		}
