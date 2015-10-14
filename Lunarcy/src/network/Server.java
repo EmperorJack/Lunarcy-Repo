@@ -150,6 +150,10 @@ public class Server extends Thread {
 			while (running && clientList.size() > 0) {
 				if (System.currentTimeMillis() > lastUpdate + updateFreq) {
 					gameLogic.tickGameState();
+					if(gameLogic.getWinner() != null){
+						transmitState();
+						break;
+					}
 					transmitState();
 					lastUpdate = System.currentTimeMillis();
 				} else {
@@ -166,7 +170,7 @@ public class Server extends Thread {
 			} catch (IOException e) {
 			}
 			System.out.println("Closing down server");
-			System.exit(1);
+			//System.exit(1);
 		}
 	}
 
@@ -218,16 +222,21 @@ public class Server extends Thread {
 			action.applyAction(gameLogic);// interpreter.interpret(action);
 		}
 	}
-
-	synchronized private int addPlayerToGame(ClientConnection c) {
-		if (fromSavedGame) {
-			return gameLogic.getGameState().getPlayerID(c.username);
-		} else {
-			gameLogic.getGameState()
-					.addPlayer(c.clientId, c.username, c.colour);
-			return c.clientId;
-		}
-	}
+	/**
+	 * Add a player to the gamestate given a client
+	 *
+	 * @param c ClientConnection holds details for new player
+	 * @return If from saved game, returns player id else returns the clients id
+	 */
+//	synchronized private int addPlayerToGame(ClientConnection c) {
+//		if (fromSavedGame) {
+//			return gameLogic.getGameState().getPlayerID(c.username);
+//		} else {
+//			gameLogic.getGameState()
+//					.addPlayer(c.clientId, c.username, c.colour);
+//			return c.clientId;
+//		}
+//	}
 
 	// methods for working with clientlist
 
@@ -316,7 +325,7 @@ public class Server extends Thread {
 			} catch (ClassNotFoundException | IOException e) {
 				// TODO disconnect();
 			}
-			addPlayerToGame(this);
+			gameLogic.getGameState().addPlayer(clientId, username, colour);//addPlayerToGame(this);
 			// Begin listening to this client
 			this.clientRunning = true; // ready to be sent to
 		}
@@ -381,6 +390,7 @@ public class Server extends Thread {
 				outputToClient.writeObject(o);
 				outputToClient.flush();
 			} catch (IOException e) {
+				stopClient();
 				close();
 			}
 		}
