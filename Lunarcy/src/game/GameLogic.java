@@ -154,7 +154,7 @@ public class GameLogic {
 		if (inventory.size() > 0) {
 			int i = (int) (inventory.size() * Math.random());
 			Item item = inventory.get(i);
-			
+
 			//We don't want to drop keys as players could get stuck
 			if(item instanceof Key){
 				i = 0;

@@ -6,9 +6,13 @@ import game.GameLogic;
 import game.GameState;
 import game.Key;
 import game.Player;
+import game.Ship;
+import game.ShipPart;
 import game.SolidContainer;
 
 import java.awt.Color;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import org.junit.Test;
 
@@ -197,6 +201,66 @@ public class GameLogicTesting {
 
 	}
 
+
+	/**
+	 * Test that when killing a player they lose an item
+	 */
+
+	@Test
+	public void validKillPlayer_1(){
+
+		//Since the method is private but is quite essential, I used
+		//reflection to test it
+		GameLogic logic = createNewGameLogic(1);
+		Player player = logic.getGameState().getPlayer(0);
+
+		player.giveItem(new ShipPart(1001, 1));
+		int sizeBefore = player.getInventory().size();
+
+		Method method;
+		try {
+			method = logic.getClass().getDeclaredMethod("killPlayer", Player.class);
+			method.setAccessible(true);
+			method.invoke(logic, player);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+
+		assertTrue(sizeBefore > player.getInventory().size());
+	}
+
+	/**
+	 * Test that when killing a player they do not
+	 * lose a key
+	 */
+
+	@Test
+	public void validKillPlayer_2(){
+
+		//Since the method is private but is quite essential, I used
+		//reflection to test it
+		GameLogic logic = createNewGameLogic(1);
+		Player player = logic.getGameState().getPlayer(0);
+
+		player.giveItem(new Key(1001, 1));
+		int sizeBefore = player.getInventory().size();
+
+		Method method;
+		try {
+			method = logic.getClass().getDeclaredMethod("killPlayer", Player.class);
+			method.setAccessible(true);
+			method.invoke(logic, player);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+
+		//Should not have lost any items since they only have a key
+		assertTrue(sizeBefore == player.getInventory().size());
+	}
 
 
 	private GameLogic createNewGameLogic(int numPlayers) {
