@@ -12,12 +12,11 @@ public class Ship extends WalkableSquare {
 	private Player pilot;
 
 	public Ship(ShipPart... parts) {
-		super("Escape Ship", "Find all the parts to repair the ship", true,
-				null, null, null, null);
+		super(true, null, null,
+				null, null);
 		hasLaunched = false;
 		pilot = null;
 		requiredParts = new HashSet<ShipPart>();
-		requiredParts.add(new ShipPart(100,1));
 
 		for (ShipPart part : parts) {
 			requiredParts.add(part);
