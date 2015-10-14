@@ -177,6 +177,11 @@ public class Perspective3D extends DrawingComponent {
 		// for each player
 		for (int i = 0; i < players.length; i++) {
 
+			// check if the player is null
+			if (players[i] == null) {
+				continue;
+			}
+
 			// don't draw a player in the same location as this player
 			if (!players[i].getLocation().equals(thisPlayer.getLocation())) {
 				p.pushMatrix();

@@ -9,7 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.awt.Color;
@@ -24,7 +23,7 @@ import storage.Storage;
  * @author JTFM
  *
  */
-public class Server {
+public class Server extends Thread {
 	// Network related fields
 	private ServerSocket serverSocket;
 	private int maxClients;
@@ -67,10 +66,10 @@ public class Server {
 	/**
 	 * Blocking method to gracefully shutdown server
 	 */
-	public void stop() {
+	public void stopServer() {
 		running = false;
 		for (ClientConnection client : clientList) {
-			client.stop(); // stop every client connection
+			client.stopClient(); // stop every client connection
 			System.out.println("stopped " + client.username);
 		}
 		System.out.println("Stopping server");
@@ -84,7 +83,7 @@ public class Server {
 	 * Gracefully stop the server and close all sockets/connections
 	 */
 	public void stopAndSave(String filename) {
-		stop();
+		stopServer();
 		Storage.saveState(gameLogic.getGameState(), filename);
 	}
 
@@ -115,11 +114,9 @@ public class Server {
 			} catch (IOException e) {
 				continue;
 			}
-			int clientID = (fromSavedGame) ? -1 : clientList.size(); // set -1
-																		// if
-																		// from
-																		// saved
-																		// game
+
+			// set -1 if from saved game
+			int clientID = (fromSavedGame) ? -1 : clientList.size();
 			ClientConnection client;
 
 			try {
@@ -132,7 +129,7 @@ public class Server {
 				continue;
 			}
 			clientList.add(client);
-			client.listenToClient();
+			client.start();
 		}
 
 	}
@@ -141,42 +138,38 @@ public class Server {
 	 * Run the client processing client actions and sending gamestates
 	 */
 	public void run() {
-		// Make a new thread, as server.run() is non terminating
-		new Thread(new Runnable() {
-			public void run() {
-				try {
-					listenForClients();
-					waitForClients(); // wait for all clients to be ready
-					transmitState(); // transmit initially
-					System.out.println("Server running fully");
+		try {
+			listenForClients();
+			waitForClients(); // wait for all clients to be ready
+			transmitState(); // transmit initially
+			System.out.println("Server running fully");
 
-					long lastUpdate = System.currentTimeMillis();
+			long lastUpdate = System.currentTimeMillis();
 
-					// run server
-					while (running && clientList.size() > 0) {
-						if (System.currentTimeMillis() > lastUpdate + updateFreq) {
-							gameLogic.tickGameState();
-							transmitState();
-							lastUpdate = System.currentTimeMillis();
-						} else {
-							processAction();
-						}
-					}
-				} catch (IOException e) {
-				} finally {
-					System.out.println("Server shutting down");
-					for (ClientConnection c : clientList)
-						c.stop(); // stop all clients
-					try {
-						serverSocket.close();
-					} catch (IOException e) {
-					}
-					System.out.println("Closing down server");
-					System.exit(1);
+			// run server
+			while (running && clientList.size() > 0) {
+				if (System.currentTimeMillis() > lastUpdate + updateFreq) {
+					gameLogic.tickGameState();
+					transmitState();
+					lastUpdate = System.currentTimeMillis();
+				} else {
+					processAction();
 				}
 			}
-		}).start();
+		} catch (IOException e) {
+		} finally {
+			System.out.println("Server shutting down");
+			for (ClientConnection c : clientList)
+				c.stopClient(); // stop all clients
+			try {
+				serverSocket.close();
+			} catch (IOException e) {
+			}
+			System.out.println("Closing down server");
+			System.exit(1);
+		}
 	}
+
 	/**
 	 * Wait for all clients to be ready
 	 */
@@ -187,13 +180,12 @@ public class Server {
 	}
 
 	/**
-	 * Check that all clients in the client list are ready to begin the
-	 * game
+	 * Check that all clients in the client list are ready to begin the game
 	 *
 	 * @return <tt>true</tt> if all clients ready to begin
 	 */
 	private boolean allClientsReady() {
-		ArrayList<ClientConnection> clients = getConnections();
+		ArrayList<ClientConnection> clients = getClientConnectionsClone();
 		for (ClientConnection c : clients) {
 			if (!c.isRunning())
 				return false;
@@ -231,7 +223,8 @@ public class Server {
 		if (fromSavedGame) {
 			return gameLogic.getGameState().getPlayerID(c.username);
 		} else {
-			gameLogic.getGameState().addPlayer(c.clientId, c.username, c.colour);
+			gameLogic.getGameState()
+					.addPlayer(c.clientId, c.username, c.colour);
 			return c.clientId;
 		}
 	}
@@ -251,8 +244,8 @@ public class Server {
 		return this.clientList.get(index);
 	}
 
-	synchronized private ArrayList<ClientConnection> getConnections() {
-		//TODO check this is all good
+	synchronized private ArrayList<ClientConnection> getClientConnectionsClone() {
+		// TODO check this is all good
 		return (ArrayList<ClientConnection>) this.clientList.clone();
 	}
 
@@ -267,7 +260,7 @@ public class Server {
 		return maxClients;
 	}
 
-	private class ClientConnection {
+	private class ClientConnection extends Thread {
 		private Socket socket;
 		private ObjectInputStream inputFromClient;
 		private ObjectOutputStream outputToClient;
@@ -295,13 +288,13 @@ public class Server {
 					name = (String) inputFromClient.readObject();
 					// clientId = addPlayerToGamestate(name);
 					if (fromSavedGame) {
-						//retrieve their previous name
+						// retrieve their previous name
 						this.clientId = getClientIdFromGameState(name);
 						if (this.clientId == -1) {
 							sendInt(INVALID_USERNAME);
 						}
 					} else {
-						//if name already used
+						// if name already used
 						if ((tempId = getClientIdFromGameState(name)) != -1) {
 							sendInt(USERNAME_TAKEN);
 						}
@@ -362,24 +355,19 @@ public class Server {
 		 * Listen to client and add any NetworkActions to the action queue to be
 		 * processed
 		 */
-		private void listenToClient() {
-			new Thread(new Runnable() {
-				public void run() {
-					negotiateConnection();
-					while (clientRunning) {
-						NetworkAction action = null;
-						try {
-							action = (NetworkAction) inputFromClient
-									.readObject();
-						} catch (IOException | ClassNotFoundException e) {
-							// just catch
-						}
-						if (action != null)
-							actionQueue.add(action);
-					}
-					close(); // when not running, disconnect
+		public void run() {
+			negotiateConnection();
+			while (clientRunning) {
+				NetworkAction action = null;
+				try {
+					action = (NetworkAction) inputFromClient.readObject();
+				} catch (IOException | ClassNotFoundException e) {
+					// just catch
 				}
-			}).start();
+				if (action != null)
+					actionQueue.add(action);
+			}
+			close(); // when not running, disconnect
 		}
 
 		/**
@@ -402,21 +390,19 @@ public class Server {
 		 */
 		private void close() {
 			System.out.println("Client " + clientId + "Disconnected");
-			gameLogic.getGameState().removePlayer(this.clientId);
+			actionQueue.add(new RemovePlayer(this.clientId));
 			try {
 				inputFromClient.close();
 				outputToClient.close();
 				socket.close();
-			} catch (IOException e) {
-
-			}
+			} catch (IOException e){}
 			removeClientConnection(this);
 		}
 
 		/**
 		 * Gracefully close client connection
 		 */
-		private void stop() {
+		private void stopClient() {
 			this.clientRunning = false;
 		}
 	}
