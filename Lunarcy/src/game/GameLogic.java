@@ -223,7 +223,7 @@ public class GameLogic {
 			//Checks if the item is in the square
 			item = wSquare.takeItem(player.getOrientation(), itemID);
 			if(item != null){
-				if(item instanceof Key && player.hasKey(((Key)item).keyCode)){
+				if(item instanceof Key && player.hasKey(((Key)item).getAccessLevel())){
 					wSquare.addItem(player.getOrientation(), item);
 				}
 				return player.giveItem(item);
@@ -235,7 +235,7 @@ public class GameLogic {
 			if (container != null && container.isOpen() && container.hasItem(itemID)) {
 				item = container.takeItem(itemID);
 				if (item != null) {
-					if(item instanceof Key && player.hasKey(((Key)item).keyCode)){
+					if(item instanceof Key && player.hasKey(((Key)item).getAccessLevel())){
 						if(!container.addItem(item)){
 							wSquare.addItem(player.getOrientation(), item);
 							return false;

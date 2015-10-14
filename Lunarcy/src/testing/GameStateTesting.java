@@ -280,8 +280,27 @@ public class GameStateTesting {
 	@Test
 	public void testGetShipParts(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
-		assertTrue(ship.getParts().size()==3);
+		assertEquals(ship.getParts().size(),3);
 	}
+	
+	@Test
+	public void testInvalidShipAddPlayer(){
+		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1));
+		ship.addPlayer(null);
+	}
+	
+	@Test
+	public void testGetShipPilot(){
+		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
+		Player p = new Player(0, "Test", null, null, null);
+		p.giveItem(new ShipPart(0,0));
+		p.giveItem(new ShipPart(1,1));
+		p.giveItem(new ShipPart(2,2));
+		ship.addPlayer(p);
+		assertTrue(ship.hasLaunched());
+		assertEquals(ship.getPilot(),p);
+	}
+
 
 	@Test
 	public void validEnterShip_1(){
@@ -306,6 +325,21 @@ public class GameStateTesting {
 	@Test
 	public void invalidEnterShip_1(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
+		assertFalse(ship.canEnter(null, Direction.EAST));
+	}
+	
+	@Test
+	public void invalidEnterShip_2(){
+		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1));
+		Player p = new Player(0, "Test", null, null, null);
+		p.giveItem(new ShipPart(0,0));
+		p.giveItem(new ShipPart(1,1));
+		assertFalse(ship.canEnter(p, null));
+	}
+	
+	@Test
+	public void invalidEnterShip_3(){
+		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
 		Player p = new Player(0, "Test", null, null, null);
 		p.giveItem(new ShipPart(0,0));
 		p.giveItem(new ShipPart(1,1));
@@ -313,7 +347,7 @@ public class GameStateTesting {
 	}
 
 	@Test
-	public void invalidEnterShip_2(){
+	public void invalidEnterShip_4(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
 		Player p = new Player(0, "Test", null, null, null);
 		p.giveItem(new ShipPart(0,0));
@@ -321,5 +355,47 @@ public class GameStateTesting {
 		p.giveItem(new Key(3,3));
 		assertFalse(ship.canEnter(p, Direction.EAST));
 	}
+	
+	@SuppressWarnings("serial")
+	@Test
+	public void testEmptyContainerSpace(){
+		Container c = new Container(0,1){
+			public boolean canAccess(Player player) {
+				return true;
+			}
+		};
+		assertTrue(c.hasSpace());
+	}
+	
+	@SuppressWarnings("serial")
+	@Test
+	public void testFullContainerSpace(){
+		Container c = new Container(0,1){
+			public boolean canAccess(Player player) {
+				return true;
+			}
+		};
+		c.addItem(new Key(1,1));
+		assertFalse(c.hasSpace());
+	}
+	
+	@Test
+	public void testDirectionOpposite_1(){
+		assertEquals(Direction.NORTH.opposite(),Direction.SOUTH);
+	}
+	
+	@Test
+	public void testDirectionOpposite_2(){
+		assertEquals(Direction.EAST.opposite().opposite(),Direction.EAST);
+	}
+	
+	@Test
+	public void testDirectionLeft(){
+		assertEquals(Direction.NORTH.left() ,Direction.WEST);
+	}
 
+	@Test
+	public void testDirectionRight(){
+		assertEquals(Direction.NORTH.right() ,Direction.EAST);
+	}
 }
