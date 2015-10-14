@@ -37,6 +37,7 @@ The jar does not run, use these steps to get it working.
    storage
    testing
    ui
+3. drag the remaining folders except for 'libs' and 'META-INF' into a new folder called 'assets' inside project directory.
 
 Lunarcy
 
