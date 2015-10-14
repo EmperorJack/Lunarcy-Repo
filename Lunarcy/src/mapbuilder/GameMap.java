@@ -45,6 +45,18 @@ public class GameMap {
 		addKey(3,2,2);
 	}
 
+	public void initialiseShip(){
+		for (int i =0; i < squares.length; i++){
+			for (int j = 0; j < squares[0].length; j++){
+				if (squares[i][j] instanceof Ship)
+					squares[i][j] = new Ship(
+							new ShipPart(2001, 0), new ShipPart(2002, 1), new ShipPart(
+									2003, 2), new ShipPart(2004, 3), new ShipPart(2005,
+									4));
+			}
+		}
+	}
+
 	public void addShipPart(int partID, int count, int tier){
 		for (int i = 0; i < count; i++){
 			ShipPart newPart = new ShipPart(entityCount + 10, partID);

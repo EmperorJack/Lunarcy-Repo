@@ -182,6 +182,7 @@ public class GameLogicTesting {
 
 
 
+
 	private GameLogic createNewGameLogic(int numPlayers) {
 		GameState state = new GameState(numPlayers, "assets/maps/testmap.xml");
 

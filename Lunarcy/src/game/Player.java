@@ -36,7 +36,6 @@ public class Player implements Character, Serializable {
 		this.orientation = orientation == null ? Direction.NORTH : orientation;
 		this.oxygen = 200;
 		this.inventory = new ArrayList<Item>();
-		this.colour = colour;
 	}
 
 	public void move(Direction direction) {
