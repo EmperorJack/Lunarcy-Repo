@@ -17,7 +17,6 @@ public class Ship extends WalkableSquare {
 		hasLaunched = false;
 		pilot = null;
 		requiredParts = new HashSet<ShipPart>();
-		requiredParts.add(new ShipPart(100,1));
 
 		for (ShipPart part : parts) {
 			requiredParts.add(part);
@@ -66,7 +65,7 @@ public class Ship extends WalkableSquare {
 
 	private boolean playerHasWinningParts(Player player) {
 		boolean hasParts = true;
-
+		System.out.println("Checking Part");
 		List<ShipPart> playerParts = player.getShipParts();
 
 		for (ShipPart reqPart : requiredParts) {
@@ -75,6 +74,7 @@ public class Ship extends WalkableSquare {
 				// Cannot use equals() method as that checks EntityID
 				if (part.getTypeID() == reqPart.getTypeID()) {
 					hasPart = true;
+					break;
 				}
 			}
 			if (!hasPart) {

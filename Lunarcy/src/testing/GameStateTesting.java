@@ -287,17 +287,51 @@ public class GameStateTesting {
 		assertFalse(gameState.removePlayer(-1));
 	}
 
-	/* White box tests (ie for Robbie) */
+	/* White box tests */
+	
+	@Test
+	public void testGetShipParts(){
+		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
+		assertTrue(ship.getParts().size()==3);
+	}
 
-
-	private GameLogic createNewGameLogic(int numPlayers) {
-		GameState state = new GameState(numPlayers, "assets/maps/map.xml");
-
-		for (int i = 0; i < numPlayers; i++) {
-			state.addPlayer(i, "Player" + i, Color.black);
-		}
-
-		return new GameLogic(state);
+	@Test
+	public void validEnterShip_1(){
+		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
+		Player p = new Player(0, "Test", null, null, null);
+		p.giveItem(new ShipPart(0,0));
+		p.giveItem(new ShipPart(1,1));
+		p.giveItem(new ShipPart(2,2));
+		assertTrue(ship.canEnter(p, Direction.EAST));
+	}
+	
+	@Test
+	public void validEnterShip_2(){
+		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(3,3));
+		Player p = new Player(0, "Test", null, null, null);
+		p.giveItem(new ShipPart(0,0));
+		p.giveItem(new ShipPart(1,1));
+		p.giveItem(new ShipPart(3,3));
+		assertTrue(ship.canEnter(p, Direction.EAST));
+	}
+	
+	@Test
+	public void invalidEnterShip_1(){
+		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
+		Player p = new Player(0, "Test", null, null, null);
+		p.giveItem(new ShipPart(0,0));
+		p.giveItem(new ShipPart(1,1));
+		assertFalse(ship.canEnter(p, Direction.EAST));
+	}
+	
+	@Test
+	public void invalidEnterShip_2(){
+		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
+		Player p = new Player(0, "Test", null, null, null);
+		p.giveItem(new ShipPart(0,0));
+		p.giveItem(new ShipPart(1,1));
+		p.giveItem(new Key(3,3));
+		assertFalse(ship.canEnter(p, Direction.EAST));
 	}
 
 }
