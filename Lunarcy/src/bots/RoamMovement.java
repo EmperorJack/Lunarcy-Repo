@@ -1,6 +1,7 @@
 package bots;
 
 import java.util.Iterator;
+
 import game.Direction;
 import game.GameState;
 import game.Location;
@@ -81,36 +82,67 @@ public class RoamMovement implements MoveStrategy {
 	}
 
 	/**
-	 * If there is a player on the board, return the first player we come
-	 * across, else null.
+	 * Used to check a distance between a player and a rover
+	 *
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	private int distance(Rover rover, Player player) {
+		Location start = rover.getLocation();
+		Location end = player.getLocation();
+
+		return Math.abs(start.getX() - end.getX()) + // Horizontal difference +
+				Math.abs(start.getY() - end.getY()); // Vertical Difference
+	}
+
+	/**
+	 * Finds and returns the closest player (based on manhattan distance) to the
+	 * rover.
 	 *
 	 * @return
 	 */
-	public Player viewTarget(Square[][] board) {
+	public Player viewTarget(Rover rover, GameState gameState) {
 
-		// Check the board
+		// Start with largest possible distance
+		int closestDistance = Integer.MAX_VALUE;
+
+		Player closestPlayer = null;
+
+		Square[][] board = gameState.getBoard();
+
+		// Check the whole board
 		for (int y = 0; y < board.length; y++) {
 			for (int x = 0; x < board[y].length; x++) {
 
-				// Only check players if its a walkable square
+				// Only check for players if its a walkable square
 				if (board[y][x] instanceof WalkableSquare) {
+
 					WalkableSquare square = (WalkableSquare) board[y][x];
 
-					//Since it is a set of players, make an iterator
+					// Since it is a set of players, must make an iterator
 					Iterator<Player> iter = square.getPlayers().iterator();
 
-					// If there are players in the square, return the "first" which is visible
+					// If there are players in the square, return the "first"
+					// which is visible
 					while (iter.hasNext()) {
-						Player next = iter.next();
-						if(!next.hasCloak()){
-							return next;
+						Player player = iter.next();
+
+						//If a players outside, without a cloak, check the distance
+						if (gameState.isOutside(player.getLocation())
+								&& !player.hasCloak()
+								&& distance(rover, player) < closestDistance) {
+
+							closestDistance = distance(rover, player);
+							closestPlayer = player;
 						}
 					}
 				}
 			}
 		}
 
-		return null;
+		// Return the closest player we found, null if no player
+		return closestPlayer;
 	}
 
 }

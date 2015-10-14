@@ -169,6 +169,45 @@ public class Player implements Character, Serializable {
 		return false;
 	}
 
+	public boolean hasArmour() {
+		for (Item i : inventory) {
+			if (i instanceof Armour) {
+				return true;
+			}else if(i instanceof Container){
+				for(Item item: ((Container)i).getItems()){
+					if (item instanceof Armour) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Returns true if the player has a cloaking gadget
+	 * in their inventory
+	 * @return
+	 */
+	public boolean hasCloak() {
+		for (Item i : inventory) {
+			if (i instanceof CloakingGadget) {
+				return true;
+			}else if(i instanceof Container){
+				for(Item item: ((Container)i).getItems()){
+					if (item instanceof CloakingGadget) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean hasSpace(){
+		return inventory.size() < MAX_INVENTORY_SIZE;
+	}
+
 	public Item getItem(int itemID){
 		for(Item i: inventory){
 			if(i.getEntityID() == itemID){
@@ -206,33 +245,7 @@ public class Player implements Character, Serializable {
 		this.oxygen = 0;
 	}
 
-	/**
-	 * Returns true if the player has armout
-	 * in their inventory
-	 * @return
-	 */
-	public boolean hasArmour() {
-		for (Item i : inventory) {
-			if (i instanceof Armour) {
-				return true;
-			}
-		}
-		return false;
-	}
 
-	/**
-	 * Returns true if the player has a cloaking gadget
-	 * in their inventory
-	 * @return
-	 */
-	public boolean hasCloak() {
-		for (Item i : inventory) {
-			if (i instanceof CloakingGadget) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * FOR TESTING PURPOSES Adds some items to the players inventory

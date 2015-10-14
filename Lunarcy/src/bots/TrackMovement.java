@@ -24,11 +24,12 @@ public class TrackMovement extends ShortestPathMover {
 	// The path we are currently following
 	private List<Location> path;
 
+	// The distance a player must be from a rover before the rover gives up
 	private final int MAX_DISTANCE;
 
 	public TrackMovement(Rover rover, GameState gamestate, Player target) {
 		this.target = target;
-		this.MAX_DISTANCE = gamestate.getBoard().length / 4;
+		this.MAX_DISTANCE = gamestate.getBoard().length / 2;
 		this.path = findPath(rover, gamestate, rover.getLocation(),
 				target.getLocation());
 	}
@@ -58,8 +59,10 @@ public class TrackMovement extends ShortestPathMover {
 	 */
 	public boolean shouldGiveup(Rover rover, GameState gamestate) {
 
-		// If the players inside, too far from you, or has a cloaking gadget give up chasing them
-		return !gamestate.isOutside(target.getLocation()) || target.hasCloak()
+		// If the players inside, too far from you, or has a cloaking gadget
+		// give up chasing them
+		return !gamestate.isOutside(target.getLocation())
+				|| target.hasCloak()
 				|| estimate(rover.getLocation(), target.getLocation()) > MAX_DISTANCE;
 
 	}

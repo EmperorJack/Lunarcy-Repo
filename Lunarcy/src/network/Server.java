@@ -151,6 +151,7 @@ public class Server {
 				System.out.println("Server running fully");
 				long lastUpdate = System.currentTimeMillis();
 				while (running) {
+					System.out.println("running");
 					if (System.currentTimeMillis() > lastUpdate + updateFreq) {
 						gameLogic.tickGameState();
 						// System.out.println("tranmitting state");

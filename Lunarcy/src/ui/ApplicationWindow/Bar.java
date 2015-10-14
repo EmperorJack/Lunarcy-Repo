@@ -8,6 +8,7 @@ import ui.DrawingComponent;
 import ui.renderer.Canvas;
 import game.GameState;
 import game.Item;
+import game.Key;
 
 /**
  * Represents a component which is drawn as a "bar", ie the Inventory Bar and
@@ -50,8 +51,8 @@ public abstract class Bar extends DrawingComponent {
 	}
 
 	/**
-	 * Draws the bar at LEFT_PADDING, TOP_PADDING, BAR_WIDTH, ITEM_SIZE (x,y,width,height)
-	 * with the specified items.
+	 * Draws the bar at LEFT_PADDING, TOP_PADDING, BAR_WIDTH, ITEM_SIZE
+	 * (x,y,width,height) with the specified items.
 	 */
 	@Override
 	public void draw(GameState gameState, float delta) {
@@ -72,10 +73,25 @@ public abstract class Bar extends DrawingComponent {
 
 		p.noFill();
 
+		// Only draw the items if there are some
 		if (items != null) {
 			for (int i = 0; i < items.size(); i++) {
-				p.image(ENTITY_IMAGES.get(items.get(i).getImageName()), i
+				Item item = items.get(i);
+
+				// So if we apply a tint, it only affects the current item
+				p.pushMatrix();
+				p.pushStyle();
+
+				if (item instanceof Key) {
+					p.tint(Canvas.getSecurityColour(
+							((Key) item).getAccessLevel(), false));
+				}
+
+				p.image(ENTITY_IMAGES.get(item.getImageName()), i
 						* (ITEM_SIZE + ITEM_SPACING), 0, ITEM_SIZE, ITEM_SIZE);
+
+				p.popStyle();
+				p.popMatrix();
 			}
 		}
 
@@ -86,8 +102,8 @@ public abstract class Bar extends DrawingComponent {
 	}
 
 	/**
-	 * Returns the item at the clicked position, or null if the click
-	 * was not on a valid item.
+	 * Returns the item at the clicked position, or null if the click was not on
+	 * a valid item.
 	 *
 	 * @param x
 	 *            : The clicked x location
@@ -116,12 +132,12 @@ public abstract class Bar extends DrawingComponent {
 	}
 
 	/**
-	 * Returns whether the coordinates entered are inside
-	 * the bar.
+	 * Returns whether the coordinates entered are inside the bar.
 	 *
 	 * @param x
 	 * @param y
-	 * @return True if the given position is on the inventory bar, otherwise false.
+	 * @return True if the given position is on the inventory bar, otherwise
+	 *         false.
 	 */
 	public boolean onBar(int x, int y) {
 		return x > LEFT_PADDING && x < LEFT_PADDING + BAR_WIDTH

@@ -106,11 +106,10 @@ public class Rover implements Character, Serializable {
 
 			// Check if we can see any players
 			Player target = ((RoamMovement) movementStrategy)
-					.viewTarget(gameState.getBoard());
+					.viewTarget(this,gameState);
 
-			// If we can see a target, and they're outside chase them
-			if (target != null && gameState.isOutside(target.getLocation())) {
-
+			// If we can see a target, chase them
+			if (target != null) {
 				// Change to tracking this target
 				movementStrategy = new TrackMovement(this, gameState, target);
 			}

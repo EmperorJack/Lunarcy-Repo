@@ -21,6 +21,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -41,7 +42,7 @@ public class ServerMain extends JFrame {
 	private Server server;
 	private JSlider refreshRate;
 	private JSlider playerNum;
-	private JTextArea console;
+	//private JTextArea console;
 	private JButton loadGame;
 	private JButton loadMap;
 	private String selectedMap = "assets/maps/map.xml";
@@ -340,7 +341,7 @@ public class ServerMain extends JFrame {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
 
-		console = new JTextArea();
+		JTextArea console = new JTextArea();
 
 		//Configure the text area to get the input from stdout
 		PrintStream printStream = new PrintStream(new ConsoleOutput(console));
@@ -373,8 +374,6 @@ public class ServerMain extends JFrame {
 
 		public ConsoleOutput(JTextArea console){
 			this.console = console;
-			DefaultCaret caret = (DefaultCaret)console.getCaret();
-			caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		}
 
 		@Override
