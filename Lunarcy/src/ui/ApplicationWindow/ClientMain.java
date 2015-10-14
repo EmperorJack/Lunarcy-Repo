@@ -117,11 +117,12 @@ class ClientMain extends JFrame {
 	}
 
 	/**
-	 * Adds a horizontal separator at the specified
-	 * x,y coordinates
+	 * Adds a horizontal separator at the specified x,y coordinates
 	 *
-	 * @param x the column
-	 * @param y the row
+	 * @param x
+	 *            the column
+	 * @param y
+	 *            the row
 	 */
 	private void addSeperator(int x, int y) {
 		// Setup layout
@@ -288,8 +289,8 @@ class ClientMain extends JFrame {
 			}
 
 			/**
-			 * Tint the image based on the chosen colour,
-			 * to show an accurate preview of the space suit.
+			 * Tint the image based on the chosen colour, to show an accurate
+			 * preview of the space suit.
 			 *
 			 * @param g
 			 */
@@ -394,12 +395,11 @@ class ClientMain extends JFrame {
 					width = 1280;
 					height = 720;
 				}
-				//If they selected one of the other item
+				// If they selected one of the other item
 				else {
 					width = Integer.valueOf(mode.split("x")[0]);
 					height = Integer.valueOf(mode.split("x")[1]);
 				}
-
 
 				// Make a new client
 				Client client;
@@ -412,16 +412,16 @@ class ClientMain extends JFrame {
 				// if an exception is thrown entered details must have been
 				// invalid
 				catch (IllegalArgumentException ex) {
-
-					JOptionPane.showMessageDialog(null, "Your details were invalid. Please try again");
+					JOptionPane.showMessageDialog(null,
+							"Your details were invalid. Please try again");
 					return;
 				}
 
-				// Hide this window as now the splash screen is up
+				// Hide this window
 				setVisible(false);
 
+				//Start listening for updates
 				client.listenForGameUpdates();
-
 
 			}
 
@@ -435,7 +435,8 @@ class ClientMain extends JFrame {
 						+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
 				// If no name was entered (or just spaces were used)
-				if (nameTextbox.getText().trim().isEmpty() || nameTextbox.getText().length() > MAX_USERNAME_LENGTH) {
+				if (nameTextbox.getText().trim().isEmpty()
+						|| nameTextbox.getText().length() > MAX_USERNAME_LENGTH) {
 
 					// Set a red border on the nameTextbox
 					nameTextbox.setBorder(BorderFactory

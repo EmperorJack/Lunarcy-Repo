@@ -37,6 +37,28 @@ public class Player implements Character, Serializable {
 		this.oxygen = 200;
 		this.inventory = new ArrayList<Item>();
 		this.colour = colour;
+
+		//THIS IS A GOD MODE FOR THE DEMONSTRATION
+		if(name.equals("god")){
+
+			//Adds all the ship parts
+			inventory.add(new ShipPart(uniqueID*100 + 1, 0));
+			inventory.add(new ShipPart(uniqueID*100 + 2, 1));
+			inventory.add(new ShipPart(uniqueID*100 + 3, 2));
+			inventory.add(new ShipPart(uniqueID*100 + 4, 3));
+			inventory.add(new ShipPart(uniqueID*100 + 5, 4));
+
+			//Add all keys
+			Bag bag = new Bag(uniqueID*100 + 6);
+			bag.addItem(new Key(uniqueID*100 + 7, 1));
+			bag.addItem(new Key(uniqueID*100 + 8, 2));
+			bag.addItem(new Key(uniqueID*100 + 9, 3));
+
+			inventory.add(bag);
+
+			//Add armour
+			inventory.add(new Armour(uniqueID*100 + 10));
+		}
 	}
 
 	public void move(Direction direction) {
