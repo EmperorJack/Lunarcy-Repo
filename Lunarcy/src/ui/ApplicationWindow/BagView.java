@@ -17,7 +17,8 @@ import ui.renderer.Canvas;
  */
 public class BagView extends Bar {
 
-	Bag selectedBag;
+	//The current bag
+	private Bag selectedBag;
 
 	public BagView(Canvas p, GameState gameState, int playerID, Map<String, PImage> entityImages) {
 		super(25, (int) (Canvas.TARGET_HEIGHT * 0.75), gameState.getPlayer(playerID).getInventory(), p, gameState, playerID, entityImages);
@@ -46,7 +47,7 @@ public class BagView extends Bar {
 			return;
 		}
 
-		//Update the items based on bags contents
+		//Update the items based on the bags content
 		items = selectedBag.getItems();
 
 		//Draw the bar with the updated items

@@ -22,10 +22,8 @@ import bots.Rover;
  */
 public class GameStateTesting {
 
-	/* Outside tests (ie for everyone but Robbie) */
 
-	/* Square Checks */
-	/*------------*/
+	/*---------Square Checks--------- */
 	/**
 	 * The board should start at 0,0 so make sure -1,-1 is returned as null
 	 */
@@ -130,9 +128,8 @@ public class GameStateTesting {
 		gameState.setSquare(location, square);
 		assertFalse(gameState.isOutside(location));
 	}
-	/*------------*/
 
-	/* Rover tests */
+	/* ---------Rover tests--------- */
 
 	/**
 	 * A rover should have caught a player if they are in the same square
@@ -184,7 +181,7 @@ public class GameStateTesting {
 	}
 
 
-	/* Spawn tests */
+	/* --------- Spawn tests  ---------*/
 
 	/**
 	 * A spawn location should not be able to be set to null.
@@ -214,7 +211,7 @@ public class GameStateTesting {
 		assertTrue("Should be able to be set to 0,0", gameState.addSpawn(new Location(0, 0)));
 	}
 
-	/* Player tests */
+	/*---------Player tests--------- */
 
 	/**
 	 * Should be able to retrieve a player if one is set
@@ -279,7 +276,7 @@ public class GameStateTesting {
 	}
 
 	/* White box tests */
-	
+
 	@Test
 	public void testGetShipParts(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
@@ -314,7 +311,7 @@ public class GameStateTesting {
 		p.giveItem(new ShipPart(2,2));
 		assertTrue(ship.canEnter(p, Direction.EAST));
 	}
-	
+
 	@Test
 	public void validEnterShip_2(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(3,3));
@@ -324,7 +321,7 @@ public class GameStateTesting {
 		p.giveItem(new ShipPart(3,3));
 		assertTrue(ship.canEnter(p, Direction.EAST));
 	}
-	
+
 	@Test
 	public void invalidEnterShip_1(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));
@@ -348,7 +345,7 @@ public class GameStateTesting {
 		p.giveItem(new ShipPart(1,1));
 		assertFalse(ship.canEnter(p, Direction.EAST));
 	}
-	
+
 	@Test
 	public void invalidEnterShip_4(){
 		Ship ship = new Ship(new ShipPart(0,0),new ShipPart(1,1),new ShipPart(2,2));

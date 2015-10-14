@@ -26,8 +26,7 @@ public class ContainerView extends Bar {
 	public ContainerView(Canvas p, GameState gameState, int playerID,
 			Map<String, PImage> entityImages) {
 
-		// TODO: Make x,y nicer
-		super(Canvas.TARGET_WIDTH / 2 - (int) (Canvas.TARGET_WIDTH * 0.175),
+		super((int) (Canvas.TARGET_WIDTH * 0.325),
 				Canvas.TARGET_HEIGHT / 2 - 50, gameState.getPlayer(playerID)
 						.getInventory(), p, gameState, playerID, entityImages);
 
@@ -37,7 +36,7 @@ public class ContainerView extends Bar {
 	@Override
 	public void draw(GameState gameState, float delta) {
 
-		// Update container based on the players current square
+		// Set the container based on the players current square
 		Player player = gameState.getPlayer(playerID);
 		WalkableSquare square = (WalkableSquare) gameState.getSquare(player
 				.getLocation());
@@ -48,6 +47,7 @@ public class ContainerView extends Bar {
 			return;
 		}
 
+		//Get thew items from within the container
 		items = container.getItems();
 
 		super.draw(gameState, delta);

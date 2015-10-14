@@ -1,5 +1,7 @@
 package testing;
 
+import game.Bag;
+import game.Container;
 import game.Direction;
 import game.GameLogic;
 import game.GameState;
@@ -8,14 +10,13 @@ import game.Player;
 import game.SolidContainer;
 
 import java.awt.Color;
-import java.lang.reflect.Method;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 /**
- * test cases for the GameLogic class
+ * Test cases for the GameLogic class
  * @author evansben1
  *
  */
@@ -180,7 +181,37 @@ public class GameLogicTesting {
 		assertTrue(logic.putItemIntoContainer(0, container.getEntityID(), player.getInventory().get(0).getEntityID()));
 	}
 
+	@Test
+	public void validBagToInventory_1(){
+		GameLogic logic = createNewGameLogic(1);
 
+		GameState gamestate = logic.getGameState();
+		Player player = gamestate.getPlayer(0);
+
+		Bag bag = new Bag(100);
+		Key key = new Key(101, 1);
+		bag.addItem(key);
+
+		player.giveItem(bag);
+
+		assertTrue(logic.pickUpItem(0, 101));
+
+	}
+
+	@Test
+	public void validAddToBag_1(){
+		GameLogic logic = createNewGameLogic(1);
+
+		GameState gamestate = logic.getGameState();
+		Player player = gamestate.getPlayer(0);
+
+		Bag bag = new Bag(100);
+		Key key = new Key(101, 1);
+
+		logic.pickUpItem(player.getId(), 100);
+
+		assertTrue(logic.putItemIntoContainer(0, 100, 101));
+	}
 
 
 	private GameLogic createNewGameLogic(int numPlayers) {

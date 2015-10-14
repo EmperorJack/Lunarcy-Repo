@@ -15,7 +15,7 @@ public abstract class Container implements Entity {
 
 	private final int entityID;
 	private final int maxSize;
-	
+
 	List<Item> items;
 
 	public Container(int entityID, int maxSize) {
@@ -44,7 +44,7 @@ public abstract class Container implements Entity {
 		}
 		return false;
 	}
-	
+
 	public boolean hasSpace(){
 		return items.size() < maxSize;
 	}
