@@ -15,6 +15,7 @@ import java.awt.Color;
 
 
 
+
 //import network.NewServer.ClientConnection;
 import storage.Storage;
 
@@ -81,13 +82,6 @@ public class Server extends Thread {
 		}
 	}
 
-	/**
-	 * Gracefully stop the server and close all sockets/connections
-	 */
-	public void stopAndSave(String filename) {
-		stopServer();
-		Storage.saveState(gameLogic.getGameState(), filename);
-	}
 
 	/**
 	 * Sleep the server for the given
@@ -229,31 +223,23 @@ public class Server extends Thread {
 	 * @param c ClientConnection holds details for new player
 	 * @return If from saved game, returns player id else returns the clients id
 	 */
-//	synchronized private int addPlayerToGame(ClientConnection c) {
-//		if (fromSavedGame) {
-//			return gameLogic.getGameState().getPlayerID(c.username);
-//		} else {
-//			gameLogic.getGameState()
-//					.addPlayer(c.clientId, c.username, c.colour);
-//			return c.clientId;
-//		}
-//	}
+	synchronized private int addPlayerToGame(ClientConnection c) {
+		if (fromSavedGame) {
+			return gameLogic.getGameState().getPlayerID(c.username);
+		} else {
+			gameLogic.getGameState().addPlayer(c.clientId, c.username, c.colour);
+			return c.clientId;
+		}
+	}
 
 	// methods for working with clientlist
-
-	synchronized private int addClientConnection(ClientConnection cc) {
-		this.clientList.add(cc);
-		return this.clientList.indexOf(cc);
-	}
 
 	synchronized private boolean removeClientConnection(ClientConnection cc) {
 		return this.clientList.remove(cc);
 	}
 
-	synchronized private ClientConnection getClientConnection(int index) {
-		return this.clientList.get(index);
-	}
 
+	@SuppressWarnings("unchecked")
 	synchronized private ArrayList<ClientConnection> getClientConnectionsClone() {
 		return (ArrayList<ClientConnection>) this.clientList.clone();
 	}
@@ -277,18 +263,34 @@ public class Server extends Thread {
 		private String username;
 		private Color colour;
 		private boolean clientRunning = false;
-
+		/**
+		 * Handles the connection between server and a single client
+		 *
+		 * @param socket The socket which is connected between client and server
+		 * @param clientId
+		 * @throws IOException
+		 */
 		ClientConnection(Socket socket, int clientId) throws IOException {
 			this.socket = socket;
 			this.clientId = clientId;
 			outputToClient = new ObjectOutputStream(socket.getOutputStream());
 			inputFromClient = new ObjectInputStream(socket.getInputStream());
 		}
-
+		/**
+		 * Whether the server is running or not
+		 * @return <tt>true</tt> is running
+		 */
 		public boolean isRunning() {
 			return clientRunning;
 		}
 
+
+		/**
+		 * Negotiate the connection with the client
+		 *
+		 * @throws IOException Socket, input/output stream error
+		 * @throws ClassNotFoundException
+		 */
 		private void negotiateConnection() throws IOException, ClassNotFoundException {
 				String name = "";
 				int tempId = -1;
@@ -317,10 +319,7 @@ public class Server extends Thread {
 					this.colour = Color.RED;
 				}
 				this.username = name;
-//			} catch (ClassNotFoundException | IOException e) {
-//				// TODO disconnect();
-//			}
-			gameLogic.getGameState().addPlayer(clientId, username, colour);//addPlayerToGame(this);
+			addPlayerToGame(this);//gameLogic.getGameState().addPlayer(clientId, username, colour);//addPlayerToGame(this);
 			// Begin listening to this client
 			this.clientRunning = true; // ready to be sent to
 		}

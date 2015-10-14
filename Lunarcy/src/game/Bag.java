@@ -12,6 +12,11 @@ public class Bag extends Container implements Item {
 		super(entityID, 3);
 	}
 
+	public Bag() {
+		super(0, 3);
+	}
+
+
 	public String getImageName() {
 		return "bag";
 	}

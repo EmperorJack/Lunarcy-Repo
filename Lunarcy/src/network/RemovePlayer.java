@@ -4,6 +4,10 @@ import game.GameLogic;
 
 public class RemovePlayer implements NetworkAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	int id;
 
 	RemovePlayer(int id){

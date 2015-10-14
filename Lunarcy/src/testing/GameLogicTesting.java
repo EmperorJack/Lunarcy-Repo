@@ -1,15 +1,18 @@
 package testing;
 
 import game.Bag;
-import game.Container;
 import game.Direction;
 import game.GameLogic;
 import game.GameState;
 import game.Key;
 import game.Player;
+import game.Ship;
+import game.ShipPart;
 import game.SolidContainer;
 
 import java.awt.Color;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import org.junit.Test;
 
@@ -198,25 +201,69 @@ public class GameLogicTesting {
 
 	}
 
+
+	/**
+	 * Test that when killing a player they lose an item
+	 */
+
 	@Test
-	public void validAddToBag_1(){
+	public void validKillPlayer_1(){
+
+		//Since the method is private but is quite essential, I used
+		//reflection to test it
 		GameLogic logic = createNewGameLogic(1);
+		Player player = logic.getGameState().getPlayer(0);
 
-		GameState gamestate = logic.getGameState();
-		Player player = gamestate.getPlayer(0);
+		player.giveItem(new ShipPart(1001, 1));
+		int sizeBefore = player.getInventory().size();
 
-		Bag bag = new Bag(100);
-		Key key = new Key(101, 1);
+		Method method;
+		try {
+			method = logic.getClass().getDeclaredMethod("killPlayer", Player.class);
+			method.setAccessible(true);
+			method.invoke(logic, player);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
 
-		player.giveItem(key);
-		player.giveItem(bag);
+		assertTrue(sizeBefore > player.getInventory().size());
+	}
 
-		assertTrue(logic.putItemIntoContainer(0, 100, 101));
+	/**
+	 * Test that when killing a player they do not
+	 * lose a key
+	 */
+
+	@Test
+	public void validKillPlayer_2(){
+
+		//Since the method is private but is quite essential, I used
+		//reflection to test it
+		GameLogic logic = createNewGameLogic(1);
+		Player player = logic.getGameState().getPlayer(0);
+
+		player.giveItem(new Key(1001, 1));
+		int sizeBefore = player.getInventory().size();
+
+		Method method;
+		try {
+			method = logic.getClass().getDeclaredMethod("killPlayer", Player.class);
+			method.setAccessible(true);
+			method.invoke(logic, player);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+
+		//Should not have lost any items since they only have a key
+		assertTrue(sizeBefore == player.getInventory().size());
 	}
 
 
 	private GameLogic createNewGameLogic(int numPlayers) {
-		GameState state = new GameState(numPlayers, "assets/maps/testmap.xml");
+		GameState state = new GameState(numPlayers, "assets/maps/testmap.json");
 
 		for (int i = 0; i < numPlayers; i++) {
 			state.addPlayer(i, "Player" + i, Color.black);
