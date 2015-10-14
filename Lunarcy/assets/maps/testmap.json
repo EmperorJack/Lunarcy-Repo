@@ -1,0 +1,5635 @@
+{
+  "squares": [
+    [
+      {
+        "type": "WalkableSquare",
+        "properties": {
+          "items": {
+            "EAST": [],
+            "SOUTH": [],
+            "NORTH": [],
+            "WEST": []
+          },
+          "furnitureMap": {
+            "NORTH": {
+              "type": "Chest",
+              "properties": {
+                "isOpen": false,
+                "entityID": 500,
+                "maxSize": 7,
+                "items": []
+              }
+            }
+          },
+          "players": [],
+          "inside": true,
+          "walls": {
+            "EAST": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "SOUTH": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "NORTH": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "WEST": {
+              "type": "EmptyWall",
+              "properties": {}
+            }
+          }
+        }
+      },
+      {
+        "type": "WalkableSquare",
+        "properties": {
+          "items": {
+            "EAST": [],
+            "SOUTH": [],
+            "NORTH": [],
+            "WEST": []
+          },
+          "furnitureMap": {},
+          "players": [],
+          "inside": true,
+          "walls": {
+            "EAST": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "SOUTH": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "NORTH": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "WEST": {
+              "type": "EmptyWall",
+              "properties": {}
+            }
+          }
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "WalkableSquare",
+        "properties": {
+          "items": {
+            "EAST": [],
+            "SOUTH": [],
+            "NORTH": [],
+            "WEST": []
+          },
+          "furnitureMap": {},
+          "players": [],
+          "inside": true,
+          "walls": {
+            "EAST": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "SOUTH": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "NORTH": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "WEST": {
+              "type": "EmptyWall",
+              "properties": {}
+            }
+          }
+        }
+      },
+      {
+        "type": "Ship",
+        "properties": {
+          "requiredParts": [
+            {
+              "entityID": 2001,
+              "type": "ENGINE"
+            },
+            {
+              "entityID": 2003,
+              "type": "GRAVITY_CORE"
+            },
+            {
+              "entityID": 2002,
+              "type": "FUEL_CORE"
+            },
+            {
+              "entityID": 2005,
+              "type": "WARP_DRIVE"
+            },
+            {
+              "entityID": 2004,
+              "type": "GPS"
+            }
+          ],
+          "hasLaunched": false,
+          "items": {
+            "EAST": [],
+            "SOUTH": [],
+            "NORTH": [],
+            "WEST": []
+          },
+          "furnitureMap": {},
+          "players": [],
+          "inside": true,
+          "walls": {
+            "EAST": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "SOUTH": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "NORTH": {
+              "type": "EmptyWall",
+              "properties": {}
+            },
+            "WEST": {
+              "type": "EmptyWall",
+              "properties": {}
+            }
+          }
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {
+            "EAST": {
+              "type": "SolidWall",
+              "properties": {}
+            }
+          }
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {
+            "EAST": {
+              "type": "SolidWall",
+              "properties": {}
+            }
+          }
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {
+            "EAST": {
+              "type": "SolidWall",
+              "properties": {}
+            }
+          }
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {
+            "EAST": {
+              "type": "SolidWall",
+              "properties": {}
+            }
+          }
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {
+            "EAST": {
+              "type": "SolidWall",
+              "properties": {}
+            }
+          }
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ],
+    [
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      },
+      {
+        "type": "BlankSquare",
+        "properties": {
+          "walls": {}
+        }
+      }
+    ]
+  ],
+  "tierDictionary": {},
+  "playerSpawnPoints": [
+    {
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "roverSpawnPoints": [],
+  "entityCount": 1
+}
