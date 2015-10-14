@@ -34,7 +34,7 @@ public class Client {
 
 	public Client(String serverAddr, String name, Color colour, int frameWidth,
 			int frameHeight, boolean hardwareRenderer)
-			throws IllegalArgumentException, IllegalArgumentException {
+			throws IllegalArgumentException {
 		this.serverAddr = serverAddr;
 		this.colour = colour;
 		this.frameWidth = frameWidth;
@@ -46,37 +46,31 @@ public class Client {
 			System.out.println("bound socket");
 			outputToServer = new ObjectOutputStream(socket.getOutputStream());
 			inputFromServer = new ObjectInputStream(socket.getInputStream());
-
+			negotiateConnection(name, colour);
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			System.out.println("Couldn't establish connection");
 			throw new IllegalArgumentException("Bad IP");
 		}
-		negotiateConnection(name, colour);
 
 		getInitialGamestate();
-
+		// listen for gamestates from the server
 		System.out.println("Listening for gamestate");
-		// listenForGameUpdates(); //listen for gamestates from the server
 	}
 
-	private void negotiateConnection(String name, Color colour)
-			throws IllegalArgumentException {
+	private void negotiateConnection(String name, Color colour) throws IllegalArgumentException, IOException {
 		do {
 			writeObject(name);
 			this.id = readInt();
 			if (this.id == Server.INVALID_USERNAME) {
 				name = showDialog("To join this game, please enter the correct name");
-			}else if(this.id == Server.USERNAME_TAKEN){
+			} else if (this.id == Server.USERNAME_TAKEN) {
 				name = showDialog("Username already taken");
 			}
 		} while (this.id == Server.USERNAME_TAKEN || this.id == Server.INVALID_USERNAME);
 		this.name = name;
 		// Send hex colour
-		String hexColour = String.format("#%02x%02x%02x", colour.getRed(),
-				colour.getGreen(), colour.getBlue());
-		System.out.println("hex colour  " + hexColour);
-		// showDialog();
+		String hexColour = String.format("#%02x%02x%02x", colour.getRed(), colour.getGreen(), colour.getBlue());
 		writeObject(hexColour);
 		System.out.println("Name sent to server: " + name);
 
@@ -88,8 +82,7 @@ public class Client {
 	 * @return The value entered
 	 */
 	private String showDialog(String message) {
-		String s = (String) JOptionPane.showInputDialog(null,
-				message,
+		String s = (String) JOptionPane.showInputDialog(null, message,
 				"Invalid Username", JOptionPane.PLAIN_MESSAGE, null, null,
 				this.name);
 		return s;
@@ -110,10 +103,6 @@ public class Client {
 			public void run() {
 				try {
 					while (true) {
-						// GameState state = getGameState();
-						// if (state != null) {
-						// frame.getCanvas().setGameState(state);
-						// }
 						Object obj;
 
 						obj = inputFromServer.readObject();
@@ -126,10 +115,9 @@ public class Client {
 							GameState gameState = (GameState) obj;
 							frame.getCanvas().setGameState(gameState);
 						}
-
 					}
 				} catch (ClassNotFoundException | IOException e) {
-				}finally{
+				} finally {
 					disconnect();
 				}
 			}
@@ -149,49 +137,51 @@ public class Client {
 		}
 		return null;
 	}
-
-	public void sendAction(NetworkAction action) {
-		writeObject(action);
-	}
-
-	private int readInt() {
-		System.out.println("trying to read ID");
+	/**
+	 * Send a specific action to the server
+	 * @param action Action to be applied to the master game logic
+	 */
+	public boolean sendAction(NetworkAction action) {
 		try {
-			int val = inputFromServer.readInt();
-			System.out.println("My clientID is: " + val);
-			return val;
+			writeObject(action);
 		} catch (IOException e) {
-			System.err.println("cant read ID");
-			e.printStackTrace();
+			return false;
 		}
-		return -1;
+		return true;
 	}
-
-	private void disconnect(){
-		JOptionPane.showMessageDialog(null,"Disconnected from Server");
-        try {
-        	inputFromServer.close();
-            outputToServer.close();
+	/**
+	 * Read an integer from the server
+	 *
+	 * @return value from server
+	 * @throws IOException Faied to read value
+	 */
+	private int readInt() throws IOException {
+			return inputFromServer.readInt();
+	}
+	/**
+	 * Disconnect this client from the server
+	 */
+	private void disconnect() {
+		JOptionPane.showMessageDialog(null, "Disconnected from Server");
+		try {
+			inputFromServer.close();
+			outputToServer.close();
 			socket.close();
 		} catch (IOException e) {
-		}finally{
+		} finally {
 			System.exit(1);
 		}
 	}
-
-	private boolean writeObject(Object o) {
-		if (o != null) {
-			try {
-				outputToServer.reset();
-				outputToServer.writeObject(o);
-				outputToServer.flush();
-			} catch (IOException e) {
-				e.printStackTrace();
-				return false;
-			}
-			return true;
-		}
-		return false;
+	/**
+	 *
+	 * @param o
+	 * @return
+	 * @throws IOException
+	 */
+	private void writeObject(Object o) throws IOException {
+		outputToServer.reset();
+		outputToServer.writeObject(o);
+		outputToServer.flush();
 	}
 
 	public int getPlayerID() {
