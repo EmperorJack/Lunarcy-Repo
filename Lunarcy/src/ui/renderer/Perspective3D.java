@@ -313,7 +313,7 @@ public class Perspective3D extends DrawingComponent {
 		for (Direction dir : Direction.values()) {
 
 			// get the furniture for the current direction
-			Furniture furniture = s.getContainer(dir);
+			Furniture furniture = s.getFurniture(dir);
 
 			// if there is a container for the given direction
 			if (furniture != null) {

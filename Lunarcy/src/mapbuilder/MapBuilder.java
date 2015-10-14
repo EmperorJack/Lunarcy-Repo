@@ -105,10 +105,10 @@ public class MapBuilder {
 			Location currentLoc = tileIterator.next();
 			if (insideTiles) {
 				squares[currentLoc.getY()][currentLoc.getX()] = new WalkableSquare(
-						"Empty", "Empty", true, null, null, null, null);
+						true, null, null, null, null);
 			} else {
 				squares[currentLoc.getY()][currentLoc.getX()] = new WalkableSquare(
-						"Empty", "Empty", false, null, null, null, null);
+						false, null, null, null, null);
 			}
 		}
 		selectedTiles.clear();
