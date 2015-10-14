@@ -17,7 +17,6 @@ public class Ship extends WalkableSquare {
 		hasLaunched = false;
 		pilot = null;
 		requiredParts = new HashSet<ShipPart>();
-		requiredParts.add(new ShipPart(100,1));
 
 		for (ShipPart part : parts) {
 			requiredParts.add(part);

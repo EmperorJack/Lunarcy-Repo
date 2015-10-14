@@ -8,7 +8,7 @@
             <game.EmptyWall/>
           </entry>
           <entry>
-            <game.Direction>EAST</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <game.EmptyWall/>
           </entry>
           <entry>
@@ -16,19 +16,17 @@
             <game.EmptyWall/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>EAST</game.Direction>
             <game.EmptyWall/>
           </entry>
         </walls>
-        <name>Empty</name>
-        <description>Empty</description>
         <items>
           <entry>
             <game.Direction>SOUTH</game.Direction>
             <list/>
           </entry>
           <entry>
-            <game.Direction>EAST</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <list/>
           </entry>
           <entry>
@@ -36,21 +34,13 @@
             <list/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>EAST</game.Direction>
             <list/>
           </entry>
         </items>
         <furnitureMap>
           <entry>
             <game.Direction>SOUTH</game.Direction>
-            <null/>
-          </entry>
-          <entry>
-            <game.Direction>EAST</game.Direction>
-            <null/>
-          </entry>
-          <entry>
-            <game.Direction>WEST</game.Direction>
             <null/>
           </entry>
           <entry>
@@ -61,6 +51,14 @@
               <items/>
               <isOpen>false</isOpen>
             </game.Chest>
+          </entry>
+          <entry>
+            <game.Direction>WEST</game.Direction>
+            <null/>
+          </entry>
+          <entry>
+            <game.Direction>EAST</game.Direction>
+            <null/>
           </entry>
         </furnitureMap>
         <players/>
@@ -73,7 +71,7 @@
             <game.EmptyWall/>
           </entry>
           <entry>
-            <game.Direction>EAST</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <game.EmptyWall/>
           </entry>
           <entry>
@@ -81,19 +79,17 @@
             <game.EmptyWall/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>EAST</game.Direction>
             <game.EmptyWall/>
           </entry>
         </walls>
-        <name>Empty</name>
-        <description>Empty</description>
         <items>
           <entry>
             <game.Direction>SOUTH</game.Direction>
             <list/>
           </entry>
           <entry>
-            <game.Direction>EAST</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <list/>
           </entry>
           <entry>
@@ -101,7 +97,7 @@
             <list/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>EAST</game.Direction>
             <list/>
           </entry>
         </items>
@@ -111,7 +107,7 @@
             <null/>
           </entry>
           <entry>
-            <game.Direction>EAST</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <null/>
           </entry>
           <entry>
@@ -119,7 +115,7 @@
             <null/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>EAST</game.Direction>
             <null/>
           </entry>
         </furnitureMap>
@@ -219,7 +215,7 @@
             <game.EmptyWall/>
           </entry>
           <entry>
-            <game.Direction>EAST</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <game.EmptyWall/>
           </entry>
           <entry>
@@ -227,19 +223,17 @@
             <game.EmptyWall/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>EAST</game.Direction>
             <game.EmptyWall/>
           </entry>
         </walls>
-        <name>Empty</name>
-        <description>Empty</description>
         <items>
           <entry>
             <game.Direction>SOUTH</game.Direction>
             <list/>
           </entry>
           <entry>
-            <game.Direction>EAST</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <list/>
           </entry>
           <entry>
@@ -247,7 +241,7 @@
             <list/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>EAST</game.Direction>
             <list/>
           </entry>
         </items>
@@ -257,7 +251,7 @@
             <null/>
           </entry>
           <entry>
-            <game.Direction>EAST</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <null/>
           </entry>
           <entry>
@@ -265,7 +259,7 @@
             <null/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>EAST</game.Direction>
             <null/>
           </entry>
         </furnitureMap>
@@ -279,7 +273,7 @@
             <game.EmptyWall/>
           </entry>
           <entry>
-            <game.Direction>EAST</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <game.EmptyWall/>
           </entry>
           <entry>
@@ -287,19 +281,17 @@
             <game.EmptyWall/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>EAST</game.Direction>
             <game.EmptyWall/>
           </entry>
         </walls>
-        <name>Escape Ship</name>
-        <description>Find all the parts to repair the ship</description>
         <items>
           <entry>
             <game.Direction>SOUTH</game.Direction>
             <list/>
           </entry>
           <entry>
-            <game.Direction>EAST</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <list/>
           </entry>
           <entry>
@@ -307,7 +299,7 @@
             <list/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>EAST</game.Direction>
             <list/>
           </entry>
         </items>
@@ -317,7 +309,7 @@
             <null/>
           </entry>
           <entry>
-            <game.Direction>EAST</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <null/>
           </entry>
           <entry>
@@ -325,13 +317,34 @@
             <null/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>EAST</game.Direction>
             <null/>
           </entry>
         </furnitureMap>
         <players/>
         <inside>true</inside>
-        <requiredParts/>
+        <requiredParts>
+          <game.ShipPart>
+            <entityID>2004</entityID>
+            <type>GPS</type>
+          </game.ShipPart>
+          <game.ShipPart>
+            <entityID>2001</entityID>
+            <type>ENGINE</type>
+          </game.ShipPart>
+          <game.ShipPart>
+            <entityID>2002</entityID>
+            <type>FUEL_CORE</type>
+          </game.ShipPart>
+          <game.ShipPart>
+            <entityID>2005</entityID>
+            <type>WARP_DRIVE</type>
+          </game.ShipPart>
+          <game.ShipPart>
+            <entityID>2003</entityID>
+            <type>GRAVITY_CORE</type>
+          </game.ShipPart>
+        </requiredParts>
         <hasLaunched>false</hasLaunched>
       </game.Ship>
       <game.BlankSquare>
