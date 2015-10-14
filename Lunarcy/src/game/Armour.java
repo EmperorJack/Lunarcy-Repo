@@ -1,5 +1,7 @@
 package game;
 
+import java.io.Serializable;
+
 /**
  * This item is used as protection from the bots
  * in the game. When in your inventory bots can not kill you
@@ -7,7 +9,7 @@ package game;
  * @author evansben1
  *
  */
-public class Armour implements Item {
+public class Armour implements Item, Serializable {
 	private static final long serialVersionUID = 8530995197024927216L;
 
 	private final int entityID;

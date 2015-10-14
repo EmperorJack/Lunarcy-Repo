@@ -1,6 +1,7 @@
 package mapbuilder;
 
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,7 @@ import javax.swing.JOptionPane;
 
 import game.*;
 
-public class GameMap {
+public class GameMap implements Serializable{
 	private Square[][] squares;
 	private Map<Item, Integer> tierDictionary;
 	private List<Location> playerSpawnPoints;
@@ -17,8 +18,8 @@ public class GameMap {
 	private int entityCount = 0;
 
 	public GameMap(){
-		setSquares(new Square[20][20]);
-		setTierDictionary(new HashMap<Item, Integer>());
+		squares = new Square[30][30];
+		tierDictionary = new HashMap<Item, Integer>();
 		entityCount = 0;
 	}
 
@@ -35,10 +36,10 @@ public class GameMap {
 		setTierDictionary(new HashMap<Item, Integer>());
 		//ADD SHIP PARTS
 		addShipPart(0, 5, 0);
-		addShipPart(1, 3, 1);
+		addShipPart(1, 5, 1);
 		addShipPart(2, 4, 1);
-		addShipPart(3, 2, 2);
-		addShipPart(4, 1, 3);
+		addShipPart(3, 3, 2);
+		addShipPart(4, 3, 3);
 		//ADD Keys
 		addKey(1,6,0);
 		addKey(2,4,1);
