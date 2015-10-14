@@ -57,7 +57,7 @@ public class ServerMain extends JFrame {
 	private JButton stopGame;
 
 	// The default map, can be changed by pressing load button
-	private String selectedMap = "assets/maps/map.xml";
+	private String selectedMap = "assets/maps/jacksmap.json";
 
 	public ServerMain() {
 		super("Start Game");
@@ -203,12 +203,17 @@ public class ServerMain extends JFrame {
 				loadGame.setEnabled(false);
 				loadMap.setEnabled(false);
 
-				// Makes a new thread, which deals with the server
+				// Makes a new server
 				try {
 					server = new Server(playerNum.getValue(), refreshRate
 							.getValue(), selectedMap);
-				} catch (IOException e1) {
+				}
+				//if something went wrong when making the server
+				catch (IOException exception) {
+					//Display a message
 					JOptionPane.showMessageDialog(null, "Port Already In Use");
+
+					//And close the program
 					System.exit(1);
 				}
 				server.start();
