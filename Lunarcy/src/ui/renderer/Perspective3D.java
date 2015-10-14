@@ -177,8 +177,10 @@ public class Perspective3D extends DrawingComponent {
 		// for each player
 		for (int i = 0; i < players.length; i++) {
 
+			Player currentPlayer = players[i];
+
 			// check if the player is null
-			if (players[i] == null) {
+			if (currentPlayer == null) {
 				continue;
 			}
 
@@ -186,8 +188,6 @@ public class Perspective3D extends DrawingComponent {
 			if (!players[i].getLocation().equals(thisPlayer.getLocation())) {
 				p.pushMatrix();
 				p.pushStyle();
-
-				Player currentPlayer = players[i];
 
 				// tint the image with the current player colour
 				p.tint(currentPlayer.getColour().getRGB());
