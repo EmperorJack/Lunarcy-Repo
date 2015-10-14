@@ -55,6 +55,8 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 	private GameState gameState;
 	private GameState updatedState;
 	private boolean stateUpdated;
+	private boolean gameWon;
+	private Player winner;
 
 	// drawing components
 	private InteractionController interactionControl;
@@ -198,6 +200,12 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 			// update interaction controller
 			interactionControl.update(player, gameState);
 
+			// check if a player has won the game
+			if (gameState.getShip().hasLaunched()) {
+				gameWon = true;
+				winner = gameState.getShip().getPilot();
+			}
+
 			// the state has now been updated
 			stateUpdated = false;
 		}
@@ -278,6 +286,23 @@ public class Canvas extends PApplet implements KeyListener, MouseListener {
 
 			popMatrix();
 			popStyle();
+		}
+
+		// if the game has been won
+		if (gameWon) {
+
+			// if this player won the game
+			if (winner.equals(player)) {
+
+				// display a popup with winner information
+				String description = "Congratulations! You have won this round of Lunarcy!";
+				interactionControl.updatePopup("ROUND WON", description);
+			} else {
+				// display a popup with loser information
+				String description = winner.getName()
+						+ " has won this round of Lunarcy! Better luck next time.";
+				interactionControl.updatePopup("ROUND LOST", description);
+			}
 		}
 
 		// printCanvasInfo(delta);
