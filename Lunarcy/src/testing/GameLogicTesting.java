@@ -121,6 +121,29 @@ public class GameLogicTesting {
 	}
 
 	/**
+	 * Should be able to pick up an item up which
+	 * you have dropped
+	 */
+	@Test
+	public void validPickup_2(){
+		GameLogic logic = createNewGameLogic(1);
+		while(logic.getGameState().getPlayer(0).getOrientation()!= Direction.NORTH){
+			logic.getGameState().getPlayer(0).turnLeft();
+		}
+		GameState gamestate = logic.getGameState();
+		Player player = gamestate.getPlayer(0);
+
+
+
+		SolidContainer container = (SolidContainer) gamestate.getSquare(player.getLocation()).getFurniture(player.getOrientation());
+		logic.getGameState().getPlayer(0).giveItem(new Key(100, 1));
+		container.open(player);
+		logic.putItemIntoContainer(0, container.getEntityID(), 100);
+		//logic.pickUpItem(0, 100);
+		assertTrue(logic.pickUpItem(0, 100));
+	}
+
+	/**
 	 * Shouldnt be able to pick up an item up which
 	 * is not in the square
 	 */
@@ -129,6 +152,9 @@ public class GameLogicTesting {
 		GameLogic logic = createNewGameLogic(1);
 		assertFalse(logic.pickUpItem(0, 55));
 	}
+
+
+
 
 	/**
 	 * Should be an open container at 0,0

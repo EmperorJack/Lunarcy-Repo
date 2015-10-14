@@ -6,6 +6,10 @@ import java.io.Serializable;
 
 public class PickupAction implements NetworkAction, Serializable {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	int playerID;
 	int itemID;
 
