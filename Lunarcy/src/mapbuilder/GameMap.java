@@ -43,6 +43,9 @@ public class GameMap {
 		addKey(1,6,0);
 		addKey(2,4,1);
 		addKey(3,2,2);
+		addBag(2,1);
+		addBag(3,2);
+
 	}
 
 	public void initialiseShip(){
@@ -69,6 +72,14 @@ public class GameMap {
 		for (int i = 0; i < count; i++){
 			Key newKey = new Key(entityCount + 100, keyCode);
 			tierDictionary.put(newKey, tier);
+			increaseEntityCount();
+		}
+	}
+
+	public void addBag(int count, int tier){
+		for (int i = 0; i < count; i++){
+			Bag newBag = new Bag(entityCount + 100);
+			tierDictionary.put(newBag, tier);
 			increaseEntityCount();
 		}
 	}
