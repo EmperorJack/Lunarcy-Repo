@@ -9652,7 +9652,7 @@
               "properties": {}
             },
             "NORTH": {
-              "type": "EmptyWall",
+              "type": "SolidWall",
               "properties": {}
             }
           }
@@ -12370,12 +12370,7 @@
             "EAST": [],
             "NORTH": []
           },
-          "furnitureMap": {
-            "EAST": {
-              "type": "Rock",
-              "properties": {}
-            }
-          },
+          "furnitureMap": {},
           "players": [],
           "inside": false,
           "walls": {
@@ -16477,12 +16472,7 @@
             "EAST": [],
             "NORTH": []
           },
-          "furnitureMap": {
-            "NORTH": {
-              "type": "Rock",
-              "properties": {}
-            }
-          },
+          "furnitureMap": {},
           "players": [],
           "inside": false,
           "walls": {
@@ -16711,12 +16701,7 @@
             "EAST": [],
             "NORTH": []
           },
-          "furnitureMap": {
-            "WEST": {
-              "type": "Monitor",
-              "properties": {}
-            }
-          },
+          "furnitureMap": {},
           "players": [],
           "inside": true,
           "walls": {
@@ -17676,12 +17661,7 @@
             "EAST": [],
             "NORTH": []
           },
-          "furnitureMap": {
-            "EAST": {
-              "type": "Rock",
-              "properties": {}
-            }
-          },
+          "furnitureMap": {},
           "players": [],
           "inside": false,
           "walls": {
@@ -18294,7 +18274,7 @@
           "inside": true,
           "walls": {
             "SOUTH": {
-              "type": "EmptyWall",
+              "type": "SolidWall",
               "properties": {}
             },
             "WEST": {
@@ -19012,6 +18992,10 @@
               "properties": {}
             },
             "EAST": {
+              "type": "SolidWall",
+              "properties": {}
+            },
+            "NORTH": {
               "type": "SolidWall",
               "properties": {}
             }
@@ -21174,5 +21158,5 @@
       "y": 20
     }
   ],
-  "entityCount": 105
+  "entityCount": 101
 }
