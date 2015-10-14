@@ -269,7 +269,13 @@ public class Server extends Thread {
 		private String username;
 		private Color colour;
 		private boolean clientRunning = false;
-
+		/**
+		 * Handles the connection between server and a single client
+		 * 
+		 * @param socket The socket which is connected between client and server
+		 * @param clientId 
+		 * @throws IOException
+		 */
 		ClientConnection(Socket socket, int clientId) throws IOException {
 			this.socket = socket;
 			this.clientId = clientId;

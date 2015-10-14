@@ -198,24 +198,10 @@ public class GameLogicTesting {
 
 	}
 
-	@Test
-	public void validAddToBag_1(){
-		GameLogic logic = createNewGameLogic(1);
-
-		GameState gamestate = logic.getGameState();
-		Player player = gamestate.getPlayer(0);
-
-		Bag bag = new Bag(100);
-		Key key = new Key(101, 1);
-
-		logic.pickUpItem(player.getId(), 100);
-
-		assertTrue(logic.putItemIntoContainer(0, 100, 101));
-	}
 
 
 	private GameLogic createNewGameLogic(int numPlayers) {
-		GameState state = new GameState(numPlayers, "assets/maps/testmap.xml");
+		GameState state = new GameState(numPlayers, "assets/maps/testmap.json");
 
 		for (int i = 0; i < numPlayers; i++) {
 			state.addPlayer(i, "Player" + i, Color.black);
