@@ -18,13 +18,11 @@ Features:
 
 Libraries:
 - Processing and OpenGL for renderering.
-- Minim audio library for processing.
 - Saito OBJ loader for processing.
-- XStream for XML loading and saving.
+- gson for map and gamestate loading and saving.
 
-Special thanks to our favourite spinning ogre!
 
-Lunarcy
+# Instructions
 
 Pre-Game setup, 
 The jar does not run, use these steps to get it working.
