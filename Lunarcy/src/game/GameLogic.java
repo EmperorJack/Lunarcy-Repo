@@ -153,15 +153,25 @@ public class GameLogic {
 
 		if (inventory.size() > 0) {
 			int i = (int) (inventory.size() * Math.random());
-			dropItem(player.getId(), inventory.get(i).getEntityID());
+			Item item = inventory.get(i);
+			
+			//We don't want to drop keys as players could get stuck
+			if(item instanceof Key){
+				i = 0;
+				while(item instanceof Key && i < inventory.size()){
+					item = inventory.get(i++);
+				}
+			}
+			if(!(item instanceof Key)){
+				dropItem(player.getId(), item.getEntityID());
+			}
 		}
 
 		List<Location> spawns = state.getSpawnPoints();
 		Location loc = spawns.get((int) (spawns.size() * Math.random()));
 
-		((WalkableSquare) state.getSquare(player.getLocation()))
-				.removePlayer(player);
-		((WalkableSquare) state.getSquare(loc)).addPlayer(player);
+		state.getSquare(player.getLocation()).removePlayer(player);
+		state.getSquare(loc).addPlayer(player);
 		player.setLocation(loc);
 	}
 
@@ -213,6 +223,9 @@ public class GameLogic {
 			//Checks if the item is in the square
 			item = wSquare.takeItem(player.getOrientation(), itemID);
 			if(item != null){
+				if(item instanceof Key && player.hasKey(((Key)item).keyCode)){
+					wSquare.addItem(player.getOrientation(), item);
+				}
 				return player.giveItem(item);
 			}
 
@@ -222,6 +235,13 @@ public class GameLogic {
 			if (container != null && container.isOpen() && container.hasItem(itemID)) {
 				item = container.takeItem(itemID);
 				if (item != null) {
+					if(item instanceof Key && player.hasKey(((Key)item).keyCode)){
+						if(!container.addItem(item)){
+							wSquare.addItem(player.getOrientation(), item);
+							return false;
+						}
+						return false;
+					}
 					return player.giveItem(item);
 				}
 			}
@@ -315,7 +335,7 @@ public class GameLogic {
 
 			SolidContainer container = wSquare.getContainer(player
 					.getOrientation());
-			if (container != null && container.isOpen()) {
+			if (container != null && container.isOpen() && container.hasSpace()) {
 				Item item = player.removeItem(itemID);
 				if(item==null){
 					//Then item wasn't directly in the players inventory
@@ -329,11 +349,11 @@ public class GameLogic {
 							}
 						}
 					}
-					
+
 				}
 				if (item != null) {
 					if(!container.addItem(item)){
-						//If container is full drop it on the ground
+						//If cannot add to container drop item on the ground
 						wSquare.addItem(player.getOrientation(), item);
 					}
 					return true;

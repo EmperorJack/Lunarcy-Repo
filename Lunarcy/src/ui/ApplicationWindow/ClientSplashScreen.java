@@ -28,7 +28,7 @@ public class ClientSplashScreen extends JFrame {
 	public ClientSplashScreen(Client client) {
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(410, 220));
+		setPreferredSize(new Dimension(420, 240));
 
 		this.client = client;
 
@@ -86,11 +86,11 @@ public class ClientSplashScreen extends JFrame {
 	 * listening for updates.
 	 */
 	public void startClient() {
-		// Once the client has its initial gametstate we can hide this window
-		setVisible(false);
 
 		// Tell the client to start listening
 		client.listenForGameUpdates();
+
+		setVisible(false);
 
 	}
 

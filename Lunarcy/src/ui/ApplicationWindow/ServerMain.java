@@ -8,7 +8,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -21,12 +22,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.DefaultCaret;
+
+import com.sun.glass.events.WindowEvent;
 
 import network.Server;
 import storage.Storage;
@@ -41,18 +41,22 @@ public class ServerMain extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	//The underlying server
+	// The underlying server
 	private Server server;
 
-	//Sliders
+	// Sliders for choosing
 	private JSlider refreshRate;
 	private JSlider playerNum;
 
-	//Buttons
+	// Load buttons
 	private JButton loadGame;
 	private JButton loadMap;
 
-	//The default map, can be changed by pressing load
+	// Start/Stop buttons
+	private JButton startGame;
+	private JButton stopGame;
+
+	// The default map, can be changed by pressing load button
 	private String selectedMap = "assets/maps/map.xml";
 
 	public ServerMain() {
@@ -77,26 +81,30 @@ public class ServerMain extends JFrame {
 		// Add buttons for saving/loading the whole game state
 		addSaveLoadButtons();
 
-		//Add a label for the servers IP Adress
+		// Add a label for the servers IP Adress
 		addServerIP();
 
 		// Add a text are for printing output etc
 		addConsole();
 
-
 		pack();
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		// When closed we want to actually exit (so it kills the server)
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// Center the window on the screen
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((size.width - getWidth()) / 2, (size.height - getHeight()) / 2, getWidth(), getHeight());
+		setBounds((size.width - getWidth()) / 2,
+				(size.height - getHeight()) / 2, getWidth(), getHeight());
 
 		setVisible(true);
 		setResizable(false);
 
 	}
 
-
+	/**
+	 * Adds a Welcome message at the top of the window
+	 */
 	private void addTitle() {
 		// Setup layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -118,6 +126,9 @@ public class ServerMain extends JFrame {
 		add(title, c);
 	}
 
+	/**
+	 * Adds a slider for choosing the refresh rate
+	 */
 	private void addRefreshRateChooser() {
 		// Setup layout
 		GridBagConstraints c = new GridBagConstraints();
@@ -171,27 +182,33 @@ public class ServerMain extends JFrame {
 		add(playerNum, c);
 	}
 
+	/**
+	 * Add the start/stop buttons
+	 */
 	private void addStartStopButtons() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 
-		final JButton start = new JButton("Start");
-		final JButton stop = new JButton("Stop");
+		startGame = new JButton("Start");
+		stopGame = new JButton("Stop");
 
 		// When clicked, make start unclickable and stop clickable
-		start.addActionListener(new ActionListener() {
+		startGame.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				start.setEnabled(false);
-				stop.setEnabled(true);
+				startGame.setEnabled(false);
+				stopGame.setEnabled(true);
+
 				loadGame.setEnabled(false);
+				loadMap.setEnabled(false);
 
 				// Makes a new thread, which deals with the server
 				try {
-					server = new Server(playerNum.getValue(), refreshRate.getValue(),selectedMap);
+					server = new Server(playerNum.getValue(), refreshRate
+							.getValue(), selectedMap);
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null,"Port Already In Use");
+					JOptionPane.showMessageDialog(null, "Port Already In Use");
 					System.exit(1);
 				}
 				server.start();
@@ -201,77 +218,91 @@ public class ServerMain extends JFrame {
 		// Start button is at 0, 5
 		c.gridx = 0;
 		c.gridy = 5;
-		add(start, c);
+		add(startGame, c);
 
 		// When clicked, make stop unclickable and start clicabe
-		stop.addActionListener(new ActionListener() {
+		stopGame.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				start.setEnabled(true);
-				stop.setEnabled(false);
+				// No game running so cant stop again
+				stopGame.setEnabled(false);
+
+				// All other buttons now visible
+				startGame.setEnabled(true);
 				loadGame.setEnabled(true);
+				loadMap.setEnabled(true);
 
-				//Stop the game
-				server.stop();
 
-				//Ask if you want to save the server
-				int save = JOptionPane.showConfirmDialog(
-					    ServerMain.this,
-					    "Do you want to save?",
-					    "Save",
-					    JOptionPane.YES_NO_OPTION);
+				// Ask if you want to save the server
+				int save = JOptionPane.showConfirmDialog(ServerMain.this,
+						"Do you want to save?", "Save",
+						JOptionPane.YES_NO_OPTION);
 
-				//If they chose yes, then save
-				if(save == JOptionPane.YES_OPTION){
+				// If they chose yes, then save the gamestate
+				if (save == JOptionPane.YES_OPTION) {
 
-					//Retrieve the file to save to
+					// Retrieve the file to save to
 					JFileChooser chooser = new JFileChooser();
-					chooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "/savedgames"));
+					chooser.setCurrentDirectory(new File(System
+							.getProperty("user.dir") + "/savedgames"));
 					chooser.showSaveDialog(null);
-					if(chooser.getSelectedFile() != null){
-						String filename = chooser.getSelectedFile().getAbsolutePath();
-						//Make a new server, using the saved gamestate
+
+					//if they chose a file
+					if (chooser.getSelectedFile() != null) {
+						String filename = chooser.getSelectedFile()
+								.getAbsolutePath();
+
+						// Tell server to save the game
 						server.saveGamestate(filename);
 					}
 				}
+
+				// Stop the game
+				server.stopServer();
 
 			}
 		});
 
 		// Not enabled until start has been clicked
-		stop.setEnabled(false);
+		stopGame.setEnabled(false);
 
 		// Stop button is at 1, 5
 		c.gridx = 1;
 		c.gridy = 5;
 
-		add(stop, c);
+		add(stopGame, c);
 	}
+
+	/**
+	 * Add buttons for saving/loading
+	 **/
 
 	private void addSaveLoadButtons() {
 		GridBagConstraints c = new GridBagConstraints();
 
 		loadMap = new JButton("Load Map");
 
-		//When pushed start at a JFileChooser
+		// When pushed start at a JFileChooser
 		loadMap.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				JFileChooser chooser = new JFileChooser();
-				chooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "/assets/maps"));
+				chooser.setCurrentDirectory(new File(System
+						.getProperty("user.dir") + "/assets/maps"));
 
-				//Only show .XML files, as this is our map type
-				FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter("xml files (*.xml)", "xml");
+				// Only show .XML files, as this is our map type
+				FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter(
+						"xml files (*.xml)", "xml");
 				chooser.setFileFilter(xmlfilter);
 
-				//Display the chooser
+				// Display the chooser
 				chooser.showOpenDialog(null);
 
-				//If they chose an item, set it
-				if(chooser.getSelectedFile() != null){
+				// If they chose an item, set it
+				if (chooser.getSelectedFile() != null) {
 					selectedMap = chooser.getSelectedFile().getAbsolutePath();
 				}
 			}
@@ -290,22 +321,36 @@ public class ServerMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				//Retrieve the file to load
+				// Can not start a game if you have just loaded one
+				startGame.setEnabled(false);
+
+				// Can not reload
+				loadGame.setEnabled(false);
+
+				// Can not choose another map
+				loadMap.setEnabled(false);
+
+				// Can only stop
+				stopGame.setEnabled(true);
+
+				// Retrieve the file to load
 				JFileChooser chooser = new JFileChooser();
-				chooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "/savedgames"));
+				chooser.setCurrentDirectory(new File(System
+						.getProperty("user.dir") + "/savedgames"));
 				chooser.showOpenDialog(null);
 				String filename = chooser.getSelectedFile().getAbsolutePath();
 
-				//Don't do anything if they cancel the chooser
-				if(filename == null){
+				// Don't do anything if they cancel the chooser
+				if (filename == null) {
 					return;
 				}
 
 				// Make a new server with the specified info
 				try {
-					server = new Server(refreshRate.getValue(), Storage.loadState(filename));
+					server = new Server(refreshRate.getValue(), Storage
+							.loadState(filename));
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null,"Port Already In Use");
+					JOptionPane.showMessageDialog(null, "Port Already In Use");
 					System.exit(1);
 				}
 				server.start();
@@ -320,21 +365,25 @@ public class ServerMain extends JFrame {
 
 	}
 
-
+	/**
+	 * Adds a label for displaying the servers IP
+	 */
 	private void addServerIP() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
 
 		JLabel ipLabel;
 
-		//Get the IP Adress, can throw an Unknown Host expection so scheck for this
+		// Get the IP Adress, can throw an Unknown Host expection so scheck for
+		// this
 		try {
-			ipLabel = new JLabel("IP Address: " + InetAddress.getLocalHost().getHostAddress());
+			ipLabel = new JLabel("IP Address: "
+					+ InetAddress.getLocalHost().getHostAddress());
 		} catch (UnknownHostException e) {
 			ipLabel = new JLabel("IP Address: ERROR UNKNOWN HOST");
 		}
 
-		//IP address is at 0,7
+		// IP address is at 0,7
 		c.gridx = 0;
 		c.gridy = 7;
 		c.gridwidth = 2;
@@ -342,18 +391,20 @@ public class ServerMain extends JFrame {
 
 		add(ipLabel, c);
 
-
 	}
 
+	/**
+	 * Adds a print out area for the servers output
+	 */
 	private void addConsole() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
 
 		JTextArea console = new JTextArea();
 
-		//Configure the text area to get the input from stdout
+		// Configure the text area to get the input from stdout
 		PrintStream printStream = new PrintStream(new ConsoleOutput(console));
-		System.setOut(printStream);
+		//System.setOut(printStream);
 
 		// Not directly editable by user
 		console.setEditable(false);
@@ -365,13 +416,12 @@ public class ServerMain extends JFrame {
 		c.gridwidth = 2;
 		c.insets = new Insets(15, 0, 10, 0);
 
-        add(console, c);
+		add(console, c);
 	}
 
 	/**
-	 * Used for remapping stdout to the textarea
-	 * to display any messages. I received the base idea
-	 * for this from: http://www.codejava.net/
+	 * Used for remapping stdout to the textarea to display any messages. I
+	 * received the base idea for this from: http://www.codejava.net/
 	 *
 	 * @author b
 	 *
@@ -380,16 +430,22 @@ public class ServerMain extends JFrame {
 
 		JTextArea console;
 
-		public ConsoleOutput(JTextArea console){
+		public ConsoleOutput(JTextArea console) {
 			this.console = console;
 		}
 
 		@Override
 		public void write(int i) throws IOException {
-			console.append(Character.toString ((char) i));
+			// Clear the textarea if the text gets too long
+			if (console.getLineCount() > 15) {
+				console.setText("");
+			}
+
+			console.append(Character.toString((char) i));
 		}
 
 	}
+
 	public static void main(String[] args) {
 		new ServerMain();
 	}

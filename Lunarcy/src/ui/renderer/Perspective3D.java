@@ -53,8 +53,8 @@ public class Perspective3D extends DrawingComponent {
 	private final int ITEM_Y_OFFSET = -75;
 	private final int CONTAINER_SIZE = 450;
 	private final int CONTAINER_Y_OFFSET = -200;
-	private final int FURNITURE_SIZE = 450;
-	private final int FURNITURE_Y_OFFSET = -200;
+	private final int FURNITURE_SIZE = 600;
+	private final int FURNITURE_Y_OFFSET = -250;
 	private final int FURNITURE_INNER_PADDING = -280;
 
 	// camera fields

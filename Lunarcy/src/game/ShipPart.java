@@ -5,6 +5,7 @@ public class ShipPart implements Item {
 
 	private final int entityID;
 	private PartType type;
+
 	public ShipPart(int entityID, int partID) {
 		this.entityID = entityID;
 		if(partID < 0 || partID > PartType.values().length){
