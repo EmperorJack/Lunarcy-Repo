@@ -5,6 +5,7 @@ import game.Direction;
 import game.GameLogic;
 import game.GameState;
 import game.Key;
+import game.Location;
 import game.Player;
 import game.ShipPart;
 import game.SolidContainer;
@@ -55,7 +56,7 @@ public class GameLogicTesting {
 	 * Player should be able to move to 0,1
 	 */
 	@Test
-	public void valiMovePlayer_1(){
+	public void validMovePlayer_1(){
 		GameLogic logic = createNewGameLogic(1);
 		assertTrue(logic.movePlayer(0, Direction.SOUTH));
 	}
@@ -64,7 +65,7 @@ public class GameLogicTesting {
 	 * Player shouldn't be able to move to 0,-1
 	 */
 	@Test
-	public void invaliMovePlayer_1(){
+	public void invalidMovePlayer_1(){
 		GameLogic logic = createNewGameLogic(1);
 		assertFalse(logic.movePlayer(0, Direction.NORTH));
 	}
@@ -73,7 +74,7 @@ public class GameLogicTesting {
 	 * Invalid player ID should return false
 	 */
 	@Test
-	public void invaliMovePlayer_2(){
+	public void invalidMovePlayer_2(){
 		GameLogic logic = createNewGameLogic(1);
 		assertFalse(logic.movePlayer(2, Direction.NORTH));
 	}
@@ -82,7 +83,7 @@ public class GameLogicTesting {
 	 * Null Direction should return false
 	 */
 	@Test
-	public void invaliMovePlayer_3(){
+	public void invalidMovePlayer_3(){
 		GameLogic logic = createNewGameLogic(1);
 		assertFalse(logic.movePlayer(2, null));
 	}
@@ -283,6 +284,23 @@ public class GameLogicTesting {
 
 		//Should not have lost any items since they only have a key
 		assertTrue(sizeBefore == player.getInventory().size());
+	}
+	
+	@Test
+	public void noMoveBeforeTick(){
+		GameLogic logic = createNewGameLogic(1);
+		GameState state = logic.getGameState();
+		logic.movePlayer(0, Direction.SOUTH);
+		assertEquals(new Location(0,0), state.getPlayer(0).getLocation());
+	}
+	
+	@Test
+	public void validMoveAfterTick(){
+		GameLogic logic = createNewGameLogic(1);
+		GameState state = logic.getGameState();
+		logic.movePlayer(0, Direction.SOUTH);
+		logic.tickGameState();
+		assertEquals(new Location(0,1), state.getPlayer(0).getLocation());
 	}
 
 
