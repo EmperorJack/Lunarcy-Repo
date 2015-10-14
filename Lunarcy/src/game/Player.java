@@ -132,13 +132,13 @@ public class Player implements Character, Serializable {
 	public boolean hasKey(int keyCode) {
 		for (Item i : inventory) {
 			if (i instanceof Key) {
-				if (((Key) i).keyCode == keyCode) {
+				if (((Key) i).getAccessLevel() == keyCode) {
 					return true;
 				}
 			}else if(i instanceof Container){
 				for(Item item: ((Container)i).getItems()){
 					if (item instanceof Key) {
-						if (((Key) item).keyCode == keyCode) {
+						if (((Key) item).getAccessLevel() == keyCode) {
 							return true;
 						}
 					}

@@ -9,7 +9,7 @@ public class Key implements Item {
 	private static final long serialVersionUID = -143449561013171486L;
 
 	private final int entityID;
-	public final int keyCode;
+	private final int keyCode;
 	public Key(int entityID, int keyCode){
 		this.entityID = entityID;
 		this.keyCode = keyCode;

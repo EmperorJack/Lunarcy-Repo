@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import mapbuilder.GameMap;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 
 import game.GameState;
