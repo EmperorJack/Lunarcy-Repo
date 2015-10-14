@@ -23,3 +23,86 @@ Libraries:
 - XStream for XML loading and saving.
 
 Special thanks to our favourite spinning ogre!
+
+Lunarcy
+
+Pre-Game setup, 
+The jar does not run, use these steps to get it working.
+
+1. Import the jar file into a new eclipse project
+
+2. drag these folders into the src folder:
+   bots
+   game
+   mapbuilder
+   network
+   storage
+   testing
+   ui
+
+Lunarcy
+
+Pre-Game setup, 
+The jar does not run, use these steps to get it working.
+
+1. Import the jar file into a new eclipse project
+
+2. drag these folders into the src folder:
+   bots
+   game
+   mapbuilder
+   network
+   storage
+   testing
+   ui
+
+NOTE: OpenGL library setup may be required.
+Should be configured for the linux machines by default. To reconfigure for another OS do the following:
+1. Ensure all jar libraries in the /libs folder are added to the build path.
+2. Go to configure build path menu. Go to Libraries tab. Open the drop down for opengl.jar.
+3. Ensure the 'Native library location' is set to /libs/~~yourOSHere~~ directory.
+
+To run the game:
+
+1. Run ServerMain
+2. Choose required number of players (default update speed works well)
+3. Click Start
+
+4. Run ClientMain for the number of clients you specified in Server
+5. Enter server address (localhost if you're running server on same machine)
+5. Press start
+6. Wait for all clients to connect, program 'pauses' until all clients are connected
+
+
+SAVING and LOADING games and maps
+
+To save a game:
+  From Server, click 'Stop' and 'Yes' when save prompt appears.
+To load:
+  Press the load button, connect clients as before however the 
+  names MUST match the previous ones
+  Once all clients have connected the game will resume
+
+Controls:
+
+WASD  - move around
+QE - rotate left/right
+SPACE - Square info
+CLICK/DRAG - for item interaction
+
+Notes:
+
+If you are outside for too long and run out of oxygen, you 'die'
+If a bot catches you outside without armour, it 'kills' you.
+
+When you die you lose an item and are randomly placed at a spawn point on the map
+
+Keys/Doors are coloured to show which keys work with which doors, if you have
+the correct key in your inventory then all the corresponding doors will be automatically
+opened.
+
+Objectives:
+
+Find all the missing ship parts, and get to the ship before any other players do.
+
+ENJOY
