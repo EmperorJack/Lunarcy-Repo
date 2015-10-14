@@ -86,14 +86,14 @@ public class GameState implements Serializable {
 			List<Item> items = itemMap.get(access);
 			//Go through and fill up all the containers
 			while(!items.isEmpty()){
-				for(Container container: containers.get(access)){
+				for(SolidContainer container: containers.get(access)){
 					if(items.isEmpty()){
 						//Then we have no more items to distribute so quit
 						break;
 					}
 					//Each time add a random item from the list;
 					int index = (int)(items.size() * Math.random());
-					container.addItem(items.remove(index));
+					container.forceAddItem(items.remove(index));
 				}
 			}
 		}
@@ -177,17 +177,19 @@ public class GameState implements Serializable {
 		GameMap gameMap = Storage.loadGameMap(new File(map));
 		board = gameMap.getSquares();
 		spawnPoints = gameMap.getPlayerSpawnPoints();
-			// Search the board to find the ship and save it
-			// Probably need to do something if there is no ship
-			// (InvalidMapException??)
-			for (int y = 0; y < board.length; y++) {
-				for (int x = 0; x < board[y].length; x++) {
-					if (board[y][x] instanceof Ship) {
-						ship = (Ship) board[y][x];
-					}
+		System.out.println("Map Size: "+gameMap.getTierDictionary().size());
+		distributeItems(gameMap.getTierDictionary());
+		// Search the board to find the ship and save it
+		// Probably need to do something if there is no ship
+		// (InvalidMapException??)
+		for (int y = 0; y < board.length; y++) {
+			for (int x = 0; x < board[y].length; x++) {
+				if (board[y][x] instanceof Ship) {
+					ship = (Ship) board[y][x];
 				}
 			}
 		}
+	}
 
 	/**
 	 * Add a location to the Set of locations where players may spawn

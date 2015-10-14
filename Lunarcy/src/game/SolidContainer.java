@@ -28,6 +28,16 @@ public abstract class SolidContainer extends Container implements Furniture {
 		if(!isOpen()){
 			return false;
 		}
+		return super.addItem(item);
+	}
+	
+	/**
+	 * Forces the container to add an item regardless of access or whether it is open or not
+	 * Do not use this method when dropping items from players
+	 * @param item The item to add
+	 * @return
+	 */
+	public boolean forceAddItem(Item item){
 		return items.add(item);
 	}
 

@@ -292,8 +292,11 @@ public class GameLogic {
 			return false;
 		Square square = state.getSquare(player.getLocation());
 
+		if(!player.hasItem(itemID)){
+			return false;
+		}
 		if (player.hasItem(containerID)) {
-			// find the container
+			// They are trying to place into a container they are carrying
 			Item temp = player.getItem(containerID);
 			if (temp != null && temp instanceof Container) {
 				Container container = (Container) temp;
@@ -307,6 +310,7 @@ public class GameLogic {
 			}
 		} else if (square instanceof WalkableSquare) {
 			// Otherwise cannot contain players/items
+			// They must be trying to place into a container in a square
 			WalkableSquare wSquare = (WalkableSquare) square;
 
 			SolidContainer container = wSquare.getContainer(player
@@ -325,9 +329,13 @@ public class GameLogic {
 							}
 						}
 					}
+					
 				}
 				if (item != null) {
-					container.addItem(item);
+					if(!container.addItem(item)){
+						//If container is full drop it on the ground
+						wSquare.addItem(player.getOrientation(), item);
+					}
 					return true;
 				}
 			}
