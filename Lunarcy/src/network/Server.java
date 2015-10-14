@@ -15,6 +15,7 @@ import java.awt.Color;
 
 
 
+
 //import network.NewServer.ClientConnection;
 import storage.Storage;
 
@@ -233,19 +234,12 @@ public class Server extends Thread {
 
 	// methods for working with clientlist
 
-	synchronized private int addClientConnection(ClientConnection cc) {
-		this.clientList.add(cc);
-		return this.clientList.indexOf(cc);
-	}
-
 	synchronized private boolean removeClientConnection(ClientConnection cc) {
 		return this.clientList.remove(cc);
 	}
 
-	synchronized private ClientConnection getClientConnection(int index) {
-		return this.clientList.get(index);
-	}
 
+	@SuppressWarnings("unchecked")
 	synchronized private ArrayList<ClientConnection> getClientConnectionsClone() {
 		return (ArrayList<ClientConnection>) this.clientList.clone();
 	}
@@ -271,9 +265,9 @@ public class Server extends Thread {
 		private boolean clientRunning = false;
 		/**
 		 * Handles the connection between server and a single client
-		 * 
+		 *
 		 * @param socket The socket which is connected between client and server
-		 * @param clientId 
+		 * @param clientId
 		 * @throws IOException
 		 */
 		ClientConnection(Socket socket, int clientId) throws IOException {

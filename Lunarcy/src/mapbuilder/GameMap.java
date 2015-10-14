@@ -10,6 +10,10 @@ import java.util.Map;
 import game.*;
 
 public class GameMap implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Square[][] squares;
 	private Map<Item, Integer> tierDictionary;
 	private List<Location> playerSpawnPoints;
