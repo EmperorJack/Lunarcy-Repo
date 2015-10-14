@@ -5,7 +5,7 @@ public class Rock implements Furniture {
 	public Rock(){
 	}
 	public String getImageName() {
-		return "lockedChest_open";
+		return "rock";
 	}
 
 }

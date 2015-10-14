@@ -11,3 +11,4 @@ lockedChest_open
 armour
 cloak
 bag
+rock

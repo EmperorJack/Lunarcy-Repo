@@ -3735,24 +3735,24 @@
         <inside>true</inside>
         <requiredParts>
           <game.ShipPart>
-            <entityID>2004</entityID>
-            <type>GPS</type>
+            <entityID>2001</entityID>
+            <type>ENGINE</type>
           </game.ShipPart>
           <game.ShipPart>
-            <entityID>2005</entityID>
-            <type>WARP_DRIVE</type>
+            <entityID>2004</entityID>
+            <type>GPS</type>
           </game.ShipPart>
           <game.ShipPart>
             <entityID>2002</entityID>
             <type>FUEL_CORE</type>
           </game.ShipPart>
           <game.ShipPart>
-            <entityID>2001</entityID>
-            <type>ENGINE</type>
-          </game.ShipPart>
-          <game.ShipPart>
             <entityID>2003</entityID>
             <type>GRAVITY_CORE</type>
+          </game.ShipPart>
+          <game.ShipPart>
+            <entityID>2005</entityID>
+            <type>WARP_DRIVE</type>
           </game.ShipPart>
         </requiredParts>
         <hasLaunched>false</hasLaunched>
@@ -32144,21 +32144,57 @@
   <tierDictionary>
     <entry>
       <game.Key>
-        <entityID>188</entityID>
+        <entityID>187</entityID>
         <keyCode>2</keyCode>
       </game.Key>
       <int>1</int>
     </entry>
     <entry>
+      <game.Bag>
+        <entityID>192</entityID>
+        <maxSize>3</maxSize>
+        <items/>
+      </game.Bag>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.CloakingGadget>
+        <entityID>198</entityID>
+      </game.CloakingGadget>
+      <int>2</int>
+    </entry>
+    <entry>
       <game.ShipPart>
-        <entityID>79</entityID>
-        <type>FUEL_CORE</type>
+        <entityID>74</entityID>
+        <type>ENGINE</type>
       </game.ShipPart>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>182</entityID>
+        <keyCode>1</keyCode>
+      </game.Key>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>78</entityID>
+        <type>ENGINE</type>
+      </game.ShipPart>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.Bag>
+        <entityID>191</entityID>
+        <maxSize>3</maxSize>
+        <items/>
+      </game.Bag>
       <int>1</int>
     </entry>
     <entry>
       <game.ShipPart>
-        <entityID>76</entityID>
+        <entityID>77</entityID>
         <type>ENGINE</type>
       </game.ShipPart>
       <int>0</int>
@@ -32171,6 +32207,12 @@
       <int>1</int>
     </entry>
     <entry>
+      <game.Armour>
+        <entityID>196</entityID>
+      </game.Armour>
+      <int>3</int>
+    </entry>
+    <entry>
       <game.Key>
         <entityID>185</entityID>
         <keyCode>2</keyCode>
@@ -32178,32 +32220,23 @@
       <int>1</int>
     </entry>
     <entry>
-      <game.Bag>
-        <entityID>191</entityID>
-        <maxSize>3</maxSize>
-        <items/>
-      </game.Bag>
-      <int>1</int>
+      <game.Armour>
+        <entityID>197</entityID>
+      </game.Armour>
+      <int>3</int>
     </entry>
     <entry>
-      <game.Key>
-        <entityID>184</entityID>
-        <keyCode>1</keyCode>
-      </game.Key>
-      <int>0</int>
-    </entry>
-    <entry>
-      <game.CloakingGadget>
-        <entityID>198</entityID>
-      </game.CloakingGadget>
+      <game.ShipPart>
+        <entityID>86</entityID>
+        <type>GPS</type>
+      </game.ShipPart>
       <int>2</int>
     </entry>
     <entry>
-      <game.Bag>
-        <entityID>192</entityID>
-        <maxSize>3</maxSize>
-        <items/>
-      </game.Bag>
+      <game.ShipPart>
+        <entityID>81</entityID>
+        <type>FUEL_CORE</type>
+      </game.ShipPart>
       <int>1</int>
     </entry>
     <entry>
@@ -32214,17 +32247,32 @@
       <int>0</int>
     </entry>
     <entry>
-      <game.ShipPart>
-        <entityID>83</entityID>
-        <type>GRAVITY_CORE</type>
-      </game.ShipPart>
-      <int>1</int>
+      <game.Key>
+        <entityID>184</entityID>
+        <keyCode>1</keyCode>
+      </game.Key>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>181</entityID>
+        <keyCode>1</keyCode>
+      </game.Key>
+      <int>0</int>
     </entry>
     <entry>
       <game.ShipPart>
         <entityID>87</entityID>
         <type>GPS</type>
       </game.ShipPart>
+      <int>2</int>
+    </entry>
+    <entry>
+      <game.Bag>
+        <entityID>194</entityID>
+        <maxSize>3</maxSize>
+        <items/>
+      </game.Bag>
       <int>2</int>
     </entry>
     <entry>
@@ -32235,11 +32283,24 @@
       <int>2</int>
     </entry>
     <entry>
-      <game.ShipPart>
-        <entityID>78</entityID>
-        <type>ENGINE</type>
-      </game.ShipPart>
+      <game.Key>
+        <entityID>180</entityID>
+        <keyCode>1</keyCode>
+      </game.Key>
       <int>0</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>82</entityID>
+        <type>GRAVITY_CORE</type>
+      </game.ShipPart>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.CloakingGadget>
+        <entityID>199</entityID>
+      </game.CloakingGadget>
+      <int>2</int>
     </entry>
     <entry>
       <game.ShipPart>
@@ -32249,45 +32310,18 @@
       <int>1</int>
     </entry>
     <entry>
-      <game.Key>
-        <entityID>187</entityID>
-        <keyCode>2</keyCode>
-      </game.Key>
-      <int>1</int>
-    </entry>
-    <entry>
-      <game.Key>
-        <entityID>183</entityID>
-        <keyCode>1</keyCode>
-      </game.Key>
-      <int>0</int>
-    </entry>
-    <entry>
       <game.ShipPart>
-        <entityID>74</entityID>
-        <type>ENGINE</type>
+        <entityID>88</entityID>
+        <type>WARP_DRIVE</type>
       </game.ShipPart>
-      <int>0</int>
-    </entry>
-    <entry>
-      <game.Key>
-        <entityID>186</entityID>
-        <keyCode>2</keyCode>
-      </game.Key>
-      <int>1</int>
-    </entry>
-    <entry>
-      <game.Armour>
-        <entityID>196</entityID>
-      </game.Armour>
       <int>3</int>
     </entry>
     <entry>
-      <game.Key>
-        <entityID>181</entityID>
-        <keyCode>1</keyCode>
-      </game.Key>
-      <int>0</int>
+      <game.ShipPart>
+        <entityID>83</entityID>
+        <type>GRAVITY_CORE</type>
+      </game.ShipPart>
+      <int>1</int>
     </entry>
     <entry>
       <game.Bag>
@@ -32299,29 +32333,49 @@
     </entry>
     <entry>
       <game.ShipPart>
-        <entityID>81</entityID>
+        <entityID>79</entityID>
         <type>FUEL_CORE</type>
       </game.ShipPart>
       <int>1</int>
     </entry>
     <entry>
-      <game.Bag>
-        <entityID>193</entityID>
-        <maxSize>3</maxSize>
-        <items/>
-      </game.Bag>
-      <int>2</int>
+      <game.ShipPart>
+        <entityID>80</entityID>
+        <type>FUEL_CORE</type>
+      </game.ShipPart>
+      <int>1</int>
     </entry>
     <entry>
       <game.Key>
-        <entityID>182</entityID>
+        <entityID>190</entityID>
+        <keyCode>3</keyCode>
+      </game.Key>
+      <int>2</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>76</entityID>
+        <type>ENGINE</type>
+      </game.ShipPart>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>183</entityID>
         <keyCode>1</keyCode>
       </game.Key>
       <int>0</int>
     </entry>
     <entry>
+      <game.Key>
+        <entityID>188</entityID>
+        <keyCode>2</keyCode>
+      </game.Key>
+      <int>1</int>
+    </entry>
+    <entry>
       <game.Bag>
-        <entityID>194</entityID>
+        <entityID>193</entityID>
         <maxSize>3</maxSize>
         <items/>
       </game.Bag>
@@ -32335,65 +32389,11 @@
       <int>0</int>
     </entry>
     <entry>
-      <game.ShipPart>
-        <entityID>80</entityID>
-        <type>FUEL_CORE</type>
-      </game.ShipPart>
-      <int>1</int>
-    </entry>
-    <entry>
-      <game.CloakingGadget>
-        <entityID>199</entityID>
-      </game.CloakingGadget>
-      <int>2</int>
-    </entry>
-    <entry>
-      <game.ShipPart>
-        <entityID>82</entityID>
-        <type>GRAVITY_CORE</type>
-      </game.ShipPart>
-      <int>1</int>
-    </entry>
-    <entry>
       <game.Key>
-        <entityID>180</entityID>
-        <keyCode>1</keyCode>
+        <entityID>186</entityID>
+        <keyCode>2</keyCode>
       </game.Key>
-      <int>0</int>
-    </entry>
-    <entry>
-      <game.ShipPart>
-        <entityID>77</entityID>
-        <type>ENGINE</type>
-      </game.ShipPart>
-      <int>0</int>
-    </entry>
-    <entry>
-      <game.ShipPart>
-        <entityID>88</entityID>
-        <type>WARP_DRIVE</type>
-      </game.ShipPart>
-      <int>3</int>
-    </entry>
-    <entry>
-      <game.ShipPart>
-        <entityID>86</entityID>
-        <type>GPS</type>
-      </game.ShipPart>
-      <int>2</int>
-    </entry>
-    <entry>
-      <game.Key>
-        <entityID>190</entityID>
-        <keyCode>3</keyCode>
-      </game.Key>
-      <int>2</int>
-    </entry>
-    <entry>
-      <game.Armour>
-        <entityID>197</entityID>
-      </game.Armour>
-      <int>3</int>
+      <int>1</int>
     </entry>
   </tierDictionary>
   <playerSpawnPoints>
