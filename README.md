@@ -60,7 +60,7 @@ NOTE: OpenGL library setup may be required.
 Should be configured for the linux machines by default. To reconfigure for another OS do the following:
 1. Ensure all jar libraries in the /libs folder are added to the build path.
 2. Go to configure build path menu. Go to Libraries tab. Open the drop down for opengl.jar.
-3. Ensure the 'Native library location' is set to /libs/~~yourOSHere~~ directory.
+3. Ensure the 'Native library location' is set to /libs/~yourOSHere~ directory.
 
 To run the game:
 
