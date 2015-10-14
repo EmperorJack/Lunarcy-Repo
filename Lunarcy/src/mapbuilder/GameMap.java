@@ -19,7 +19,7 @@ public class GameMap {
 	public GameMap(){
 		setSquares(new Square[20][20]);
 		setTierDictionary(new HashMap<Item, Integer>());
-		int entityCount = 0;
+		entityCount = 0;
 	}
 
 	public Square[][] getSquares() {
@@ -43,6 +43,11 @@ public class GameMap {
 		addKey(1,6,0);
 		addKey(2,4,1);
 		addKey(3,2,2);
+		addBag(2,1);
+		addBag(3,2);
+		addArmor(2,3);
+		addCloak(2,2);
+
 	}
 
 	public void initialiseShip(){
@@ -72,6 +77,31 @@ public class GameMap {
 			increaseEntityCount();
 		}
 	}
+
+	public void addBag(int count, int tier){
+		for (int i = 0; i < count; i++){
+			Bag newBag = new Bag(entityCount + 100);
+			tierDictionary.put(newBag, tier);
+			increaseEntityCount();
+		}
+	}
+
+	public void addArmor(int count, int tier){
+		for (int i = 0; i < count; i++){
+			Armour newArmour = new Armour(entityCount + 100);
+			tierDictionary.put(newArmour, tier);
+			increaseEntityCount();
+		}
+	}
+
+	public void addCloak(int count, int tier){
+		for (int i = 0; i < count; i++){
+			CloakingGadget newCloak = new CloakingGadget(entityCount + 100);
+			tierDictionary.put(newCloak, tier);
+			increaseEntityCount();
+		}
+	}
+
 
 	public Map<Item, Integer> getTierDictionary() {
 		return tierDictionary;

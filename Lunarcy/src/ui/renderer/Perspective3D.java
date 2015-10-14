@@ -177,12 +177,17 @@ public class Perspective3D extends DrawingComponent {
 		// for each player
 		for (int i = 0; i < players.length; i++) {
 
+			Player currentPlayer = players[i];
+
+			// check if the player is null
+			if (currentPlayer == null) {
+				continue;
+			}
+
 			// don't draw a player in the same location as this player
 			if (!players[i].getLocation().equals(thisPlayer.getLocation())) {
 				p.pushMatrix();
 				p.pushStyle();
-
-				Player currentPlayer = players[i];
 
 				// tint the image with the current player colour
 				p.tint(currentPlayer.getColour().getRGB());

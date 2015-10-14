@@ -61,6 +61,13 @@ public class WalkableSquare extends Square {
 
 	}
 
+	public WalkableSquare(){
+		items = new HashMap<Direction, List<Item>>();
+		furnitureMap = new HashMap<Direction, Furniture>();
+		players = new HashSet<Player>();
+
+	}
+
 	/**
 	 * Tells the Square to Update itself for one game tick
 	 * Only updates the players oxygen

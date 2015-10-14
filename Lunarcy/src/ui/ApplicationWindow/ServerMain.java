@@ -194,11 +194,9 @@ public class ServerMain extends JFrame {
 					JOptionPane.showMessageDialog(null,"Port Already In Use");
 					System.exit(1);
 				}
-				server.run();
+				server.start();
 			}
 		});
-
-
 
 		// Start button is at 0, 5
 		c.gridx = 0;
@@ -310,7 +308,7 @@ public class ServerMain extends JFrame {
 					JOptionPane.showMessageDialog(null,"Port Already In Use");
 					System.exit(1);
 				}
-				server.run();
+				server.start();
 			}
 
 		});

@@ -49,6 +49,11 @@ public class PlayerView extends DrawingComponent {
 		// for each player
 		for (int i = 0; i < players.length; i++) {
 
+			//if player has been removed, disregard
+			if(players[i] == null){
+				continue;
+			}
+
 			// if the player is in the current square and not this player
 			if (players[i].getLocation().equals(thisPlayer.getLocation())
 					&& !players[i].equals(thisPlayer)) {

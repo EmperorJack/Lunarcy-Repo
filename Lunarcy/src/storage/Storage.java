@@ -1,12 +1,16 @@
 package storage;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 
 import mapbuilder.GameMap;
 
+import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 
 import game.GameState;
@@ -40,16 +44,20 @@ public class Storage {
 			FileOutputStream file = new FileOutputStream(fileToWrite, false);
 			XStream xstream = new XStream();
 			xstream.toXML(map, file);
-		} catch (FileNotFoundException e) {
+			//Gson gson = new Gson();
+			//file.write(gson.toJson(map).getBytes());
+		} catch (IOException e) {
 
 		}
 	}
 
 	public static final GameMap loadGameMap(File fileName){
 		try {
-			FileInputStream file = new FileInputStream(fileName);
+			BufferedReader file = new BufferedReader(new FileReader(fileName));
+			//Gson gson = new Gson();
 			XStream xstream = new XStream();
 			GameMap gameMap = (GameMap) xstream.fromXML(file);
+			//GameMap gameMap = gson.fromJson(file, GameMap.class);
 			return gameMap;
 		} catch (FileNotFoundException e) {
 
