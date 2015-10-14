@@ -46,8 +46,27 @@ public class GameLogicTesting {
 		assertEquals(original.right(), player.getOrientation());
 	}
 
+
+	/**
+	 * Player should be able to move to 0,1
+	 */
+	@Test
+	public void valiMovePlayer_1(){
+		GameLogic logic = createNewGameLogic(1);
+		assertTrue(logic.movePlayer(0, Direction.SOUTH));
+	}
+
+	/**
+	 * Player shouldn't be able to move to 0,-1
+	 */
+	@Test
+	public void invaliMovePlayer_1(){
+		GameLogic logic = createNewGameLogic(1);
+		assertFalse(logic.movePlayer(0, Direction.NORTH));
+	}
+
 	private GameLogic createNewGameLogic(int numPlayers) {
-		GameState state = new GameState(numPlayers, "assets/maps/map.xml");
+		GameState state = new GameState(numPlayers, "assets/maps/testingmap.xml");
 
 		for (int i = 0; i < numPlayers; i++) {
 			state.addPlayer(i, "Player" + i, Color.black);
