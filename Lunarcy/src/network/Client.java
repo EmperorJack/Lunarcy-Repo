@@ -12,7 +12,8 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 /**
- * A class for
+ * A class for communicating with the Server
+ * Handles Canvas creation and passing events back and forward
  *
  * @author denforjohn
  *
@@ -30,6 +31,17 @@ public class Client {
 	private int frameHeight;
 	private boolean hardwareRenderer;
 
+	/**
+	 * Construct a Client
+	 *
+	 * @param serverAddr String address of the server
+	 * @param name	Username of the client
+	 * @param colour Colour of the client
+	 * @param frameWidth Width of the canvas frame
+	 * @param frameHeight Height of the canvas frame
+	 * @param hardwareRenderer Whether or not to use a hardware renderer
+	 * @throws IllegalArgumentException
+	 */
 	public Client(String serverAddr, String name, Color colour, int frameWidth,
 			int frameHeight, boolean hardwareRenderer)
 			throws IllegalArgumentException {
@@ -45,16 +57,21 @@ public class Client {
 			inputFromServer = new ObjectInputStream(socket.getInputStream());
 			negotiateConnection(name, colour);
 		} catch (IOException e) {
-			// e.printStackTrace();
 			System.out.println("Couldn't establish connection");
 			throw new IllegalArgumentException("Bad IP");
 		}
 
 		getInitialGamestate();
-		// listen for gamestates from the server
 		System.out.println("Listening for gamestate");
 	}
-
+	/**
+	 * Negotiate the connection between the client and server
+	 *
+	 * @param name userName of this user
+	 * @param colour Colour of this player
+	 * @throws IllegalArgumentException
+	 * @throws IOException
+	 */
 	private void negotiateConnection(String name, Color colour) throws IllegalArgumentException, IOException {
 		do {
 			writeObject(name);
@@ -85,6 +102,9 @@ public class Client {
 		return s;
 	}
 
+	/**
+	 *  Gets the initial gamestate from the server
+	 */
 	public void getInitialGamestate() {
 		// get gamestate setup game
 		GameState initialGameState = null;
@@ -94,7 +114,10 @@ public class Client {
 		this.frame = new Frame(this, initialGameState, frameWidth, frameHeight,
 				hardwareRenderer);
 	}
-
+	/**
+	 * Listen for updates sent from the server
+	 * If recieved, update the state in the canvas
+	 */
 	public void listenForGameUpdates() {
 		new Thread(new Runnable() {
 			public void run() {
@@ -120,7 +143,10 @@ public class Client {
 			}
 		}).start();
 	}
-
+	/**
+	 * Return the gamestate from the server when received
+	 * @return
+	 */
 	private GameState getGameState() {
 		GameState state = null;
 		try {
@@ -185,8 +211,4 @@ public class Client {
 		return id;
 	}
 
-	public static void main(String[] args) {
-		new Client("localhost", "JP" + (int) (Math.random() * 100), Color.RED,
-				1280, 720, true);
-	}
 }
