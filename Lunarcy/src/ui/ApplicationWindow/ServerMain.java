@@ -56,7 +56,6 @@ public class ServerMain extends JFrame {
 	private JButton startGame;
 	private JButton stopGame;
 
-
 	// The default map, can be changed by pressing load button
 	private String selectedMap = "assets/maps/map.xml";
 
@@ -226,23 +225,20 @@ public class ServerMain extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//No game running so cant stop again
+				// No game running so cant stop again
 				stopGame.setEnabled(false);
 
-				//All other buttons now visible
+				// All other buttons now visible
 				startGame.setEnabled(true);
 				loadGame.setEnabled(true);
 				loadMap.setEnabled(true);
-
-				// Stop the game
-				server.stopServer();
 
 				// Ask if you want to save the server
 				int save = JOptionPane.showConfirmDialog(ServerMain.this,
 						"Do you want to save?", "Save",
 						JOptionPane.YES_NO_OPTION);
 
-				// If they chose yes, then save
+				// If they chose yes, then save the gamestate
 				if (save == JOptionPane.YES_OPTION) {
 
 					// Retrieve the file to save to
@@ -250,13 +246,19 @@ public class ServerMain extends JFrame {
 					chooser.setCurrentDirectory(new File(System
 							.getProperty("user.dir") + "/savedgames"));
 					chooser.showSaveDialog(null);
+
+					//if they chose a file
 					if (chooser.getSelectedFile() != null) {
 						String filename = chooser.getSelectedFile()
 								.getAbsolutePath();
-						// Make a new server, using the saved gamestate
+
+						// Tell server to save the game
 						server.saveGamestate(filename);
 					}
 				}
+
+				// Stop the game
+				server.stopServer();
 
 			}
 		});
@@ -318,16 +320,16 @@ public class ServerMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				//Can not start a game if you have just loaded one
+				// Can not start a game if you have just loaded one
 				startGame.setEnabled(false);
 
-				//Can not reload
+				// Can not reload
 				loadGame.setEnabled(false);
 
-				//Can not choose another map
+				// Can not choose another map
 				loadMap.setEnabled(false);
 
-				//Can only stop
+				// Can only stop
 				stopGame.setEnabled(true);
 
 				// Retrieve the file to load
