@@ -3,7 +3,11 @@ package network;
 import game.GameLogic;
 
 import java.io.Serializable;
-
+/**
+ * Orient a player in the given direction
+ * @author denforjohn
+ *
+ */
 public class OrientAction implements NetworkAction, Serializable{
 
 	private static final long serialVersionUID = 1L;
