@@ -4,11 +4,11 @@
       <game.WalkableSquare>
         <walls>
           <entry>
-            <game.Direction>SOUTH</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <game.EmptyWall/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>SOUTH</game.Direction>
             <game.EmptyWall/>
           </entry>
           <entry>
@@ -22,11 +22,11 @@
         </walls>
         <items>
           <entry>
-            <game.Direction>SOUTH</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <list/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>SOUTH</game.Direction>
             <list/>
           </entry>
           <entry>
@@ -40,10 +40,6 @@
         </items>
         <furnitureMap>
           <entry>
-            <game.Direction>SOUTH</game.Direction>
-            <null/>
-          </entry>
-          <entry>
             <game.Direction>NORTH</game.Direction>
             <game.Chest>
               <entityID>500</entityID>
@@ -51,6 +47,10 @@
               <items/>
               <isOpen>false</isOpen>
             </game.Chest>
+          </entry>
+          <entry>
+            <game.Direction>SOUTH</game.Direction>
+            <null/>
           </entry>
           <entry>
             <game.Direction>WEST</game.Direction>
@@ -67,11 +67,11 @@
       <game.WalkableSquare>
         <walls>
           <entry>
-            <game.Direction>SOUTH</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <game.EmptyWall/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>SOUTH</game.Direction>
             <game.EmptyWall/>
           </entry>
           <entry>
@@ -85,11 +85,11 @@
         </walls>
         <items>
           <entry>
-            <game.Direction>SOUTH</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <list/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>SOUTH</game.Direction>
             <list/>
           </entry>
           <entry>
@@ -103,11 +103,11 @@
         </items>
         <furnitureMap>
           <entry>
-            <game.Direction>SOUTH</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <null/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>SOUTH</game.Direction>
             <null/>
           </entry>
           <entry>
@@ -211,11 +211,11 @@
       <game.WalkableSquare>
         <walls>
           <entry>
-            <game.Direction>SOUTH</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <game.EmptyWall/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>SOUTH</game.Direction>
             <game.EmptyWall/>
           </entry>
           <entry>
@@ -229,11 +229,11 @@
         </walls>
         <items>
           <entry>
-            <game.Direction>SOUTH</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <list/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>SOUTH</game.Direction>
             <list/>
           </entry>
           <entry>
@@ -247,11 +247,11 @@
         </items>
         <furnitureMap>
           <entry>
-            <game.Direction>SOUTH</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <null/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>SOUTH</game.Direction>
             <null/>
           </entry>
           <entry>
@@ -269,11 +269,11 @@
       <game.Ship>
         <walls>
           <entry>
-            <game.Direction>SOUTH</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <game.EmptyWall/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>SOUTH</game.Direction>
             <game.EmptyWall/>
           </entry>
           <entry>
@@ -287,11 +287,11 @@
         </walls>
         <items>
           <entry>
-            <game.Direction>SOUTH</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <list/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>SOUTH</game.Direction>
             <list/>
           </entry>
           <entry>
@@ -305,11 +305,11 @@
         </items>
         <furnitureMap>
           <entry>
-            <game.Direction>SOUTH</game.Direction>
+            <game.Direction>NORTH</game.Direction>
             <null/>
           </entry>
           <entry>
-            <game.Direction>NORTH</game.Direction>
+            <game.Direction>SOUTH</game.Direction>
             <null/>
           </entry>
           <entry>
@@ -325,24 +325,24 @@
         <inside>true</inside>
         <requiredParts>
           <game.ShipPart>
-            <entityID>2004</entityID>
-            <type>GPS</type>
-          </game.ShipPart>
-          <game.ShipPart>
-            <entityID>2001</entityID>
-            <type>ENGINE</type>
+            <entityID>2003</entityID>
+            <type>GRAVITY_CORE</type>
           </game.ShipPart>
           <game.ShipPart>
             <entityID>2002</entityID>
             <type>FUEL_CORE</type>
           </game.ShipPart>
           <game.ShipPart>
-            <entityID>2005</entityID>
-            <type>WARP_DRIVE</type>
+            <entityID>2001</entityID>
+            <type>ENGINE</type>
           </game.ShipPart>
           <game.ShipPart>
-            <entityID>2003</entityID>
-            <type>GRAVITY_CORE</type>
+            <entityID>2004</entityID>
+            <type>GPS</type>
+          </game.ShipPart>
+          <game.ShipPart>
+            <entityID>2005</entityID>
+            <type>WARP_DRIVE</type>
           </game.ShipPart>
         </requiredParts>
         <hasLaunched>false</hasLaunched>
@@ -3034,7 +3034,197 @@
       </game.BlankSquare>
     </game.Square-array>
   </squares>
-  <tierDictionary/>
+  <tierDictionary>
+    <entry>
+      <game.ShipPart>
+        <entityID>15</entityID>
+        <type>ENGINE</type>
+      </game.ShipPart>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>11</entityID>
+        <type>ENGINE</type>
+      </game.ShipPart>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>22</entityID>
+        <type>GRAVITY_CORE</type>
+      </game.ShipPart>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>18</entityID>
+        <type>FUEL_CORE</type>
+      </game.ShipPart>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>19</entityID>
+        <type>GRAVITY_CORE</type>
+      </game.ShipPart>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>16</entityID>
+        <type>FUEL_CORE</type>
+      </game.ShipPart>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>20</entityID>
+        <type>GRAVITY_CORE</type>
+      </game.ShipPart>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>121</entityID>
+        <keyCode>1</keyCode>
+      </game.Key>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>14</entityID>
+        <type>ENGINE</type>
+      </game.ShipPart>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>21</entityID>
+        <type>GRAVITY_CORE</type>
+      </game.ShipPart>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>118</entityID>
+        <keyCode>1</keyCode>
+      </game.Key>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>122</entityID>
+        <keyCode>2</keyCode>
+      </game.Key>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>119</entityID>
+        <keyCode>1</keyCode>
+      </game.Key>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>23</entityID>
+        <type>GPS</type>
+      </game.ShipPart>
+      <int>2</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>17</entityID>
+        <type>FUEL_CORE</type>
+      </game.ShipPart>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>124</entityID>
+        <keyCode>2</keyCode>
+      </game.Key>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>13</entityID>
+        <type>ENGINE</type>
+      </game.ShipPart>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>123</entityID>
+        <keyCode>2</keyCode>
+      </game.Key>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>120</entityID>
+        <keyCode>1</keyCode>
+      </game.Key>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>116</entityID>
+        <keyCode>1</keyCode>
+      </game.Key>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>125</entityID>
+        <keyCode>2</keyCode>
+      </game.Key>
+      <int>1</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>127</entityID>
+        <keyCode>3</keyCode>
+      </game.Key>
+      <int>2</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>25</entityID>
+        <type>WARP_DRIVE</type>
+      </game.ShipPart>
+      <int>3</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>24</entityID>
+        <type>GPS</type>
+      </game.ShipPart>
+      <int>2</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>117</entityID>
+        <keyCode>1</keyCode>
+      </game.Key>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.ShipPart>
+        <entityID>12</entityID>
+        <type>ENGINE</type>
+      </game.ShipPart>
+      <int>0</int>
+    </entry>
+    <entry>
+      <game.Key>
+        <entityID>126</entityID>
+        <keyCode>3</keyCode>
+      </game.Key>
+      <int>2</int>
+    </entry>
+  </tierDictionary>
   <playerSpawnPoints>
     <game.Location>
       <x>0</x>
@@ -3042,5 +3232,5 @@
     </game.Location>
   </playerSpawnPoints>
   <roverSpawnPoints/>
-  <entityCount>1</entityCount>
+  <entityCount>28</entityCount>
 </mapbuilder.GameMap>

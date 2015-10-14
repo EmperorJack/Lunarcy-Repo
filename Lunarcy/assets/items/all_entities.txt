@@ -12,3 +12,4 @@ armour
 cloak
 bag
 rock
+monitor
